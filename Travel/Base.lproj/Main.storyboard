@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +12,79 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Travel Thing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLh-8N-AaZ">
+                                <rect key="frame" x="71.5" y="85" width="232" height="48"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KtF-TZ-07L">
+                                <rect key="frame" x="80.5" y="233" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="YdK-fW-7p3"/>
+                                    <constraint firstAttribute="height" constant="48" id="d9H-NQ-KLY"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="facebook_login"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9BW-Zi-2EF">
+                                <rect key="frame" x="163.5" y="233" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="1mS-yC-U4V"/>
+                                    <constraint firstAttribute="width" constant="48" id="Hkl-oV-Lmd"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="google_login"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEH-iR-dgQ">
+                                <rect key="frame" x="246.5" y="233" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="LOS-s8-hNT"/>
+                                    <constraint firstAttribute="height" constant="48" id="khL-YN-lWc"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="twitter_login"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Un-D3-gtK">
+                                <rect key="frame" x="45" y="361" width="285" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="285" id="rvy-ZI-nHI"/>
+                                    <constraint firstAttribute="height" constant="50" id="uif-Kp-ob5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="17"/>
+                                <state key="normal" title="Visit as guest">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qLh-8N-AaZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2Nn-Xz-7cy"/>
+                            <constraint firstItem="8Un-D3-gtK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="54z-f0-ItL"/>
+                            <constraint firstItem="KtF-TZ-07L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80.5" id="Kjd-ma-DX5"/>
+                            <constraint firstItem="8Un-D3-gtK" firstAttribute="top" secondItem="KtF-TZ-07L" secondAttribute="bottom" constant="80" id="RdF-Mi-W1a"/>
+                            <constraint firstItem="qLh-8N-AaZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="65" id="SJq-kX-R5v"/>
+                            <constraint firstItem="9BW-Zi-2EF" firstAttribute="top" secondItem="qLh-8N-AaZ" secondAttribute="bottom" constant="100" id="ZHg-Nn-6iV"/>
+                            <constraint firstItem="CEH-iR-dgQ" firstAttribute="top" secondItem="qLh-8N-AaZ" secondAttribute="bottom" constant="100" id="n4C-tU-lpA"/>
+                            <constraint firstItem="9BW-Zi-2EF" firstAttribute="leading" secondItem="KtF-TZ-07L" secondAttribute="trailing" constant="35" id="nYu-In-U2z"/>
+                            <constraint firstItem="KtF-TZ-07L" firstAttribute="top" secondItem="qLh-8N-AaZ" secondAttribute="bottom" constant="100" id="tWG-dk-uCg"/>
+                            <constraint firstItem="CEH-iR-dgQ" firstAttribute="leading" secondItem="9BW-Zi-2EF" secondAttribute="trailing" constant="35" id="xxD-W8-oVT"/>
+                            <constraint firstItem="9BW-Zi-2EF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y0S-Tk-l8X"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="212" y="118"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="facebook_login" width="128" height="128"/>
+        <image name="google_login" width="128" height="128"/>
+        <image name="twitter_login" width="128" height="128"/>
+    </resources>
 </document>
