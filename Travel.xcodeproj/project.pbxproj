@@ -12,6 +12,8 @@
 		9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19712151FE1C00CE1C4A /* Main.storyboard */; };
 		9D0E19752151FE1D00CE1C4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19742151FE1D00CE1C4A /* Assets.xcassets */; };
 		9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */; };
+		9D4A14862152543100748E06 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14852152543100748E06 /* Login.storyboard */; };
+		9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A14872152560D00748E06 /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		9D0E19742151FE1D00CE1C4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D0E19772151FE1D00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D0E19792151FE1D00CE1C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D4A14852152543100748E06 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		9D4A14872152560D00748E06 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +60,9 @@
 			children = (
 				9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */,
 				9D0E196F2151FE1C00CE1C4A /* ViewController.swift */,
+				9D4A14872152560D00748E06 /* UIView+Extension.swift */,
 				9D0E19712151FE1C00CE1C4A /* Main.storyboard */,
+				9D4A14852152543100748E06 /* Login.storyboard */,
 				9D0E19742151FE1D00CE1C4A /* Assets.xcassets */,
 				9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */,
 				9D0E19792151FE1D00CE1C4A /* Info.plist */,
@@ -122,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D4A14862152543100748E06 /* Login.storyboard in Resources */,
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
 				9D0E19752151FE1D00CE1C4A /* Assets.xcassets in Resources */,
 				9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */,
@@ -135,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */,
 				9D0E19702151FE1C00CE1C4A /* ViewController.swift in Sources */,
 				9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */,
 			);
