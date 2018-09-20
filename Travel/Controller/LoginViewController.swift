@@ -21,36 +21,28 @@ class LoginViewController: UIViewController {
 
     }
     
-    
     @IBAction func loginFacebook(_ sender: Any) {
         
         manager.facebookLogin(
             fromController: self,
             success: { [weak self] token in
                 
-//                guard let accessToken = FBSDKAccessToken.current() else {
-//                    
-//                    print("Failed to get access token")
-//                    return
-//                }
-                
                 let credential = FacebookAuthProvider.credential(withAccessToken: token)
-                
-                Auth.auth().signInAndRetrieveData(with: credential, completion: { (auhtResult, error) in
+    
+                Auth.auth().signInAndRetrieveData(with: credential, completion: { (authResult, error) in
                     if let error = error {
                         
                         print("Login Failed: \(error.localizedDescription)")
                         return
                     }
                     print("--------------------------------------")
-                    print(Auth.auth().currentUser?.displayName)
-                    print(Auth.auth().currentUser?.email)
-                    print(Auth.auth().currentUser?.photoURL)
+                    print(authResult?.user.displayName)
+                    print(authResult?.user.email)
+                    print(authResult?.user.photoURL)
                 })
             },
             failure: { (_) in
                 // TODO
             })
     }
-    
 }
