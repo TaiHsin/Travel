@@ -45,6 +45,16 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
+    - GoogleMaps/Base
+  - GooglePlacePicker (2.7.0):
+    - GoogleMaps (= 2.7.0)
+    - GooglePlaces (= 2.7.0)
+  - GooglePlaces (2.7.0):
+    - GoogleMaps/Base (= 2.7.0)
   - GoogleUtilities/AppDelegateSwizzler (5.2.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -67,13 +77,19 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - SwiftLint (0.27.0)
 
 DEPENDENCIES:
+  - Bolts
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
   - Firebase/Auth
   - Firebase/Core
+  - GoogleMaps
+  - GooglePlacePicker
+  - GooglePlaces
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -88,9 +104,13 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseInstanceID
     - GoogleAppMeasurement
+    - GoogleMaps
+    - GooglePlacePicker
+    - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
     - nanopb
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
@@ -104,10 +124,14 @@ SPEC CHECKSUMS:
   FirebaseCore: 3a97432acb324b439fbed338e642f9cbb516a63d
   FirebaseInstanceID: ea5af6920d0a4a29b40459d055bebe4a6c1333c4
   GoogleAppMeasurement: f7507b39b70ad0bd80b3d81518b2f43868974307
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
+  GooglePlacePicker: 59ea44db173c58486ad6123993e81feefcbce9c3
+  GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleUtilities: 06b66f9567769a7958db20a92f0128b2843e49d5
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: b7e4e14c91a083731e8501d25a637aab738f632a
+PODFILE CHECKSUM: a691eecc62b2c94b67d3f07ca4dbce8dd3a47859
 
 COCOAPODS: 1.5.3

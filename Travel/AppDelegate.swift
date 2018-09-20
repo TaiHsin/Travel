@@ -9,14 +9,18 @@
 import UIKit
 import FBSDKCoreKit
 import Firebase
+import GooglePlaces
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
@@ -29,10 +33,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Firebase
         FirebaseApp.configure()
         
+        // GoogleMap
+        GMSPlacesClient.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")
+        GMSServices.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")
+        
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+        ) -> Bool {
         
         // FBSDK
         let handled = FBSDKApplicationDelegate.sharedInstance().application(
@@ -62,7 +74,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         
     }
-
-
 }
-

@@ -15,6 +15,11 @@ target 'Travel' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
 
+  # Pods for GoogleMap
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+  pod 'GoogleMaps'
+  
   # Pods for Travel
-
+  pod 'SwiftLint'
 end
