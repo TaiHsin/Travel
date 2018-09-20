@@ -1,0 +1,18 @@
+//
+//  NavigationViewController.swift
+//  Travel
+//
+//  Created by TaiHsinLee on 2018/9/20.
+//  Copyright © 2018年 TaiHsinLee. All rights reserved.
+//
+
+import UIKit
+
+class NavigationViewController: UINavigationController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+}

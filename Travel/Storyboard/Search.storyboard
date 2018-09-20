@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pJD-EC-Gj9">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search View Controller-->
+        <scene sceneID="lMb-ye-7NQ">
+            <objects>
+                <viewController id="n9t-UM-ShQ" customClass="SearchViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="one-CF-rvG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1n-Kr-Llj">
+                                <rect key="frame" x="100" y="186" width="175" height="50"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="nrf-7g-tJH"/>
+                                </constraints>
+                                <state key="normal" title="Search place">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="autocompleteClicked:" destination="n9t-UM-ShQ" eventType="touchUpInside" id="46C-9X-hlb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90709547937195179" green="0.90709547937195179" blue="0.90709547937195179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Q1n-Kr-Llj" firstAttribute="leading" secondItem="azt-Zx-Pq6" secondAttribute="leading" constant="100" id="6Zx-Dh-Rb7"/>
+                            <constraint firstItem="Q1n-Kr-Llj" firstAttribute="centerX" secondItem="one-CF-rvG" secondAttribute="centerX" id="hDe-fH-tSg"/>
+                            <constraint firstItem="Q1n-Kr-Llj" firstAttribute="top" secondItem="azt-Zx-Pq6" secondAttribute="top" constant="122" id="n4l-55-FiC"/>
+                            <constraint firstItem="azt-Zx-Pq6" firstAttribute="trailing" secondItem="Q1n-Kr-Llj" secondAttribute="trailing" constant="100" id="swD-or-p5A"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="azt-Zx-Pq6"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="x9c-8x-feB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GxU-cF-FVq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1408.8" y="-253.2233883058471"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="omG-4m-hQy">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pJD-EC-Gj9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FDO-EM-aeu">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="n9t-UM-ShQ" kind="relationship" relationship="rootViewController" id="opH-Xx-3qr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jJr-Ir-msk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="469.60000000000002" y="-253.2233883058471"/>
+        </scene>
+    </scenes>
+</document>

@@ -18,6 +18,9 @@
 		9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A148E2152627C00748E06 /* LoginViewController.swift */; };
 		9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14902152A56600748E06 /* GoogleService-Info.plist */; };
 		9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A149221533E9600748E06 /* FacebookManager.swift */; };
+		9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA095A72153A3CA008C1358 /* Search.storyboard */; };
+		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
+		9DA095B02153C297008C1358 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* NavigationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +38,9 @@
 		9D4A148E2152627C00748E06 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9D4A14902152A56600748E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9D4A149221533E9600748E06 /* FacebookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookManager.swift; sourceTree = "<group>"; };
+		9DA095A72153A3CA008C1358 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		9DA095AF2153C297008C1358 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		CCAEA57933F7E11B89263A7F /* Pods-Travel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Travel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Travel/Pods-Travel.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +128,8 @@
 			children = (
 				9D0E196F2151FE1C00CE1C4A /* ViewController.swift */,
 				9D4A148E2152627C00748E06 /* LoginViewController.swift */,
+				9DA095AB2153ABB1008C1358 /* SearchViewController.swift */,
+				9DA095AF2153C297008C1358 /* NavigationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -139,6 +147,7 @@
 			children = (
 				9D0E19712151FE1C00CE1C4A /* Main.storyboard */,
 				9D4A14852152543100748E06 /* Login.storyboard */,
+				9DA095A72153A3CA008C1358 /* Search.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -209,6 +218,7 @@
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
 				9D0E19752151FE1D00CE1C4A /* Assets.xcassets in Resources */,
+				9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */,
 				9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,10 +316,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
 				9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */,
 				9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */,
 				9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */,
 				9D0E19702151FE1C00CE1C4A /* ViewController.swift in Sources */,
+				9DA095B02153C297008C1358 /* NavigationViewController.swift in Sources */,
 				9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
