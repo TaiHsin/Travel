@@ -11,6 +11,7 @@ import GooglePlaces
 
 class SearchViewController: UIViewController {
     
+    @IBOutlet weak var photoImage: UIImageView!
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITableView?
@@ -36,15 +37,8 @@ class SearchViewController: UIViewController {
         searchController?.hidesNavigationBarDuringPresentation = false
     }
     
-//    @IBAction func autocompleteClicked(_ sendor: UIButton) {
-//        let autocompleteController = GMSAutocompleteViewController()
-//        autocompleteController.delegate = self
-//        present(autocompleteController, animated: true, completion: nil)
-//    }
-    
 //    func setupNavigationBar() {
-//        let searchController = UISearchController(searchResultsController: nil)
-//        navigationItem.searchController = searchController
+//        navigationController?.navigationBar.barTintColor = UIColor.darkGray
 //    }
 }
 
@@ -59,6 +53,10 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")
+        print("Place coordinate: \(place.coordinate)")
+        print("Place id: \(place.placeID)")
+        
+        loadFirstPhotoForPlace(placeID: place.placeID)
     }
     
     func resultsController(
@@ -76,4 +74,32 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
+    
+    func loadFirstPhotoForPlace(placeID: String) {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.localizedDescription)")
+            } else {
+                if let firstPhoto = photos?.results.first {
+                    self.loadImageForMetadata(photoMetadata: firstPhoto)
+                }
+            }
+        }
+    }
+    
+    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: {
+            (photo, error) -> Void in
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.localizedDescription)")
+            } else {
+                self.photoImage.image = photo
+//                self.imageView.image = photo;
+//                self.attributionTextView.attributedText = photoMetadata.attributions;
+            }
+        })
+    }
+
 }

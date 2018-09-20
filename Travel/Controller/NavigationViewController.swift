@@ -15,4 +15,10 @@ class NavigationViewController: UINavigationController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationBar.barTintColor = UIColor.darkGray
+        UISearchBar.appearance().tintColor = UIColor.white
+    }
 }

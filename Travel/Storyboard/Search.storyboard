@@ -17,49 +17,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1n-Kr-Llj">
-                                <rect key="frame" x="100" y="186" width="175" height="50"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ioF-bo-UIW">
+                                <rect key="frame" x="40" y="238.5" width="295" height="190"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="nrf-7g-tJH"/>
+                                    <constraint firstAttribute="height" constant="190" id="e4w-56-ecA"/>
                                 </constraints>
-                                <state key="normal" title="Search place">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="autocompleteClicked:" destination="n9t-UM-ShQ" eventType="touchUpInside" id="46C-9X-hlb"/>
-                                </connections>
-                            </button>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.90709547937195179" green="0.90709547937195179" blue="0.90709547937195179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Q1n-Kr-Llj" firstAttribute="leading" secondItem="azt-Zx-Pq6" secondAttribute="leading" constant="100" id="6Zx-Dh-Rb7"/>
-                            <constraint firstItem="Q1n-Kr-Llj" firstAttribute="centerX" secondItem="one-CF-rvG" secondAttribute="centerX" id="hDe-fH-tSg"/>
-                            <constraint firstItem="Q1n-Kr-Llj" firstAttribute="top" secondItem="azt-Zx-Pq6" secondAttribute="top" constant="122" id="n4l-55-FiC"/>
-                            <constraint firstItem="azt-Zx-Pq6" firstAttribute="trailing" secondItem="Q1n-Kr-Llj" secondAttribute="trailing" constant="100" id="swD-or-p5A"/>
+                            <constraint firstItem="ioF-bo-UIW" firstAttribute="centerY" secondItem="one-CF-rvG" secondAttribute="centerY" id="F6C-Fp-t2J"/>
+                            <constraint firstItem="azt-Zx-Pq6" firstAttribute="trailing" secondItem="ioF-bo-UIW" secondAttribute="trailing" constant="40" id="V7l-K7-3yC"/>
+                            <constraint firstItem="ioF-bo-UIW" firstAttribute="centerX" secondItem="one-CF-rvG" secondAttribute="centerX" id="ns2-iG-gXH"/>
+                            <constraint firstItem="ioF-bo-UIW" firstAttribute="leading" secondItem="azt-Zx-Pq6" secondAttribute="leading" constant="40" id="rYO-cG-N3a"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="azt-Zx-Pq6"/>
                     </view>
                     <navigationItem key="navigationItem" id="x9c-8x-feB"/>
+                    <connections>
+                        <outlet property="photoImage" destination="ioF-bo-UIW" id="q66-5b-220"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GxU-cF-FVq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1408.8" y="-253.2233883058471"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="omG-4m-hQy">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pJD-EC-Gj9" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pJD-EC-Gj9" customClass="NavigationViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FDO-EM-aeu">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
