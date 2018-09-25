@@ -22,11 +22,6 @@ class MyTripViewController: UIViewController {
         setupCollectionView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     func setupCollectionView() {
         
         collectionView.dataSource = self
@@ -39,17 +34,50 @@ class MyTripViewController: UIViewController {
         
         collectionView.register(xib, forCellWithReuseIdentifier: identifier)
     }
+    
+/// Use when rewrite tab bar by code
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//        guard let identifier = segue.identifier else { return }
+//
+//        switch identifier {
+//
+//        case String(describing: TripDetailViewController.self):
+//
+//            guard let detailController = segue.destination as?
+//                TripDetailViewController,
+//                  let indexPath = sender as? IndexPath else {
+//
+//                    return
+//            }
+//
+//            detailController.tripTitle.text = titleArray[0]
+//
+//        default:
+//
+//            return super.prepare(for: segue, sender: sender)
+//        }
+//    }
 }
 
 extension MyTripViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int) -> Int {
+        
         return 4
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MyTripsCollectionViewCell.self), for: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: String(describing: MyTripsCollectionViewCell.self),
+            for: indexPath
+        )
         
         guard let myTripCell = cell as? MyTripsCollectionViewCell, indexPath.row < 4 else { return cell }
         
@@ -63,7 +91,10 @@ extension MyTripViewController: UICollectionViewDataSource {
 
 extension MyTripViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = 145
         
@@ -72,18 +103,46 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int) -> UIEdgeInsets {
         
         return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
         return 15
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         
         return 15
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath) {
+        
+//        performSegue(
+//            withIdentifier: String(describing: TripDetailViewController.self),
+//            sender: indexPath
+//        )
+        
+//        collectionView.deselectItem(at: indexPath, animated: true)
+
+        guard let controller = UIStoryboard.tripDetailStoryboard().instantiateViewController(withIdentifier: String(describing: TripDetailViewController.self)
+            ) as? TripDetailViewController else { return }
+
+//        controller.tripTitle.text = titleArray[indexPath.row]
+
+        show(controller, sender: nil)
     }
 }
