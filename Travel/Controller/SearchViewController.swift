@@ -36,10 +36,6 @@ class SearchViewController: UIViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
     }
-    
-//    func setupNavigationBar() {
-//        navigationController?.navigationBar.barTintColor = UIColor.darkGray
-//    }
 }
 
 // Handle the user's selection.
@@ -89,8 +85,8 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     }
     
     func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: {
-            (photo, error) -> Void in
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
+            -> Void in
             if let error = error {
                 // TODO: handle the error.
                 print("Error: \(error.localizedDescription)")
@@ -101,5 +97,4 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
             }
         })
     }
-
 }

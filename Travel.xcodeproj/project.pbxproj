@@ -11,7 +11,6 @@
 		9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */; };
 		9D0E19702151FE1C00CE1C4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E196F2151FE1C00CE1C4A /* ViewController.swift */; };
 		9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19712151FE1C00CE1C4A /* Main.storyboard */; };
-		9D0E19752151FE1D00CE1C4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19742151FE1D00CE1C4A /* Assets.xcassets */; };
 		9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */; };
 		9D4A14862152543100748E06 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14852152543100748E06 /* Login.storyboard */; };
 		9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A14872152560D00748E06 /* UIView+Extension.swift */; };
@@ -21,6 +20,10 @@
 		9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA095A72153A3CA008C1358 /* Search.storyboard */; };
 		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
 		9DA095B02153C297008C1358 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* NavigationViewController.swift */; };
+		9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B332159D2A6005919E8 /* Assets.xcassets */; };
+		9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F3F21589670000D0300 /* MyTripViewController.swift */; };
+		9DF64F42215896F9000D0300 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F41215896F9000D0300 /* CheckListViewController.swift */; };
+		9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F4321589715000D0300 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +33,6 @@
 		9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D0E196F2151FE1C00CE1C4A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9D0E19722151FE1C00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9D0E19742151FE1D00CE1C4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D0E19772151FE1D00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D0E19792151FE1D00CE1C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D4A14852152543100748E06 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -41,6 +43,10 @@
 		9DA095A72153A3CA008C1358 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9DA095AF2153C297008C1358 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		9DF61B332159D2A6005919E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9DF64F3F21589670000D0300 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
+		9DF64F41215896F9000D0300 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
+		9DF64F4321589715000D0300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CCAEA57933F7E11B89263A7F /* Pods-Travel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Travel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Travel/Pods-Travel.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,8 +106,8 @@
 				9D4A148A21525C5100748E06 /* Model */,
 				9D4A148921525C3300748E06 /* Views */,
 				9D4A148D21525CA700748E06 /* Storyboard */,
-				9D0E19742151FE1D00CE1C4A /* Assets.xcassets */,
 				9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */,
+				9DF61B332159D2A6005919E8 /* Assets.xcassets */,
 				9D0E19792151FE1D00CE1C4A /* Info.plist */,
 				9D4A14902152A56600748E06 /* GoogleService-Info.plist */,
 			);
@@ -130,6 +136,9 @@
 				9D4A148E2152627C00748E06 /* LoginViewController.swift */,
 				9DA095AB2153ABB1008C1358 /* SearchViewController.swift */,
 				9DA095AF2153C297008C1358 /* NavigationViewController.swift */,
+				9DF64F3F21589670000D0300 /* MyTripViewController.swift */,
+				9DF64F41215896F9000D0300 /* CheckListViewController.swift */,
+				9DF64F4321589715000D0300 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -217,8 +226,8 @@
 				9D4A14862152543100748E06 /* Login.storyboard in Resources */,
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
-				9D0E19752151FE1D00CE1C4A /* Assets.xcassets in Resources */,
 				9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */,
+				9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */,
 				9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,8 +326,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
+				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
+				9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */,
 				9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */,
 				9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */,
+				9DF64F42215896F9000D0300 /* CheckListViewController.swift in Sources */,
 				9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */,
 				9D0E19702151FE1C00CE1C4A /* ViewController.swift in Sources */,
 				9DA095B02153C297008C1358 /* NavigationViewController.swift in Sources */,
