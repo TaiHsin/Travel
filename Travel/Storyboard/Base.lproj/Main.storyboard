@@ -16,14 +16,90 @@
                     <view key="view" contentMode="scaleToFill" id="lwB-0R-dEY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iPH-vg-79Z">
+                                <rect key="frame" x="30" y="207" width="315" height="411"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pNU-hx-AHJ">
+                                    <size key="itemSize" width="150" height="196"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Xmp-kA-lP1">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="196"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="196"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Travel Plans" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1NF-bw-DDI">
+                                <rect key="frame" x="127.5" y="172" width="120" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NaC-j6-Juq">
+                                <rect key="frame" x="257.5" y="182" width="87.5" height="1"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="heP-mR-U35"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lonely_planet_logo" translatesAutoresizingMaskIntoConstraints="NO" id="YsT-sp-m3M">
+                                <rect key="frame" x="94" y="74" width="187" height="98"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="187" id="IIL-8r-qhl"/>
+                                    <constraint firstAttribute="height" constant="98" id="foc-q8-1b3"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SA7-gs-3ki">
+                                <rect key="frame" x="30" y="182" width="87.5" height="1"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="fWF-QE-o5n"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="NaC-j6-Juq" firstAttribute="top" secondItem="YsT-sp-m3M" secondAttribute="bottom" constant="10" id="2k2-MB-PJt"/>
+                            <constraint firstItem="nj8-pd-tiI" firstAttribute="trailing" secondItem="iPH-vg-79Z" secondAttribute="trailing" constant="30" id="8Ib-Xk-suN"/>
+                            <constraint firstItem="SA7-gs-3ki" firstAttribute="leading" secondItem="lwB-0R-dEY" secondAttribute="leading" constant="30" id="8tS-jg-zSI"/>
+                            <constraint firstItem="nj8-pd-tiI" firstAttribute="bottom" secondItem="iPH-vg-79Z" secondAttribute="bottom" id="E0e-TA-vEW"/>
+                            <constraint firstItem="nj8-pd-tiI" firstAttribute="trailing" secondItem="YsT-sp-m3M" secondAttribute="trailing" constant="94" id="Efk-AO-cB4"/>
+                            <constraint firstItem="iPH-vg-79Z" firstAttribute="top" secondItem="1NF-bw-DDI" secondAttribute="bottom" constant="15" id="Fr7-wi-kcU"/>
+                            <constraint firstItem="iPH-vg-79Z" firstAttribute="top" secondItem="NaC-j6-Juq" secondAttribute="bottom" constant="24" id="HED-Qa-v0M"/>
+                            <constraint firstItem="1NF-bw-DDI" firstAttribute="centerX" secondItem="lwB-0R-dEY" secondAttribute="centerX" id="KEX-0H-JVw"/>
+                            <constraint firstItem="1NF-bw-DDI" firstAttribute="top" secondItem="YsT-sp-m3M" secondAttribute="bottom" id="QaB-2a-tkX"/>
+                            <constraint firstItem="SA7-gs-3ki" firstAttribute="top" secondItem="YsT-sp-m3M" secondAttribute="bottom" constant="10" id="W5n-Er-IKf"/>
+                            <constraint firstItem="YsT-sp-m3M" firstAttribute="centerX" secondItem="lwB-0R-dEY" secondAttribute="centerX" id="bke-Rc-i9L"/>
+                            <constraint firstItem="iPH-vg-79Z" firstAttribute="top" secondItem="SA7-gs-3ki" secondAttribute="bottom" constant="24" id="bv2-ui-yFg"/>
+                            <constraint firstItem="YsT-sp-m3M" firstAttribute="top" secondItem="nj8-pd-tiI" secondAttribute="top" constant="10" id="c0l-Hl-Xw2"/>
+                            <constraint firstItem="iPH-vg-79Z" firstAttribute="leading" secondItem="nj8-pd-tiI" secondAttribute="leading" constant="30" id="h38-Fc-a2L"/>
+                            <constraint firstItem="1NF-bw-DDI" firstAttribute="leading" secondItem="SA7-gs-3ki" secondAttribute="trailing" constant="10" id="hND-Re-Duw"/>
+                            <constraint firstItem="YsT-sp-m3M" firstAttribute="leading" secondItem="nj8-pd-tiI" secondAttribute="leading" constant="94" id="k7v-OK-Roy"/>
+                            <constraint firstItem="NaC-j6-Juq" firstAttribute="leading" secondItem="1NF-bw-DDI" secondAttribute="trailing" constant="10" id="lP0-vK-NfM"/>
+                            <constraint firstAttribute="trailing" secondItem="NaC-j6-Juq" secondAttribute="trailing" constant="30" id="uUo-HK-zsR"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="nj8-pd-tiI"/>
                     </view>
-                    <navigationItem key="navigationItem" title="My Trips" id="8JC-Fl-Bc6"/>
+                    <navigationItem key="navigationItem" title="My Trips" id="8JC-Fl-Bc6">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="vfl-7s-eCe">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="iPH-vg-79Z" id="Chn-4Z-cZ4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0kt-yd-rfX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-482" y="1496"/>
+            <point key="canvasLocation" x="-575.20000000000005" y="1438.8305847076463"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="8pd-JR-xTl">
@@ -181,6 +257,7 @@
     </scenes>
     <resources>
         <image name="baggage_black" width="25.600000381469727" height="25.600000381469727"/>
+        <image name="lonely_planet_logo" width="1280" height="634"/>
         <image name="main_black" width="25.600000381469727" height="25.600000381469727"/>
         <image name="profile_black" width="25.600000381469727" height="25.600000381469727"/>
         <image name="wishlist_black" width="25.600000381469727" height="25.600000381469727"/>
