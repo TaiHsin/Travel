@@ -36,13 +36,33 @@ struct Day {
 
 struct LocationData {
     
-    var placeName: String = "Effel Tower"
+//    var placeName: String = "Effel Tower"
+    var placeName: String
+    
+    var photo: UIImage
+    
+    var address: String
+    
+    var latitude: Double
+    
+    var longitude: Double
+    
+
     
 //    var address: String
     
 //    var coordinate: CLLocationCoordinate2D
     
-    var latitude: Double = 48.858539
+//    var latitude: Double = 48.858539
     
-    var longitude: Double = 2.294524
+//    var longitude: Double = 2.294524
+}
+
+struct CellData {
+    
+    var opened: Bool
+    
+    var title: String
+     
+    var sectionData: [String]
 }

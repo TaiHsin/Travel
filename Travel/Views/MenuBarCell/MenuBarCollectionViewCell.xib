@@ -12,46 +12,30 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MenuBarCollectionViewCell" customModule="Travel" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="55" height="30"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="55" height="30"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-tb-ECy">
-                        <rect key="frame" x="3" y="35" width="34" height="15"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="15" id="QNH-10-aki"/>
-                        </constraints>
+                        <rect key="frame" x="10.5" y="7.5" width="34" height="15"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nov. 11" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWI-Ry-buK">
-                        <rect key="frame" x="0.0" y="18" width="40" height="12"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="12" id="7Ia-8u-fgL"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="Ev8-tb-ECy" secondAttribute="bottom" id="4Gr-CD-uIk"/>
-                <constraint firstItem="PWI-Ry-buK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="E8J-IF-NC9"/>
-                <constraint firstItem="Ev8-tb-ECy" firstAttribute="top" secondItem="PWI-Ry-buK" secondAttribute="bottom" constant="5" id="Ph1-Rq-ruy"/>
-                <constraint firstItem="Ev8-tb-ECy" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="lPu-LO-4q3"/>
-                <constraint firstAttribute="trailing" secondItem="PWI-Ry-buK" secondAttribute="trailing" id="ohe-Es-Zw9"/>
+                <constraint firstItem="Ev8-tb-ECy" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="3Na-nf-i86"/>
+                <constraint firstItem="Ev8-tb-ECy" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Zg2-AX-ob2"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="50" height="45"/>
+            <size key="customSize" width="50" height="25"/>
             <connections>
-                <outlet property="dateLabel" destination="PWI-Ry-buK" id="IEC-Ji-2qU"/>
                 <outlet property="dayLabel" destination="Ev8-tb-ECy" id="G3b-NB-JZj"/>
             </connections>
-            <point key="canvasLocation" x="-78.400000000000006" y="108.84557721139431"/>
+            <point key="canvasLocation" x="-91" y="108"/>
         </collectionViewCell>
     </objects>
 </document>

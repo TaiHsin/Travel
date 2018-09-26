@@ -20,6 +20,8 @@
 		9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA095A72153A3CA008C1358 /* Search.storyboard */; };
 		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
 		9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */; };
+		9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */; };
+		9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */; };
 		9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B332159D2A6005919E8 /* Assets.xcassets */; };
 		9DF61B382159DFF4005919E8 /* MyTripsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B362159DFF4005919E8 /* MyTripsCollectionViewCell.swift */; };
 		9DF61B392159DFF4005919E8 /* MyTripsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B372159DFF4005919E8 /* MyTripsCollectionViewCell.xib */; };
@@ -54,6 +56,8 @@
 		9DA095A72153A3CA008C1358 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNaviViewController.swift; sourceTree = "<group>"; };
+		9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListTableViewCell.swift; sourceTree = "<group>"; };
+		9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListTableViewCell.xib; sourceTree = "<group>"; };
 		9DF61B332159D2A6005919E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9DF61B362159DFF4005919E8 /* MyTripsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripsCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DF61B372159DFF4005919E8 /* MyTripsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTripsCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 		9D4A148921525C3300748E06 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9DF143C8215B7901004E2DF1 /* TripListTableViewCell */,
 				9DF61B54215A629A005919E8 /* MenuBarCell */,
 				9DF61B352159DFA8005919E8 /* MyTripsCell */,
 				9DF61B52215A5878005919E8 /* MenuBar.swift */,
@@ -190,6 +195,15 @@
 				9DF61B3E215A0D75005919E8 /* TripDetail.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		9DF143C8215B7901004E2DF1 /* TripListTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */,
+				9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */,
+			);
+			path = TripListTableViewCell;
 			sourceTree = "<group>";
 		};
 		9DF61B352159DFA8005919E8 /* MyTripsCell */ = {
@@ -282,6 +296,7 @@
 			files = (
 				9D4A14862152543100748E06 /* Login.storyboard in Resources */,
 				9DF61B5C215A62D7005919E8 /* MenuBarCollectionViewCell.xib in Resources */,
+				9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */,
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
 				9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */,
@@ -391,6 +406,7 @@
 				9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
+				9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */,
 				9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */,
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
 				9DF61B3D215A0C7B005919E8 /* TripDetailViewController.swift in Sources */,
