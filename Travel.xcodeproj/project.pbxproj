@@ -31,7 +31,6 @@
 		9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B40215A162F005919E8 /* TabBarViewController.swift */; };
 		9DF61B44215A1863005919E8 /* ReferenceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B43215A1863005919E8 /* ReferenceData.swift */; };
 		9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */; };
-		9DF61B53215A5878005919E8 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B52215A5878005919E8 /* MenuBar.swift */; };
 		9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */; };
 		9DF61B5C215A62D7005919E8 /* MenuBarCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */; };
 		9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F3F21589670000D0300 /* MyTripViewController.swift */; };
@@ -67,7 +66,6 @@
 		9DF61B40215A162F005919E8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		9DF61B43215A1863005919E8 /* ReferenceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceData.swift; sourceTree = "<group>"; };
 		9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
-		9DF61B52215A5878005919E8 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuBarCollectionViewCell.xib; sourceTree = "<group>"; };
 		9DF64F3F21589670000D0300 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				9DF143C8215B7901004E2DF1 /* TripListTableViewCell */,
 				9DF61B54215A629A005919E8 /* MenuBarCell */,
 				9DF61B352159DFA8005919E8 /* MyTripsCell */,
-				9DF61B52215A5878005919E8 /* MenuBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -411,7 +408,6 @@
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
 				9DF61B3D215A0C7B005919E8 /* TripDetailViewController.swift in Sources */,
 				9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */,
-				9DF61B53215A5878005919E8 /* MenuBar.swift in Sources */,
 				9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */,
 				9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */,
 				9DF64F42215896F9000D0300 /* CheckListViewController.swift in Sources */,

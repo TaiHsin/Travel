@@ -18,7 +18,6 @@ class TripDetailViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    
     private let locationManager = CLLocationManager()
     
     var photo: UIImage?
@@ -264,7 +263,12 @@ extension TripDetailViewController: UICollectionViewDelegateFlowLayout {
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+        ) -> CGSize {
+        
         return CGSize(width: 55, height: 30)
     }
 }
