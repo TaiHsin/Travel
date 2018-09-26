@@ -12,14 +12,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MenuBarCollectionViewCell" customModule="Travel" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-tb-ECy">
-                        <rect key="frame" x="8" y="35" width="34" height="15"/>
+                        <rect key="frame" x="3" y="35" width="34" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="QNH-10-aki"/>
                         </constraints>
@@ -28,7 +28,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nov. 11" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWI-Ry-buK">
-                        <rect key="frame" x="0.0" y="18" width="50" height="12"/>
+                        <rect key="frame" x="0.0" y="18" width="40" height="12"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="12" id="7Ia-8u-fgL"/>
                         </constraints>
@@ -51,7 +51,7 @@
                 <outlet property="dateLabel" destination="PWI-Ry-buK" id="IEC-Ji-2qU"/>
                 <outlet property="dayLabel" destination="Ev8-tb-ECy" id="G3b-NB-JZj"/>
             </connections>
-            <point key="canvasLocation" x="-77" y="109"/>
+            <point key="canvasLocation" x="-78.400000000000006" y="108.84557721139431"/>
         </collectionViewCell>
     </objects>
 </document>

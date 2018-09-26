@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+import UIKit
+import MapKit
 
 struct TripData {
     
@@ -18,7 +19,6 @@ struct TripData {
     var durationTime: String
     
     var day: Day
-    
     
 }
 
@@ -32,6 +32,17 @@ struct Day {
     
     var longtitude: String
     
+}
+
+struct LocationData {
     
+    var placeName: String = "Effel Tower"
     
+//    var address: String
+    
+//    var coordinate: CLLocationCoordinate2D
+    
+    var latitude: Double = 48.858539
+    
+    var longitude: Double = 2.294524
 }

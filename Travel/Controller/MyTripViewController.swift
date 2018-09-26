@@ -65,14 +65,16 @@ extension MyTripViewController: UICollectionViewDataSource {
     
     func collectionView(
         _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int) -> Int {
+        numberOfItemsInSection section: Int
+        ) -> Int {
         
         return 4
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        cellForItemAt indexPath: IndexPath
+        ) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: MyTripsCollectionViewCell.self),
@@ -94,7 +96,8 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        sizeForItemAt indexPath: IndexPath
+        ) -> CGSize {
         
         let width = 145
         
@@ -106,7 +109,8 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAt section: Int) -> UIEdgeInsets {
+        insetForSectionAt section: Int
+        ) -> UIEdgeInsets {
         
         return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
@@ -114,7 +118,8 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        minimumLineSpacingForSectionAt section: Int
+        ) -> CGFloat {
         
         return 15
     }
@@ -122,7 +127,8 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        minimumInteritemSpacingForSectionAt section: Int
+        ) -> CGFloat {
         
         return 15
     }
@@ -138,7 +144,9 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         
 //        collectionView.deselectItem(at: indexPath, animated: true)
 
-        guard let controller = UIStoryboard.tripDetailStoryboard().instantiateViewController(withIdentifier: String(describing: TripDetailViewController.self)
+        guard let controller = UIStoryboard.tripDetailStoryboard()
+            .instantiateViewController(
+                withIdentifier: String(describing: TripDetailViewController.self)
             ) as? TripDetailViewController else { return }
 
 //        controller.tripTitle.text = titleArray[indexPath.row]

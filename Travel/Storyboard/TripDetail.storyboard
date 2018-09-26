@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" restorationIdentifier="ListView" translatesAutoresizingMaskIntoConstraints="NO" id="kEB-32-Kpq">
+                            <view contentMode="scaleToFill" restorationIdentifier="MapView" translatesAutoresizingMaskIntoConstraints="NO" id="kEB-32-Kpq" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="106" width="375" height="220"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -54,15 +54,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Nfc-sq-sDb" firstAttribute="top" secondItem="5ae-56-8aU" secondAttribute="top" id="42J-c3-bjF"/>
                             <constraint firstItem="p2k-9f-HGp" firstAttribute="leading" secondItem="5ae-56-8aU" secondAttribute="leading" id="9Bf-9S-Cpd"/>
                             <constraint firstItem="Nfc-sq-sDb" firstAttribute="top" secondItem="5ae-56-8aU" secondAttribute="top" id="Km4-ZM-YbF"/>
                             <constraint firstItem="5ae-56-8aU" firstAttribute="bottom" secondItem="p2k-9f-HGp" secondAttribute="bottom" id="MKG-fr-Ejn"/>
                             <constraint firstItem="5ae-56-8aU" firstAttribute="trailing" secondItem="Nfc-sq-sDb" secondAttribute="trailing" id="SDb-dJ-XxO"/>
                             <constraint firstItem="p2k-9f-HGp" firstAttribute="top" secondItem="kEB-32-Kpq" secondAttribute="bottom" id="Tyt-dd-dHj"/>
-                            <constraint firstItem="Nfc-sq-sDb" firstAttribute="baseline" secondItem="kEB-32-Kpq" secondAttribute="firstBaseline" constant="8" symbolType="layoutAnchor" id="Viq-yl-ONp"/>
                             <constraint firstItem="Nfc-sq-sDb" firstAttribute="leading" secondItem="5ae-56-8aU" secondAttribute="leading" id="agU-Pp-DhP"/>
                             <constraint firstItem="5ae-56-8aU" firstAttribute="trailing" secondItem="p2k-9f-HGp" secondAttribute="trailing" id="gNx-hg-apD"/>
                             <constraint firstItem="kEB-32-Kpq" firstAttribute="leading" secondItem="5ae-56-8aU" secondAttribute="leading" id="grk-GI-ViZ"/>
+                            <constraint firstItem="kEB-32-Kpq" firstAttribute="top" secondItem="5ae-56-8aU" secondAttribute="top" constant="42" id="i4W-8T-D3f"/>
                             <constraint firstItem="5ae-56-8aU" firstAttribute="trailing" secondItem="kEB-32-Kpq" secondAttribute="trailing" id="pcP-sd-CQ1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5ae-56-8aU"/>
@@ -72,12 +73,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Nfc-sq-sDb" id="E5c-tQ-Jwn"/>
-                        <outlet property="mapView" destination="kEB-32-Kpq" id="mv4-xR-TRt"/>
+                        <outlet property="mapView" destination="kEB-32-Kpq" id="QLy-Oh-0ci"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcn-sA-9QD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034" y="109"/>
+            <point key="canvasLocation" x="1032.8" y="108.39580209895054"/>
         </scene>
         <!--Trip Navi View Controller-->
         <scene sceneID="u4R-69-Hqp">
