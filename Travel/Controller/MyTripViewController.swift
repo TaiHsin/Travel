@@ -37,28 +37,27 @@ class MyTripViewController: UIViewController {
     
 /// Use when rewrite tab bar by code
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//        guard let identifier = segue.identifier else { return }
-//
-//        switch identifier {
-//
-//        case String(describing: TripDetailViewController.self):
-//
-//            guard let detailController = segue.destination as?
-//                TripDetailViewController,
-//                  let indexPath = sender as? IndexPath else {
-//
-//                    return
-//            }
-//
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        guard let identifier = segue.identifier else { return }
+
+        switch identifier {
+
+        case String(describing: TripDetailViewController.self):
+
+            guard let detailController = segue.destination as?
+                TripDetailViewController,
+                  let indexPath = sender as? IndexPath else {
+
+                    return
+            }
+
 //            detailController.tripTitle.text = titleArray[0]
-//
-//        default:
-//
-//            return super.prepare(for: segue, sender: sender)
-//        }
-//    }
+
+        default:
+            return super.prepare(for: segue, sender: sender)
+        }
+    }
 }
 
 extension MyTripViewController: UICollectionViewDataSource {
@@ -141,10 +140,10 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
 //            withIdentifier: String(describing: TripDetailViewController.self),
 //            sender: indexPath
 //        )
-        
+//
 //        collectionView.deselectItem(at: indexPath, animated: true)
 
-        guard let controller = UIStoryboard.tripDetailStoryboard()
+        guard let controller = UIStoryboard.mainStoryboard()
             .instantiateViewController(
                 withIdentifier: String(describing: TripDetailViewController.self)
             ) as? TripDetailViewController else { return }
