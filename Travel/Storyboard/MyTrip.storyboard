@@ -89,7 +89,7 @@
                         <viewLayoutGuide key="safeArea" id="eXl-If-XIs"/>
                     </view>
                     <navigationItem key="navigationItem" title="My Trips" id="Krj-5k-4I2">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="KhJ-OQ-u4b"/>
+                        <barButtonItem key="backBarButtonItem" title=" " id="KhJ-OQ-u4b"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1OP-39-PJr">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -192,7 +192,7 @@
             </objects>
             <point key="canvasLocation" x="-375" y="752"/>
         </scene>
-        <!--Trip Detail-->
+        <!--Paris-->
         <scene sceneID="DDi-D8-aOB">
             <objects>
                 <viewController storyboardIdentifier="TripDetailViewController" id="nxr-5W-XUN" customClass="TripDetailViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -263,12 +263,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x6y-nz-qBr"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Trip Detail" id="ise-Bj-tvB">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="P2w-PO-RE2"/>
+                    <navigationItem key="navigationItem" title="Paris" id="ise-Bj-tvB">
+                        <barButtonItem key="backBarButtonItem" title=" " id="VVT-gU-xh9"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="P2w-PO-RE2">
+                            <connections>
+                                <action selector="searchLocation:" destination="nxr-5W-XUN" id="pYh-Jx-eGf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Jus-NV-xJa" id="5ei-Gr-4dY"/>
                         <outlet property="mapView" destination="eiF-YF-vub" id="Tnh-z3-9M0"/>
+                        <outlet property="searchButton" destination="P2w-PO-RE2" id="DC6-0g-yli"/>
                         <outlet property="tableView" destination="rJ5-ff-iLv" id="Nnj-Hr-1G9"/>
                     </connections>
                 </viewController>

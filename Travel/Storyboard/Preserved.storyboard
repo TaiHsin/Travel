@@ -12,18 +12,33 @@
         <!--Favorite-->
         <scene sceneID="hoN-qF-un7">
             <objects>
-                <viewController id="TyB-R1-8dC" sceneMemberID="viewController">
+                <viewController id="TyB-R1-8dC" customClass="PreservedViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="elN-Oi-VQn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="drm-pu-bvR">
+                                <rect key="frame" x="0.0" y="69" width="375" height="598"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZmT-0k-Wh3" firstAttribute="bottom" secondItem="drm-pu-bvR" secondAttribute="bottom" id="IEA-Xh-Oeg"/>
+                            <constraint firstItem="drm-pu-bvR" firstAttribute="top" secondItem="ZmT-0k-Wh3" secondAttribute="top" constant="5" id="W8K-Ds-Y6F"/>
+                            <constraint firstItem="ZmT-0k-Wh3" firstAttribute="trailing" secondItem="drm-pu-bvR" secondAttribute="trailing" id="iKg-Ol-VQB"/>
+                            <constraint firstItem="drm-pu-bvR" firstAttribute="leading" secondItem="ZmT-0k-Wh3" secondAttribute="leading" id="rig-hz-Omg"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ZmT-0k-Wh3"/>
                     </view>
                     <navigationItem key="navigationItem" title="Favorite" id="CNT-Zy-DMF"/>
+                    <connections>
+                        <outlet property="tableView" destination="drm-pu-bvR" id="g5E-8C-86b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AP2-2v-VdV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="564" y="262"/>
+            <point key="canvasLocation" x="686" y="262"/>
         </scene>
         <!--Trip Navi View Controller-->
         <scene sceneID="TxP-zR-1jN">

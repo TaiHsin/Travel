@@ -35,8 +35,8 @@ extension UIStoryboard {
         return UIStoryboard(name: "Profile", bundle: nil)
     }
     
-    static func tripDetailStoryboard() -> UIStoryboard {
+    static func searchStoryboard() -> UIStoryboard {
         
-        return UIStoryboard(name: "TripDetail", bundle: nil)
+        return UIStoryboard(name: "Search", bundle: nil)
     }
 }

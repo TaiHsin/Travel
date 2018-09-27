@@ -18,17 +18,31 @@ class TripDetailViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    
     private let locationManager = CLLocationManager()
-    
-    var photo: UIImage?
-    var days: [String] = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"]
-    var dates: [String] = ["Nov. 20", "Nov. 21", "Nov. 22", "Nov. 23", "Nov. 24", "Nov. 25"]
-    
+
     var locationData = [LocationData]()
+
+    var photo: UIImage?
+
+    var days: [String] = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"]
+
+    var dates: [String] = ["Nov. 20", "Nov. 21", "Nov. 22", "Nov. 23", "Nov. 24", "Nov. 25"]
     
     override func loadView() {
         super.loadView()
         
+    }
+
+    @IBAction func searchLocation(_ sender: UIBarButtonItem) {
+        
+        guard let controller = UIStoryboard.searchStoryboard()
+                    .instantiateViewController(
+                        withIdentifier: String(describing: SearchViewController.self)
+                    ) as? SearchViewController else { return }
+        
+        show(controller, sender: nil)
     }
     
     override func viewDidLoad() {
@@ -46,8 +60,8 @@ class TripDetailViewController: UIViewController {
         
         locationData = [LocationData(placeName: "Effel Tower", photo: #imageLiteral(resourceName: "paris"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.858539, longitude: 2.294524),
                         LocationData(placeName: "Arc de Triomphe", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "Place Charles de Gaulle, 75008 Paris, France", latitude: 48.873982, longitude: 2.295457),
-                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
-                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
+                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "notre_dame_de_paris"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
+                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "palais_du_louvre"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
         ]
         
         addMarker(data: locationData)
@@ -274,3 +288,4 @@ extension TripDetailViewController: UICollectionViewDelegateFlowLayout {
 }
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
+/// Map cemare adjust to show all markers

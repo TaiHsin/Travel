@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search View Controller-->
+        <!--Search-->
         <scene sceneID="lMb-ye-7NQ">
             <objects>
-                <viewController id="n9t-UM-ShQ" customClass="SearchViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" id="n9t-UM-ShQ" customClass="SearchViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="one-CF-rvG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,18 +23,29 @@
                                     <constraint firstAttribute="height" constant="190" id="e4w-56-ecA"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJF-2E-GO2">
+                                <rect key="frame" x="50" y="168.5" width="275" height="0.0"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.90709547937195179" green="0.90709547937195179" blue="0.90709547937195179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ioF-bo-UIW" firstAttribute="centerY" secondItem="one-CF-rvG" secondAttribute="centerY" id="F6C-Fp-t2J"/>
                             <constraint firstItem="azt-Zx-Pq6" firstAttribute="trailing" secondItem="ioF-bo-UIW" secondAttribute="trailing" constant="40" id="V7l-K7-3yC"/>
+                            <constraint firstItem="bJF-2E-GO2" firstAttribute="centerX" secondItem="one-CF-rvG" secondAttribute="centerX" id="Yi4-da-OXX"/>
+                            <constraint firstItem="azt-Zx-Pq6" firstAttribute="trailing" secondItem="bJF-2E-GO2" secondAttribute="trailing" constant="50" id="adr-vy-ay5"/>
+                            <constraint firstItem="ioF-bo-UIW" firstAttribute="top" secondItem="bJF-2E-GO2" secondAttribute="bottom" constant="70" id="cpW-8N-FOz"/>
+                            <constraint firstItem="bJF-2E-GO2" firstAttribute="leading" secondItem="azt-Zx-Pq6" secondAttribute="leading" constant="50" id="mEi-Qe-UvC"/>
                             <constraint firstItem="ioF-bo-UIW" firstAttribute="centerX" secondItem="one-CF-rvG" secondAttribute="centerX" id="ns2-iG-gXH"/>
                             <constraint firstItem="ioF-bo-UIW" firstAttribute="leading" secondItem="azt-Zx-Pq6" secondAttribute="leading" constant="40" id="rYO-cG-N3a"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="azt-Zx-Pq6"/>
                     </view>
-                    <navigationItem key="navigationItem" id="x9c-8x-feB"/>
+                    <navigationItem key="navigationItem" title="Search" id="x9c-8x-feB"/>
                     <connections>
+                        <outlet property="nameLabel" destination="bJF-2E-GO2" id="NHw-Kr-ebH"/>
                         <outlet property="photoImage" destination="ioF-bo-UIW" id="q66-5b-220"/>
                     </connections>
                 </viewController>

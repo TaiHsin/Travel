@@ -45,14 +45,12 @@ class MyTripViewController: UIViewController {
 
         case String(describing: TripDetailViewController.self):
 
-            guard let detailController = segue.destination as?
-                TripDetailViewController,
+            guard let detailController = segue.destination as? TripDetailViewController,
+                
                   let indexPath = sender as? IndexPath else {
 
                     return
             }
-
-//            detailController.tripTitle.text = titleArray[0]
 
         default:
             return super.prepare(for: segue, sender: sender)

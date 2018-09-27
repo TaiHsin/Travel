@@ -12,6 +12,9 @@ import GooglePlaces
 class SearchViewController: UIViewController {
     
     @IBOutlet weak var photoImage: UIImageView!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITableView?
@@ -53,16 +56,19 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         print("Place id: \(place.placeID)")
         
         loadFirstPhotoForPlace(placeID: place.placeID)
+        nameLabel.text = place.name
     }
     
     func resultsController(
         _ resultsController: GMSAutocompleteResultsViewController,
         didFailAutocompleteWithError error: Error){
+        
         // TODO: handle the error.
         print("Error: ", error.localizedDescription)
     }
     
     // Turn the network activity indicator on and off again.
+    
     func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
@@ -74,6 +80,7 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     func loadFirstPhotoForPlace(placeID: String) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
             if let error = error {
+                
                 // TODO: handle the error.
                 print("Error: \(error.localizedDescription)")
             } else {
@@ -92,9 +99,12 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
                 print("Error: \(error.localizedDescription)")
             } else {
                 self.photoImage.image = photo
+
 //                self.imageView.image = photo;
 //                self.attributionTextView.attributedText = photoMetadata.attributions;
             }
         })
     }
 }
+
+/// Wait to modify: pop to new view after tap search result table view for detail information include add function

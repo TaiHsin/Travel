@@ -57,7 +57,7 @@
                 <outlet property="listImage" destination="i4V-ru-xYT" id="uOZ-5w-XFL"/>
                 <outlet property="placeNameLabel" destination="Hfq-Gi-Pwn" id="0HH-V9-jaM"/>
             </connections>
-            <point key="canvasLocation" x="-22.399999999999999" y="183.95802098950526"/>
+            <point key="canvasLocation" x="-510" y="195"/>
         </tableViewCell>
     </objects>
 </document>
