@@ -136,20 +136,18 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
-//        performSegue(
-//            withIdentifier: String(describing: TripDetailViewController.self),
-//            sender: indexPath
-//        )
+        performSegue(
+            withIdentifier: String(describing: TripDetailViewController.self),
+            sender: indexPath
+        )
+
+        collectionView.deselectItem(at: indexPath, animated: true)
+
+//        guard let controller = UIStoryboard.mainStoryboard()
+//            .instantiateViewController(
+//                withIdentifier: String(describing: TripDetailViewController.self)
+//            ) as? TripDetailViewController else { return }
 //
-//        collectionView.deselectItem(at: indexPath, animated: true)
-
-        guard let controller = UIStoryboard.mainStoryboard()
-            .instantiateViewController(
-                withIdentifier: String(describing: TripDetailViewController.self)
-            ) as? TripDetailViewController else { return }
-
-//        controller.tripTitle.text = titleArray[indexPath.row]
-
-        show(controller, sender: nil)
+//        show(controller, sender: nil)
     }
 }

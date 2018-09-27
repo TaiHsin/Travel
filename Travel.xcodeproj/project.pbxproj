@@ -22,6 +22,10 @@
 		9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */; };
 		9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */; };
 		9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */; };
+		9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3400E215C67B9002A957D /* Preserved.storyboard */; };
+		9DF34011215C67E7002A957D /* Package.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34010215C67E7002A957D /* Package.storyboard */; };
+		9DF34013215C6809002A957D /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34012215C6809002A957D /* Profile.storyboard */; };
+		9DF34015215C6873002A957D /* MyTrip.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34014215C6873002A957D /* MyTrip.storyboard */; };
 		9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B332159D2A6005919E8 /* Assets.xcassets */; };
 		9DF61B382159DFF4005919E8 /* MyTripsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B362159DFF4005919E8 /* MyTripsCollectionViewCell.swift */; };
 		9DF61B392159DFF4005919E8 /* MyTripsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B372159DFF4005919E8 /* MyTripsCollectionViewCell.xib */; };
@@ -57,6 +61,10 @@
 		9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNaviViewController.swift; sourceTree = "<group>"; };
 		9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListTableViewCell.swift; sourceTree = "<group>"; };
 		9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListTableViewCell.xib; sourceTree = "<group>"; };
+		9DF3400E215C67B9002A957D /* Preserved.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preserved.storyboard; sourceTree = "<group>"; };
+		9DF34010215C67E7002A957D /* Package.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Package.storyboard; sourceTree = "<group>"; };
+		9DF34012215C6809002A957D /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		9DF34014215C6873002A957D /* MyTrip.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyTrip.storyboard; sourceTree = "<group>"; };
 		9DF61B332159D2A6005919E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9DF61B362159DFF4005919E8 /* MyTripsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripsCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DF61B372159DFF4005919E8 /* MyTripsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTripsCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -130,6 +138,7 @@
 				9D4A148B21525C6500748E06 /* Controller */,
 				9D4A148A21525C5100748E06 /* Model */,
 				9D4A148921525C3300748E06 /* Views */,
+				9DF34016215C7036002A957D /* Support */,
 				9D4A148D21525CA700748E06 /* Storyboard */,
 				9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */,
 				9DF61B332159D2A6005919E8 /* Assets.xcassets */,
@@ -190,6 +199,10 @@
 				9D4A14852152543100748E06 /* Login.storyboard */,
 				9DA095A72153A3CA008C1358 /* Search.storyboard */,
 				9DF61B3E215A0D75005919E8 /* TripDetail.storyboard */,
+				9DF34014215C6873002A957D /* MyTrip.storyboard */,
+				9DF3400E215C67B9002A957D /* Preserved.storyboard */,
+				9DF34010215C67E7002A957D /* Package.storyboard */,
+				9DF34012215C6809002A957D /* Profile.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -201,6 +214,13 @@
 				9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */,
 			);
 			path = TripListTableViewCell;
+			sourceTree = "<group>";
+		};
+		9DF34016215C7036002A957D /* Support */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		9DF61B352159DFA8005919E8 /* MyTripsCell */ = {
@@ -295,10 +315,14 @@
 				9DF61B5C215A62D7005919E8 /* MenuBarCollectionViewCell.xib in Resources */,
 				9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */,
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
+				9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */,
+				9DF34013215C6809002A957D /* Profile.storyboard in Resources */,
+				9DF34011215C67E7002A957D /* Package.storyboard in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
 				9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */,
 				9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */,
 				9DF61B392159DFF4005919E8 /* MyTripsCollectionViewCell.xib in Resources */,
+				9DF34015215C6873002A957D /* MyTrip.storyboard in Resources */,
 				9DF61B3F215A0D75005919E8 /* TripDetail.storyboard in Resources */,
 				9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */,
 			);

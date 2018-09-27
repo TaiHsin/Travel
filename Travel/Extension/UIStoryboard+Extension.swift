@@ -15,6 +15,26 @@ extension UIStoryboard {
         return UIStoryboard(name: "Main", bundle: nil)
     }
     
+    static func myTripStoryboard() -> UIStoryboard {
+        
+        return UIStoryboard(name: "MyTrip", bundle: nil)
+    }
+    
+    static func preservedStoryboard() -> UIStoryboard {
+        
+        return UIStoryboard(name: "Preserved", bundle: nil)
+    }
+    
+    static func packageStoryboard() -> UIStoryboard {
+        
+        return UIStoryboard(name: "Package", bundle: nil)
+    }
+    
+    static func profileStoryboard() -> UIStoryboard {
+        
+        return UIStoryboard(name: "Profile", bundle: nil)
+    }
+    
     static func tripDetailStoryboard() -> UIStoryboard {
         
         return UIStoryboard(name: "TripDetail", bundle: nil)
