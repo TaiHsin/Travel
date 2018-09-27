@@ -30,21 +30,6 @@ class TripDetailViewController: UIViewController {
 
     var dates: [String] = ["Nov. 20", "Nov. 21", "Nov. 22", "Nov. 23", "Nov. 24", "Nov. 25"]
     
-    override func loadView() {
-        super.loadView()
-        
-    }
-
-    @IBAction func searchLocation(_ sender: UIBarButtonItem) {
-        
-        guard let controller = UIStoryboard.searchStoryboard()
-                    .instantiateViewController(
-                        withIdentifier: String(describing: SearchViewController.self)
-                    ) as? SearchViewController else { return }
-        
-        show(controller, sender: nil)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,6 +50,16 @@ class TripDetailViewController: UIViewController {
         ]
         
         addMarker(data: locationData)
+    }
+    
+    @IBAction func searchLocation(_ sender: UIBarButtonItem) {
+        
+        guard let controller = UIStoryboard.searchStoryboard()
+                    .instantiateViewController(
+                        withIdentifier: String(describing: SearchViewController.self)
+                    ) as? SearchViewController else { return }
+        
+        show(controller, sender: nil)
     }
     
     func setupTableView() {
@@ -103,7 +98,9 @@ class TripDetailViewController: UIViewController {
     // Locate device location and show location button
     func getCurrentLocation() {
         locationManager.startUpdatingLocation()
+        
         mapView.isMyLocationEnabled = true
+        
 //        mapView.settings.myLocationButton = true
     }
     
@@ -285,6 +282,14 @@ extension TripDetailViewController: UICollectionViewDelegateFlowLayout {
         
         return CGSize(width: 55, height: 30)
     }
+}
+
+struct My {
+    static var cellSnapShot: UIView? = nil
+}
+
+struct Path {
+    static var initialIndexPath: IndexPath? = nil
 }
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
