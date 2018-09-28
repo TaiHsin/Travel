@@ -164,6 +164,10 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         cell.contentTextField.text = ""
         cell.contentTextField.endEditing(true)
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        <#code#>
+    }
 }
 
 // MARK: - Table View Delegate
@@ -184,6 +188,23 @@ extension ChecklistViewController: UITableViewDelegate {
         ) -> CGFloat {
         
         return 35
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? ChecklistTableViewCell else { return }
+        
+        if cell.checkButton.isSelected == true {
+            
+            cell.checkButton.isSelected = false
+            cell.checkButton.tintColor = UIColor.darkGray
+            cell.contentLabel.textColor = UIColor.darkGray
+        } else {
+            
+            cell.checkButton.isSelected = true
+            cell.checkButton.tintColor = UIColor.lightGray
+            cell.contentLabel.textColor = UIColor.lightGray
+        }
     }
     
     func tableView(
