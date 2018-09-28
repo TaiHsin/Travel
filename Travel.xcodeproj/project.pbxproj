@@ -22,12 +22,21 @@
 		9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */; };
 		9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */; };
 		9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3400E215C67B9002A957D /* Preserved.storyboard */; };
-		9DF34011215C67E7002A957D /* Package.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34010215C67E7002A957D /* Package.storyboard */; };
+		9DF34011215C67E7002A957D /* Checklist.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34010215C67E7002A957D /* Checklist.storyboard */; };
 		9DF34013215C6809002A957D /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34012215C6809002A957D /* Profile.storyboard */; };
 		9DF34015215C6873002A957D /* MyTrip.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34014215C6873002A957D /* MyTrip.storyboard */; };
 		9DF34018215C8FF3002A957D /* PreservedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF34017215C8FF3002A957D /* PreservedViewController.swift */; };
 		9DF3401C215C90AF002A957D /* PreservedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF3401A215C90AF002A957D /* PreservedTableViewCell.swift */; };
 		9DF3401D215C90AF002A957D /* PreservedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3401B215C90AF002A957D /* PreservedTableViewCell.xib */; };
+		9DF3401F215CCC74002A957D /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF3401E215CCC74002A957D /* Path.swift */; };
+		9DF34023215CD875002A957D /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF34021215CD875002A957D /* WeatherTableViewCell.swift */; };
+		9DF34024215CD875002A957D /* WeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34022215CD875002A957D /* WeatherTableViewCell.xib */; };
+		9DF34028215CE285002A957D /* ChecklistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF34026215CE285002A957D /* ChecklistTableViewCell.swift */; };
+		9DF34029215CE285002A957D /* ChecklistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34027215CE285002A957D /* ChecklistTableViewCell.xib */; };
+		9DF34030215D401B002A957D /* ChecklistHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF3402E215D401B002A957D /* ChecklistHeader.swift */; };
+		9DF34031215D401B002A957D /* ChecklistHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3402F215D401B002A957D /* ChecklistHeader.xib */; };
+		9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF34033215DD745002A957D /* ChecklistFooter.swift */; };
+		9DF34036215DD745002A957D /* ChecklistFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF34034215DD745002A957D /* ChecklistFooter.xib */; };
 		9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B332159D2A6005919E8 /* Assets.xcassets */; };
 		9DF61B382159DFF4005919E8 /* MyTripsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B362159DFF4005919E8 /* MyTripsCollectionViewCell.swift */; };
 		9DF61B392159DFF4005919E8 /* MyTripsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B372159DFF4005919E8 /* MyTripsCollectionViewCell.xib */; };
@@ -39,7 +48,7 @@
 		9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */; };
 		9DF61B5C215A62D7005919E8 /* MenuBarCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */; };
 		9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F3F21589670000D0300 /* MyTripViewController.swift */; };
-		9DF64F42215896F9000D0300 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F41215896F9000D0300 /* CheckListViewController.swift */; };
+		9DF64F42215896F9000D0300 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F41215896F9000D0300 /* ChecklistViewController.swift */; };
 		9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F4321589715000D0300 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,12 +71,21 @@
 		9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListTableViewCell.swift; sourceTree = "<group>"; };
 		9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListTableViewCell.xib; sourceTree = "<group>"; };
 		9DF3400E215C67B9002A957D /* Preserved.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preserved.storyboard; sourceTree = "<group>"; };
-		9DF34010215C67E7002A957D /* Package.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Package.storyboard; sourceTree = "<group>"; };
+		9DF34010215C67E7002A957D /* Checklist.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Checklist.storyboard; sourceTree = "<group>"; };
 		9DF34012215C6809002A957D /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		9DF34014215C6873002A957D /* MyTrip.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyTrip.storyboard; sourceTree = "<group>"; };
 		9DF34017215C8FF3002A957D /* PreservedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreservedViewController.swift; sourceTree = "<group>"; };
 		9DF3401A215C90AF002A957D /* PreservedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreservedTableViewCell.swift; sourceTree = "<group>"; };
 		9DF3401B215C90AF002A957D /* PreservedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreservedTableViewCell.xib; sourceTree = "<group>"; };
+		9DF3401E215CCC74002A957D /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		9DF34021215CD875002A957D /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
+		9DF34022215CD875002A957D /* WeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherTableViewCell.xib; sourceTree = "<group>"; };
+		9DF34026215CE285002A957D /* ChecklistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTableViewCell.swift; sourceTree = "<group>"; };
+		9DF34027215CE285002A957D /* ChecklistTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChecklistTableViewCell.xib; sourceTree = "<group>"; };
+		9DF3402E215D401B002A957D /* ChecklistHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistHeader.swift; sourceTree = "<group>"; };
+		9DF3402F215D401B002A957D /* ChecklistHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChecklistHeader.xib; sourceTree = "<group>"; };
+		9DF34033215DD745002A957D /* ChecklistFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistFooter.swift; sourceTree = "<group>"; };
+		9DF34034215DD745002A957D /* ChecklistFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChecklistFooter.xib; sourceTree = "<group>"; };
 		9DF61B332159D2A6005919E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9DF61B362159DFF4005919E8 /* MyTripsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripsCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DF61B372159DFF4005919E8 /* MyTripsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTripsCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -79,7 +97,7 @@
 		9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuBarCollectionViewCell.xib; sourceTree = "<group>"; };
 		9DF64F3F21589670000D0300 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
-		9DF64F41215896F9000D0300 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
+		9DF64F41215896F9000D0300 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
 		9DF64F4321589715000D0300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CCAEA57933F7E11B89263A7F /* Pods-Travel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Travel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Travel/Pods-Travel.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,10 +171,13 @@
 		9D4A148921525C3300748E06 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9DF3402B215D3F8E002A957D /* Checklist */,
+				9DF34020215CD820002A957D /* WeatherTableViewCell */,
 				9DF34019215C9080002A957D /* PreservedTableViewCell */,
 				9DF143C8215B7901004E2DF1 /* TripListTableViewCell */,
 				9DF61B54215A629A005919E8 /* MenuBarCell */,
 				9DF61B352159DFA8005919E8 /* MyTripsCell */,
+				9DF3401E215CCC74002A957D /* Path.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,11 +198,11 @@
 				9D4A148E2152627C00748E06 /* LoginViewController.swift */,
 				9DA095AB2153ABB1008C1358 /* SearchViewController.swift */,
 				9DF64F3F21589670000D0300 /* MyTripViewController.swift */,
-				9DF64F41215896F9000D0300 /* CheckListViewController.swift */,
 				9DF64F4321589715000D0300 /* ProfileViewController.swift */,
 				9DF61B3C215A0C7B005919E8 /* TripDetailViewController.swift */,
 				9DF61B40215A162F005919E8 /* TabBarViewController.swift */,
 				9DF34017215C8FF3002A957D /* PreservedViewController.swift */,
+				9DF64F41215896F9000D0300 /* ChecklistViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -203,7 +224,7 @@
 				9DA095A72153A3CA008C1358 /* Search.storyboard */,
 				9DF34014215C6873002A957D /* MyTrip.storyboard */,
 				9DF3400E215C67B9002A957D /* Preserved.storyboard */,
-				9DF34010215C67E7002A957D /* Package.storyboard */,
+				9DF34010215C67E7002A957D /* Checklist.storyboard */,
 				9DF34012215C6809002A957D /* Profile.storyboard */,
 			);
 			path = Storyboard;
@@ -232,6 +253,52 @@
 				9DF3401B215C90AF002A957D /* PreservedTableViewCell.xib */,
 			);
 			path = PreservedTableViewCell;
+			sourceTree = "<group>";
+		};
+		9DF34020215CD820002A957D /* WeatherTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9DF34021215CD875002A957D /* WeatherTableViewCell.swift */,
+				9DF34022215CD875002A957D /* WeatherTableViewCell.xib */,
+			);
+			path = WeatherTableViewCell;
+			sourceTree = "<group>";
+		};
+		9DF34025215CE25F002A957D /* ChecklistTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9DF34026215CE285002A957D /* ChecklistTableViewCell.swift */,
+				9DF34027215CE285002A957D /* ChecklistTableViewCell.xib */,
+			);
+			path = ChecklistTableViewCell;
+			sourceTree = "<group>";
+		};
+		9DF3402A215D3F81002A957D /* ChecklistTableViewHeader */ = {
+			isa = PBXGroup;
+			children = (
+				9DF3402E215D401B002A957D /* ChecklistHeader.swift */,
+				9DF3402F215D401B002A957D /* ChecklistHeader.xib */,
+			);
+			path = ChecklistTableViewHeader;
+			sourceTree = "<group>";
+		};
+		9DF3402B215D3F8E002A957D /* Checklist */ = {
+			isa = PBXGroup;
+			children = (
+				9DF34032215DD645002A957D /* ChecklistFooter */,
+				9DF3402A215D3F81002A957D /* ChecklistTableViewHeader */,
+				9DF34025215CE25F002A957D /* ChecklistTableViewCell */,
+			);
+			path = Checklist;
+			sourceTree = "<group>";
+		};
+		9DF34032215DD645002A957D /* ChecklistFooter */ = {
+			isa = PBXGroup;
+			children = (
+				9DF34033215DD745002A957D /* ChecklistFooter.swift */,
+				9DF34034215DD745002A957D /* ChecklistFooter.xib */,
+			);
+			path = ChecklistFooter;
 			sourceTree = "<group>";
 		};
 		9DF61B352159DFA8005919E8 /* MyTripsCell */ = {
@@ -328,8 +395,12 @@
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
 				9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */,
 				9DF34013215C6809002A957D /* Profile.storyboard in Resources */,
-				9DF34011215C67E7002A957D /* Package.storyboard in Resources */,
+				9DF34011215C67E7002A957D /* Checklist.storyboard in Resources */,
+				9DF34024215CD875002A957D /* WeatherTableViewCell.xib in Resources */,
+				9DF34036215DD745002A957D /* ChecklistFooter.xib in Resources */,
+				9DF34029215CE285002A957D /* ChecklistTableViewCell.xib in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
+				9DF34031215D401B002A957D /* ChecklistHeader.xib in Resources */,
 				9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */,
 				9DF61B342159D2A6005919E8 /* Assets.xcassets in Resources */,
 				9DF61B392159DFF4005919E8 /* MyTripsCollectionViewCell.xib in Resources */,
@@ -437,19 +508,24 @@
 				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
 				9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
+				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
 				9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */,
 				9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */,
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
+				9DF34023215CD875002A957D /* WeatherTableViewCell.swift in Sources */,
 				9DF61B3D215A0C7B005919E8 /* TripDetailViewController.swift in Sources */,
 				9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */,
 				9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */,
 				9DF3401C215C90AF002A957D /* PreservedTableViewCell.swift in Sources */,
 				9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */,
-				9DF64F42215896F9000D0300 /* CheckListViewController.swift in Sources */,
+				9DF34030215D401B002A957D /* ChecklistHeader.swift in Sources */,
+				9DF64F42215896F9000D0300 /* ChecklistViewController.swift in Sources */,
 				9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */,
 				9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */,
 				9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */,
+				9DF3401F215CCC74002A957D /* Path.swift in Sources */,
+				9DF34028215CE285002A957D /* ChecklistTableViewCell.swift in Sources */,
 				9DF34018215C8FF3002A957D /* PreservedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

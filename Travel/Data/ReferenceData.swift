@@ -36,7 +36,6 @@ struct Day {
 
 struct LocationData {
     
-//    var placeName: String = "Effel Tower"
     var placeName: String
     
     var photo: UIImage
@@ -46,8 +45,6 @@ struct LocationData {
     var latitude: Double
     
     var longitude: Double
-    
-
     
 //    var address: String
     
@@ -59,8 +56,6 @@ struct LocationData {
 }
 
 struct CellData {
-    
-    var opened: Bool
     
     var title: String
      

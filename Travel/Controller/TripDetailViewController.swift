@@ -127,7 +127,7 @@ class TripDetailViewController: UIViewController {
     }
 }
 
-// MARK: = CLLocationManagerDelegate
+// MARK: - CLLocationManagerDelegate
 
 extension TripDetailViewController: CLLocationManagerDelegate {
     
@@ -179,10 +179,10 @@ extension TripDetailViewController: UITableViewDataSource {
         return locationData.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        return days[section]
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        
+//        return days[section]
+//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -284,13 +284,6 @@ extension TripDetailViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-struct My {
-    static var cellSnapShot: UIView? = nil
-}
-
-struct Path {
-    static var initialIndexPath: IndexPath? = nil
-}
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
 /// Map cemare adjust to show all markers

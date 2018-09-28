@@ -27,7 +27,7 @@ extension UIStoryboard {
     
     static func packageStoryboard() -> UIStoryboard {
         
-        return UIStoryboard(name: "Package", bundle: nil)
+        return UIStoryboard(name: "Checklist", bundle: nil)
     }
     
     static func profileStoryboard() -> UIStoryboard {
