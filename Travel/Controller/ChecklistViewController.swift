@@ -53,9 +53,15 @@ class ChecklistViewController: UIViewController {
             forHeaderFooterViewReuseIdentifier: String(describing: ChecklistHeader.self)
         )
     
-        let footerXib = UINib(nibName: String(describing: ChecklistFooter.self), bundle: nil)
+        let footerXib = UINib(
+            nibName: String(describing: ChecklistFooter.self),
+            bundle: nil
+        )
         
-        tableView.register(footerXib, forHeaderFooterViewReuseIdentifier: String(describing: ChecklistFooter.self))
+        tableView.register(
+            footerXib,
+            forCellReuseIdentifier: String(describing: ChecklistFooter.self)
+        )
         
         tableView.delegate = self
         
@@ -65,7 +71,7 @@ class ChecklistViewController: UIViewController {
 
 // MARK: - Table View Data Source
 
-extension ChecklistViewController: UITableViewDataSource {
+extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -74,7 +80,7 @@ extension ChecklistViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return cellData[section].sectionData.count
+        return cellData[section].numberOfData()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -104,33 +110,30 @@ extension ChecklistViewController: UITableViewDataSource {
         }
 
         headerView.contentLabel.text = cellData[section].title
-
+        
         return headerView
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
-    }
-    
+
     func tableView(
         _ tableView: UITableView,
-        viewForFooterInSection section: Int
-        ) -> UIView? {
+        cellForRowAt indexPath: IndexPath
+        ) -> UITableViewCell {
         
-        guard let footerView = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: String(describing: ChecklistFooter.self)) as? ChecklistFooter else {
-                return UIView()
+        // Create another custom cell at the end of section
+        
+        if indexPath.row >= cellData[indexPath.section].sectionData.count {
+            
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: ChecklistFooter.self),
+                for: indexPath
+            )
+            
+            guard let createCell = cell as? ChecklistFooter else { return cell }
+            
+            createCell.addItemButton.addTarget(self, action: #selector(addNewItem(sender:)), for: .touchUpInside)
+            
+            return createCell
         }
-        
-        return footerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        
-        return 35
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: ChecklistTableViewCell.self),
@@ -143,8 +146,23 @@ extension ChecklistViewController: UITableViewDataSource {
         return checklistCell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 35
+    @objc func addNewItem(sender: UIButton) {
+    
+        // Use UIButton.superview to find its parents view (UITableView)
+        guard let cell = sender.superview?.superview as? ChecklistFooter else { return }
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        print(indexPath.section, indexPath.row)
+        
+        guard let text = cell.contentTextField.text else { return }
+        
+        cellData[indexPath.section].sectionData.insert(text, at: 0)
+        let newPath = IndexPath(row: 0, section: indexPath.section)
+        
+        tableView.insertRows(at: [newPath], with: .left)
+        
+        cell.contentTextField.text = ""
+        cell.contentTextField.endEditing(true)
     }
 }
 
@@ -152,4 +170,31 @@ extension ChecklistViewController: UITableViewDataSource {
 
 extension ChecklistViewController: UITableViewDelegate {
     
+    func tableView(
+        _ tableView: UITableView,
+        heightForHeaderInSection section: Int
+        ) -> CGFloat {
+        
+        return 30
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+        ) -> CGFloat {
+        
+        return 35
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            cellData[indexPath.section].sectionData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+
 }

@@ -58,8 +58,9 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="contentLabel" destination="v6W-hH-oP9" id="AmZ-bK-WAP"/>
+                <outlet property="numberLabel" destination="u9B-P8-AqS" id="SRo-de-atT"/>
             </connections>
-            <point key="canvasLocation" x="100.8" y="115.14242878560721"/>
+            <point key="canvasLocation" x="94" y="92"/>
         </tableViewCell>
     </objects>
 </document>

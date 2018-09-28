@@ -60,4 +60,12 @@ struct CellData {
     var title: String
      
     var sectionData: [String]
+    
+    func numberOfData() -> Int {
+        
+        // For another custom cell
+        
+        return sectionData.count + 1
+    }
+    
 }

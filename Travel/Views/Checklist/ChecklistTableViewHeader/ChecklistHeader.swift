@@ -12,6 +12,8 @@ class ChecklistHeader: UITableViewHeaderFooterView {
 
     @IBOutlet weak var contentLabel: UILabel!
     
+    @IBOutlet weak var numberLabel: UILabel!
+    
     /*
      // Only override draw() if you perform custom drawing.
      // An empty implementation adversely affects performance during animation.
