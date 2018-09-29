@@ -43,9 +43,9 @@ class MyTripViewController: UIViewController {
 
         switch identifier {
 
-        case String(describing: TripDetailViewController.self):
+        case String(describing: TripListViewController.self):
 
-            guard let detailController = segue.destination as? TripDetailViewController,
+            guard let detailController = segue.destination as? TripListViewController,
                 
                   let indexPath = sender as? IndexPath else {
 
@@ -135,7 +135,7 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         didSelectItemAt indexPath: IndexPath) {
         
         performSegue(
-            withIdentifier: String(describing: TripDetailViewController.self),
+            withIdentifier: String(describing: TripListViewController.self),
             sender: indexPath
         )
 

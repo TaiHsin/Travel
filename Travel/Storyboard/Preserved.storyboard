@@ -12,7 +12,7 @@
         <!--Favorite-->
         <scene sceneID="hoN-qF-un7">
             <objects>
-                <viewController id="TyB-R1-8dC" customClass="PreservedViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PreservedViewController" id="TyB-R1-8dC" customClass="PreservedViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="elN-Oi-VQn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,7 +31,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZmT-0k-Wh3"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Favorite" id="CNT-Zy-DMF"/>
+                    <navigationItem key="navigationItem" title="Favorite" id="CNT-Zy-DMF">
+                        <barButtonItem key="backBarButtonItem" title=" " id="XG4-L1-1dF"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="oHm-l8-XcX">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="searchPlace:" destination="TyB-R1-8dC" id="PZ9-cI-PNT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="drm-pu-bvR" id="g5E-8C-86b"/>
                     </connections>
@@ -51,6 +59,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nAx-dX-aRs">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -63,6 +72,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="wishlist_black" width="25.600000381469727" height="25.600000381469727"/>
+        <image name="wishlist_black" width="51.200000762939453" height="51.200000762939453"/>
     </resources>
 </document>

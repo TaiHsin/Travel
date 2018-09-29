@@ -10,7 +10,7 @@ import UIKit
 import GoogleMaps
 //import MapKit
 
-class TripDetailViewController: UIViewController {
+class TripListViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -53,13 +53,8 @@ class TripDetailViewController: UIViewController {
     }
     
     @IBAction func searchLocation(_ sender: UIBarButtonItem) {
-        
-        guard let controller = UIStoryboard.searchStoryboard()
-                    .instantiateViewController(
-                        withIdentifier: String(describing: SearchViewController.self)
-                    ) as? SearchViewController else { return }
-        
-        show(controller, sender: nil)
+
+        showAlertWith()
     }
     
     func setupTableView() {
@@ -125,11 +120,43 @@ class TripDetailViewController: UIViewController {
             /// Need to use GMSCoordinateBounds to show all markers
         }
     }
+    
+    func showAlertWith() {
+
+        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+
+        }
+
+        let favoriteAction = UIAlertAction(title: "Add from favorite ", style: .default) { (_) in
+            
+            let tabController = self.view.window?.rootViewController as? UITabBarController
+            tabController?.dismiss(animated: false, completion: nil)
+            tabController?.selectedIndex = 1
+        }
+        
+        let searchAction = UIAlertAction(title: "Search places", style: .default) { (_) in
+            
+            guard let controller = UIStoryboard.searchStoryboard()
+                .instantiateViewController(
+                    withIdentifier: String(describing: SearchViewController.self)
+                ) as? SearchViewController else { return }
+            
+            self.show(controller, sender: nil)
+        }
+        
+        actionSheetController.addAction(cancelAction)
+        actionSheetController.addAction(favoriteAction)
+        actionSheetController.addAction(searchAction)
+        
+        present(actionSheetController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
 
-extension TripDetailViewController: CLLocationManagerDelegate {
+extension TripListViewController: CLLocationManagerDelegate {
     
     // didChangeAuthorization function is called when the user grants or revokes location permissions.
     
@@ -163,7 +190,7 @@ extension TripDetailViewController: CLLocationManagerDelegate {
 
 // MARK: - GMS Map View Delegate
 
-extension TripDetailViewController: GMSMapViewDelegate {
+extension TripListViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         return false
@@ -173,7 +200,7 @@ extension TripDetailViewController: GMSMapViewDelegate {
 
 // MARK: - Tabel View Data Source
 
-extension TripDetailViewController: UITableViewDataSource {
+extension TripListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return locationData.count
@@ -229,13 +256,13 @@ extension TripDetailViewController: UITableViewDataSource {
 
 // MARK: - Table View Delegate
 
-extension TripDetailViewController: UITableViewDelegate {
+extension TripListViewController: UITableViewDelegate {
     
 }
 
 // MARK: - Collection View Data Source
 
-extension TripDetailViewController: UICollectionViewDataSource {
+extension TripListViewController: UICollectionViewDataSource {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -263,7 +290,7 @@ extension TripDetailViewController: UICollectionViewDataSource {
 
 // MARK: - Collection View Delegate Flow Layout
 
-extension TripDetailViewController: UICollectionViewDelegateFlowLayout {
+extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -283,6 +310,8 @@ extension TripDetailViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 55, height: 30)
     }
 }
+
+
 
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?

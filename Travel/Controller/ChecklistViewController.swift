@@ -149,6 +149,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
     @objc func addNewItem(sender: UIButton) {
     
         // Use UIButton.superview to find its parents view (UITableView)
+        
         guard let cell = sender.superview?.superview as? ChecklistFooter else { return }
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
@@ -163,10 +164,6 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         
         cell.contentTextField.text = ""
         cell.contentTextField.endEditing(true)
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        <#code#>
     }
 }
 
@@ -217,5 +214,4 @@ extension ChecklistViewController: UITableViewDelegate {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-
 }

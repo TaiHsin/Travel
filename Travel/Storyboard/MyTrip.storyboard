@@ -99,7 +99,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="oBX-To-cS1" id="o5V-5x-UZe"/>
-                        <segue destination="nxr-5W-XUN" kind="show" identifier="TripDetailViewController" id="2lV-tZ-1fA"/>
+                        <segue destination="nxr-5W-XUN" kind="show" identifier="TripListViewController" id="2lV-tZ-1fA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k9S-6T-m9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -109,7 +109,7 @@
         <!--Create Trip-->
         <scene sceneID="eXK-ac-QCa">
             <objects>
-                <viewController id="aPI-vU-mpl" sceneMemberID="viewController">
+                <viewController id="aPI-vU-mpl" customClass="CreateTripViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aWt-xx-gmB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -141,6 +141,9 @@
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="createNewTrip:" destination="aPI-vU-mpl" eventType="touchUpInside" id="x0l-ZA-HkR"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -163,8 +166,13 @@
                         <viewLayoutGuide key="safeArea" id="9lt-oI-Xkp"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Trip" leftItemsSupplementBackButton="YES" id="JCS-xR-8Du">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="DVr-G5-TT7"/>
+                        <barButtonItem key="backBarButtonItem" title=" " id="DVr-G5-TT7"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="createTripButton" destination="HK5-t6-jo4" id="dcC-AK-7gU"/>
+                        <outlet property="nameTextField" destination="lny-YI-Mzo" id="can-kH-7sG"/>
+                        <segue destination="nxr-5W-XUN" kind="show" identifier="TripDetailViewController" id="57r-DY-dIy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0A-mr-xsT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -195,7 +203,7 @@
         <!--Paris-->
         <scene sceneID="DDi-D8-aOB">
             <objects>
-                <viewController storyboardIdentifier="TripDetailViewController" id="nxr-5W-XUN" customClass="TripDetailViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TripListViewController" id="nxr-5W-XUN" customClass="TripListViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rWe-Uh-wcR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -265,7 +273,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Paris" id="ise-Bj-tvB">
                         <barButtonItem key="backBarButtonItem" title=" " id="VVT-gU-xh9"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="P2w-PO-RE2">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="P2w-PO-RE2">
                             <connections>
                                 <action selector="searchLocation:" destination="nxr-5W-XUN" id="pYh-Jx-eGf"/>
                             </connections>
@@ -285,6 +293,9 @@
     </scenes>
     <resources>
         <image name="lonely_planet_logo" width="1280" height="634"/>
-        <image name="main_black" width="25.600000381469727" height="25.600000381469727"/>
+        <image name="main_black" width="51.200000762939453" height="51.200000762939453"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="57r-DY-dIy"/>
+    </inferredMetricsTieBreakers>
 </document>

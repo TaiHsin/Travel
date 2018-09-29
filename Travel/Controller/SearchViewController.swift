@@ -39,29 +39,69 @@ class SearchViewController: UIViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /// Put search place and favorite together
+//        guard let favoriteVC = UIStoryboard.preservedStoryboard().instantiateViewController(
+//            withIdentifier: String(describing: PreservedViewController.self)) as? PreservedViewController else { return }
+//
+//        self.addChild(favoriteVC)
+//
+//        favoriteVC.view.frame = self.view.frame
+//        self.view.addSubview(favoriteVC.view)
+//        favoriteVC.didMove(toParent: self)
+    }
 }
 
 // Handle the user's selection.
+
 extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
-    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-                           didAutocompleteWith place: GMSPlace) {
+    func resultsController(
+        _ resultsController: GMSAutocompleteResultsViewController,
+        didAutocompleteWith place: GMSPlace
+        ) {
         
         searchController?.isActive = false
+        
         // Do something with the selected place.
+        
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")
         print("Place coordinate: \(place.coordinate)")
         print("Place id: \(place.placeID)")
         
-        loadFirstPhotoForPlace(placeID: place.placeID)
-        nameLabel.text = place.name
+        switchDetailVC(place: place)
+        
+//        loadFirstPhotoForPlace(placeID: place.placeID)
+//        nameLabel.text = place.name
+    }
+
+    func switchDetailVC(place: GMSPlace) {
+        
+//        if self.children != nil {
+//
+//        }
+        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        detailViewController.place = place
+        
+//        show(detailVC, sender: nil)
+        self.addChild(detailViewController)
+
+        detailViewController.view.frame = self.view.frame
+        self.view.addSubview(detailViewController.view)
+        detailViewController.didMove(toParent: self)
     }
     
     func resultsController(
         _ resultsController: GMSAutocompleteResultsViewController,
-        didFailAutocompleteWithError error: Error){
+        didFailAutocompleteWithError error: Error
+        ) {
         
         // TODO: handle the error.
         print("Error: ", error.localizedDescription)
@@ -75,35 +115,6 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-    
-    func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
-            if let error = error {
-                
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto)
-                }
-            }
-        }
-    }
-    
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
-            -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                self.photoImage.image = photo
-
-//                self.imageView.image = photo;
-//                self.attributionTextView.attributedText = photoMetadata.attributions;
-            }
-        })
     }
 }
 

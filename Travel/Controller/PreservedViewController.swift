@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import GooglePlaces
 
 class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    var place: GMSPlace?
     
     var locationData = [LocationData]()
     
@@ -31,6 +34,16 @@ class PreservedViewController: UIViewController {
         )
         
         self.tableView.addGestureRecognizer(longPress)
+    }
+    
+    @IBAction func searchPlace(_ sender: Any) {
+        
+        guard let controller = UIStoryboard.searchStoryboard()
+            .instantiateViewController(
+                withIdentifier: String(describing: SearchViewController.self)
+            ) as? SearchViewController else { return }
+        
+        self.show(controller, sender: nil)
     }
     
     func setupTableView() {
