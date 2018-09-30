@@ -19,6 +19,9 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var myTripButton: UIButton!
     
+    @IBOutlet weak var placeInfoCard: UIView!
+    
+    @IBOutlet var detailInfoView: UIView!
     var place: GMSPlace?
     
     override func viewDidLoad() {
@@ -38,6 +41,8 @@ class DetailViewController: UIViewController {
         
         placeName.text = place.name
         loadFirstPhotoForPlace(placeID: place.placeID)
+        
+        placeInfoCard.layer.cornerRadius = 10
     }
     
     func setupButton() {
@@ -55,7 +60,14 @@ class DetailViewController: UIViewController {
     
     @IBAction func addToMyTrip(_ sender: Any) {
     
+        guard let selectionVC = UIStoryboard.searchStoryboard().instantiateViewController(
+            withIdentifier: String(describing: TripSelectionViewController.self)) as? TripSelectionViewController else { return }
         
+        self.addChild(selectionVC)
+        
+        selectionVC.view.frame = self.placeInfoCard.frame
+        self.view.addSubview(selectionVC.view)
+        selectionVC.didMove(toParent: self)
     }
     
     func loadFirstPhotoForPlace(placeID: String) {
@@ -100,6 +112,8 @@ class DetailViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    // Pop out animation
+    
     func showAnimate() {
         self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         
@@ -110,7 +124,6 @@ class DetailViewController: UIViewController {
         })
     }
 
-    
     func removeAnimate() {
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
