@@ -132,9 +132,52 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I7L-5l-B4x">
-                                <rect key="frame" x="16" y="185" width="343" height="235"/>
-                                <color key="backgroundColor" red="0.043137254899999998" green="0.66666666669999997" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7L-5l-B4x">
+                                <rect key="frame" x="16" y="185" width="343" height="370"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZS2-De-VPE">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="330"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="330" id="EcL-xT-DmT"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="t72-EH-SwW">
+                                            <size key="itemSize" width="106" height="106"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="K0e-9D-VuJ">
+                                                <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eam-Rh-Y17">
+                                                            <rect key="frame" x="32" y="42.5" width="42" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstItem="Eam-Rh-Y17" firstAttribute="centerX" secondItem="K0e-9D-VuJ" secondAttribute="centerX" id="RY0-yb-2Si"/>
+                                                    <constraint firstItem="Eam-Rh-Y17" firstAttribute="centerY" secondItem="K0e-9D-VuJ" secondAttribute="centerY" id="wqb-ns-aCx"/>
+                                                </constraints>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.36040122819999998" green="0.64012414230000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="ZS2-De-VPE" firstAttribute="leading" secondItem="I7L-5l-B4x" secondAttribute="leading" id="KUQ-0c-jGm"/>
+                                    <constraint firstAttribute="height" constant="370" id="WRq-Jq-Zc6"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZS2-De-VPE" secondAttribute="trailing" id="tSm-Zt-eNb"/>
+                                    <constraint firstItem="ZS2-De-VPE" firstAttribute="top" secondItem="I7L-5l-B4x" secondAttribute="top" id="tUp-ra-Kac"/>
+                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HK5-t6-jo4">
                                 <rect key="frame" x="135" y="607" width="105" height="30"/>
@@ -176,7 +219,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0A-mr-xsT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1687" y="376"/>
+            <point key="canvasLocation" x="1685.5999999999999" y="375.56221889055473"/>
         </scene>
         <!--Trip Navi View Controller-->
         <scene sceneID="A7k-Ct-psV">
