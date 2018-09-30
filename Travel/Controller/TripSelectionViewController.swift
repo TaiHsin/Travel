@@ -98,6 +98,7 @@ extension TripSelectionViewController: UITableViewDataSource {
         
         return cell
     }
+
 }
 
 extension TripSelectionViewController: UITableViewDelegate {
@@ -119,18 +120,14 @@ extension TripSelectionViewController: UITableViewDelegate {
         cell.nameLabel.textColor = UIColor.white
         cell.cellView.backgroundColor = UIColor.darkGray
 
-//        if cell.tapped == false {
-//
-//            cell.nameLabel.textColor = UIColor.white
-//            cell.cellView.backgroundColor = UIColor.darkGray
-//
-//        } else {
-//
-//            cell.nameLabel.textColor = UIColor.darkGray
-//            cell.cellView.backgroundColor = UIColor.white
-//        }
-//
-//        cell.tapped = !cell.tapped
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
+        
+        cell.nameLabel.textColor = UIColor.darkGray
+        cell.cellView.backgroundColor = UIColor.white
     }
 }
 
@@ -163,18 +160,17 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? DayCollectionViewCell else { return }
         
-        if cell.tapped == false {
-            
-            cell.numberLabel.textColor = UIColor.white
-            cell.cellView.backgroundColor = UIColor.darkGray
-            
-        } else {
-            
-            cell.numberLabel.textColor = UIColor.darkGray
-            cell.cellView.backgroundColor = UIColor.white
-        }
+        cell.numberLabel.textColor = UIColor.white
+        cell.cellView.backgroundColor = UIColor.darkGray
+
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         
-        cell.tapped = !cell.tapped
+        guard let cell = collectionView.cellForItem(at: indexPath) as? DayCollectionViewCell else { return }
+        
+        cell.numberLabel.textColor = UIColor.darkGray
+        cell.cellView.backgroundColor = UIColor.white
     }
 }
 
@@ -197,5 +193,4 @@ extension TripSelectionViewController: UICollectionViewDelegateFlowLayout {
         
         return 5
     }
-    
 }

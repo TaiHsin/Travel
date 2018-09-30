@@ -36,21 +36,28 @@ class DetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setupButton()
+        placeInfoCard.layer.cornerRadius = 10
         
         guard let place = place else { return }
         
         placeName.text = place.name
         loadFirstPhotoForPlace(placeID: place.placeID)
         
-        placeInfoCard.layer.cornerRadius = 10
     }
     
     func setupButton() {
         
         favoriteButton.layer.borderWidth = 1
         favoriteButton.layer.borderColor = UIColor.darkGray.cgColor
+        
+        favoriteButton.layer.cornerRadius = 10
+        favoriteButton.layer.maskedCorners = [.layerMaxXMaxYCorner]
+
         myTripButton.layer.borderWidth = 1
         myTripButton.layer.borderColor = UIColor.darkGray.cgColor
+        
+        myTripButton.layer.cornerRadius = 10
+        myTripButton.layer.maskedCorners = [.layerMinXMaxYCorner]
     }
     
     @IBAction func addToFavorite(_ sender: UIButton) {
@@ -61,7 +68,8 @@ class DetailViewController: UIViewController {
     @IBAction func addToMyTrip(_ sender: Any) {
     
         guard let selectionVC = UIStoryboard.searchStoryboard().instantiateViewController(
-            withIdentifier: String(describing: TripSelectionViewController.self)) as? TripSelectionViewController else { return }
+            withIdentifier: String(describing: TripSelectionViewController.self)
+            ) as? TripSelectionViewController else { return }
         
         self.addChild(selectionVC)
         

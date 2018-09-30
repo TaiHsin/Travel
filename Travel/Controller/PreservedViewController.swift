@@ -145,6 +145,18 @@ class PreservedViewController: UIViewController {
 //        cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
+    
+    func switchDetailVC() {
+        
+        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        self.addChild(detailViewController)
+        
+        detailViewController.view.frame = self.view.frame
+        self.view.addSubview(detailViewController.view)
+        detailViewController.didMove(toParent: self)
+    }
 }
 
 extension PreservedViewController: UITableViewDataSource {
@@ -195,5 +207,9 @@ extension PreservedViewController: UITableViewDataSource {
 }
 
 extension PreservedViewController: UITableViewDelegate {
-   
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switchDetailVC()
+    }
 }

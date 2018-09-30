@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 //import MapKit
 
 class TripListViewController: UIViewController {
@@ -121,6 +122,18 @@ class TripListViewController: UIViewController {
         }
     }
     
+    func switchDetailVC() {
+ 
+        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        self.addChild(detailViewController)
+        
+        detailViewController.view.frame = self.view.frame
+        self.view.addSubview(detailViewController.view)
+        detailViewController.didMove(toParent: self)
+    }
+    
     func showAlertWith() {
 
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -195,7 +208,6 @@ extension TripListViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         return false
     }
-    
 }
 
 // MARK: - Tabel View Data Source
@@ -210,24 +222,6 @@ extension TripListViewController: UITableViewDataSource {
 //        
 //        return days[section]
 //    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let view = UIView()
-        view.backgroundColor = UIColor.darkGray
-        
-        let label = UILabel()
-        label.text = days[section] + " " + dates[section]
-        label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
-        label.textColor = UIColor.white
-        view.addSubview(label)
-
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 35
-    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return days.count
@@ -258,6 +252,28 @@ extension TripListViewController: UITableViewDataSource {
 
 extension TripListViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let view = UIView()
+        view.backgroundColor = UIColor.darkGray
+        
+        let label = UILabel()
+        label.text = days[section] + " " + dates[section]
+        label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
+        label.textColor = UIColor.white
+        view.addSubview(label)
+        
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 35
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switchDetailVC()
+    }
 }
 
 // MARK: - Collection View Data Source
