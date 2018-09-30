@@ -15,14 +15,23 @@ class CreateTripViewController: UIViewController {
     
     @IBOutlet weak var createTripButton: UIButton!
     
-//    @IBOutlet weak var calendarView: JTAppleCalendarView!
+    @IBOutlet weak var calendarView: JTAppleCalendarView!
+    
+    @IBOutlet weak var yearLabel: UILabel!
+    
+    @IBOutlet weak var monthLabel: UILabel!
     
     let formatter = DateFormatter()
+    
+    let outsideMonthColor = UIColor.lightGray
+    let monthColor = UIColor.darkGray
+    let selectedMonthColor = UIColor.white
+    let currentDateSelectedViewColor = UIColor.darkGray
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        setupCalendarView()
+        setupCalendarView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,17 +39,7 @@ class CreateTripViewController: UIViewController {
         
         createTripButton.layer.cornerRadius = 5
     }
-    
-//    func setupCalendarView() {
-//
-//        let xib = UINib(nibName: String(describing: CustomCell.self), bundle: nil)
-//
-//        calendarView.register(xib, forCellWithReuseIdentifier: String(describing: CustomCell.self))
-//
-//        calendarView.ibCalendarDataSource = self
-//        calendarView.ibCalendarDelegate = self
-//    }
-    
+
     @IBAction func createNewTrip(_ sender: UIButton) {
         
 //        performSegue(withIdentifier: String(describing: TripDetailViewController.self), sender: nil)
@@ -75,6 +74,58 @@ class CreateTripViewController: UIViewController {
             return super.prepare(for: segue, sender: sender)
         }
     }
+    
+    func setupCalendarView() {
+        
+        // Setup calendar spacing
+        
+        calendarView.minimumLineSpacing = 0
+        calendarView.minimumInteritemSpacing = 0
+        
+        // Setup labels
+        // Due to calendarView is not setup yet, we use closure to handle with it
+        
+        calendarView.visibleDates { (visibleDates) in
+            self.setupViewOfCalendar(from: visibleDates)
+        }
+        
+    }
+    
+    func handleCellTextColor(cell: JTAppleCell?, cellState: CellState) {
+    
+        guard let validCell = cell as? CustomCell else { return }
+        
+        if cellState.isSelected {
+            validCell.dateLabel.textColor = selectedMonthColor
+        } else {
+            if cellState.dateBelongsTo == .thisMonth {
+                validCell.dateLabel.textColor = monthColor
+            } else {
+                validCell.dateLabel.textColor = outsideMonthColor
+            }
+        }
+    }
+    
+    func handleCellSelected(cell: JTAppleCell?, cellState: CellState) {
+        
+        guard let validCell = cell as? CustomCell else { return }
+        
+        if cellState.isSelected {
+            validCell.selectedView.isHidden = false
+        } else {
+            validCell.selectedView.isHidden = true
+        }
+    }
+    
+    func setupViewOfCalendar(from visibleDates: DateSegmentInfo) {
+        let date = visibleDates.monthDates.first!.date
+        
+        formatter.dateFormat = "yyyy"
+        yearLabel.text = formatter.string(from: date)
+        
+        formatter.dateFormat = "MMMM"
+        monthLabel.text = formatter.string(from: date)
+    }
 }
 
 extension CreateTripViewController: JTAppleCalendarViewDataSource {
@@ -87,8 +138,8 @@ extension CreateTripViewController: JTAppleCalendarViewDataSource {
         
         /// What guard let should return to avoid force unwrapped?
         
-        let startDate = formatter.date(from: "2017 01 01")!
-        let endDate = formatter.date(from: "2017 12 31")!
+        let startDate = formatter.date(from: "2018 04 01")!
+        let endDate = formatter.date(from: "2020 12 31")!
         
         let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate)
         
@@ -123,6 +174,42 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         
         cell.dateLabel.text = cellState.text
         
+        handleCellSelected(cell: cell, cellState: cellState)
+        handleCellTextColor(cell: cell, cellState: cellState)
+        
         return cell
+    }
+    
+    func calendar(
+        _ calendar: JTAppleCalendarView,
+        didSelectDate date: Date,
+        cell: JTAppleCell?,
+        cellState: CellState
+        ) {
+        
+        handleCellSelected(cell: cell, cellState: cellState)
+        handleCellTextColor(cell: cell, cellState: cellState)
+    }
+    
+    func calendar(
+        _ calendar: JTAppleCalendarView,
+        didDeselectDate date: Date,
+        cell: JTAppleCell?,
+        cellState: CellState
+        ) {
+        
+        handleCellSelected(cell: cell, cellState: cellState)
+        handleCellTextColor(cell: cell, cellState: cellState)
+    }
+    
+    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+        
+        let date = visibleDates.monthDates.first!.date
+        
+        formatter.dateFormat = "yyyy"
+        yearLabel.text = formatter.string(from: date)
+        
+        formatter.dateFormat = "MMMM"
+        monthLabel.text = formatter.string(from: date)
     }
 }
