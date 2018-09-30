@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTAppleCalendar
 
 class CreateTripViewController: UIViewController {
     
@@ -14,9 +15,14 @@ class CreateTripViewController: UIViewController {
     
     @IBOutlet weak var createTripButton: UIButton!
     
+    @IBOutlet weak var calendarView: JTAppleCalendarView!
+    
+    let formatter = DateFormatter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        setupCalendarView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,6 +30,17 @@ class CreateTripViewController: UIViewController {
         
         createTripButton.layer.cornerRadius = 5
     }
+    
+    func setupCalendarView() {
+        
+        let xib = UINib(nibName: String(describing: CustomCell.self), bundle: nil)
+        
+        calendarView.register(xib, forCellWithReuseIdentifier: String(describing: CustomCell.self))
+        
+        calendarView.ibCalendarDataSource = self
+        calendarView.ibCalendarDelegate = self
+    }
+    
     
     @IBAction func createNewTrip(_ sender: UIButton) {
         
@@ -58,5 +75,56 @@ class CreateTripViewController: UIViewController {
             
             return super.prepare(for: segue, sender: sender)
         }
+    }
+}
+
+extension CreateTripViewController: JTAppleCalendarViewDataSource {
+    
+    func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
+        
+        formatter.dateFormat = "yyyy MM dd"
+        formatter.timeZone = Calendar.current.timeZone
+        formatter.locale = Calendar.current.locale
+        
+        /// What guard let should return to avoid force unwrapped?
+        
+        let startDate = formatter.date(from: "2017 01 01")!
+        let endDate = formatter.date(from: "2017 12 31")!
+        
+        let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate)
+        
+        return parameters
+    }
+}
+
+extension CreateTripViewController: JTAppleCalendarViewDelegate {
+    
+    func calendar(
+        _ calendar: JTAppleCalendarView,
+        willDisplay cell: JTAppleCell,
+        forItemAt date: Date,
+        cellState: CellState,
+        indexPath: IndexPath
+        ) {
+        // TODO
+    }
+
+    func calendar(
+        _ calendar: JTAppleCalendarView,
+        cellForItemAt date: Date,
+        cellState: CellState,
+        indexPath: IndexPath
+        ) -> JTAppleCell {
+        
+        guard let cell = calendar.dequeueReusableJTAppleCell(
+            withReuseIdentifier: String(describing: CustomCell.self),
+            for: indexPath) as? CustomCell else {
+            return JTAppleCell()
+            
+        }
+        
+        cell.dateLabel.text = cellState.text
+        
+        return cell
     }
 }

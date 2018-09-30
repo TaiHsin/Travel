@@ -11,13 +11,14 @@
 		9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */; };
 		9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19712151FE1C00CE1C4A /* Main.storyboard */; };
 		9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */; };
-		9D1D7316216126530005AD9F /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1D7315216126530005AD9F /* CustomCell.swift */; };
 		9D4A14862152543100748E06 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14852152543100748E06 /* Login.storyboard */; };
 		9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A14872152560D00748E06 /* UIView+Extension.swift */; };
 		9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A148E2152627C00748E06 /* LoginViewController.swift */; };
 		9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14902152A56600748E06 /* GoogleService-Info.plist */; };
 		9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A149221533E9600748E06 /* FacebookManager.swift */; };
 		9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C1584215E846100574A12 /* CreateTripViewController.swift */; };
+		9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D96457B21613BF600D6E42E /* CustomCell.swift */; };
+		9D96457E21613BF600D6E42E /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D96457C21613BF600D6E42E /* CustomCell.xib */; };
 		9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA095A72153A3CA008C1358 /* Search.storyboard */; };
 		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
 		9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */; };
@@ -69,13 +70,14 @@
 		9D0E19722151FE1C00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9D0E19772151FE1D00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D0E19792151FE1D00CE1C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9D1D7315216126530005AD9F /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		9D4A14852152543100748E06 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9D4A14872152560D00748E06 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		9D4A148E2152627C00748E06 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9D4A14902152A56600748E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9D4A149221533E9600748E06 /* FacebookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookManager.swift; sourceTree = "<group>"; };
 		9D6C1584215E846100574A12 /* CreateTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripViewController.swift; sourceTree = "<group>"; };
+		9D96457B21613BF600D6E42E /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		9D96457C21613BF600D6E42E /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		9DA095A72153A3CA008C1358 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNaviViewController.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 		9D4A148921525C3300748E06 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9D96457A21613BCC00D6E42E /* CalendarCell */,
 				9DDE5B692160616B0096C4FC /* TripSelection */,
 				9DDE5B62215F84970096C4FC /* AlertView */,
 				9DF3402B215D3F8E002A957D /* Checklist */,
@@ -198,7 +201,6 @@
 				9DF61B54215A629A005919E8 /* MenuBarCell */,
 				9DF61B352159DFA8005919E8 /* MyTripsCell */,
 				9DF3401E215CCC74002A957D /* Path.swift */,
-				9D1D7315216126530005AD9F /* CustomCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -252,6 +254,15 @@
 				9DF34012215C6809002A957D /* Profile.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		9D96457A21613BCC00D6E42E /* CalendarCell */ = {
+			isa = PBXGroup;
+			children = (
+				9D96457B21613BF600D6E42E /* CustomCell.swift */,
+				9D96457C21613BF600D6E42E /* CustomCell.xib */,
+			);
+			path = CalendarCell;
 			sourceTree = "<group>";
 		};
 		9DDE5B62215F84970096C4FC /* AlertView */ = {
@@ -458,6 +469,7 @@
 				9DF34011215C67E7002A957D /* Checklist.storyboard in Resources */,
 				9DDE5B73216062050096C4FC /* TripTableViewCell.xib in Resources */,
 				9DF34024215CD875002A957D /* WeatherTableViewCell.xib in Resources */,
+				9D96457E21613BF600D6E42E /* CustomCell.xib in Resources */,
 				9DF34036215DD745002A957D /* ChecklistFooter.xib in Resources */,
 				9DF34029215CE285002A957D /* ChecklistTableViewCell.xib in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
@@ -570,10 +582,10 @@
 				9DDE5B6E216061B60096C4FC /* DayCollectionViewCell.swift in Sources */,
 				9DF61B382159DFF4005919E8 /* MyTripsCollectionViewCell.swift in Sources */,
 				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
-				9D1D7316216126530005AD9F /* CustomCell.swift in Sources */,
 				9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
 				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
+				9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
 				9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */,
 				9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */,

@@ -135,13 +135,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7L-5l-B4x">
                                 <rect key="frame" x="16" y="185" width="343" height="370"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZS2-De-VPE">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZS2-De-VPE" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="330"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="330" id="EcL-xT-DmT"/>
                                         </constraints>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="t72-EH-SwW">
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="t72-EH-SwW">
                                             <size key="itemSize" width="106" height="106"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -212,6 +212,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="DVr-G5-TT7"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="calendarView" destination="ZS2-De-VPE" id="NRg-c6-3kg"/>
                         <outlet property="createTripButton" destination="HK5-t6-jo4" id="dcC-AK-7gU"/>
                         <outlet property="nameTextField" destination="lny-YI-Mzo" id="can-kH-7sG"/>
                         <segue destination="nxr-5W-XUN" kind="show" identifier="TripDetailViewController" id="57r-DY-dIy"/>
