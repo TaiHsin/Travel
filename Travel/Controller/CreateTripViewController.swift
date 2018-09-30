@@ -15,14 +15,14 @@ class CreateTripViewController: UIViewController {
     
     @IBOutlet weak var createTripButton: UIButton!
     
-    @IBOutlet weak var calendarView: JTAppleCalendarView!
+//    @IBOutlet weak var calendarView: JTAppleCalendarView!
     
     let formatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupCalendarView()
+//        setupCalendarView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,16 +31,15 @@ class CreateTripViewController: UIViewController {
         createTripButton.layer.cornerRadius = 5
     }
     
-    func setupCalendarView() {
-        
-        let xib = UINib(nibName: String(describing: CustomCell.self), bundle: nil)
-        
-        calendarView.register(xib, forCellWithReuseIdentifier: String(describing: CustomCell.self))
-        
-        calendarView.ibCalendarDataSource = self
-        calendarView.ibCalendarDelegate = self
-    }
-    
+//    func setupCalendarView() {
+//
+//        let xib = UINib(nibName: String(describing: CustomCell.self), bundle: nil)
+//
+//        calendarView.register(xib, forCellWithReuseIdentifier: String(describing: CustomCell.self))
+//
+//        calendarView.ibCalendarDataSource = self
+//        calendarView.ibCalendarDelegate = self
+//    }
     
     @IBAction func createNewTrip(_ sender: UIButton) {
         
@@ -120,7 +119,6 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
             withReuseIdentifier: String(describing: CustomCell.self),
             for: indexPath) as? CustomCell else {
             return JTAppleCell()
-            
         }
         
         cell.dateLabel.text = cellState.text

@@ -106,7 +106,7 @@
             </objects>
             <point key="canvasLocation" x="548" y="752"/>
         </scene>
-        <!--Create Trip-->
+        <!--Ib Calendar Data Source-->
         <scene sceneID="eXK-ac-QCa">
             <objects>
                 <viewController id="aPI-vU-mpl" customClass="CreateTripViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -136,8 +136,8 @@
                                 <rect key="frame" x="16" y="185" width="343" height="370"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZS2-De-VPE" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="330"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="0.0" y="40" width="343" height="330"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="330" id="EcL-xT-DmT"/>
                                         </constraints>
@@ -148,13 +148,26 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="K0e-9D-VuJ">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CustomCell" id="K0e-9D-VuJ" customClass="CustomCell" customModule="Travel" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                     <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
+                                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aH3-1A-Lno">
+                                                            <rect key="frame" x="33" y="33" width="40" height="40"/>
+                                                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="40" id="1a6-Fv-1ji"/>
+                                                                <constraint firstAttribute="height" constant="40" id="54x-lh-muu"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="20"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eam-Rh-Y17">
                                                             <rect key="frame" x="32" y="42.5" width="42" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -164,19 +177,28 @@
                                                     </subviews>
                                                 </view>
                                                 <constraints>
+                                                    <constraint firstItem="aH3-1A-Lno" firstAttribute="centerX" secondItem="K0e-9D-VuJ" secondAttribute="centerX" id="RCB-fd-7x3"/>
                                                     <constraint firstItem="Eam-Rh-Y17" firstAttribute="centerX" secondItem="K0e-9D-VuJ" secondAttribute="centerX" id="RY0-yb-2Si"/>
                                                     <constraint firstItem="Eam-Rh-Y17" firstAttribute="centerY" secondItem="K0e-9D-VuJ" secondAttribute="centerY" id="wqb-ns-aCx"/>
+                                                    <constraint firstItem="aH3-1A-Lno" firstAttribute="centerY" secondItem="K0e-9D-VuJ" secondAttribute="centerY" id="yOm-qP-0C0"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="dateLabel" destination="Eam-Rh-Y17" id="Hce-kb-Iic"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
+                                        <connections>
+                                            <outlet property="ibCalendarDataSource" destination="aPI-vU-mpl" id="ddm-nB-zll"/>
+                                            <outlet property="ibCalendarDelegate" destination="aPI-vU-mpl" id="gfR-ca-OQl"/>
+                                        </connections>
                                     </collectionView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.36040122819999998" green="0.64012414230000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="ZS2-De-VPE" firstAttribute="leading" secondItem="I7L-5l-B4x" secondAttribute="leading" id="KUQ-0c-jGm"/>
                                     <constraint firstAttribute="height" constant="370" id="WRq-Jq-Zc6"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZS2-De-VPE" secondAttribute="bottom" id="XT5-y9-0OA"/>
                                     <constraint firstAttribute="trailing" secondItem="ZS2-De-VPE" secondAttribute="trailing" id="tSm-Zt-eNb"/>
-                                    <constraint firstItem="ZS2-De-VPE" firstAttribute="top" secondItem="I7L-5l-B4x" secondAttribute="top" id="tUp-ra-Kac"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HK5-t6-jo4">
@@ -212,7 +234,6 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="DVr-G5-TT7"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="calendarView" destination="ZS2-De-VPE" id="NRg-c6-3kg"/>
                         <outlet property="createTripButton" destination="HK5-t6-jo4" id="dcC-AK-7gU"/>
                         <outlet property="nameTextField" destination="lny-YI-Mzo" id="can-kH-7sG"/>
                         <segue destination="nxr-5W-XUN" kind="show" identifier="TripDetailViewController" id="57r-DY-dIy"/>
