@@ -37,6 +37,11 @@
                             <constraint firstItem="QeF-8d-3jK" firstAttribute="centerY" secondItem="U9n-k7-QZD" secondAttribute="centerY" id="eso-hC-jOW"/>
                             <constraint firstItem="QeF-8d-3jK" firstAttribute="centerX" secondItem="U9n-k7-QZD" secondAttribute="centerX" id="yLT-kj-5Yk"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
             </view>

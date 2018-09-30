@@ -93,6 +93,16 @@ extension TripSelectionViewController: UITableViewDataSource {
                 return UITableViewCell()
         }
         
+        if cell.isSelected {
+            
+            cell.nameLabel.textColor = UIColor.white
+            cell.cellView.backgroundColor = UIColor.darkGray
+        } else {
+            
+            cell.nameLabel.textColor = UIColor.darkGray
+            cell.cellView.backgroundColor = UIColor.white
+        }
+        
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.nameLabel.text = places[indexPath.row]
         
@@ -133,7 +143,10 @@ extension TripSelectionViewController: UITableViewDelegate {
 
 extension TripSelectionViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+        ) -> Int {
         
         return days.count
     }
@@ -149,6 +162,16 @@ extension TripSelectionViewController: UICollectionViewDataSource {
             ) as? DayCollectionViewCell else {
 
                 return UICollectionViewCell()
+        }
+        
+        if cell.isSelected {
+            
+            cell.numberLabel.textColor = UIColor.white
+            cell.cellView.backgroundColor = UIColor.darkGray
+        } else {
+            
+            cell.numberLabel.textColor = UIColor.darkGray
+            cell.cellView.backgroundColor = UIColor.white
         }
         
         cell.numberLabel.text = days[indexPath.item]
