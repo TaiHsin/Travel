@@ -22,6 +22,7 @@ target 'Travel' do
   
   # Pods for Travel
   pod 'SwiftLint'
+  pod 'IQKeyboardManagerSwift'
   pod 'JTAppleCalendar', '~> 7.0'
   
 end
