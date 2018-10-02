@@ -18,10 +18,10 @@
 		9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A149221533E9600748E06 /* FacebookManager.swift */; };
 		9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C1584215E846100574A12 /* CreateTripViewController.swift */; };
 		9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D96457B21613BF600D6E42E /* CustomCell.swift */; };
-		9D96457E21613BF600D6E42E /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D96457C21613BF600D6E42E /* CustomCell.xib */; };
 		9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA095A72153A3CA008C1358 /* Search.storyboard */; };
 		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
 		9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */; };
+		9DD7944521620EDA00C42800 /* TravelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD7944421620EDA00C42800 /* TravelColor.swift */; };
 		9DDE5B61215F4F310096C4FC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B60215F4F310096C4FC /* DetailViewController.swift */; };
 		9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B63215F84B50096C4FC /* AlertManager.swift */; };
 		9DDE5B66215FC63F0096C4FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DDE5B65215FC63F0096C4FC /* Assets.xcassets */; };
@@ -30,6 +30,7 @@
 		9DDE5B6F216061B60096C4FC /* DayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DDE5B6D216061B60096C4FC /* DayCollectionViewCell.xib */; };
 		9DDE5B72216062050096C4FC /* TripTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B70216062050096C4FC /* TripTableViewCell.swift */; };
 		9DDE5B73216062050096C4FC /* TripTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DDE5B71216062050096C4FC /* TripTableViewCell.xib */; };
+		9DEFCBC021634B1E00CE452A /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */; };
 		9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */; };
 		9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */; };
 		9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3400E215C67B9002A957D /* Preserved.storyboard */; };
@@ -77,10 +78,10 @@
 		9D4A149221533E9600748E06 /* FacebookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookManager.swift; sourceTree = "<group>"; };
 		9D6C1584215E846100574A12 /* CreateTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripViewController.swift; sourceTree = "<group>"; };
 		9D96457B21613BF600D6E42E /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
-		9D96457C21613BF600D6E42E /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		9DA095A72153A3CA008C1358 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNaviViewController.swift; sourceTree = "<group>"; };
+		9DD7944421620EDA00C42800 /* TravelColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelColor.swift; sourceTree = "<group>"; };
 		9DDE5B60215F4F310096C4FC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9DDE5B63215F84B50096C4FC /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		9DDE5B65215FC63F0096C4FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 		9DDE5B6D216061B60096C4FC /* DayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DayCollectionViewCell.xib; sourceTree = "<group>"; };
 		9DDE5B70216062050096C4FC /* TripTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTableViewCell.swift; sourceTree = "<group>"; };
 		9DDE5B71216062050096C4FC /* TripTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripTableViewCell.xib; sourceTree = "<group>"; };
+		9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeader.swift; sourceTree = "<group>"; };
 		9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListTableViewCell.swift; sourceTree = "<group>"; };
 		9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListTableViewCell.xib; sourceTree = "<group>"; };
 		9DF3400E215C67B9002A957D /* Preserved.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preserved.storyboard; sourceTree = "<group>"; };
@@ -260,7 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				9D96457B21613BF600D6E42E /* CustomCell.swift */,
-				9D96457C21613BF600D6E42E /* CustomCell.xib */,
+				9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */,
 			);
 			path = CalendarCell;
 			sourceTree = "<group>";
@@ -312,6 +314,7 @@
 		9DF34016215C7036002A957D /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				9DD7944421620EDA00C42800 /* TravelColor.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -469,7 +472,6 @@
 				9DF34011215C67E7002A957D /* Checklist.storyboard in Resources */,
 				9DDE5B73216062050096C4FC /* TripTableViewCell.xib in Resources */,
 				9DF34024215CD875002A957D /* WeatherTableViewCell.xib in Resources */,
-				9D96457E21613BF600D6E42E /* CustomCell.xib in Resources */,
 				9DF34036215DD745002A957D /* ChecklistFooter.xib in Resources */,
 				9DF34029215CE285002A957D /* ChecklistTableViewCell.xib in Resources */,
 				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
@@ -605,10 +607,12 @@
 				9DF34030215D401B002A957D /* ChecklistHeader.swift in Sources */,
 				9DF64F42215896F9000D0300 /* ChecklistViewController.swift in Sources */,
 				9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */,
+				9DD7944521620EDA00C42800 /* TravelColor.swift in Sources */,
 				9DDE5B72216062050096C4FC /* TripTableViewCell.swift in Sources */,
 				9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */,
 				9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */,
 				9DF3401F215CCC74002A957D /* Path.swift in Sources */,
+				9DEFCBC021634B1E00CE452A /* CalendarHeader.swift in Sources */,
 				9DF34028215CE285002A957D /* ChecklistTableViewCell.swift in Sources */,
 				9DF34018215C8FF3002A957D /* PreservedViewController.swift in Sources */,
 			);

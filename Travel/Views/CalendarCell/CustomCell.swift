@@ -15,6 +15,10 @@ class CustomCell: JTAppleCell {
 
     @IBOutlet weak var selectedView: UIView!
     
+    @IBOutlet weak var leftView: UIView!
+    
+    @IBOutlet weak var rightView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

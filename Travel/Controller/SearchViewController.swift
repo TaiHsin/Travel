@@ -83,20 +83,20 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     func switchDetailVC(place: GMSPlace) {
         
         /// How to remove childView from parentView?
-//        if self.children != nil {
-//        }
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
         detailViewController.place = place
         
-//        show(detailVC, sender: nil)
-        self.addChild(detailViewController)
-
-        detailViewController.view.frame = self.view.frame
-        self.view.addSubview(detailViewController.view)
-        detailViewController.didMove(toParent: self)
+        show(detailViewController, sender: nil)
+//        self.addChild(detailViewController)
+//
+//        detailViewController.view.frame = self.view.frame
+//        self.view.addSubview(detailViewController.view)
+//        detailViewController.didMove(toParent: self)
+        
+        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
     }
     
     func resultsController(

@@ -22,6 +22,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var placeInfoCard: UIView!
     
     @IBOutlet var detailInfoView: UIView!
+    
     var place: GMSPlace?
     
     override func viewDidLoad() {
@@ -36,6 +37,7 @@ class DetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setupButton()
+        
         placeInfoCard.layer.cornerRadius = 10
         
         guard let place = place else { return }
@@ -43,19 +45,20 @@ class DetailViewController: UIViewController {
         placeName.text = place.name
         loadFirstPhotoForPlace(placeID: place.placeID)
         
+        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
     
     func setupButton() {
-        
+
         favoriteButton.layer.borderWidth = 1
         favoriteButton.layer.borderColor = UIColor.darkGray.cgColor
-        
+
         favoriteButton.layer.cornerRadius = 10
         favoriteButton.layer.maskedCorners = [.layerMaxXMaxYCorner]
 
         myTripButton.layer.borderWidth = 1
         myTripButton.layer.borderColor = UIColor.darkGray.cgColor
-        
+
         myTripButton.layer.cornerRadius = 10
         myTripButton.layer.maskedCorners = [.layerMinXMaxYCorner]
     }

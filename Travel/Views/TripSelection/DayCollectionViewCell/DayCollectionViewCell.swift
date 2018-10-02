@@ -24,5 +24,4 @@ class DayCollectionViewCell: UICollectionViewCell {
         cellView.layer.borderWidth = 2
         
     }
-
 }

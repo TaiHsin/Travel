@@ -128,7 +128,7 @@
                         <viewLayoutGuide key="safeArea" id="PEB-jg-6K0"/>
                     </view>
                     <connections>
-                        <outlet property="detailInfoView" destination="h9W-rK-9UN" id="s89-To-Psf"/>
+                        <outlet property="detailInfoView" destination="h9W-rK-9UN" id="h58-6a-hIP"/>
                         <outlet property="favoriteButton" destination="Kk9-4k-n0f" id="pBE-AN-tFq"/>
                         <outlet property="myTripButton" destination="O8a-0R-zns" id="hn2-hE-npI"/>
                         <outlet property="placeImage" destination="ioF-bo-UIW" id="AOR-fa-2ha"/>

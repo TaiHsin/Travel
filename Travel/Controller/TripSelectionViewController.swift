@@ -55,7 +55,6 @@ class TripSelectionViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
     }
     
     func setupCollectionView() {
@@ -164,11 +163,13 @@ extension TripSelectionViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
         }
         
+        print("---------")
+        print(cell.isSelected)
         if cell.isSelected {
             
             cell.numberLabel.textColor = UIColor.white
             cell.cellView.backgroundColor = UIColor.darkGray
-        } else {
+        } else if cell.isSelected == false {
             
             cell.numberLabel.textColor = UIColor.darkGray
             cell.cellView.backgroundColor = UIColor.white
@@ -183,6 +184,7 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? DayCollectionViewCell else { return }
         
+        print(cell.isSelected)
         cell.numberLabel.textColor = UIColor.white
         cell.cellView.backgroundColor = UIColor.darkGray
 
@@ -192,6 +194,7 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? DayCollectionViewCell else { return }
         
+        print(cell.isSelected)
         cell.numberLabel.textColor = UIColor.darkGray
         cell.cellView.backgroundColor = UIColor.white
     }

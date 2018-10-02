@@ -12,6 +12,8 @@ class AlertManager {
     
     static let shared = AlertManager()
     
+    /// Not used yet, wait for refactor and gether alert func. here together
+    
     func showAlert(with title: String?, message: String, completion: @escaping () -> Void) -> UIAlertController {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

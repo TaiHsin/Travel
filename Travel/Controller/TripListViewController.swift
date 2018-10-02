@@ -38,9 +38,7 @@ class TripListViewController: UIViewController {
         
         setupTableView()
         
-        locationManager.delegate = self
-        
-        locationManager.requestWhenInUseAuthorization()
+        setupLocationManager()
         
         mapView.delegate = self
         
@@ -51,6 +49,13 @@ class TripListViewController: UIViewController {
         ]
         
         addMarker(data: locationData)
+    }
+    
+    func setupLocationManager() {
+        
+        locationManager.delegate = self
+        
+        locationManager.requestWhenInUseAuthorization()
     }
     
     @IBAction func searchLocation(_ sender: UIBarButtonItem) {
