@@ -102,60 +102,54 @@ class CreateTripViewController: UIViewController {
         }
     }
     
-    func handleCellTextColor(cell: JTAppleCell?, cellState: CellState) {
-
-        guard let validCell = cell as? CustomCell else { return }
-
-        if cellState.isSelected {
-            validCell.dateLabel.textColor = selectedMonthColor
-        } else {
-            if cellState.dateBelongsTo == .thisMonth {
-                validCell.dateLabel.textColor = monthColor
-            } else {
-                validCell.dateLabel.textColor = outsideMonthColor
-            }
-        }
-    }
-    
     func handleCellSelected(cell: JTAppleCell?, cellState: CellState) {
         
         guard let validCell = cell as? CustomCell else { return }
         
-        switch cellState.selectedPosition() {
-        
-        case .full:
-            validCell.selectedView.isHidden = false
-            validCell.selectedView.backgroundColor = UIColor.darkGray
-            validCell.leftView.isHidden = true
-            validCell.rightView.isHidden = true
-            
-        case .left:
-            if cellState.dateBelongsTo != .thisMonth {
-                validCell.rightView.isHidden = true
-            } else {
-                validCell.rightView.isHidden = false
-            }
-            validCell.selectedView.backgroundColor = UIColor.darkGray
-            
-        case .right:
-            if cellState.dateBelongsTo != .thisMonth {
+        if cellState.dateBelongsTo == .thisMonth {
+            switch cellState.selectedPosition() {
+                
+            case .full:
+                validCell.selectedView.isHidden = false
+                validCell.selectedView.backgroundColor = UIColor.darkGray
                 validCell.leftView.isHidden = true
-            } else {
+                validCell.rightView.isHidden = true
+                validCell.dateLabel.textColor = selectedMonthColor
+                
+            case .left:
+                if cellState.dateBelongsTo != .thisMonth {
+                    validCell.rightView.isHidden = true
+                } else {
+                    validCell.rightView.isHidden = false
+                }
+                validCell.selectedView.backgroundColor = UIColor.darkGray
+                validCell.dateLabel.textColor = selectedMonthColor
+                
+            case .right:
+                if cellState.dateBelongsTo != .thisMonth {
+                    validCell.leftView.isHidden = true
+                } else {
+                    validCell.leftView.isHidden = false
+                }
+                validCell.selectedView.isHidden = false
+                validCell.selectedView.backgroundColor = UIColor.darkGray
+                validCell.dateLabel.textColor = selectedMonthColor
+                
+            case .middle:
                 validCell.leftView.isHidden = false
+                validCell.rightView.isHidden = false
+                validCell.selectedView.isHidden = true
+                validCell.selectedView.backgroundColor = UIColor.lightGray
+                validCell.dateLabel.textColor = selectedMonthColor
+                
+            default:
+                validCell.selectedView.isHidden = true
+                validCell.rightView.isHidden = true
+                validCell.leftView.isHidden = true
+                validCell.dateLabel.textColor = UIColor.black
             }
-            validCell.selectedView.isHidden = false
-            validCell.selectedView.backgroundColor = UIColor.darkGray
-            
-        case .middle:
-            validCell.leftView.isHidden = false
-            validCell.rightView.isHidden = false
-            validCell.selectedView.isHidden = true
-            validCell.selectedView.backgroundColor = UIColor.lightGray
-        default:
-            validCell.selectedView.isHidden = true
-            validCell.rightView.isHidden = true
-            validCell.leftView.isHidden = true
         }
+        
     }
     
     func setupViewOfCalendar(from visibleDates: DateSegmentInfo) {
@@ -203,6 +197,7 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         ) {
         // TODO
         handleCellSelected(cell: cell, cellState: cellState)
+        cell.layoutIfNeeded()
     }
 
     func calendar(
@@ -230,11 +225,9 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
             cell.rightView.isHidden = true
         }
         
-//        handleCellSelected(cell: cell, cellState: cellState)
-//        handleCellTextColor(cell: cell, cellState: cellState)
-        
-//        handleCellSelected(cell: cell, cellState: cellState)
-        
+        handleCellSelected(cell: cell, cellState: cellState)
+        cell.layoutIfNeeded()
+
         return cell
     }
     
@@ -244,31 +237,28 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         cell: JTAppleCell?,
         cellState: CellState
         ) {
-        
-//        handleCellSelected(cell: cell, cellState: cellState)
-//        handleCellTextColor(cell: cell, cellState: cellState)
-        
+
         if cellState.dateBelongsTo == .thisMonth {
             if firstDate != nil {
-                
+
                 if tapped == false {
-                    
+
                     // TODO: reset all selected color
                     calendarView.deselectDates(from: firstDate!, to: lastDate!, triggerSelectionDelegate: false)
-                    
+
                     firstDate = date
                     tapped = true
-                    
+
                 } else if date < firstDate! {
-                    
+
                     calendarView.deselectDates(from: firstDate!, to: lastDate!, triggerSelectionDelegate: false)
                     firstDate = date
                     tapped = true
-                    
+
                 } else {
                     lastDate = date
                     tapped = false
-                    
+
                     calendarView.selectDates(
                         from: firstDate!,
                         to: lastDate!,
@@ -276,14 +266,15 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
                         keepSelectionIfMultiSelectionAllowed: true
                     )
                 }
-                
+
             } else {
                 firstDate = date
                 //            lastDate = date
                 tapped = true
             }
         } else {
-            calendarView.deselectDates(from: date)
+//            calendarView.deselectDates(from: date)
+            calendarView.deselectAllDates()
         }
         
         handleCellSelected(cell: cell, cellState: cellState)
@@ -296,13 +287,14 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         cell: JTAppleCell?,
         cellState: CellState
         ) {
-        
+
         if lastDate != nil {
         calendarView.deselectDates(from: firstDate!, to: lastDate!, triggerSelectionDelegate: false)
         }
-//        firstDate = date
+        firstDate = date
+
         handleCellSelected(cell: cell, cellState: cellState)
-        
+
         cell?.layoutIfNeeded()
     }
     
