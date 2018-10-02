@@ -10,34 +10,19 @@ import UIKit
 
 extension UIView {
     
-    @IBInspectable var cornerRadius: CGFloat {
-        get {
-            return layer.cornerRadius
-        }
-        
-        set {
-            layer.cornerRadius = newValue
-            layer.masksToBounds = newValue > 0
-        }
-    }
-    
-    @IBInspectable var borderWidth: CGFloat {
-        get {
-            return layer.borderWidth
-        }
-        
-        set {
-            layer.borderWidth = newValue
-        }
-    }
-    
-    @IBInspectable var borderColor: UIColor? {
-        get {
-            return UIColor(cgColor: layer.borderColor!)
-        }
-        
-        set {
-            layer.borderColor = newValue?.cgColor
-        }
-    }
+//    func setupButton(
+//        borderWidth: CGFloat,
+//        cornerRadius: CGFloat,
+//        borderColor: UIColor,
+//        mask: CACornerMask
+//        ) {
+//        
+//        self.layer.borderWidth = borderWidth
+//        
+//        self.layer.borderColor = borderColor.cgColor
+//        
+//        self.layer.cornerRadius = cornerRadius
+//        
+//        self.layer.maskedCorners = [mask]
+//    }
 }

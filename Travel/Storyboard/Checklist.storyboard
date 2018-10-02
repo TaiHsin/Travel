@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3e2-mf-qga">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Checklist-->
+        <scene sceneID="jpm-nZ-6xf">
+            <objects>
+                <viewController id="6jd-X5-BRr" customClass="ChecklistViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Sp8-oc-bMc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrL-0x-0hl">
+                                <rect key="frame" x="0.0" y="64" width="375" height="70"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monthly Weather Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kuf-Id-TUj">
+                                        <rect key="frame" x="55" y="20.5" width="265" height="29.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="kuf-Id-TUj" firstAttribute="centerX" secondItem="lrL-0x-0hl" secondAttribute="centerX" id="Ayx-eY-P7R"/>
+                                    <constraint firstItem="kuf-Id-TUj" firstAttribute="centerY" secondItem="lrL-0x-0hl" secondAttribute="centerY" id="Il6-Vc-RUr"/>
+                                    <constraint firstAttribute="height" constant="70" id="Xfc-1o-TQk"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5wd-vb-pPQ">
+                                <rect key="frame" x="0.0" y="134" width="375" height="533"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5wd-vb-pPQ" firstAttribute="leading" secondItem="TBc-zx-olg" secondAttribute="leading" id="9px-6c-sDc"/>
+                            <constraint firstItem="TBc-zx-olg" firstAttribute="trailing" secondItem="lrL-0x-0hl" secondAttribute="trailing" id="La3-bh-3rb"/>
+                            <constraint firstItem="5wd-vb-pPQ" firstAttribute="top" secondItem="lrL-0x-0hl" secondAttribute="bottom" id="U8L-TV-uzX"/>
+                            <constraint firstItem="TBc-zx-olg" firstAttribute="bottom" secondItem="5wd-vb-pPQ" secondAttribute="bottom" id="lfq-Z3-6ZW"/>
+                            <constraint firstItem="lrL-0x-0hl" firstAttribute="leading" secondItem="TBc-zx-olg" secondAttribute="leading" id="mil-Jx-0hy"/>
+                            <constraint firstItem="lrL-0x-0hl" firstAttribute="top" secondItem="TBc-zx-olg" secondAttribute="top" id="oHI-d0-lYU"/>
+                            <constraint firstItem="TBc-zx-olg" firstAttribute="trailing" secondItem="5wd-vb-pPQ" secondAttribute="trailing" id="pd9-hF-PqW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="TBc-zx-olg"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Checklist" id="i7E-Sg-CEy"/>
+                    <connections>
+                        <outlet property="tableView" destination="5wd-vb-pPQ" id="weL-gZ-teh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hca-Fl-lOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2357.5999999999999" y="805.54722638680664"/>
+        </scene>
+        <!--Trip Navi View Controller-->
+        <scene sceneID="9zy-Qc-Y9O">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3e2-mf-qga" customClass="TripNaviViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="baggage_black" id="5tm-cM-ipA">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Wlm-s8-7uv">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="6jd-X5-BRr" kind="relationship" relationship="rootViewController" id="kes-7S-Vpr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hpj-6G-see" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1345" y="806"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="baggage_black" width="51.200000762939453" height="51.200000762939453"/>
+    </resources>
+</document>

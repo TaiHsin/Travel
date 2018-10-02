@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
     }
-    
+
     @IBAction func loginFacebook(_ sender: Any) {
         
         manager.facebookLogin(
