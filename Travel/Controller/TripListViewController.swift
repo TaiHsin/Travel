@@ -23,6 +23,10 @@ class TripListViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
 
+    @IBAction func backButton(_ sender: UIBarButtonItem) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
     var locationData = [LocationData]()
 
     var photo: UIImage?
@@ -49,6 +53,13 @@ class TripListViewController: UIViewController {
         ]
         
         addMarker(data: locationData)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /// what's diff with leftItemsSupplementBackButton?
+        navigationItem.hidesBackButton = true
     }
     
     func setupLocationManager() {

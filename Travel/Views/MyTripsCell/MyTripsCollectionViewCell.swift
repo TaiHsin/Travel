@@ -14,8 +14,9 @@ class MyTripsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var tripTitle: UILabel!
     
-    @IBOutlet weak var tripDurationLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var yearsLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         

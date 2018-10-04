@@ -9,15 +9,22 @@
 import UIKit
 import JTAppleCalendar
 
+// can delete after refactor
+//import Firebase
+//import FirebaseDatabase
+
 class CreateTripViewController: UIViewController {
     
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var placeTextField: UITextField!
     
     @IBOutlet weak var createTripButton: UIButton!
     
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     
-    @IBOutlet weak var monthLabel: UILabel!
+    @IBAction func backBottun(_ sender: UIBarButtonItem) {
+        
+        navigationController?.popViewController(animated: true)
+    }
     
     var tapped: Bool = false
     
@@ -25,7 +32,11 @@ class CreateTripViewController: UIViewController {
     
     var lastDate: Date?
     
-    let formatter = DateFormatter()
+    let dateFormatter = DateFormatter()
+    
+    let tripManager = TripsManager()
+
+    var selectedDates: [Date] = []
     
     let outsideMonthColor = UIColor.lightGray
     let monthColor = UIColor.darkGray
@@ -49,6 +60,39 @@ class CreateTripViewController: UIViewController {
     
     @IBAction func createNewTrip(_ sender: UIButton) {
         
+        guard let place = placeTextField.text else { return }
+        guard let start = selectedDates.first else { return }
+        guard let theEnd = selectedDates.last else { return }
+        let totalDays = selectedDates.count
+
+        if totalDays != 0 || place != "" {
+            
+            // DateFormatter need to refactor
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy mm dd"
+            
+            let startDate = Double(start.timeIntervalSince1970)
+            let endDate = Double(theEnd.timeIntervalSince1970)
+            
+            // get current create time
+            let currentDate = Date()
+            let currenDateInt = Double(currentDate.timeIntervalSince1970)
+        
+            tripManager.createTripData(
+                place: place,
+                startDate: startDate,
+                endDate: endDate,
+                totalDays: totalDays,
+                createdTime: currenDateInt
+            )
+        } else {
+            
+            print("Please input Place or select dates")
+            // TODO: showAlert
+        }
+    
+        placeTextField.text = ""
+        
         //        performSegue(withIdentifier: String(describing: TripDetailViewController.self), sender: nil)
         
         guard let controller = UIStoryboard.myTripStoryboard()
@@ -57,9 +101,10 @@ class CreateTripViewController: UIViewController {
             ) as? TripListViewController else { return }
         
         show(controller, sender: nil)
-        
-        /// How to get sender passed data by performSegue or show ？
+//        removeFromParent()
     }
+    
+    /// To learn: How to get sender passed data by performSegue or show ？
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -108,10 +153,10 @@ class CreateTripViewController: UIViewController {
     func handleCellTextColor(cell: JTAppleCell?, cellState: CellState) {
         
         guard let validCell = view as? CustomCell else { return }
+        
         let todaysDate = Date()
-//        formatter.dateFormat = "yyyy MM dd"
-        let todayDateString = formatter.string(from: todaysDate)
-        let monthsDateString = formatter.string(from: cellState.date)
+        let todayDateString = dateFormatter.string(from: todaysDate)
+        let monthsDateString = dateFormatter.string(from: cellState.date)
         
         if todayDateString == monthsDateString && cellState.dateBelongsTo == .thisMonth {
             
@@ -219,15 +264,15 @@ extension CreateTripViewController: JTAppleCalendarViewDataSource {
     
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
         
-        formatter.dateFormat = "yyyy MM dd"
-        formatter.timeZone = Calendar.current.timeZone
-        formatter.locale = Calendar.current.locale
+        dateFormatter.dateFormat = "yyyy MM dd"
+        dateFormatter.timeZone = Calendar.current.timeZone
+        dateFormatter.locale = Calendar.current.locale
         
         /// What guard let should return to avoid force unwrapped?
         
         let startDate = Date()
-        let endDate = formatter.date(from: "2020 12 31")!
-        
+        let endDate = dateFormatter.date(from: "2020 12 31")!
+
         let parameters = ConfigurationParameters(
             startDate: startDate,
             endDate: endDate,
@@ -251,8 +296,9 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         indexPath: IndexPath
         ) {
         
-        // TODO
+        // TODO: debug
         handleCellTextColor(cell: cell, cellState: cellState)
+        
         handleCellSelected(cell: cell, cellState: cellState)
         handleDateRangeSelection(cell: cell, cellState: cellState)
         
@@ -318,13 +364,8 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
             self.lastDate = date
         }
         
-        for date in calendar.selectedDates {
-            
-            formatter.dateFormat = "yyyy MM dd"
-            print(formatter.string(from: date))
-            //            print(date)
-        }
-        
+        selectedDates = calendar.selectedDates
+ 
         cell?.layoutIfNeeded()
     }
     
@@ -382,8 +423,8 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
                 return JTAppleCollectionReusableView()
         }
         
-        formatter.dateFormat = "MMMM yyyy"
-        header.dateLabel.text = formatter.string(from: range.start)
+        dateFormatter.dateFormat = "MMMM yyyy"
+        header.dateLabel.text = dateFormatter.string(from: range.start)
         //        header.showDate(from: formatter.string(from: range.start))
         
         return header

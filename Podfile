@@ -14,6 +14,7 @@ target 'Travel' do
   # Pods for Firebase
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 
   # Pods for GoogleMap
   pod 'GooglePlaces'

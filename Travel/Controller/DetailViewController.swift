@@ -95,6 +95,11 @@ class DetailViewController: UIViewController {
         }
     }
     
+//    func show() {
+//        UIApplication.shared.windows.first?.addSubview(self.view)
+//        UIApplication.shared.windows.first?.endEditing(true)
+//    }
+    
     @IBAction func closeView(_ sender: Any) {
         removeAnimate()
     }

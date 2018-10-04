@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oBX-To-cS1">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oBX-To-cS1">
                                 <rect key="frame" x="30" y="207" width="315" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vhF-03-iUW">
@@ -114,8 +114,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fQ-YF-XSx">
-                                <rect key="frame" x="16" y="94" width="77.5" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fQ-YF-XSx">
+                                <rect key="frame" x="16" y="94" width="42.5" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -127,7 +127,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input trip name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lny-YI-Mzo">
-                                <rect key="frame" x="118.5" y="89" width="231.5" height="30"/>
+                                <rect key="frame" x="83.5" y="89" width="266.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -352,19 +352,24 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9lt-oI-Xkp"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Trip" leftItemsSupplementBackButton="YES" id="JCS-xR-8Du">
+                    <navigationItem key="navigationItem" title="Create Trip" id="JCS-xR-8Du">
                         <barButtonItem key="backBarButtonItem" title=" " id="DVr-G5-TT7"/>
+                        <barButtonItem key="leftBarButtonItem" image="back_btn" id="41H-cW-VRR">
+                            <connections>
+                                <action selector="backBottun:" destination="aPI-vU-mpl" id="A9n-Ct-s6i"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="ZS2-De-VPE" id="TPC-vK-iTS"/>
                         <outlet property="createTripButton" destination="HK5-t6-jo4" id="dcC-AK-7gU"/>
-                        <outlet property="nameTextField" destination="lny-YI-Mzo" id="can-kH-7sG"/>
+                        <outlet property="placeTextField" destination="lny-YI-Mzo" id="can-kH-7sG"/>
                         <segue destination="nxr-5W-XUN" kind="show" identifier="TripDetailViewController" id="57r-DY-dIy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0A-mr-xsT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1685.5999999999999" y="375.56221889055473"/>
+            <point key="canvasLocation" x="1700" y="330"/>
         </scene>
         <!--Trip Navi View Controller-->
         <scene sceneID="A7k-Ct-psV">
@@ -461,6 +466,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Paris" id="ise-Bj-tvB">
                         <barButtonItem key="backBarButtonItem" title=" " id="VVT-gU-xh9"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="back_btn" id="Jtg-Ym-xBV">
+                            <connections>
+                                <action selector="backButton:" destination="nxr-5W-XUN" id="TaH-k8-013"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="P2w-PO-RE2">
                             <connections>
                                 <action selector="searchLocation:" destination="nxr-5W-XUN" id="pYh-Jx-eGf"/>
@@ -480,6 +490,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="back_btn" width="12.800000190734863" height="12.800000190734863"/>
         <image name="lonely_planet_logo" width="1280" height="634"/>
         <image name="main_black" width="51.200000762939453" height="51.200000762939453"/>
     </resources>

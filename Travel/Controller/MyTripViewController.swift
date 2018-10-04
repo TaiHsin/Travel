@@ -9,17 +9,30 @@
 import UIKit
 
 class MyTripViewController: UIViewController {
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
-    let photoArray: [UIImage] = [#imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "iceland")]
-
-    let titleArray: [String] = ["Paris", "Hallstatt", "Sri Lanka", "Iceland"]
+    // wait to re construct
+    let photoArray: [UIImage] = [#imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "iceland")]
+    
+    let tripsManager = TripsManager()
+    
+    var trips: [Trips] = []
+    
+    let decoder = JSONDecoder()
+    
+    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCollectionView()
+        fetchData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     func setupCollectionView() {
@@ -35,26 +48,45 @@ class MyTripViewController: UIViewController {
         collectionView.register(xib, forCellWithReuseIdentifier: identifier)
     }
     
-/// Use when rewrite tab bar by code
+    /// Use when rewrite tab bar by code
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        
         guard let identifier = segue.identifier else { return }
-
+        
         switch identifier {
-
+            
         case String(describing: TripListViewController.self):
-
+            
             guard let detailController = segue.destination as? TripListViewController,
                 
-                  let indexPath = sender as? IndexPath else {
-
+                let indexPath = sender as? IndexPath else {
+                    
                     return
             }
-
+            
         default:
             return super.prepare(for: segue, sender: sender)
         }
+    }
+    
+    // TODO: call firebase fetchdata function
+    
+    func fetchData() {
+    
+        tripsManager.fetchPlaceData(
+            success: { [weak self] (datas) in
+                
+                self?.trips = datas
+                print(datas.count)
+                
+                #warning ("better not to reload data?")
+                
+                self?.collectionView.reloadData()
+            },
+            failure: { _ in
+                //TODO
+        })
     }
 }
 
@@ -65,7 +97,7 @@ extension MyTripViewController: UICollectionViewDataSource {
         numberOfItemsInSection section: Int
         ) -> Int {
         
-        return 4
+        return trips.count
     }
     
     func collectionView(
@@ -78,11 +110,35 @@ extension MyTripViewController: UICollectionViewDataSource {
             for: indexPath
         )
         
-        guard let myTripCell = cell as? MyTripsCollectionViewCell, indexPath.row < 4 else { return cell }
+        guard let myTripCell = cell as? MyTripsCollectionViewCell, indexPath.row < trips.count else { return cell }
         
         myTripCell.tripImage.image = photoArray[indexPath.row]
         
-        myTripCell.tripTitle.text = titleArray[indexPath.row]
+        myTripCell.tripTitle.text = trips[indexPath.row].place
+    
+        #warning ("Refactor out to stand alone manager")
+        
+        print(trips[indexPath.row].startDate)
+        
+        dateFormatter.dateFormat = "yyyy MM dd"
+        let startDate = Date(timeIntervalSince1970: trips[indexPath.row].startDate)
+        let endDate = Date(timeIntervalSince1970: trips[indexPath.row].endDate)
+
+        dateFormatter.dateFormat = "yyyy"
+        let startYear = dateFormatter.string(from: startDate)
+        let endYear = dateFormatter.string(from: endDate)
+
+        if startYear == endYear {
+            myTripCell.yearsLabel.text = startYear
+        } else {
+            myTripCell.yearsLabel.text = startYear + " - " + endYear
+        }
+
+        dateFormatter.dateFormat = "MMM.dd"
+        let startMonth = dateFormatter.string(from: startDate)
+        let endMonth = dateFormatter.string(from: endDate)
+
+        myTripCell.dateLabel.text = startMonth + " - " + endMonth
         
         return myTripCell
     }
@@ -138,14 +194,14 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
             withIdentifier: String(describing: TripListViewController.self),
             sender: indexPath
         )
-
+        
         collectionView.deselectItem(at: indexPath, animated: true)
-
-//        guard let controller = UIStoryboard.mainStoryboard()
-//            .instantiateViewController(
-//                withIdentifier: String(describing: TripDetailViewController.self)
-//            ) as? TripDetailViewController else { return }
-//
-//        show(controller, sender: nil)
+        
+        //        guard let controller = UIStoryboard.mainStoryboard()
+        //            .instantiateViewController(
+        //                withIdentifier: String(describing: TripDetailViewController.self)
+        //            ) as? TripDetailViewController else { return }
+        //
+        //        show(controller, sender: nil)
     }
 }

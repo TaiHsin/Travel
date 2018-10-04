@@ -19,6 +19,8 @@ class SearchViewController: UIViewController {
     var searchController: UISearchController?
     var resultView: UITableView?
 
+    let fullScreenSize = UIScreen.main.bounds.size
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,14 +91,13 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         detailViewController.place = place
         
-        show(detailViewController, sender: nil)
-//        self.addChild(detailViewController)
-//
-//        detailViewController.view.frame = self.view.frame
-//        self.view.addSubview(detailViewController.view)
-//        detailViewController.didMove(toParent: self)
+//        show(detailViewController, sender: nil)
+        self.addChild(detailViewController)
+    
+        self.view.addSubview(detailViewController.view)
+        detailViewController.didMove(toParent: self)
         
-        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
+//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
     }
     
     func resultsController(
