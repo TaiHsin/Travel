@@ -74,20 +74,44 @@ class TripsManager {
     func createTripData(place: String, startDate: Double, endDate: Double, totalDays: Int, createdTime: Double) {
         
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
-        print(key)
+//        print(key)
         
-        let post = [ "place": place,
-                     "startDate": startDate,
-                     "endDate": endDate,
-                     "totalDays": totalDays,
-                     "createdTime": createdTime,
-                     "id": key,
-                     "placePic": "urlnumber",
-                     "daysKey": "daysKeynumber"
+        let post = ["place": place,
+                    "startDate": startDate,
+                    "endDate": endDate,
+                    "totalDays": totalDays,
+                    "createdTime": createdTime,
+                    "id": key,
+                    "placePic": "urlnumber",
+                    "daysKey": "daysKeynumber"
             ] as [String: Any]
         
-        let postUpdate = [ "/myTrips/\(key)": post ]
+        let postUpdate = ["/myTrips/\(key)": post]
         
         ref.updateChildValues(postUpdate)
+        
+        createDays(days: totalDays)
     }
+    
+    func createDays(days: Int) {
+        
+        guard let dayKey = ref.child("tripDays").childByAutoId().key else { return }
+        print(dayKey)
+        
+        for day in 1 ... days {
+            
+            let post = [ "isEmpty": true ] as [String: Any]
+            let postUpdate = ["/tripDays/\(dayKey)/\(day)": post]
+            
+            ref.updateChildValues(postUpdate)
+        }
+    }
+        
+        
+        
+        
+        
+        
+        
+        
 }
