@@ -59,11 +59,13 @@ class MyTripViewController: UIViewController {
         case String(describing: TripListViewController.self):
             
             guard let detailController = segue.destination as? TripListViewController,
-                
-                let indexPath = sender as? IndexPath else {
+            
+                let daysKey = sender as? String else {
                     
                     return
             }
+            
+            detailController.daysKey = daysKey
             
         default:
             return super.prepare(for: segue, sender: sender)
@@ -190,9 +192,13 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
+        print(trips[indexPath.row].daysKey)
+        
+        let daysKey = trips[indexPath.row].daysKey
+               
         performSegue(
             withIdentifier: String(describing: TripListViewController.self),
-            sender: indexPath
+            sender: daysKey
         )
         
         collectionView.deselectItem(at: indexPath, animated: true)

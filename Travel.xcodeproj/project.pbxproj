@@ -230,6 +230,7 @@
 		9D4A148B21525C6500748E06 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				9D4D6C432166701200B512E7 /* New Group */,
 				9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */,
 				9DF61B3A215A0950005919E8 /* TripNaviViewController.swift */,
 				9D4A148E2152627C00748E06 /* LoginViewController.swift */,
@@ -268,6 +269,13 @@
 				9DF34012215C6809002A957D /* Profile.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		9D4D6C432166701200B512E7 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		9D96457A21613BCC00D6E42E /* CalendarCell */ = {

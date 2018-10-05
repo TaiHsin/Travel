@@ -26,3 +26,8 @@ struct Trips: Codable {
     
     let id: String
 }
+
+//struct tripsDays: Codable {
+//    
+//    
+//}

@@ -38,6 +38,7 @@ class TripsManager {
                             do {
                                 let data = try self.decoder.decode(Trips.self, from: jsonData)
 
+                                print(self.datas)
                                 self.datas.append(data)
 
                             } catch {
@@ -71,10 +72,33 @@ class TripsManager {
 //        }
     }
     
-    func createTripData(place: String, startDate: Double, endDate: Double, totalDays: Int, createdTime: Double) {
+    func createTripData(
+        place: String,
+        startDate: Double,
+        endDate: Double,
+        totalDays: Int,
+        createdTime: Double,
+        success: @escaping (String) -> Void
+        ) {
+        
+        // Add data at tripDays node
+        
+        guard let daysKey = ref.child("tripDays").childByAutoId().key else { return }
+        print(daysKey)
+        
+        for day in 1 ... totalDays {
+            
+            let addDays = [ "isEmpty": true ] as [String: Any]
+//            let daysUpdate = ["/tripDays/\(daysKey)/Day\(day)": addDays]
+            
+            let daysUpdate = ["/tripDays/\(daysKey)/\(String(day))": addDays]
+            
+            ref.updateChildValues(daysUpdate)
+        }
+        
+        // Add myTrips data
         
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
-//        print(key)
         
         let post = ["place": place,
                     "startDate": startDate,
@@ -83,35 +107,24 @@ class TripsManager {
                     "createdTime": createdTime,
                     "id": key,
                     "placePic": "urlnumber",
-                    "daysKey": "daysKeynumber"
+                    "daysKey": daysKey
             ] as [String: Any]
         
         let postUpdate = ["/myTrips/\(key)": post]
-        
         ref.updateChildValues(postUpdate)
         
-        createDays(days: totalDays)
+        success(daysKey)
     }
     
-    func createDays(days: Int) {
+    // MARK: - Fetch trip list data
+    
+    func fetchDayList(daysKey: String) {
         
-        guard let dayKey = ref.child("tripDays").childByAutoId().key else { return }
-        print(dayKey)
-        
-        for day in 1 ... days {
+        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { (snapshot) in
+    
+            guard let value = snapshot.value as? NSDictionary else { return }
             
-            let post = [ "isEmpty": true ] as [String: Any]
-            let postUpdate = ["/tripDays/\(dayKey)/\(day)": post]
-            
-            ref.updateChildValues(postUpdate)
+            print(value)
         }
     }
-        
-        
-        
-        
-        
-        
-        
-        
 }

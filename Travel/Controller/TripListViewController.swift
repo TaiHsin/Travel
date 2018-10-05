@@ -22,6 +22,8 @@ class TripListViewController: UIViewController {
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
     private let locationManager = CLLocationManager()
+    
+    let tripsManager = TripsManager()
 
     @IBAction func backButton(_ sender: UIBarButtonItem) {
         self.navigationController?.popToRootViewController(animated: true)
@@ -34,6 +36,8 @@ class TripListViewController: UIViewController {
     var days: [String] = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"]
 
     var dates: [String] = ["Nov. 20", "Nov. 21", "Nov. 22", "Nov. 23", "Nov. 24", "Nov. 25"]
+    
+    var daysKey = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +64,9 @@ class TripListViewController: UIViewController {
         
         /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
+        
+        print(daysKey)
+        tripsManager.fetchDayList(daysKey: daysKey)
     }
     
     func setupLocationManager() {
