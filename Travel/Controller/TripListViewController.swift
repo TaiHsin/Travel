@@ -30,7 +30,15 @@ class TripListViewController: UIViewController {
     }
     
     var locationData = [LocationData]()
+    
+    // Refactor
 
+    var detailData: [String: Any] = [:]
+    
+    var detailDays: [String] = []
+    
+    var sortedDays: [String] = []
+    
     var photo: UIImage?
 
     var days: [String] = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"]
@@ -41,6 +49,14 @@ class TripListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tripsManager.fetchDayList(daysKey: daysKey) { (details) in
+//
+//            self.detailData = details
+//            print(self.detailData)
+//
+            self.parseData(details: details)
+        }
         
         setupCollectionView()
         
@@ -64,9 +80,6 @@ class TripListViewController: UIViewController {
         
         /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
-        
-        print(daysKey)
-        tripsManager.fetchDayList(daysKey: daysKey)
     }
     
     func setupLocationManager() {
@@ -123,6 +136,7 @@ class TripListViewController: UIViewController {
 //        mapView.settings.myLocationButton = true
     }
     
+    // TODO:
     func fetchPlaces() {
         
     }
@@ -187,6 +201,40 @@ class TripListViewController: UIViewController {
         actionSheetController.addAction(searchAction)
         
         present(actionSheetController, animated: true, completion: nil)
+    }
+    
+    func parseData(details: [String: Any]) {
+        
+        // Got days
+        
+        for key in details.keys {
+            detailDays.append(key)
+        }
+        
+        print(detailDays)
+        
+        sortedDays = detailDays.sorted { (first, second) -> Bool in
+            
+            let firstIndex = first.index(first.startIndex, offsetBy: 3)
+            let firstKeyValue = Int(String(first[firstIndex...]))
+            
+            let secondIndex = second.index(second.startIndex, offsetBy: 3)
+            let secondKeyValue = Int(String(second[secondIndex...]))
+            
+            return firstKeyValue! < secondKeyValue!
+        }
+        
+        print(sortedDays)
+        collectionView.reloadData()
+        
+        guard let data = details[sortedDays[0]] as? [String: Any] else { return }
+        print(data)
+        
+        var sortedData = [Any]()
+        for data in data {
+            sortedData.append(data.value)
+        }
+        print(sortedData)
     }
 }
 
@@ -307,7 +355,8 @@ extension TripListViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
         ) -> Int {
-        return 6
+        
+        return detailDays.count
     }
     
     func collectionView(
@@ -319,9 +368,9 @@ extension TripListViewController: UICollectionViewDataSource {
             withReuseIdentifier: String(describing: MenuBarCollectionViewCell.self),
             for: indexPath)
         
-        guard let dayTitleCell = cell as? MenuBarCollectionViewCell, indexPath.row < 6 else { return cell }
+        guard let dayTitleCell = cell as? MenuBarCollectionViewCell, indexPath.row < detailDays.count else { return cell }
         
-        dayTitleCell.dayLabel.text = days[indexPath.row]
+        dayTitleCell.dayLabel.text = sortedDays[indexPath.item]
         
         return dayTitleCell
     }
@@ -348,9 +397,11 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         return CGSize(width: 55, height: 30)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    }
 }
-
-
 
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
