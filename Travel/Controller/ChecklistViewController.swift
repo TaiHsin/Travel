@@ -16,10 +16,11 @@ enum Edit {
 }
 
 class ChecklistViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
-    // Refactor
+    #warning ("Refactor")
+    
     let decoder = JSONDecoder()
     var ref: DatabaseReference!
     
@@ -36,8 +37,6 @@ class ChecklistViewController: UIViewController {
                 self.checklists = datas
                 print(self.checklists)
                 print(self.checklists.count)
-//                print(self.checklists[0].items[0].number)
-                
                 self.tableView.reloadData()
         },
             failure: { (_) in
@@ -97,7 +96,6 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return checklists[section].items.count + 1
-//        return cellData[section].numberOfData()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -127,18 +125,21 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         }
 
         headerView.contentLabel.text = checklists[section].category
+        updateHeaderNumber(section: section)
         
         return headerView
     }
-
+    
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
         ) -> UITableViewCell {
         
-        // Create another custom cell at the end of section
-        
+        #warning ("Refactor")
         // Use switch to refactor
+        
+        // Create another custom cell at the end of section
+    
         if indexPath.row >= checklists[indexPath.section].items.count {
             
             let cell = tableView.dequeueReusableCell(
@@ -162,13 +163,16 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         checklistCell.contentLabel.text = checklists[indexPath.section].items[indexPath.row].name
     
         handleCellColor(cell: cell, indexPath: indexPath)
+        updateHeaderNumber(section: indexPath.section)
+        
+        checklistCell.layoutIfNeeded()
         
         return checklistCell
     }
     
     @objc func addNewItem(sender: UIButton) {
     
-        // Use UIButton.superview to find its parents view (UITableView)
+        /// Use UIButton.superview to find its parents view (UITableView)
         
         guard let cell = sender.superview?.superview as? ChecklistFooter else { return }
         guard let indexPath = tableView.indexPath(for: cell) else { return }
@@ -181,7 +185,6 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         let newPath = IndexPath(row: index, section: indexPath.section)
 
         tableView.insertRows(at: [newPath], with: .left)
-//        updateChecklistData(item: newItem, section: indexPath.section, index: index)
         updateChecklistData(item: newItem, section: indexPath.section, index: index, type: .add)
         
         cell.contentTextField.text = ""
@@ -215,6 +218,8 @@ extension ChecklistViewController: UITableViewDelegate {
         ) {
         
         handleCellSelected(indexPath: indexPath)
+        updateHeaderNumber(section: indexPath.section)
+        
     }
     
     func tableView(
@@ -229,11 +234,12 @@ extension ChecklistViewController: UITableViewDelegate {
             
             let item = Items.init(name: "", number: 0, order: 0, isSelected: false)
             updateChecklistData(item: item, section: indexPath.section, index: indexPath.row, type: .delete)
-            
+            updateHeaderNumber(section: indexPath.section)
         }
     }
 }
 
+#warning ("Refactor")
 // extension for data fetch functions (temporary)
 
 extension ChecklistViewController {
@@ -246,20 +252,15 @@ extension ChecklistViewController {
         ref.child("checklist").observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSArray else { return }
-            
-            print(value)
-            
             guard let jsonData = try? JSONSerialization.data(withJSONObject: value) else { return }
             
             do {
                 let data = try self.decoder.decode([Checklist].self, from: jsonData)
                 
-                print(data)
-                
                 success(data)
                 
             } catch {
-                // Error handling
+                // TODO: Error handling
                 print(error)
             }
 
@@ -296,12 +297,14 @@ extension ChecklistViewController {
         if checklists[indexPath.section].items[indexPath.row].isSelected {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = false
+            
             checklistCell.checkButton.isSelected = false
             checklistCell.checkButton.tintColor = UIColor.darkGray
             checklistCell.contentLabel.textColor = UIColor.darkGray
         } else {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = true
+            
             checklistCell.checkButton.isSelected = true
             checklistCell.checkButton.tintColor = UIColor.lightGray
             checklistCell.contentLabel.textColor = UIColor.lightGray
@@ -324,5 +327,28 @@ extension ChecklistViewController {
             checklistCell.checkButton.tintColor = UIColor.darkGray
             checklistCell.contentLabel.textColor = UIColor.darkGray
         }
+    }
+    
+    func updateHeaderNumber(section: Int) {
+        
+        guard let header = tableView.headerView(forSection: section) as? ChecklistHeader else { return }
+
+        var totalNumber = 0
+        var selectedNumber = 0
+        let items = checklists[section].items
+        
+        for item in items {
+            
+            totalNumber += item.number
+            
+            if item.isSelected {
+                
+                selectedNumber += item.number
+            }
+        }
+
+        header.numberLabel.text = "\(selectedNumber)" + "/" + "\(totalNumber)"
+//        tableView.reloadSections([section], with: .automatic)
+        header.layoutIfNeeded()
     }
 }
