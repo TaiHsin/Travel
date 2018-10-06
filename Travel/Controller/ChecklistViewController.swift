@@ -10,6 +10,11 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
+enum Edit {
+    case add
+    case delete
+}
+
 class ChecklistViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -31,7 +36,7 @@ class ChecklistViewController: UIViewController {
                 self.checklists = datas
                 print(self.checklists)
                 print(self.checklists.count)
-                print(self.checklists[0].items[0].number)
+//                print(self.checklists[0].items[0].number)
                 
                 self.tableView.reloadData()
         },
@@ -176,8 +181,9 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         let newPath = IndexPath(row: index, section: indexPath.section)
 
         tableView.insertRows(at: [newPath], with: .left)
-        updateChecklistData(item: newItem, section: indexPath.section, index: index)
-    
+//        updateChecklistData(item: newItem, section: indexPath.section, index: index)
+        updateChecklistData(item: newItem, section: indexPath.section, index: index, type: .add)
+        
         cell.contentTextField.text = ""
         cell.contentTextField.endEditing(true)
     }
@@ -211,16 +217,21 @@ extension ChecklistViewController: UITableViewDelegate {
         handleCellSelected(indexPath: indexPath)
     }
     
-//    func tableView(
-//        _ tableView: UITableView,
-//        commit editingStyle: UITableViewCell.EditingStyle,
-//        forRowAt indexPath: IndexPath) {
-//
-//        if editingStyle == .delete {
-//            cellData[indexPath.section].sectionData.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//        }
-//    }
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath) {
+
+        if editingStyle == .delete {
+            
+            checklists[indexPath.section].items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            let item = Items.init(name: "", number: 0, order: 0, isSelected: false)
+            updateChecklistData(item: item, section: indexPath.section, index: indexPath.row, type: .delete)
+            
+        }
+    }
 }
 
 // extension for data fetch functions (temporary)
@@ -255,17 +266,27 @@ extension ChecklistViewController {
         }
     }
     
-    func updateChecklistData(item: Items, section: Int, index: Int) {
+    func updateChecklistData(item: Items, section: Int, index: Int, type: Edit) {
         
-        let post = ["name": item.name,
-                    "number": item.number,
-                    "order": item.order,
-                    "isSelected": item.isSelected
-            ] as [String: Any]
-        
-        let postUpdate = ["/checklist/\(section)/items/\(index)": post]
-        
-        ref.updateChildValues(postUpdate)
+        switch type {
+            
+        case .add:
+            
+            let post = ["name": item.name,
+                        "number": item.number,
+                        "order": item.order,
+                        "isSelected": item.isSelected
+                ] as [String: Any]
+            
+            let postUpdate = ["/checklist/\(section)/items/\(index)": post]
+            
+            ref.updateChildValues(postUpdate)
+            
+        case .delete:
+            
+            ref.child("/checklist/\(section)/items/\(index)").removeValue()
+        }
+
     }
     
     func handleCellSelected(indexPath: IndexPath) {
