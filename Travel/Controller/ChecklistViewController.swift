@@ -10,8 +10,9 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-enum Edit {
+enum Status {
     case add
+    case edit
     case delete
 }
 
@@ -35,6 +36,7 @@ class ChecklistViewController: UIViewController {
             success: { (datas) in
                 
                 self.checklists = datas
+                
                 print(self.checklists)
                 print(self.checklists.count)
                 self.tableView.reloadData()
@@ -88,17 +90,25 @@ class ChecklistViewController: UIViewController {
 
 extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(
+        in tableView: UITableView
+        ) -> Int {
         
         return checklists.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+        ) -> Int {
         
         return checklists[section].items.count + 1
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+        ) -> UIView? {
         
 //        let view = UIView()
 //        view.backgroundColor = UIColor.white
@@ -128,6 +138,15 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         updateHeaderNumber(section: section)
         
         return headerView
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+        ) {
+        
+        updateHeaderNumber(section: indexPath.section)
     }
     
     func tableView(
@@ -160,6 +179,8 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         
         guard let checklistCell = cell as? ChecklistTableViewCell else { return cell }
     
+//        sortItems(indexPath: indexPath)
+        
         checklistCell.contentLabel.text = checklists[indexPath.section].items[indexPath.row].name
     
         handleCellColor(cell: cell, indexPath: indexPath)
@@ -185,7 +206,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         let newPath = IndexPath(row: index, section: indexPath.section)
 
         tableView.insertRows(at: [newPath], with: .left)
-        updateChecklistData(item: newItem, section: indexPath.section, index: index, type: .add)
+        updateChecklistData(item: newItem, indexPath: indexPath, type: .add)
         
         cell.contentTextField.text = ""
         cell.contentTextField.endEditing(true)
@@ -218,8 +239,22 @@ extension ChecklistViewController: UITableViewDelegate {
         ) {
         
         handleCellSelected(indexPath: indexPath)
-        updateHeaderNumber(section: indexPath.section)
         
+        /// Move cell index position (but can't sync with Firebase)
+//        if checklists[indexPath.section].items[indexPath.row].isSelected {
+//
+//            let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+//            let lastIndexPath = IndexPath(row: totalRows - 2, section: indexPath.section)
+//            tableView.moveRow(at: indexPath, to: lastIndexPath)
+//        } else {
+//
+//            let firstIndexPath = IndexPath(row: 0, section: indexPath.section)
+//            tableView.moveRow(at: indexPath, to: firstIndexPath)
+//        }
+//        tableView.reloadSections([indexPath.section], with: .automatic)
+        
+        updateHeaderNumber(section: indexPath.section)
+
     }
     
     func tableView(
@@ -233,7 +268,7 @@ extension ChecklistViewController: UITableViewDelegate {
             tableView.deleteRows(at: [indexPath], with: .automatic)
             
             let item = Items.init(name: "", number: 0, order: 0, isSelected: false)
-            updateChecklistData(item: item, section: indexPath.section, index: indexPath.row, type: .delete)
+            updateChecklistData(item: item, indexPath: indexPath, type: .delete)
             updateHeaderNumber(section: indexPath.section)
         }
     }
@@ -267,7 +302,7 @@ extension ChecklistViewController {
         }
     }
     
-    func updateChecklistData(item: Items, section: Int, index: Int, type: Edit) {
+    func updateChecklistData(item: Items, indexPath: IndexPath, type: Status) {
         
         switch type {
             
@@ -279,15 +314,37 @@ extension ChecklistViewController {
                         "isSelected": item.isSelected
                 ] as [String: Any]
             
-            let postUpdate = ["/checklist/\(section)/items/\(index)": post]
+            let postUpdate = ["/checklist/\(indexPath.section)/items/\(indexPath.row)": post]
+            
+            ref.updateChildValues(postUpdate)
+            
+        case .edit:
+            
+            let postUpdate = ["/checklist/\(indexPath.section)/items/\(indexPath.row)/isSelected": item.isSelected]
             
             ref.updateChildValues(postUpdate)
             
         case .delete:
             
-            ref.child("/checklist/\(section)/items/\(index)").removeValue()
+            ref.child("/checklist/\(indexPath.section)/items/\(indexPath.row)").removeValue()
+            
+            let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+            
+            print(indexPath.row)
+            print(totalRows)
+            
+            /// Array item shift 1 index forward
+            for index in indexPath.row + 1 ... totalRows - 1 {
+                
+                let item = checklists[indexPath.section].items[index - 1]
+                
+                let newIndexPath = IndexPath(row: index - 1, section: indexPath.section)
+                
+                updateChecklistData(item: item, indexPath: newIndexPath, type: .add)
+            }
+            
+            ref.child("/checklist/\(indexPath.section)/items/\(totalRows - 1)").removeValue()
         }
-
     }
     
     func handleCellSelected(indexPath: IndexPath) {
@@ -301,6 +358,9 @@ extension ChecklistViewController {
             checklistCell.checkButton.isSelected = false
             checklistCell.checkButton.tintColor = UIColor.darkGray
             checklistCell.contentLabel.textColor = UIColor.darkGray
+            
+            let item = Items.init(name: "", number: 1, order: 1, isSelected: false)
+            updateChecklistData(item: item, indexPath: indexPath, type: .edit)
         } else {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = true
@@ -308,6 +368,9 @@ extension ChecklistViewController {
             checklistCell.checkButton.isSelected = true
             checklistCell.checkButton.tintColor = UIColor.lightGray
             checklistCell.contentLabel.textColor = UIColor.lightGray
+            
+            let item = Items.init(name: "", number: 1, order: 1, isSelected: true)
+            updateChecklistData(item: item, indexPath: indexPath, type: .edit)
         }
     }
     
@@ -351,4 +414,12 @@ extension ChecklistViewController {
 //        tableView.reloadSections([section], with: .automatic)
         header.layoutIfNeeded()
     }
+    
+    /// Sort item with "isSelected = true/ false" (Can't sync with Firebase due to array type)
+//    func sortItems(indexPath: IndexPath) {
+//
+//        checklists[indexPath.section].items.sort { !$0.isSelected && $1.isSelected}
+//
+//        print(checklists[indexPath.section].items)
+//    }
 }
