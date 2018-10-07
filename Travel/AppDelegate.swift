@@ -12,11 +12,16 @@ import Firebase
 import GooglePlaces
 import GoogleMaps
 import IQKeyboardManagerSwift
+import KeychainAccess
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    // swiftlint:disable force_cast
+    static let shared = UIApplication.shared.delegate as! AppDelegate
+    // swiftlint:enable force_cast
     
     func application(
         _ application: UIApplication,
@@ -44,6 +49,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+    
+        guard keychain["facebookToken"] == nil else {
+            
+            switchToMainStoryBoard()
+            
+            return true
+        }
         
         return true
     }
@@ -82,4 +96,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         
     }
+    
+    func switchToLoginStoryBoard() {
+        
+        guard Thread.current.isMainThread else {
+            
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.switchToLoginStoryBoard()
+            }
+            
+            return
+        }
+        
+        window?.rootViewController = UIStoryboard.loginStoryboard().instantiateInitialViewController()
+    }
+    
+    func switchToMainStoryBoard() {
+        
+        guard Thread.current.isMainThread else {
+            
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.switchToMainStoryBoard()
+            }
+            
+            return
+        }
+        
+        window?.rootViewController = UIStoryboard.mainStoryboard().instantiateInitialViewController()
+    }
+    
 }

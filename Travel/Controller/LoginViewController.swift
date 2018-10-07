@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 import FirebaseAuth
+import KeychainAccess
 
 class LoginViewController: UIViewController {
 
@@ -27,6 +28,9 @@ class LoginViewController: UIViewController {
             fromController: self,
             success: { [weak self] token in
                 
+                let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+                keychain["facebookToken"] = token
+                
                 let credential = FacebookAuthProvider.credential(withAccessToken: token)
     
                 Auth.auth().signInAndRetrieveData(with: credential, completion: { (authResult, error) in
@@ -39,6 +43,15 @@ class LoginViewController: UIViewController {
                     print(authResult?.user.displayName)
                     print(authResult?.user.email)
                     print(authResult?.user.photoURL)
+                    
+                    DispatchQueue.main.async {
+                    
+                        AppDelegate.shared.window?.rootViewController
+                            = UIStoryboard
+                                .mainStoryboard()
+                                .instantiateInitialViewController()
+                    }
+                    
                 })
             },
             failure: { (_) in
