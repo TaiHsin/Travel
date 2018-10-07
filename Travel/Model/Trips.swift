@@ -34,28 +34,28 @@ struct Trips: Codable {
 
 struct Details {
     
-    var location: [Locations]?
+    var location: [Location]?
     
     var isEmpty: Bool?
     
 //    var day: String
 }
 
-struct Locations {
+struct Location: Codable {
     
-    var addTime: Int?
+    var addTime: Double
     
-    var address: String?
+    var address: String
     
-    var latitude: Double?
+    var latitude: Double
     
-    var longitude: Double?
+    var longitude: Double
     
-    var locationId: String?
+    var locationId: String
     
-    var name: String?
+    var name: String
     
-    var order: Int?
+    var order: Int
     
-    var photo: String?
+    var photo: String
 }

@@ -8,23 +8,39 @@
 
 import UIKit
 import GooglePlaces
+import FirebaseDatabase
 
 class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    var ref: DatabaseReference!
+    
     var place: GMSPlace?
     
-    var locationData = [LocationData]()
+    var photo: UIImage?
+    
+    var locationData: [LocationData] = []
+    
+    var locationArray: [Location] = []
+    
+    let decoder = JSONDecoder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        ref = Database.database().reference()
         
-//        locationData = [LocationData(placeName: "Effel Tower", photo: #imageLiteral(resourceName: "paris"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.858539, longitude: 2.294524),
-//                        LocationData(placeName: "Arc de Triomphe", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "Place Charles de Gaulle, 75008 Paris, France", latitude: 48.873982, longitude: 2.295457),
-//                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "notre_dame_de_paris"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
-//                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "palais_du_louvre"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
-//        ]
+        fetchPreservedData(
+            success: { (location) in
+                print(self.locationArray)
+                self.locationArray = location
+                self.tableView.reloadData()
+            },
+            failure: { (_) in
+                //TODO
+            }
+        )
         
         setupTableView()
         
@@ -146,10 +162,12 @@ class PreservedViewController: UIViewController {
         return cellSnapshot
     }
     
-    func switchDetailVC() {
+    func showDetailInfo(location: Location) {
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        detailViewController.location = location
         
         self.addChild(detailViewController)
         
@@ -161,12 +179,18 @@ class PreservedViewController: UIViewController {
 
 extension PreservedViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+        ) -> Int {
         
-        return locationData.count
+        return locationArray.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+        ) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: PreservedTableViewCell.self),
@@ -174,9 +198,13 @@ extension PreservedViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.photoImage.image = locationData[indexPath.row].photo
+        let placeId = locationArray[indexPath.row].photo
+        loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+            
+            cell.photoImage.image = photo
+        }
         
-        cell.placeName.text = locationData[indexPath.row].placeName
+        cell.placeName.text = locationArray[indexPath.row].name
         
 //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
         
@@ -192,8 +220,11 @@ extension PreservedViewController: UITableViewDataSource {
         
         if editingStyle == .delete {
             
-            locationData.remove(at: indexPath.row)
+            let location = locationArray[indexPath.row]
+            deleteData(location: location)
+            locationArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             
             // TODO
@@ -208,8 +239,93 @@ extension PreservedViewController: UITableViewDataSource {
 
 extension PreservedViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+        ) {
         
-        switchDetailVC()
+        let locationData = locationArray[indexPath.row]
+        showDetailInfo(location: locationData)
+    }
+}
+
+// MARK: - Firebase data
+extension PreservedViewController {
+    
+    func fetchPreservedData(
+        success: @escaping ([Location]) -> Void,
+        failure: @escaping (TripsError) -> Void
+        ) {
+        
+        ref.child("favorite").queryOrdered(byChild: "locaionId").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            
+            print(value.allValues)
+            
+            for value in value.allValues {
+                
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                
+                do {
+                    let data = try self.decoder.decode(Location.self, from: jsonData)
+                    
+                    self.locationArray.append(data)
+                    print(self.locationArray)
+                    
+                } catch {
+                    print(error)
+                }
+            }
+  
+            success(self.locationArray)
+        }
+    }
+    
+    func deleteData(location: Location) {
+        
+        ref.child("favorite")
+            .queryOrdered(byChild: "locationId")
+            .queryEqual(toValue: location.locationId)
+            .observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            guard let key = value.allKeys.first as? String else { return }
+            self.ref.child("/favorite/\(key)").removeValue()
+        }
+    }
+
+    // Google place photo
+    
+    func loadFirstPhotoForPlace(placeID: String, success: @escaping (UIImage) -> Void) {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
+            if let error = error {
+                
+                // TODO: handle the error.
+                print("Error: \(error.localizedDescription)")
+            } else {
+                if let firstPhoto = photos?.results.first {
+                    self.loadImageForMetadata(photoMetadata: firstPhoto, success: { (photo) in
+                        
+                        success(photo)
+                    })
+                }
+            }
+        }
+    }
+    
+    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, success: @escaping (UIImage) -> Void) {
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
+            -> Void in
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.localizedDescription)")
+            } else {
+                guard let photo = photo else { return }
+                success(photo)
+                //  self.imageView.image = photo;
+                //  self.attributionTextView.attributedText = photoMetadata.attributions;
+            }
+        })
     }
 }

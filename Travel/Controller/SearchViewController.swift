@@ -19,6 +19,8 @@ class SearchViewController: UIViewController {
     var searchController: UISearchController?
     var resultView: UITableView?
 
+    var location: Location?
+    
     let fullScreenSize = UIScreen.main.bounds.size
     
     override func viewDidLoad() {
@@ -71,25 +73,28 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         // Do something with the selected place.
         
         print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
+        print("Place address: \(String(describing: place.formattedAddress))")
         print("Place attributions: \(place.attributions)")
         print("Place coordinate: \(place.coordinate)")
         print("Place id: \(place.placeID)")
         
-        switchDetailVC(place: place)
-        
+        convertData(place: place) { (location) in
+            
+            self.location = location
+            self.switchDetailVC(location: self.location)
+        }
 //        loadFirstPhotoForPlace(placeID: place.placeID)
 //        nameLabel.text = place.name
     }
 
-    func switchDetailVC(place: GMSPlace) {
+    func switchDetailVC(location: Location?) {
         
         /// How to remove childView from parentView?
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
-        detailViewController.place = place
+        detailViewController.location = location
         
 //        show(detailViewController, sender: nil)
         self.addChild(detailViewController)
@@ -117,6 +122,34 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+    func convertData(place: GMSPlace, success: @escaping (Location) -> Void) {
+        
+        let date = Date()
+        let dateInt = Double(date.timeIntervalSince1970)
+        
+        let latitude = place.coordinate.latitude
+        let longitude = place.coordinate.longitude
+        
+        //        let locationId = CLLocationCoordinate2DMake(latitude, longitude)
+        //        let locationString = "\(locationId)"
+//        let latitudeStr = String(format: "%.7f", latitude)
+//        let longitudeStr = String(format: "%.7f", longitude)
+        let locationId = "\(latitude)" + "_" + "\(longitude)"
+        
+        let location = Location.init(
+            addTime: dateInt,
+            address: place.formattedAddress!,
+            latitude: latitude,
+            longitude: longitude,
+            locationId: locationId,
+            name: place.name,
+            order: 1,
+            photo: place.placeID
+        )
+        
+        success(location)
     }
 }
 

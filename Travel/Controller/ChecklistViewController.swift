@@ -254,7 +254,26 @@ extension ChecklistViewController: UITableViewDelegate {
 //        tableView.reloadSections([indexPath.section], with: .automatic)
         
         updateHeaderNumber(section: indexPath.section)
+        
+        ref.child("/checklist/\(indexPath.section)/items/").queryOrdered(byChild: "order").queryEqual(toValue: 0).observeSingleEvent(of: .value) { (snapshot) in
+            
+            print(snapshot)
+            print(snapshot.value)
+            guard let value = snapshot.value as? NSArray else { return }
 
+            print(value.count)
+            print(value)
+
+            let index = value.index(of:"null")
+            print(index)
+
+//            for index in 0 ... value.count - 1 {
+//
+//                guard let test = value[index] as? String, test != "null" else { return }
+//                print(value[index])
+//                print(index)
+//            }
+        }
     }
     
     func tableView(
