@@ -29,6 +29,8 @@ class DetailViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     
+    var total = 0
+    
     var place: GMSPlace?
     
     var location: Location?
@@ -118,6 +120,8 @@ class DetailViewController: UIViewController {
                     // Didn't find location in Firebase
                     self.updateLocation(location: location)
                     self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
+                    
+                    NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
                 }
         }
     }
@@ -210,9 +214,15 @@ class DetailViewController: UIViewController {
 extension DetailViewController {
     
     func updateLocation(location: Location) {
-        
+    
+        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? NSDictionary else { return }
+            
+            self.total = value.allKeys.count
+        }
+    
         guard let key = ref.child("favorite").childByAutoId().key else { return }
-        
+ 
         let post = ["addTime": location.addTime,
                     "address": location.address,
                     "latitude": location.latitude,
@@ -226,5 +236,7 @@ extension DetailViewController {
         let postUpdate = ["/favorite/\(key)": post]
         
         ref.updateChildValues(postUpdate)
+        
+        
     }
 }

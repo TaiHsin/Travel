@@ -8,6 +8,7 @@
 
 import UIKit
 import GooglePlaces
+import FirebaseDatabase
 
 class SearchViewController: UIViewController {
     
@@ -18,9 +19,9 @@ class SearchViewController: UIViewController {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITableView?
-
+    var ref: DatabaseReference!
     var location: Location?
-    
+    var total = 0
     let fullScreenSize = UIScreen.main.bounds.size
     
     override func viewDidLoad() {
@@ -42,6 +43,12 @@ class SearchViewController: UIViewController {
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
+        
+        ref = Database.database().reference()
+        
+        fetchDataCount { (number) in
+            self.total = number
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +85,7 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         print("Place coordinate: \(place.coordinate)")
         print("Place id: \(place.placeID)")
         
-        convertData(place: place) { (location) in
+        convertData(place: place, total: total) { (location) in
             
             self.location = location
             self.switchDetailVC(location: self.location)
@@ -124,7 +131,7 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
-    func convertData(place: GMSPlace, success: @escaping (Location) -> Void) {
+    func convertData(place: GMSPlace, total: Int, success: @escaping (Location) -> Void) {
         
         let date = Date()
         let dateInt = Double(date.timeIntervalSince1970)
@@ -145,11 +152,22 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
             longitude: longitude,
             locationId: locationId,
             name: place.name,
-            order: 1,
+            order: total + 1,
             photo: place.placeID
         )
         
         success(location)
+    }
+    
+    func fetchDataCount(success: @escaping (Int) -> Void) {
+        
+        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            let number = value.allKeys.count
+            
+            success(number)
+        }
     }
 }
 
