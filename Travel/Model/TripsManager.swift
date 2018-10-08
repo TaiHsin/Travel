@@ -21,7 +21,7 @@ class TripsManager {
     
     var datas: [Trips] = []
     
-    var details: [Details] = []
+//    var details: [Details] = []
     
     var sorted: [String: Any] = [:]
     
@@ -50,32 +50,10 @@ class TripsManager {
             }
             success(self.datas)
         }
-        
-        
-        //        ref.child("myTrips").queryOrdered(byChild: "startDate").observeSingleEvent(of: .value) { (snapshot) in
-        //
-        //            guard let value = snapshot.value as? NSDictionary else { return }
-        //
-        //            self.datas.removeAll()
-        //
-        //            for value in value.allValues {
-        //
-        //                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
-        //
-        //                do {
-        //                    let data = try self.decoder.decode(Trips.self, from: jsonData)
-        //
-        //                    self.datas.insert(data, at: 0)
-        //
-        //                } catch {
-        //                    print(error)
-        //                }
-        //            }
-        //            print(self.datas)
-        //            success(self.datas)
-        //        }
     }
     
+    
+    /// Try to use model to replace
     func createTripData(
         place: String,
         startDate: Double,
@@ -118,55 +96,38 @@ class TripsManager {
         success(daysKey)
     }
     
-    // MARK: - Fetch trip list data
+    // MARK: - Fetch trip list data (once for all)
     
-    func fetchDayList(daysKey: String, success: @escaping ([String: Any]) -> Void) {
+    func fetchDayList(daysKey: String, success: @escaping ([Location]) -> Void) {
+        
+        var location: [Location] = []
         
         ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { (snapshot) in
             
-            guard let value = snapshot.value as? [String: Any] else { return }
+            guard let value = snapshot.value as? NSDictionary else { return }
             
-            print(value)
-            let sortedDict = value.sorted(by: { (firstDictionary, secondDictionary) -> Bool in
-                
-                let firstKey = firstDictionary.0
-                let firstKeyIndex = firstKey.index(firstKey.startIndex, offsetBy: 3)
-                
-                let firstKeyRealValue = Int(String(firstKey[firstKeyIndex...]))
-                
-                ///String slicing subscript with a 'partial range from' operator
-                
-                let secondKey = secondDictionary.0
-                let secondKeyIndex = secondKey.index(secondKey.startIndex, offsetBy: 3)
-                
-                let secondKeyRealValue = Int(String(secondKey[secondKeyIndex...]))
-                
-                return firstKeyRealValue! < secondKeyRealValue!
-            })
+            print(value.allValues)
             
-            print(sortedDict)
+            guard value["isEmpty"] == nil else {
+                
+                // TODO: deal with empty location situation
+                return
+            }
+
+            for value in value.allValues {
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+
+                do {
+                    let data = try self.decoder.decode(Location.self, from: jsonData)
+
+                    location.append(data)
+
+                } catch {
+                    print(error)
+                }
+            }
             
-            //            for (index, item) in sortedDict.enumerated() {
-            //
-            //                var dictionary: [String: Any] = [:]
-            //
-            //                dictionary[item.key] = item.value as? NSDictionary
-            //
-            //                guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary) else { return }
-            //
-            //                do {
-            //                    let data = try self.decoder.decode(Details.self, from: jsonData)
-            //
-            //                    print(self.datas)
-            //                    self.details.append(data)
-            //
-            //
-            //
-            //                } catch {
-            //                    print(error)
-            //                }
-            success(value)
+            success(location)
         }
-        
     }
 }

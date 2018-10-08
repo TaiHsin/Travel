@@ -230,13 +230,13 @@ extension DetailViewController {
                     "locationId": location.locationId,
                     "name": location.name,
                     "order": location.order,
-                    "photo": location.photo
+                    "photo": location.photo,
+                    "days": location.days
             ] as [String: Any]
         
         let postUpdate = ["/favorite/\(key)": post]
         
         ref.updateChildValues(postUpdate)
-        
-        
+
     }
 }

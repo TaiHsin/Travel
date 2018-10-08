@@ -20,8 +20,6 @@ class PreservedViewController: UIViewController {
     
     var photo: UIImage?
     
-    var locationData: [LocationData] = []
-    
     var locationArray: [Location] = []
     
     let decoder = JSONDecoder()
@@ -35,6 +33,10 @@ class PreservedViewController: UIViewController {
             success: { (location) in
                 print(self.locationArray)
                 self.locationArray = location
+                
+                // Sort array alphabetically
+                self.locationArray.sort(by: {$0.name < $1.name})
+                
                 self.tableView.reloadData()
             },
             failure: { (_) in
@@ -66,6 +68,10 @@ class PreservedViewController: UIViewController {
             success: { (location) in
                 print(self.locationArray)
                 self.locationArray = location
+                
+                // Sort array alphabetically
+                self.locationArray.sort(by: {$0.name < $1.name})
+                
                 self.tableView.reloadData()
         },
             failure: { (_) in
@@ -170,9 +176,9 @@ class PreservedViewController: UIViewController {
 //    }
     
 //    func snapshopOfCell(inputView: UIView) -> UIView {
-//        
+//
 //        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
-//        
+//
 //        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
 //        let image = UIGraphicsGetImageFromCurrentImageContext()!
 //        let cellSnapshot: UIView = UIImageView(image: image)
@@ -277,12 +283,15 @@ extension PreservedViewController: UITableViewDelegate {
 // MARK: - Firebase data
 extension PreservedViewController {
     
+    #warning ("Refact to TripsManager")
     func fetchPreservedData(
         success: @escaping ([Location]) -> Void,
         failure: @escaping (TripsError) -> Void
         ) {
         
-        ref.child("favorite").queryOrdered(byChild: "locaionId").observeSingleEvent(of: .value) { (snapshot) in
+        var location: [Location] = []
+        
+        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSDictionary else { return }
             
@@ -290,22 +299,20 @@ extension PreservedViewController {
             
             for value in value.allValues {
                 
+                // Data convert: can be refact out independently
                 guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
                 
                 do {
                     let data = try self.decoder.decode(Location.self, from: jsonData)
                     
-                    self.locationArray.append(data)
-                    
-                    // Sort array alphabetically
-                    self.locationArray.sort(by: {$0.name < $1.name})
+                    location.append(data)
                 
                 } catch {
                     print(error)
                 }
             }
-            print(self.locationArray)
-            success(self.locationArray)
+            print(location)
+            success(location)
         }
     }
     

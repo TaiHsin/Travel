@@ -85,6 +85,8 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         print("Place coordinate: \(place.coordinate)")
         print("Place id: \(place.placeID)")
         
+        /// Remove "total" parameter if is useless
+        
         convertData(place: place, total: total) { (location) in
             
             self.location = location
@@ -153,7 +155,8 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
             locationId: locationId,
             name: place.name,
             order: total + 1,
-            photo: place.placeID
+            photo: place.placeID,
+            days: 0
         )
         
         success(location)

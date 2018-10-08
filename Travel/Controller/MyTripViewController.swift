@@ -13,15 +13,14 @@ class MyTripViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Reuse photo randomly
-    // wait to re construct
+    // wait to re construct (requset Google photo or fake photo on Firebase)
+    /// Array -> randomElement
     let photoArray: [UIImage] = [#imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "iceland")]
     
     let tripsManager = TripsManager()
     
     var trips: [Trips] = []
-    
-    let decoder = JSONDecoder()
-    
+ 
     let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
@@ -61,11 +60,14 @@ class MyTripViewController: UIViewController {
             
             guard let detailController = segue.destination as? TripListViewController,
             
-                let daysKey = sender as? String else {
+                let indexPath = sender as? IndexPath else {
                     
                     return
             }
+            let totalDays = trips[indexPath.row].totalDays
+            let daysKey = trips[indexPath.row].daysKey
             
+            detailController.totalDays = totalDays
             detailController.daysKey = daysKey
             
         default:
@@ -77,6 +79,7 @@ class MyTripViewController: UIViewController {
     
     func fetchData() {
     
+        #warning ("Refact with other fetch data function with general type")
         tripsManager.fetchPlaceData(
             success: { [weak self] (datas) in
                 
@@ -193,13 +196,13 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
-        print(trips[indexPath.row].daysKey)
+//        print(trips[indexPath.row].daysKey)
         
-        let daysKey = trips[indexPath.row].daysKey
-               
+//        let daysKey = trips[indexPath.row].daysKey
+        
         performSegue(
             withIdentifier: String(describing: TripListViewController.self),
-            sender: daysKey
+            sender: indexPath
         )
         
         collectionView.deselectItem(at: indexPath, animated: true)

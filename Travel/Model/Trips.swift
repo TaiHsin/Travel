@@ -20,26 +20,22 @@ struct Trips: Codable {
     
     let createdTime: Double
     
-    let daysKey: String?
+    let daysKey: String
     
-    let placePic: String?
+    let placePic: String
     
     let id: String
 }
 
-//struct Details: Codable {
 //
-//    let day: Days
+//struct Details {
+//    
+//    var location: [Location]?
+//    
+//    var isEmpty: Bool?
+//    
+////    var day: String
 //}
-
-struct Details {
-    
-    var location: [Location]?
-    
-    var isEmpty: Bool?
-    
-//    var day: String
-}
 
 struct Location: Codable {
     
@@ -58,4 +54,6 @@ struct Location: Codable {
     var order: Int
     
     var photo: String
+    
+    var days: Int
 }
