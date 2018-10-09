@@ -36,7 +36,7 @@ class TripListViewController: UIViewController {
     
     // Refactor
 
-    var detailData: [String: [Location]] = [:]
+    var detailData: [Int: [Location]] = [:]
 //    var detailData: [[Location]] = []
     
     var detailDays: [String] = []
@@ -65,6 +65,8 @@ class TripListViewController: UIViewController {
             self.locationArray = location
             
             self.sortLocations(locations: location, total: self.daysArray.count)
+            
+            self.tableView.reloadData()
         }
     
         setupCollectionView()
@@ -181,10 +183,12 @@ class TripListViewController: UIViewController {
         }
     }
     
-    func switchDetailVC() {
+    func switchDetailVC(location: Location) {
  
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        detailViewController.location = location
         
         self.addChild(detailViewController)
         
@@ -227,15 +231,26 @@ class TripListViewController: UIViewController {
         present(actionSheetController, animated: true, completion: nil)
     }
     
+    // TODO: create days array depend on passed days
+    
+    func createDays(total days: Int) {
+        
+        for index in 1 ... days {
+            daysArray.append(index)
+        }
+        print(daysArray)
+        return
+    }
+    
     /// Get data and sort locally (how to)
     func sortLocations(locations: [Location], total: Int) {
         
         var data: [Int: [Location]] = [:]
-        var dataTest: [[Location]] = []
-//        var daysArray: [[Int]] = []
+        var dataArray: [[Location]] = []
         
-        for number in 1 ... total {
-            dataTest.append([])
+        // better way?
+        for _ in 1 ... total {
+            dataArray.append([])
         }
         
         for index in 0 ..< locations.count {
@@ -244,17 +259,19 @@ class TripListViewController: UIViewController {
                 if locations[index].days == key {
                     
                     let item = locations[index]
-                    dataTest[key - 1].append(item)
-                    data[key] = dataTest[key - 1]
-
-//                    let item: [Location]
-//
-//                    print(locations[index])
-//                    detailData["\(key)"]?.append(locations[index])
+                    dataArray[key - 1].append(item)
+                    data[key] = dataArray[key - 1]
                 }
             }
         }
-        print(data)
+
+        // Sort array by order property
+        for number in 1 ... total {
+            data[number]?.sort(by: {$0.order < $1.order})
+        }
+        
+        self.detailData = data
+        print(detailData)
     }
     
     func parseData(details: [String: Any]) {
@@ -290,18 +307,9 @@ class TripListViewController: UIViewController {
         }
         print(sortedData)
     }
-    
-    func createDays(total days: Int) {
-        
-        // TODO: create days array depend on passed days
-        for index in 1 ... days {
-            daysArray.append(index)
-        }
-        print(daysArray)
-        return
-    }
-    
-    func fetchLocation(
+
+    /// Get locations by day
+    func fetchDailyLocation(
         day: Int,
         success: @escaping ([Location]) -> Void) {
         
@@ -380,24 +388,23 @@ extension TripListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 1
+        return daysArray.count
     }
     
+    #warning ("Refactor: replace by enum")
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        guard locationArray.count != 0 else { return 1 }
-        
-        return locationArray.count
+ 
+        guard let tripData = detailData[section + 1] else { return 1 }
+        guard tripData.count != 0 else {
+            return 1
+        }
+        return tripData.count
     }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        
-//        return days[section]
-//    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard locationArray.count != 0 else {
+        // possible nil??
+        guard let datas = detailData[indexPath.section + 1], datas.count != 0 else {
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: EmptyTableViewCell.self),
@@ -408,7 +415,7 @@ extension TripListViewController: UITableViewDataSource {
             
             return emptyCell
         }
-        
+
         let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: TripListTableViewCell.self),
             for: indexPath
@@ -421,8 +428,10 @@ extension TripListViewController: UITableViewDataSource {
         }
         
 //        listCell.listImage.image = locationArray[indexPath.row]
-        listCell.placeNameLabel.text = locationArray[indexPath.row].name
-        listCell.addressLabel.text = locationArray[indexPath.row].address
+        
+        /// need to attach photo
+        listCell.placeNameLabel.text = datas[indexPath.row].name
+        listCell.addressLabel.text = datas[indexPath.row].address
         
         return listCell
     }
@@ -438,7 +447,8 @@ extension TripListViewController: UITableViewDelegate {
         view.backgroundColor = UIColor.darkGray
         
         let label = UILabel()
-//        label.text = days[section] + " " + dates[section]
+        label.text = String(describing: daysArray[section])
+
         label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
         label.textColor = UIColor.white
         view.addSubview(label)
@@ -452,7 +462,9 @@ extension TripListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switchDetailVC()
+        guard let locationArray = detailData[indexPath.section + 1] else { return }
+        let location = locationArray[indexPath.row]
+        switchDetailVC(location: location)
     }
 }
 
@@ -515,7 +527,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         // TODO: switch days on map and table view?
         
-        fetchLocation(day: indexPath.row + 1) { (locations) in
+        fetchDailyLocation(day: indexPath.row + 1) { (locations) in
 
             self.locationArray = locations
             self.tableView.reloadData()

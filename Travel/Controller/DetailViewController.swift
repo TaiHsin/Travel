@@ -30,9 +30,7 @@ class DetailViewController: UIViewController {
     let dateFormatter = DateFormatter()
     
     var total = 0
-    
-    var place: GMSPlace?
-    
+        
     var location: Location?
     
     override func viewDidLoad() {
@@ -78,29 +76,7 @@ class DetailViewController: UIViewController {
     #warning ("Refactor")
     
     @IBAction func addToFavorite(_ sender: UIButton) {
-        
-//        let date = Date()
-//        let dateInt = Double(date.timeIntervalSince1970)
-//        
-//        guard let latitude = place?.coordinate.latitude else { return }
-//        guard let longitude = place?.coordinate.longitude else { return }
-//        
-//        //        let locationId = CLLocationCoordinate2DMake(latitude, longitude)
-//        //        let locationString = "\(locationId)"
-//        let latitudeStr = String(format: "%.7f", latitude)
-//        let longitudeStr = String(format: "%.7f", longitude)
-//        let locationId = "\(latitudeStr)" + "_" + "\(longitudeStr)"
-//        
-//        let location = Location.init(
-//            addTime: dateInt,
-//            address: (place?.formattedAddress)!,
-//            latitude: latitude,
-//            longitude: longitude,
-//            locationId: locationId,
-//            name: (place?.name)!,
-//            order: 1,
-//            photo: (place?.placeID)!
-//        )
+
         guard let location = location else { return }
         
         ref.child("/favorite/")
