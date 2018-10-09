@@ -66,6 +66,7 @@
 		9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F4321589715000D0300 /* ProfileViewController.swift */; };
 		9DF74F26216B6E04003D4605 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF74F24216B6E04003D4605 /* EmptyTableViewCell.swift */; };
 		9DF74F27216B6E04003D4605 /* EmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF74F25216B6E04003D4605 /* EmptyTableViewCell.xib */; };
+		9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF74F28216C56FA003D4605 /* PhotoProvider.swift */; };
 		9DFA4FF22168704300A9C13F /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFA4FF12168704300A9C13F /* Checklist.swift */; };
 		9DFD95C02164F0520098DE55 /* TripsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD95BF2164F0520098DE55 /* TripsManager.swift */; };
 /* End PBXBuildFile section */
@@ -133,6 +134,7 @@
 		9DF64F4321589715000D0300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9DF74F24216B6E04003D4605 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
 		9DF74F25216B6E04003D4605 /* EmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyTableViewCell.xib; sourceTree = "<group>"; };
+		9DF74F28216C56FA003D4605 /* PhotoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProvider.swift; sourceTree = "<group>"; };
 		9DFA4FF12168704300A9C13F /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		9DFD95BF2164F0520098DE55 /* TripsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsManager.swift; sourceTree = "<group>"; };
 		CCAEA57933F7E11B89263A7F /* Pods-Travel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Travel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Travel/Pods-Travel.release.xcconfig"; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				9DADC85421650DA6008D50D2 /* TripsProvider.swift */,
 				9DADC8502164F4C9008D50D2 /* TripsError.swift */,
 				9DADC85221650AEA008D50D2 /* Trips.swift */,
+				9DF74F28216C56FA003D4605 /* PhotoProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
 				9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
+				9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */,
 				9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */,
 				9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */,
 				9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */,

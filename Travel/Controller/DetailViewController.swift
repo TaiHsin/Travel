@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
     let dateFormatter = DateFormatter()
     
     var total = 0
-        
+    
     var location: Location?
     
     override func viewDidLoad() {

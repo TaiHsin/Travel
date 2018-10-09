@@ -14,6 +14,8 @@ class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    let photoManager = PhotoManager()
+    
     var ref: DatabaseReference!
     
     var place: GMSPlace?
@@ -227,11 +229,16 @@ extension PreservedViewController: UITableViewDataSource {
         }
         
         let placeId = locationArray[indexPath.row].photo
-        loadFirstPhotoForPlace(placeID: placeId) { (photo) in
-            
+        
+        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
             cell.photoImage.image = photo
         }
         
+//        loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+//            
+//            cell.photoImage.image = photo
+//        }
+//        
         cell.placeName.text = locationArray[indexPath.row].name
         
 //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
@@ -327,39 +334,5 @@ extension PreservedViewController {
             guard let key = value.allKeys.first as? String else { return }
             self.ref.child("/favorite/\(key)").removeValue()
         }
-    }
-
-    // Google place photo
-    
-    func loadFirstPhotoForPlace(placeID: String, success: @escaping (UIImage) -> Void) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
-            if let error = error {
-                
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto, success: { (photo) in
-                        
-                        success(photo)
-                    })
-                }
-            }
-        }
-    }
-    
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, success: @escaping (UIImage) -> Void) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
-            -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                guard let photo = photo else { return }
-                success(photo)
-                //  self.imageView.image = photo;
-                //  self.attributionTextView.attributedText = photoMetadata.attributions;
-            }
-        })
     }
 }

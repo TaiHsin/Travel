@@ -25,6 +25,8 @@ class TripListViewController: UIViewController {
     private let locationManager = CLLocationManager()
     
     let tripsManager = TripsManager()
+    
+    let photoManager = PhotoManager()
 
     let decoder = JSONDecoder()
     
@@ -77,13 +79,13 @@ class TripListViewController: UIViewController {
         
         mapView.delegate = self
         
-        locationData = [LocationData(placeName: "Effel Tower", photo: #imageLiteral(resourceName: "paris"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.858539, longitude: 2.294524),
-                        LocationData(placeName: "Arc de Triomphe", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "Place Charles de Gaulle, 75008 Paris, France", latitude: 48.873982, longitude: 2.295457),
-                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "notre_dame_de_paris"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
-                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "palais_du_louvre"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
-        ]
+//        locationData = [LocationData(placeName: "Effel Tower", photo: #imageLiteral(resourceName: "paris"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.858539, longitude: 2.294524),
+//                        LocationData(placeName: "Arc de Triomphe", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "Place Charles de Gaulle, 75008 Paris, France", latitude: 48.873982, longitude: 2.295457),
+//                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "notre_dame_de_paris"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
+//                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "palais_du_louvre"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
+//        ]
         
-        addMarker(data: locationData)
+        //        showMarker(locations: )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,21 +167,28 @@ class TripListViewController: UIViewController {
 //        mapView.settings.myLocationButton = true
     }
     
-    func addMarker(data: [LocationData]) {
+    func showMarker(locations: [Location]) {
         
-        for locationData in data {
+        mapView.clear()
+        var bounds = GMSCoordinateBounds()
+        
+        for data in locations {
             
-            let latitude = locationData.latitude
-            let longitude = locationData.longitude
+            let latitude = data.latitude
+            let longitude = data.longitude
             
             let position = CLLocationCoordinate2DMake(latitude, longitude)
             let marker = GMSMarker(position: position)
-            marker.title = locationData.placeName
+            marker.title = data.name
 
             marker.map = mapView
-            mapView.camera = GMSCameraPosition(target: position, zoom: 12, bearing: 0, viewingAngle: 0)
+            bounds = bounds.includingCoordinate(marker.position)
+            
+            let update = GMSCameraUpdate.fit(bounds)
+            mapView.animate(with: update)
             
             /// Need to use GMSCoordinateBounds to show all markers
+//            mapView.camera = GMSCameraPosition(target: position, zoom: 12, bearing: 0, viewingAngle: 0)
         }
     }
     
@@ -422,14 +431,18 @@ extension TripListViewController: UITableViewDataSource {
         )
         
         guard let listCell = cell as? TripListTableViewCell,
-              indexPath.row < locationData.count else {
+              indexPath.row < datas.count else {
                 
                 return cell
         }
         
-//        listCell.listImage.image = locationArray[indexPath.row]
+        #warning ("Refactor: seems will delay, better way?")
+        let placeId = datas[indexPath.row].photo
+        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+            
+            listCell.listImage.image = photo
+        }
         
-        /// need to attach photo
         listCell.placeNameLabel.text = datas[indexPath.row].name
         listCell.addressLabel.text = datas[indexPath.row].address
         
@@ -525,13 +538,19 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard let locations = detailData[indexPath.row + 1] else { return }
+        
+        let tableViewIndexPath = IndexPath(row: 0, section: indexPath.row)
+        tableView.scrollToRow(at: tableViewIndexPath, at: .top, animated: true)
+        showMarker(locations: locations)
+        
         // TODO: switch days on map and table view?
         
-        fetchDailyLocation(day: indexPath.row + 1) { (locations) in
-
-            self.locationArray = locations
-            self.tableView.reloadData()
-        }
+//        fetchDailyLocation(day: indexPath.row + 1) { (locations) in
+//
+//            self.locationArray = locations
+//            self.tableView.reloadData()
+//        }
     }
 }
 
