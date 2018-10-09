@@ -27,6 +27,8 @@ class DetailViewController: UIViewController {
     
     var ref: DatabaseReference!
     
+    let photoManager = PhotoManager()
+    
     let dateFormatter = DateFormatter()
     
     var total = 0
@@ -52,8 +54,13 @@ class DetailViewController: UIViewController {
         #warning ("below shouldn't in viewWillAppear")
         
         guard let location = location else { return }
+        let placeId = location.photo
+        
         placeName.text = location.name
-        loadFirstPhotoForPlace(placeID: location.photo)
+        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+            
+            self.placeImage.image = photo
+        }
         
         UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
@@ -92,28 +99,32 @@ class DetailViewController: UIViewController {
                     print("-------------------------")
                     
                 } else {
+                    
                     // Notify view but not with alert view
                     // Didn't find location in Firebase
                     self.updateLocation(location: location)
                     self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
                     
-                    NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
+                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
                 }
         }
     }
     
-    // Need to pop out to cover tab bar and navigation bar
+    #warning ("Need to pop out to cover tab bar and navigation bar")
+    
     @IBAction func addToMyTrip(_ sender: Any) {
         
-        guard let selectionVC = UIStoryboard.searchStoryboard().instantiateViewController(
+        guard let selectionViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: TripSelectionViewController.self)
             ) as? TripSelectionViewController else { return }
         
-        self.addChild(selectionVC)
+        selectionViewController.location = location
         
-        selectionVC.view.frame = self.placeInfoCard.frame
-        self.view.addSubview(selectionVC.view)
-        selectionVC.didMove(toParent: self)
+        self.addChild(selectionViewController)
+        
+        selectionViewController.view.frame = self.placeInfoCard.frame
+        self.view.addSubview(selectionViewController.view)
+        selectionViewController.didMove(toParent: self)
     }
     
     //    func show() {
@@ -125,35 +136,7 @@ class DetailViewController: UIViewController {
         removeAnimate()
     }
     
-    func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
-            if let error = error {
-                
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto)
-                }
-            }
-        }
-    }
-
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
-            -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                self.placeImage.image = photo
-                
-                //  self.imageView.image = photo;
-                //  self.attributionTextView.attributedText = photoMetadata.attributions;
-            }
-        })
-    }
-    
+    #warning ("Refactor: gether all alert function together")
     func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
@@ -189,6 +172,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController {
     
+    #warning ("Refactor: gether all Firebase relative function together")
     func updateLocation(location: Location) {
     
         ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
@@ -213,6 +197,5 @@ extension DetailViewController {
         let postUpdate = ["/favorite/\(key)": post]
         
         ref.updateChildValues(postUpdate)
-
     }
 }

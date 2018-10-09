@@ -103,6 +103,8 @@ class CreateTripViewController: UIViewController {
         
         placeTextField.text = ""
         selectedDates.removeAll()
+        
+        NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
     }
     
     func switchViewController(key: String) {

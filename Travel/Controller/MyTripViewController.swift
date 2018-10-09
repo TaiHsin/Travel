@@ -28,6 +28,14 @@ class MyTripViewController: UIViewController {
         
         setupCollectionView()
         fetchData()
+        
+        #warning ("Refactor: use enum for all notification strings")
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.createNewTrip(noti: )),
+            name: Notification.Name("myTrips"),
+            object: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,8 +55,6 @@ class MyTripViewController: UIViewController {
         
         collectionView.register(xib, forCellWithReuseIdentifier: identifier)
     }
-    
-    /// Use when rewrite tab bar by code
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -78,9 +84,11 @@ class MyTripViewController: UIViewController {
     // TODO: call firebase fetchdata function
     
     func fetchData() {
+        
+        trips.removeAll()
     
         #warning ("Refact with other fetch data function with general type")
-        tripsManager.fetchPlaceData(
+        tripsManager.fetchTripsData(
             success: { [weak self] (datas) in
                 
                 self?.trips = datas
@@ -93,6 +101,11 @@ class MyTripViewController: UIViewController {
             failure: { _ in
                 //TODO
         })
+    }
+    
+    @objc func createNewTrip(noti: Notification) {
+        
+        fetchData()
     }
 }
 

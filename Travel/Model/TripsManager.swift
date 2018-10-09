@@ -19,39 +19,41 @@ class TripsManager {
     
     let decoder = JSONDecoder()
     
-    var datas: [Trips] = []
-    
-//    var details: [Details] = []
-    
     var sorted: [String: Any] = [:]
     
-    func fetchPlaceData(
+    func fetchTripsData(
         success: @escaping ([Trips]) -> Void,
         failure: @escaping (TripsError) -> Void
         ) {
+        
+        var datas: [Trips] = []
         
         #warning ("better way? observeSingleEvent first and then obeserve for .childAdd ?")
         
         /// Need to add sorting method by startDate!!!
         
-        ref.child("myTrips").queryOrdered(byChild: "startDate").observe(.childAdded) { (snapshot) in
+        // Re-write to use singleObserveEvent
+        
+        ref.child("myTrips").queryOrdered(byChild: "startDate")
+            .observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSDictionary else { return }
-            guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
             
-            do {
-                let data = try self.decoder.decode(Trips.self, from: jsonData)
+            for value in value.allValues {
                 
-                print(self.datas)
-                self.datas.append(data)
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
                 
-            } catch {
-                print(error)
+                do {
+                    let data = try self.decoder.decode(Trips.self, from: jsonData)
+                    
+                    datas.append(data)
+                } catch {
+                    print(error)
+                }
             }
-            success(self.datas)
+            success(datas)
         }
     }
-    
     
     /// Try to use model to replace
     func createTripData(

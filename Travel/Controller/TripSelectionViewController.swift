@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class TripSelectionViewController: UIViewController {
 
@@ -20,15 +21,30 @@ class TripSelectionViewController: UIViewController {
     
     @IBOutlet weak var saveButton: UIButton!
     
-    var days: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    var ref: DatabaseReference!
     
-    var places: [String] = ["Place1", "Place2", "Place3", "Place4", "Place5", "Place6", "Place7", "Place8"]
+    let tripsManager = TripsManager()
+    
+    let decoder = JSONDecoder()
+    
+    var location: Location?
+    
+    var trips: [Trips] = []
+    
+    var daysArray: [Int] = []
+    
+    var daysKey = ""
+    
+    var dayIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
 
         setupTableView()
         setupCollectionView()
+        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +54,10 @@ class TripSelectionViewController: UIViewController {
     }
     
     @IBAction func savePlace(_ sender: Any) {
+        
+        guard let location = location else { return }
+        addLocation(daysKey: daysKey, index: dayIndex, location: location)
+        
         self.view.removeFromSuperview()
     }
     
@@ -59,6 +79,7 @@ class TripSelectionViewController: UIViewController {
     
     func setupCollectionView() {
         
+        #warning ("Refactor: use enum to replace String(describing: ViewController.self)")
         let identifier = String(describing: DayCollectionViewCell.self)
         
         let xib = UINib(nibName: identifier, bundle: nil)
@@ -77,7 +98,7 @@ extension TripSelectionViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
         ) -> Int {
         
-        return places.count
+        return trips.count
     }
     
     func tableView(
@@ -103,7 +124,7 @@ extension TripSelectionViewController: UITableViewDataSource {
         }
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        cell.nameLabel.text = places[indexPath.row]
+        cell.nameLabel.text = trips[indexPath.row].name
         
         return cell
     }
@@ -122,16 +143,24 @@ extension TripSelectionViewController: UITableViewDelegate {
     
     func tableView(
         _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath) {
+        didSelectRowAt indexPath: IndexPath
+        ) {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
         
         cell.nameLabel.textColor = UIColor.white
         cell.cellView.backgroundColor = UIColor.darkGray
-
+        
+        daysKey = trips[indexPath.row].daysKey
+        
+        let totatl = trips[indexPath.row].totalDays
+        createDays(total: totatl)
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didDeselectRowAt indexPath: IndexPath
+        ) {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
         
@@ -147,7 +176,11 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         numberOfItemsInSection section: Int
         ) -> Int {
         
-        return days.count
+        guard daysArray.count != 0 else {
+            return 0
+        }
+        
+        return daysArray.count
     }
     
     func collectionView(
@@ -169,13 +202,13 @@ extension TripSelectionViewController: UICollectionViewDataSource {
             
             cell.numberLabel.textColor = UIColor.white
             cell.cellView.backgroundColor = UIColor.darkGray
-        } else if cell.isSelected == false {
+        } else {
             
             cell.numberLabel.textColor = UIColor.darkGray
             cell.cellView.backgroundColor = UIColor.white
         }
         
-        cell.numberLabel.text = days[indexPath.item]
+        cell.numberLabel.text = String(describing: daysArray[indexPath.row])
         
         return cell
     }
@@ -187,7 +220,8 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         print(cell.isSelected)
         cell.numberLabel.textColor = UIColor.white
         cell.cellView.backgroundColor = UIColor.darkGray
-
+        
+        dayIndex = indexPath.item + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -218,5 +252,106 @@ extension TripSelectionViewController: UICollectionViewDelegateFlowLayout {
         ) -> CGFloat {
         
         return 5
+    }
+}
+
+extension TripSelectionViewController {
+    
+    func createDays(total days: Int) {
+        
+        daysArray.removeAll()
+        
+        for index in 1 ... days {
+            daysArray.append(index)
+        }
+        
+        collectionView.reloadData()
+        return
+    }
+    
+    func fetchData() {
+        
+        trips.removeAll()
+        tripsManager.fetchTripsData(
+            success: { (datas) in
+                
+                self.trips = datas
+                self.tableView.reloadData()
+            },
+            failure: { (_) in
+                // TODO
+            }
+        )
+    }
+    
+    #warning ("better way?")
+    
+    func addLocation(daysKey: String, index: Int, location: Location) {
+        
+        guard daysKey != "", index != 0 else { return }
+        
+        ref.child("/tripDays/\(daysKey)")
+            .queryOrdered(byChild: "isEmpty").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else { return }
+                
+                if value["isEmpty"] != nil {
+                    
+                    self.updataLocation(daysKey: daysKey, days: index, location: location)
+                } else {
+                    
+                    self.checkLocationDays(daysKey: daysKey, index: index, location: location)
+                }
+            })
+    }
+    
+    func checkLocationDays(daysKey: String, index: Int, location: Location) {
+        
+        ref.child("/tripDays/\(daysKey)")
+            .queryOrdered(byChild: "days")
+            .queryEqual(toValue: index)
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    self.updataLocation(daysKey: daysKey, days: index, location: location)
+                    return
+                }
+                
+                let order = value.count + 1
+                
+                self.updataLocation(
+                    daysKey: daysKey,
+                    order: order,
+                    days: index,
+                    location: location
+                )
+            })
+    }
+    
+    func updataLocation(daysKey: String, order: Int = 1, days: Int, location: Location) {
+        
+        // Update to Firebase (Need to separate or not?)
+        
+        guard let key = self.ref.child("tripDays").childByAutoId().key else { return }
+        
+        let post = ["addTime": location.addTime,
+                    "address": location.address,
+                    "latitude": location.latitude,
+                    "longitude": location.longitude,
+                    "locationId": location.locationId,
+                    "name": location.name,
+                    "order": order,
+                    "photo": location.photo,
+                    "days": days
+            ] as [String: Any]
+        
+        let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
+        
+        ref.updateChildValues(postUpdate)
+        
+        // Remove isEmpty data
+        ref.child("/tripDays/\(daysKey)/isEmpty/").removeValue()
+        NotificationCenter.default.post(name: Notification.Name("triplist"), object: nil)
     }
 }

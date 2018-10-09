@@ -28,58 +28,30 @@ class PreservedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         ref = Database.database().reference()
         
-        fetchPreservedData(
-            success: { (location) in
-                print(self.locationArray)
-                self.locationArray = location
-                
-                // Sort array alphabetically
-                self.locationArray.sort(by: {$0.name < $1.name})
-                
-                self.tableView.reloadData()
-            },
-            failure: { (_) in
-                //TODO
-            }
-        )
+        fetchData()
         
         setupTableView()
         
-//        let longPress = UILongPressGestureRecognizer(
-//            target: self,
-//            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
-//        )
-//        self.tableView.addGestureRecognizer(longPress)
+        //        let longPress = UILongPressGestureRecognizer(
+        //            target: self,
+        //            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
+        //        )
+        //        self.tableView.addGestureRecognizer(longPress)
         
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updatePreserved(noti: )),
-            name: Notification.Name("update"),
+            name: Notification.Name("preserved"),
             object: nil
         )
     }
     
     @objc func updatePreserved(noti: Notification) {
         
-        locationArray.removeAll()
-        
-        fetchPreservedData(
-            success: { (location) in
-                print(self.locationArray)
-                self.locationArray = location
-                
-                // Sort array alphabetically
-                self.locationArray.sort(by: {$0.name < $1.name})
-                
-                self.tableView.reloadData()
-        },
-            failure: { (_) in
-                //TODO
-        }
-        )
+        fetchData()
     }
     
     @IBAction func searchPlace(_ sender: Any) {
@@ -104,6 +76,25 @@ class PreservedViewController: UIViewController {
         tableView.delegate = self
         
         tableView.dataSource = self
+    }
+    
+    func fetchData() {
+        
+        locationArray.removeAll()
+        fetchPreservedData(
+            success: { (location) in
+                print(self.locationArray)
+                self.locationArray = location
+                
+                // Sort array alphabetically
+                self.locationArray.sort(by: {$0.name < $1.name})
+                
+                self.tableView.reloadData()
+        },
+            failure: { (_) in
+                //TODO
+        }
+        )
     }
     
 //    @objc func longPressGestureRecognized(gestureRecognizer: UIGestureRecognizer) {
@@ -301,8 +292,6 @@ extension PreservedViewController {
         ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSDictionary else { return }
-            
-            print(value.allValues)
             
             for value in value.allValues {
                 

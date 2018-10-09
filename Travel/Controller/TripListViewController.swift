@@ -39,7 +39,6 @@ class TripListViewController: UIViewController {
     // Refactor
 
     var detailData: [Int: [Location]] = [:]
-//    var detailData: [[Location]] = []
     
     var detailDays: [String] = []
     
@@ -79,13 +78,17 @@ class TripListViewController: UIViewController {
         
         mapView.delegate = self
         
-//        locationData = [LocationData(placeName: "Effel Tower", photo: #imageLiteral(resourceName: "paris"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.858539, longitude: 2.294524),
-//                        LocationData(placeName: "Arc de Triomphe", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "Place Charles de Gaulle, 75008 Paris, France", latitude: 48.873982, longitude: 2.295457),
-//                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "notre_dame_de_paris"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
-//                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "palais_du_louvre"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
-//        ]
-        
+        /// Show day1 markers as default?
         //        showMarker(locations: )
+        
+        
+        #warning ("Refactor: use enum for all notification strings")
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.updateLocation(noti: )),
+            name: Notification.Name("triplist"),
+            object: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -180,15 +183,12 @@ class TripListViewController: UIViewController {
             let position = CLLocationCoordinate2DMake(latitude, longitude)
             let marker = GMSMarker(position: position)
             marker.title = data.name
-
             marker.map = mapView
-            bounds = bounds.includingCoordinate(marker.position)
             
+            // Fit all markers in map camera
+            bounds = bounds.includingCoordinate(marker.position)
             let update = GMSCameraUpdate.fit(bounds)
             mapView.animate(with: update)
-            
-            /// Need to use GMSCoordinateBounds to show all markers
-//            mapView.camera = GMSCameraPosition(target: position, zoom: 12, bearing: 0, viewingAngle: 0)
         }
     }
     
@@ -204,6 +204,21 @@ class TripListViewController: UIViewController {
         detailViewController.view.frame = self.view.frame
         self.view.addSubview(detailViewController.view)
         detailViewController.didMove(toParent: self)
+    }
+    
+    @objc func updateLocation(noti: Notification) {
+        
+        locationArray.removeAll()
+        detailData.removeAll()
+        
+        tripsManager.fetchDayList(daysKey: daysKey) { (location) in
+            
+            self.locationArray = location
+            
+            self.sortLocations(locations: location, total: self.daysArray.count)
+            
+            self.tableView.reloadData()
+        }
     }
     
     #warning ("Refact to alert manager")
@@ -240,7 +255,7 @@ class TripListViewController: UIViewController {
         present(actionSheetController, animated: true, completion: nil)
     }
     
-    // TODO: create days array depend on passed days
+    // create days array depend on passed days
     
     func createDays(total days: Int) {
         
@@ -257,7 +272,7 @@ class TripListViewController: UIViewController {
         var data: [Int: [Location]] = [:]
         var dataArray: [[Location]] = []
         
-        // better way?
+        // better way to avoid for loops?
         for _ in 1 ... total {
             dataArray.append([])
         }
@@ -324,7 +339,11 @@ class TripListViewController: UIViewController {
         
         var location: [Location] = []
         
-        ref.child("tripDays").child("\(daysKey)").queryOrdered(byChild: "days").queryEqual(toValue: day).observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("tripDays")
+            .child("\(daysKey)")
+            .queryOrdered(byChild: "days")
+            .queryEqual(toValue: day)
+            .observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSDictionary else { return }
             
@@ -475,6 +494,8 @@ extension TripListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        print(indexPath.section)
+        
         guard let locationArray = detailData[indexPath.section + 1] else { return }
         let location = locationArray[indexPath.row]
         switchDetailVC(location: location)
@@ -538,14 +559,14 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let locations = detailData[indexPath.row + 1] else { return }
-        
         let tableViewIndexPath = IndexPath(row: 0, section: indexPath.row)
         tableView.scrollToRow(at: tableViewIndexPath, at: .top, animated: true)
+
+        guard let locations = detailData[indexPath.row + 1] else { return }
+        
         showMarker(locations: locations)
         
-        // TODO: switch days on map and table view?
-        
+        /// Fetch daily data by tap each collection view cell
 //        fetchDailyLocation(day: indexPath.row + 1) { (locations) in
 //
 //            self.locationArray = locations
@@ -553,6 +574,4 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
 //        }
     }
 }
-
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
-/// Map cemare adjust to show all markers

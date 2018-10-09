@@ -10,6 +10,8 @@ import Foundation
 
 struct Trips: Codable {
     
+    var name: String
+    
     let place: String
     
     let startDate: Double
