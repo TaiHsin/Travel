@@ -72,7 +72,9 @@ class MyTripViewController: UIViewController {
             }
             let totalDays = trips[indexPath.row].totalDays
             let daysKey = trips[indexPath.row].daysKey
+            let name = trips[indexPath.row].name
             
+            detailController.name = name
             detailController.totalDays = totalDays
             detailController.daysKey = daysKey
             

@@ -34,13 +34,7 @@ class PreservedViewController: UIViewController {
         fetchData()
         
         setupTableView()
-        
-        //        let longPress = UILongPressGestureRecognizer(
-        //            target: self,
-        //            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
-        //        )
-        //        self.tableView.addGestureRecognizer(longPress)
-        
+ 
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updatePreserved(noti: )),
@@ -96,93 +90,7 @@ class PreservedViewController: UIViewController {
         }
         )
     }
-    
-//    @objc func longPressGestureRecognized(gestureRecognizer: UIGestureRecognizer) {
-//
-//        guard let longPress = gestureRecognizer as? UILongPressGestureRecognizer else { return }
-//
-//        let state = longPress.state
-//
-//        let locationInView = longPress.location(in: self.tableView)
-//
-//        var indexPath = self.tableView.indexPathForRow(at: locationInView)
-//
-//        switch state {
-//
-//        case .began:
-//            if indexPath != nil {
-//                Path.initialIndexPath = indexPath
-//                guard let cell = self.tableView.cellForRow(at: indexPath!) as? PreservedTableViewCell else {
-//                    return
-//                }
-//
-//                Path.cellSnapShot = snapshopOfCell(inputView: cell)
-//                var center = cell.center
-//                Path.cellSnapShot?.center = center
-//                Path.cellSnapShot?.alpha = 0.0
-//                self.tableView.addSubview(Path.cellSnapShot!)
-//
-//                UIView.animate(withDuration: 0.25, animations: {
-//                    center.y = locationInView.y
-//                    Path.cellSnapShot?.center = center
-//                    Path.cellSnapShot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-//                    Path.cellSnapShot?.alpha = 0.98
-//                    cell.alpha = 0.0
-//                }, completion: { (finished) -> Void in
-//                    if finished {
-//                        cell.isHidden = true
-//                    }
-//                })
-//            }
-//        case .changed:
-//
-//            var center = Path.cellSnapShot?.center
-//            center?.y = locationInView.y
-//            Path.cellSnapShot?.center = center!
-//            if indexPath != nil && indexPath != Path.initialIndexPath {
-//
-//                self.locationData.swapAt((indexPath?.row)!, (Path.initialIndexPath?.row)!)
-//
-//                self.tableView.moveRow(at: Path.initialIndexPath!, to: indexPath!)
-//                Path.initialIndexPath = indexPath
-//            }
-//        default:
-//
-//            guard let cell = self.tableView.cellForRow(at: Path.initialIndexPath!) as? PreservedTableViewCell else {
-//                return
-//            }
-//            cell.isHidden = false
-//            cell.alpha = 0.0
-//            UIView.animate(withDuration: 0.25, animations: {
-//                Path.cellSnapShot?.center = cell.center
-//                Path.cellSnapShot?.transform = .identity
-//                Path.cellSnapShot?.alpha = 0.0
-//                cell.alpha = 1.0
-//            }, completion: { (finished) -> Void in
-//                if finished {
-//                    Path.initialIndexPath = nil
-//                    Path.cellSnapShot?.removeFromSuperview()
-//                    Path.cellSnapShot = nil
-//                }
-//            })
-//        }
-//    }
-    
-//    func snapshopOfCell(inputView: UIView) -> UIView {
-//
-//        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
-//
-//        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
-//        let image = UIGraphicsGetImageFromCurrentImageContext()!
-//        let cellSnapshot: UIView = UIImageView(image: image)
-//        cellSnapshot.layer.masksToBounds = false
-//
-////        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-////        cellSnapshot.layer.shadowRadius = 5.0
-////        cellSnapshot.layer.shadowOpacity = 0.4
-//        return cellSnapshot
-//    }
-    
+
     func showDetailInfo(location: Location) {
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
@@ -224,16 +132,10 @@ extension PreservedViewController: UITableViewDataSource {
         photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
             cell.photoImage.image = photo
         }
-        
-//        loadFirstPhotoForPlace(placeID: placeId) { (photo) in
-//            
-//            cell.photoImage.image = photo
-//        }
-//        
+    
         cell.placeName.text = locationArray[indexPath.row].name
         
 //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-        
 //        cell.setSelected(true, animated: true)
         return cell
     }

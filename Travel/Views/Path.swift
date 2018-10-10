@@ -8,9 +8,3 @@
 
 import UIKit
 
-struct Path {
-    
-    static var initialIndexPath: IndexPath?
-    
-    static var cellSnapShot: UIView?
-}

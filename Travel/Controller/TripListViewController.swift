@@ -12,6 +12,17 @@ import GooglePlaces
 import FirebaseDatabase
 //import MapKit
 
+struct Path {
+    
+    static var initialIndexPath: IndexPath?
+    
+    static var cellSnapShot: UIView?
+}
+
+enum Modify {
+    case add, delete
+}
+
 class TripListViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -39,6 +50,8 @@ class TripListViewController: UIViewController {
     var photo: UIImage?
 
     var daysArray: [Int] = []
+    
+    var name = ""
 
     var totalDays = 0
     
@@ -53,13 +66,18 @@ class TripListViewController: UIViewController {
         
         tripsManager.fetchDayList(daysKey: daysKey) { (location) in
             
-//            self.locationArray = location
-            
             self.sortLocations(locations: location, total: self.daysArray.count)
             
             self.tableView.reloadData()
         }
     
+        // setup long press gesture
+        let longPress = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
+        )
+        self.tableView.addGestureRecognizer(longPress)
+        
         setupCollectionView()
         
         setupTableView()
@@ -85,6 +103,7 @@ class TripListViewController: UIViewController {
         
         /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
+        navigationItem.title = name
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -120,15 +139,16 @@ class TripListViewController: UIViewController {
             forCellReuseIdentifier: String(describing: TripListTableViewCell.self)
         )
         
-        let xibEmpty = UINib(
-            nibName: String(describing: EmptyTableViewCell.self),
-            bundle: nil
-        )
-        
-        tableView.register(
-            xibEmpty,
-            forCellReuseIdentifier: String(describing: EmptyTableViewCell.self)
-        )
+        /// Empty cell ( disable for swap cell issue)
+//        let xibEmpty = UINib(
+//            nibName: String(describing: EmptyTableViewCell.self),
+//            bundle: nil
+//        )
+//
+//        tableView.register(
+//            xibEmpty,
+//            forCellReuseIdentifier: String(describing: EmptyTableViewCell.self)
+//        )
     }
     
     func setupCollectionView() {
@@ -197,15 +217,11 @@ class TripListViewController: UIViewController {
     
     @objc func updateLocation(noti: Notification) {
         
-//        locationArray.removeAll()
         detailData.removeAll()
         
         tripsManager.fetchDayList(daysKey: daysKey) { (location) in
             
-//            self.locationArray = location
-            
             self.sortLocations(locations: location, total: self.daysArray.count)
-            
             self.tableView.reloadData()
         }
     }
@@ -255,7 +271,7 @@ class TripListViewController: UIViewController {
         return
     }
     
-    /// Get data and sort locally
+    // Get data and sort locally
     func sortLocations(locations: [Location], total: Int) {
         
         var data: [Int: [Location]] = [:]
@@ -285,74 +301,6 @@ class TripListViewController: UIViewController {
         
         self.detailData = data
         print(detailData)
-    }
-    
-//    func parseData(details: [String: Any]) {
-//
-//        // Get days
-//
-//        for key in details.keys {
-//            detailDays.append(key)
-//        }
-//
-//        print(detailDays)
-//
-//        sortedDays = detailDays.sorted { (first, second) -> Bool in
-//
-//            let firstIndex = first.index(first.startIndex, offsetBy: 3)
-//            let firstKeyValue = Int(String(first[firstIndex...]))
-//
-//            let secondIndex = second.index(second.startIndex, offsetBy: 3)
-//            let secondKeyValue = Int(String(second[secondIndex...]))
-//
-//            return firstKeyValue! < secondKeyValue!
-//        }
-//
-//        print(sortedDays)
-//        collectionView.reloadData()
-//
-//        guard let data = details[sortedDays[0]] as? [String: Any] else { return }
-//        print(data)
-//
-//        var sortedData = [Any]()
-//        for data in data {
-//            sortedData.append(data.value)
-//        }
-//        print(sortedData)
-//    }
-
-    /// Get locations by day
-    func fetchDailyLocation(
-        day: Int,
-        success: @escaping ([Location]) -> Void) {
-        
-        var location: [Location] = []
-        
-        ref.child("tripDays")
-            .child("\(daysKey)")
-            .queryOrdered(byChild: "days")
-            .queryEqual(toValue: day)
-            .observeSingleEvent(of: .value) { (snapshot) in
-            
-            guard let value = snapshot.value as? NSDictionary else { return }
-            
-            print(value.allValues)
-            
-            for value in value.allValues {
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
-                
-                do {
-                    let data = try self.decoder.decode(Location.self, from: jsonData)
-                    
-                    location.append(data)
-                    
-                } catch {
-                    print(error)
-                }
-            }
-            
-            success(location)
-        }
     }
 }
 
@@ -411,9 +359,9 @@ extension TripListViewController: UITableViewDataSource {
     #warning ("Refactor: replace by enum")
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
  
-        guard let tripData = detailData[section + 1] else { return 1 }
+        guard let tripData = detailData[section + 1] else { return 0 }
         guard tripData.count != 0 else {
-            return 1
+            return 0
         }
         return tripData.count
     }
@@ -423,14 +371,15 @@ extension TripListViewController: UITableViewDataSource {
         // possible nil??
         guard let datas = detailData[indexPath.section + 1], datas.count != 0 else {
             
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: EmptyTableViewCell.self),
-                for: indexPath
-            )
+            /// Empty cell ( disable for swap cell issue)
+//            let cell = tableView.dequeueReusableCell(
+//                withIdentifier: String(describing: EmptyTableViewCell.self),
+//                for: indexPath
+//            )
+//
+//            guard let emptyCell = cell as? EmptyTableViewCell else { return cell}
             
-            guard let emptyCell = cell as? EmptyTableViewCell else { return cell}
-            
-            return emptyCell
+            return UITableViewCell()
         }
 
         let cell = tableView.dequeueReusableCell(
@@ -454,6 +403,8 @@ extension TripListViewController: UITableViewDataSource {
         listCell.placeNameLabel.text = datas[indexPath.row].name
         listCell.addressLabel.text = datas[indexPath.row].address
         
+        //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+        //        cell.setSelected(true, animated: true)
         return listCell
     }
 }
@@ -462,7 +413,10 @@ extension TripListViewController: UITableViewDataSource {
 
 extension TripListViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+        ) -> UIView? {
         
         let view = UIView()
         view.backgroundColor = UIColor.darkGray
@@ -477,11 +431,18 @@ extension TripListViewController: UITableViewDelegate {
         return view
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForHeaderInSection section: Int
+        ) -> CGFloat {
+        
         return 35
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+        ) {
         
         print(indexPath.section)
         
@@ -500,16 +461,13 @@ extension TripListViewController: UITableViewDelegate {
             
             guard let locationArray = detailData[indexPath.section + 1] else { return }
             let location = locationArray[indexPath.row]
-            deletaData(daysKey: daysKey, location: location, indexPath: indexPath)
+            deletaData(daysKey: daysKey, location: location)
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
             
             detailData[indexPath.section + 1]!.remove(at: indexPath.row)
-            
-            
-            
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
 }
 
 // MARK: - Collection View Data Source
@@ -577,7 +535,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         showMarker(locations: locations)
     }
     
-    func deletaData(daysKey: String, location: Location, indexPath: IndexPath) {
+    func deletaData(daysKey: String, location: Location) {
 
         ref.child("tripDays")
             .child(daysKey)
@@ -588,63 +546,190 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
                 guard let value = snapshot.value as? NSDictionary else { return }
                 guard let key = value.allKeys.first as? String else { return }
                 self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-                
-                self.changeOrder(daysKey: daysKey, indexPath: indexPath, location: location)
         }
     }
     
-    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location) {
+    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
 
-        let total = tableView.numberOfRows(inSection: indexPath.section)
-        let days = location.days
+        let days = indexPath.section + 1
         guard let locationArray = detailData[days] else { return }
         
-        // use allKey and locationId to compare and change order
-        
-        for location in locationArray {
+        // Compare other data order to update
+        for item in locationArray {
          
-            if location.order > indexPath.row + 1 {
-             
-                let newOrder = location.order - 1
-                let key = location.locationId
+            switch type {
+                
+            case .delete:
+                if item.order > indexPath.row + 1, item.locationId != location.locationId {
+                    
+                    let newOrder = item.order - 1
+                    let key = item.locationId
+                    let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
+                    ref.updateChildValues(postUpdate)
+                }
+
+            case .add:
+                if item.order > indexPath.row, item.locationId != location.locationId {
+                
+                let newOrder = item.order + 1
+                let key = item.locationId
                 let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
                 ref.updateChildValues(postUpdate)
+                }
             }
         }
     }
     
-    func updatLocation(location: Location) {
+    func addLocation(location: Location, indexPath: IndexPath) {
         
-        guard let key = ref.child("tripDays").childByAutoId().key else { return }
+        let days = indexPath.section + 1
+        let order = indexPath.row + 1
         
-        let post = ["addTime": location.addTime,
-                    "address": location.address,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "locationId": key,
-                    "name": location.name,
-                    "order": location.order,
-                    "photo": location.photo,
-                    "days": location.days
-            ] as [String: Any]
+        ref.child("/tripDays/\(daysKey)/").queryOrdered(byChild: "locationId").queryEqual(toValue: location.locationId).observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value =  snapshot.value as? NSDictionary else { return }
+            guard value[location.locationId] == nil else {
+                
+                let orderUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/order": order]
+                self.ref.updateChildValues(orderUpdate)
+                
+                let daysUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/days": days]
+                self.ref.updateChildValues(daysUpdate)
+                
+                return
+            }
+            
+            guard let key = self.ref.child("tripDays").childByAutoId().key else { return }
+            //        let day = indexPath.section + 1
+            //        let order = indexPath.row + 1
+            
+            let post = ["addTime": location.addTime,
+                        "address": location.address,
+                        "latitude": location.latitude,
+                        "longitude": location.longitude,
+                        "locationId": key,
+                        "name": location.name,
+                        "order": order,
+                        "photo": location.photo,
+                        "days": days
+                ] as [String: Any]
+            
+            let postUpdate = ["/tripDays/\(self.daysKey)/\(key)": post]
+            
+            self.ref.updateChildValues(postUpdate)
+        }
+    }
+}
+
+// MARK: - Long press gesture to swap table view cell
+
+extension TripListViewController {
+    
+    @objc func longPressGestureRecognized(gestureRecognizer: UIGestureRecognizer) {
         
-        let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
+        guard let longPress = gestureRecognizer as? UILongPressGestureRecognizer else { return }
         
-        ref.updateChildValues(postUpdate)
+        let state = longPress.state
+        
+        let locationInView = longPress.location(in: self.tableView)
+        
+        let indexPath = self.tableView.indexPathForRow(at: locationInView)
+        
+        switch state {
+            
+        case .began:
+            if indexPath != nil {
+                
+                Path.initialIndexPath = indexPath
+                guard let cell = self.tableView.cellForRow(at: indexPath!) as? TripListTableViewCell else { return }
+                
+                Path.cellSnapShot = snapshotOfCell(inputView: cell)
+                var center = cell.center
+                Path.cellSnapShot?.center = center
+                Path.cellSnapShot?.alpha = 0.0
+                self.tableView.addSubview(Path.cellSnapShot!)
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    center.y = locationInView.y
+                    Path.cellSnapShot?.center = center
+                    Path.cellSnapShot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                    Path.cellSnapShot?.alpha = 0.98
+                    cell.alpha = 0.0
+                    
+                }, completion: { (finished) in
+                    if finished {
+                        cell.isHidden = true
+                    }
+                })
+            }
+            
+        case . changed:
+            
+            var center = Path.cellSnapShot?.center
+            center?.y = locationInView.y
+            Path.cellSnapShot?.center = center!
+            
+            guard let indexPath = indexPath, indexPath != Path.initialIndexPath else { return }
+            guard let iniIndexPath = Path.initialIndexPath else { return }
+//            if indexPath != nil && indexPath != Path.initialIndexPath {
+            
+                // Swap data
+                
+//                guard let section = iniIndexPath.section else { return }
+//                guard let row = iniIndexPath.row else { return }
+                guard let insertSection = detailData[iniIndexPath.section  + 1] else { return }
+                let location = insertSection[iniIndexPath.row]
+                
+                self.detailData[iniIndexPath.section  + 1]?.remove(at: iniIndexPath.row)
+                deletaData(daysKey: daysKey, location: location)
+                changeOrder(daysKey: daysKey, indexPath: iniIndexPath, location: location, type: .delete)
+                
+            self.detailData[indexPath.section + 1]?.insert(location, at: (indexPath.row))
+                addLocation(location: location, indexPath: indexPath)
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .add)
+                
+                self.tableView.moveRow(at: iniIndexPath, to: indexPath)
+                
+                Path.initialIndexPath = indexPath
+//            }
+            
+        default:
+            
+            guard let cell = self.tableView.cellForRow(at: Path.initialIndexPath!) as? TripListTableViewCell else {
+                return
+            }
+            
+            cell.isHidden = false
+            cell.alpha = 0.0
+            UIView.animate(withDuration: 0.25, animations: {
+                Path.cellSnapShot?.center = cell.center
+                Path.cellSnapShot?.transform = .identity
+                Path.cellSnapShot?.alpha = 0.0
+                cell.alpha = 1.0
+                
+            }, completion: { (finished) in
+                if finished {
+                    Path.initialIndexPath = nil
+                    Path.cellSnapShot?.removeFromSuperview()
+                    Path.cellSnapShot = nil
+                }
+            })
+        }
     }
     
-    // Waiting for merge
-    func deleteData(location: Location) {
+    func snapshotOfCell(inputView: UIView) -> UIView {
         
-        ref.child("favorite")
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else { return }
-                guard let key = value.allKeys.first as? String else { return }
-                self.ref.child("/favorite/\(key)").removeValue()
-        }
+        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
+        
+        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        let cellSnapshot: UIView = UIImageView(image: image)
+        cellSnapshot.layer.masksToBounds = false
+        
+        ////        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
+        ////        cellSnapshot.layer.shadowRadius = 5.0
+        ////        cellSnapshot.layer.shadowOpacity = 0.4
+        return cellSnapshot
     }
 }
 /// Refactor: seperate collection view/ mapview/ table view to different controller?

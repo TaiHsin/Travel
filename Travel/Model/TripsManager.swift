@@ -131,5 +131,5 @@ class TripsManager {
             
             success(location)
         }
-    }
+    }    
 }

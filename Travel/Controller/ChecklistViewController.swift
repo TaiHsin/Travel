@@ -110,6 +110,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         viewForHeaderInSection section: Int
         ) -> UIView? {
         
+        /// Create header view by code
 //        let view = UIView()
 //        view.backgroundColor = UIColor.white
 //
@@ -255,10 +256,11 @@ extension ChecklistViewController: UITableViewDelegate {
         
         updateHeaderNumber(section: indexPath.section)
         
-        ref.child("/checklist/\(indexPath.section)/items/").queryOrdered(byChild: "order").queryEqual(toValue: 0).observeSingleEvent(of: .value) { (snapshot) in
-            
-            print(snapshot)
-            print(snapshot.value)
+        ref.child("/checklist/\(indexPath.section)/items/")
+            .queryOrdered(byChild: "order")
+            .queryEqual(toValue: 0)
+            .observeSingleEvent(of: .value) { (snapshot) in
+  
             guard let value = snapshot.value as? NSArray else { return }
 
             print(value.count)

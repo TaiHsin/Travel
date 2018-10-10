@@ -317,12 +317,7 @@ extension TripSelectionViewController {
                     self.updataLocation(daysKey: daysKey, days: index, location: location)
                     return
                 }
-                /// try casting or use codable
-//                guard let valueArray = value.allValues as? [Location] else { return }
-//                print(value.allValues)
-//
-//                let sortedValue = valueArray.sorted(by: { $0.order < $1.order })
-//                let order = (sortedValue.last?.order)! + 1
+
                 let order = value.count + 1
                 
                 self.updataLocation(
