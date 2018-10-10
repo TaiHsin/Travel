@@ -264,7 +264,7 @@ class TripListViewController: UIViewController {
     
     func createDays(total days: Int) {
         
-        for index in 1 ... days {
+        for index in 0 ... days - 1 {
             daysArray.append(index)
         }
         print(daysArray)
@@ -278,24 +278,24 @@ class TripListViewController: UIViewController {
         var dataArray: [[Location]] = []
         
         // better way to avoid for loops?
-        for _ in 1 ... total {
+        for _ in 0 ... total - 1 {
             dataArray.append([])
         }
         
         for index in 0 ..< locations.count {
 
-            for key in 1 ... total {
-                if locations[index].days == key {
+            for key in 0 ... total - 1 {
+                if locations[index].days == key + 1 {
                     
                     let item = locations[index]
-                    dataArray[key - 1].append(item)
-                    data[key] = dataArray[key - 1]
+                    dataArray[key].append(item)
+                    data[key] = dataArray[key]
                 }
             }
         }
 
         // Sort array by order property
-        for number in 1 ... total {
+        for number in 0 ... total - 1 {
             data[number]?.sort(by: {$0.order < $1.order})
         }
         
@@ -359,7 +359,7 @@ extension TripListViewController: UITableViewDataSource {
     #warning ("Refactor: replace by enum")
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
  
-        guard let tripData = detailData[section + 1] else { return 0 }
+        guard let tripData = detailData[section] else { return 0 }
         guard tripData.count != 0 else {
             return 0
         }
@@ -369,7 +369,7 @@ extension TripListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // possible nil??
-        guard let datas = detailData[indexPath.section + 1], datas.count != 0 else {
+        guard let datas = detailData[indexPath.section], datas.count != 0 else {
             
             /// Empty cell ( disable for swap cell issue)
 //            let cell = tableView.dequeueReusableCell(
@@ -422,7 +422,7 @@ extension TripListViewController: UITableViewDelegate {
         view.backgroundColor = UIColor.darkGray
         
         let label = UILabel()
-        label.text = String(describing: daysArray[section])
+        label.text = String(describing: daysArray[section] + 1)
 
         label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
         label.textColor = UIColor.white
@@ -464,7 +464,7 @@ extension TripListViewController: UITableViewDelegate {
             deletaData(daysKey: daysKey, location: location)
             changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
             
-            detailData[indexPath.section + 1]!.remove(at: indexPath.row)
+            detailData[indexPath.section]!.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -497,7 +497,7 @@ extension TripListViewController: UICollectionViewDataSource {
                 return cell
         }
         
-        dayTitleCell.dayLabel.text = String(daysArray[indexPath.item])
+        dayTitleCell.dayLabel.text = String(daysArray[indexPath.item] + 1)
         
         return dayTitleCell
     }
@@ -530,7 +530,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         let tableViewIndexPath = IndexPath(row: 0, section: indexPath.row)
         tableView.scrollToRow(at: tableViewIndexPath, at: .top, animated: true)
 
-        guard let locations = detailData[indexPath.row + 1] else { return }
+        guard let locations = detailData[indexPath.row] else { return }
         
         showMarker(locations: locations)
     }
@@ -549,6 +549,18 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func updateData(daysKey: String, indexPath: IndexPath, location: Location) {
+        
+        let days = indexPath.section + 1
+        let order = indexPath.row
+        
+        let orderUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/order": order]
+        self.ref.updateChildValues(orderUpdate)
+        
+        let daysUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/days": days]
+        self.ref.updateChildValues(daysUpdate)
+    }
+    
     func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
 
         let days = indexPath.section + 1
@@ -560,7 +572,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             switch type {
                 
             case .delete:
-                if item.order > indexPath.row + 1, item.locationId != location.locationId {
+                if item.order >= indexPath.row, item.locationId != location.locationId {
                     
                     let newOrder = item.order - 1
                     let key = item.locationId
@@ -569,7 +581,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
                 }
 
             case .add:
-                if item.order > indexPath.row, item.locationId != location.locationId {
+                if item.order >= indexPath.row, item.locationId != location.locationId {
                 
                 let newOrder = item.order + 1
                 let key = item.locationId
@@ -583,8 +595,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     func addLocation(location: Location, indexPath: IndexPath) {
         
         let days = indexPath.section + 1
-        let order = indexPath.row + 1
-        
+        let order = indexPath.row
+    
         ref.child("/tripDays/\(daysKey)/").queryOrdered(byChild: "locationId").queryEqual(toValue: location.locationId).observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value =  snapshot.value as? NSDictionary else { return }
@@ -677,14 +689,14 @@ extension TripListViewController {
                 
 //                guard let section = iniIndexPath.section else { return }
 //                guard let row = iniIndexPath.row else { return }
-                guard let insertSection = detailData[iniIndexPath.section  + 1] else { return }
+                guard let insertSection = detailData[iniIndexPath.section] else { return }
                 let location = insertSection[iniIndexPath.row]
                 
-                self.detailData[iniIndexPath.section  + 1]?.remove(at: iniIndexPath.row)
-                deletaData(daysKey: daysKey, location: location)
+                self.detailData[iniIndexPath.section]?.remove(at: iniIndexPath.row)
+                updateData(daysKey: daysKey, indexPath: iniIndexPath, location: location)
                 changeOrder(daysKey: daysKey, indexPath: iniIndexPath, location: location, type: .delete)
                 
-            self.detailData[indexPath.section + 1]?.insert(location, at: (indexPath.row))
+            self.detailData[indexPath.section]?.insert(location, at: (indexPath.row))
                 addLocation(location: location, indexPath: indexPath)
             changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .add)
                 
@@ -732,4 +744,7 @@ extension TripListViewController {
         return cellSnapshot
     }
 }
+
+/// Firebase "order" start from 0 ..., "days" start from 1 ...
+
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
