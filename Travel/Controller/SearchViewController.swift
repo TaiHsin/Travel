@@ -141,10 +141,6 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         let latitude = place.coordinate.latitude
         let longitude = place.coordinate.longitude
         
-        //        let locationId = CLLocationCoordinate2DMake(latitude, longitude)
-        //        let locationString = "\(locationId)"
-//        let latitudeStr = String(format: "%.7f", latitude)
-//        let longitudeStr = String(format: "%.7f", longitude)
         let locationId = "\(latitude)" + "_" + "\(longitude)"
         
         let location = Location.init(

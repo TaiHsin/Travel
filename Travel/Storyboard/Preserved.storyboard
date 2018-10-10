@@ -33,7 +33,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Favorite" id="CNT-Zy-DMF">
                         <barButtonItem key="backBarButtonItem" title=" " id="XG4-L1-1dF"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="oHm-l8-XcX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="oHm-l8-XcX">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="searchPlace:" destination="TyB-R1-8dC" id="PZ9-cI-PNT"/>

@@ -187,7 +187,7 @@ extension DetailViewController {
                     "address": location.address,
                     "latitude": location.latitude,
                     "longitude": location.longitude,
-                    "locationId": location.locationId,
+                    "locationId": key,
                     "name": location.name,
                     "order": location.order,
                     "photo": location.photo,

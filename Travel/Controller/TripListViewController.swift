@@ -32,25 +32,15 @@ class TripListViewController: UIViewController {
     
     var ref: DatabaseReference!
     
-    var locationData = [LocationData]()
-    
-    var locationArray: [Location] = []
-    
     // Refactor
 
     var detailData: [Int: [Location]] = [:]
-    
-    var detailDays: [String] = []
-    
-    var sortedDays: [String] = []
     
     var photo: UIImage?
 
     var daysArray: [Int] = []
 
     var totalDays = 0
-    
-    var dates: [String] = ["Nov. 20", "Nov. 21", "Nov. 22", "Nov. 23", "Nov. 24", "Nov. 25"]
     
     var daysKey = ""
     
@@ -63,7 +53,7 @@ class TripListViewController: UIViewController {
         
         tripsManager.fetchDayList(daysKey: daysKey) { (location) in
             
-            self.locationArray = location
+//            self.locationArray = location
             
             self.sortLocations(locations: location, total: self.daysArray.count)
             
@@ -80,7 +70,6 @@ class TripListViewController: UIViewController {
         
         /// Show day1 markers as default?
         //        showMarker(locations: )
-        
         
         #warning ("Refactor: use enum for all notification strings")
         NotificationCenter.default.addObserver(
@@ -208,12 +197,12 @@ class TripListViewController: UIViewController {
     
     @objc func updateLocation(noti: Notification) {
         
-        locationArray.removeAll()
+//        locationArray.removeAll()
         detailData.removeAll()
         
         tripsManager.fetchDayList(daysKey: daysKey) { (location) in
             
-            self.locationArray = location
+//            self.locationArray = location
             
             self.sortLocations(locations: location, total: self.daysArray.count)
             
@@ -266,7 +255,7 @@ class TripListViewController: UIViewController {
         return
     }
     
-    /// Get data and sort locally (how to)
+    /// Get data and sort locally
     func sortLocations(locations: [Location], total: Int) {
         
         var data: [Int: [Location]] = [:]
@@ -298,39 +287,39 @@ class TripListViewController: UIViewController {
         print(detailData)
     }
     
-    func parseData(details: [String: Any]) {
-        
-        // Get days
-        
-        for key in details.keys {
-            detailDays.append(key)
-        }
-        
-        print(detailDays)
-        
-        sortedDays = detailDays.sorted { (first, second) -> Bool in
-            
-            let firstIndex = first.index(first.startIndex, offsetBy: 3)
-            let firstKeyValue = Int(String(first[firstIndex...]))
-            
-            let secondIndex = second.index(second.startIndex, offsetBy: 3)
-            let secondKeyValue = Int(String(second[secondIndex...]))
-            
-            return firstKeyValue! < secondKeyValue!
-        }
-        
-        print(sortedDays)
-        collectionView.reloadData()
-        
-        guard let data = details[sortedDays[0]] as? [String: Any] else { return }
-        print(data)
-        
-        var sortedData = [Any]()
-        for data in data {
-            sortedData.append(data.value)
-        }
-        print(sortedData)
-    }
+//    func parseData(details: [String: Any]) {
+//
+//        // Get days
+//
+//        for key in details.keys {
+//            detailDays.append(key)
+//        }
+//
+//        print(detailDays)
+//
+//        sortedDays = detailDays.sorted { (first, second) -> Bool in
+//
+//            let firstIndex = first.index(first.startIndex, offsetBy: 3)
+//            let firstKeyValue = Int(String(first[firstIndex...]))
+//
+//            let secondIndex = second.index(second.startIndex, offsetBy: 3)
+//            let secondKeyValue = Int(String(second[secondIndex...]))
+//
+//            return firstKeyValue! < secondKeyValue!
+//        }
+//
+//        print(sortedDays)
+//        collectionView.reloadData()
+//
+//        guard let data = details[sortedDays[0]] as? [String: Any] else { return }
+//        print(data)
+//
+//        var sortedData = [Any]()
+//        for data in data {
+//            sortedData.append(data.value)
+//        }
+//        print(sortedData)
+//    }
 
     /// Get locations by day
     func fetchDailyLocation(
@@ -500,6 +489,27 @@ extension TripListViewController: UITableViewDelegate {
         let location = locationArray[indexPath.row]
         switchDetailVC(location: location)
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+        ) {
+        
+        if editingStyle == .delete {
+            
+            guard let locationArray = detailData[indexPath.section + 1] else { return }
+            let location = locationArray[indexPath.row]
+            deletaData(daysKey: daysKey, location: location, indexPath: indexPath)
+            
+            detailData[indexPath.section + 1]!.remove(at: indexPath.row)
+            
+            
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
 }
 
 // MARK: - Collection View Data Source
@@ -565,13 +575,76 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         guard let locations = detailData[indexPath.row + 1] else { return }
         
         showMarker(locations: locations)
+    }
+    
+    func deletaData(daysKey: String, location: Location, indexPath: IndexPath) {
+
+        ref.child("tripDays")
+            .child(daysKey)
+            .queryOrdered(byChild: "locationId")
+            .queryEqual(toValue: location.locationId)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else { return }
+                guard let key = value.allKeys.first as? String else { return }
+                self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                
+                self.changeOrder(daysKey: daysKey, indexPath: indexPath, location: location)
+        }
+    }
+    
+    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location) {
+
+        let total = tableView.numberOfRows(inSection: indexPath.section)
+        let days = location.days
+        guard let locationArray = detailData[days] else { return }
         
-        /// Fetch daily data by tap each collection view cell
-//        fetchDailyLocation(day: indexPath.row + 1) { (locations) in
-//
-//            self.locationArray = locations
-//            self.tableView.reloadData()
-//        }
+        // use allKey and locationId to compare and change order
+        
+        for location in locationArray {
+         
+            if location.order > indexPath.row + 1 {
+             
+                let newOrder = location.order - 1
+                let key = location.locationId
+                let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
+                ref.updateChildValues(postUpdate)
+            }
+        }
+    }
+    
+    func updatLocation(location: Location) {
+        
+        guard let key = ref.child("tripDays").childByAutoId().key else { return }
+        
+        let post = ["addTime": location.addTime,
+                    "address": location.address,
+                    "latitude": location.latitude,
+                    "longitude": location.longitude,
+                    "locationId": key,
+                    "name": location.name,
+                    "order": location.order,
+                    "photo": location.photo,
+                    "days": location.days
+            ] as [String: Any]
+        
+        let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
+        
+        ref.updateChildValues(postUpdate)
+    }
+    
+    // Waiting for merge
+    func deleteData(location: Location) {
+        
+        ref.child("favorite")
+            .queryOrdered(byChild: "locationId")
+            .queryEqual(toValue: location.locationId)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else { return }
+                guard let key = value.allKeys.first as? String else { return }
+                self.ref.child("/favorite/\(key)").removeValue()
+        }
     }
 }
 /// Refactor: seperate collection view/ mapview/ table view to different controller?
