@@ -27,4 +27,6 @@ target 'Travel' do
   pod 'JTAppleCalendar', '~> 7.0'
   pod 'KeychainAccess'
   
+  pod 'Fabric'
+  pod 'Crashlytics'
 end

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="3AS-wC-ci0" customClass="TripListFooter" customModule="Travel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="242" height="21"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new attractions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V1q-QF-GIU">
+                    <rect key="frame" x="0.0" y="0.0" width="242" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d99-vL-bJk">
+                    <rect key="frame" x="10" y="0.5" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="8Z2-hb-9gn"/>
+                        <constraint firstAttribute="height" constant="20" id="RN2-BB-yTq"/>
+                    </constraints>
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button" image="plus_btn"/>
+                    <connections>
+                        <action selector="addAttraction:" destination="-1" eventType="touchUpInside" id="tX6-hI-Ju9"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="V1q-QF-GIU" firstAttribute="top" secondItem="aQI-ZA-FZW" secondAttribute="top" id="3X7-s1-zhY"/>
+                <constraint firstAttribute="bottom" secondItem="V1q-QF-GIU" secondAttribute="bottom" id="8Yg-5l-L6I"/>
+                <constraint firstItem="V1q-QF-GIU" firstAttribute="leading" secondItem="aQI-ZA-FZW" secondAttribute="leading" id="BgF-6l-LhG"/>
+                <constraint firstItem="d99-vL-bJk" firstAttribute="centerY" secondItem="3AS-wC-ci0" secondAttribute="centerY" id="CrT-S4-ELZ"/>
+                <constraint firstItem="d99-vL-bJk" firstAttribute="leading" secondItem="aQI-ZA-FZW" secondAttribute="leading" constant="10" id="Hy2-P7-pUU"/>
+                <constraint firstItem="aQI-ZA-FZW" firstAttribute="trailing" secondItem="V1q-QF-GIU" secondAttribute="trailing" id="lML-dU-cIs"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="aQI-ZA-FZW"/>
+            <connections>
+                <outlet property="addButton" destination="d99-vL-bJk" id="CMg-U4-ahy"/>
+            </connections>
+            <point key="canvasLocation" x="278" y="-304"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plus_btn" width="25.600000381469727" height="25.600000381469727"/>
+    </resources>
+</document>

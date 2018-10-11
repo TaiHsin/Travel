@@ -318,7 +318,7 @@ extension TripSelectionViewController {
                     return
                 }
 
-                let order = value.count + 1
+                let order = value.count
                 
                 self.updataLocation(
                     daysKey: daysKey,
@@ -329,7 +329,7 @@ extension TripSelectionViewController {
             })
     }
     
-    func updataLocation(daysKey: String, order: Int = 1, days: Int, location: Location) {
+    func updataLocation(daysKey: String, order: Int = 0, days: Int, location: Location) {
         
         // Update to Firebase (Need to separate or not?)
         

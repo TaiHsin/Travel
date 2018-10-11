@@ -13,6 +13,8 @@ import GooglePlaces
 import GoogleMaps
 import IQKeyboardManagerSwift
 import KeychainAccess
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ) -> Bool {
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
+        // Crashlytics
+        Fabric.with([Crashlytics.self])
         
         // FBSDK
         FBSDKApplicationDelegate.sharedInstance().application(
