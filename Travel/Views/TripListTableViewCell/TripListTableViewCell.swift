@@ -16,15 +16,35 @@ class TripListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var addressLabel: UILabel!
     
+    @IBOutlet weak var emptyLabel: UILabel!
+    
+    var flag = true
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        switchCellContent()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
+    func switchCellContent() {
+        
+        if flag {
+            
+            emptyLabel.isHidden = true
+            listImage.isHidden = false
+            addressLabel.isHidden = false
+            placeNameLabel.isHidden = false
+        } else {
+            
+            emptyLabel.isHidden = false
+            listImage.isHidden = true
+            addressLabel.isHidden = true
+            placeNameLabel.isHidden = true
+        }
+    }
 }

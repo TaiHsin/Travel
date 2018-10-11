@@ -37,23 +37,34 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No attractions..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJP-Lq-SRB">
+                        <rect key="frame" x="50" y="12.5" width="220" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="1CT-UG-h8M" secondAttribute="trailing" constant="20" id="A12-lL-VnG"/>
                     <constraint firstItem="Hfq-Gi-Pwn" firstAttribute="leading" secondItem="i4V-ru-xYT" secondAttribute="trailing" constant="8" id="IHu-IF-Spx"/>
+                    <constraint firstItem="eJP-Lq-SRB" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="LVy-wx-th3"/>
                     <constraint firstItem="Hfq-Gi-Pwn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="MbZ-il-f8L"/>
+                    <constraint firstItem="eJP-Lq-SRB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="Rub-va-m4q"/>
                     <constraint firstAttribute="bottom" secondItem="i4V-ru-xYT" secondAttribute="bottom" id="Rwk-JG-kfN"/>
                     <constraint firstAttribute="bottom" secondItem="1CT-UG-h8M" secondAttribute="bottom" constant="2" id="Tcd-J9-dzt"/>
                     <constraint firstItem="1CT-UG-h8M" firstAttribute="top" secondItem="Hfq-Gi-Pwn" secondAttribute="bottom" constant="3" id="WH3-aX-iq4"/>
                     <constraint firstItem="i4V-ru-xYT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="XOi-uW-rBG"/>
                     <constraint firstItem="i4V-ru-xYT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Xy9-mG-HN7"/>
                     <constraint firstItem="1CT-UG-h8M" firstAttribute="leading" secondItem="i4V-ru-xYT" secondAttribute="trailing" constant="8" id="gPE-K5-02J"/>
+                    <constraint firstItem="eJP-Lq-SRB" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="p3C-FN-7Rb"/>
+                    <constraint firstAttribute="trailing" secondItem="eJP-Lq-SRB" secondAttribute="trailing" constant="50" id="trd-1h-oTr"/>
                     <constraint firstAttribute="trailing" secondItem="Hfq-Gi-Pwn" secondAttribute="trailing" constant="20" id="zT7-qK-MSS"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="addressLabel" destination="1CT-UG-h8M" id="4qm-qT-9Wa"/>
+                <outlet property="emptyLabel" destination="eJP-Lq-SRB" id="sfa-sQ-rqd"/>
                 <outlet property="listImage" destination="i4V-ru-xYT" id="uOZ-5w-XFL"/>
                 <outlet property="placeNameLabel" destination="Hfq-Gi-Pwn" id="0HH-V9-jaM"/>
             </connections>

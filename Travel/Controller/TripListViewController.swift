@@ -74,12 +74,13 @@ class TripListViewController: UIViewController {
             self.tableView.reloadData()
         }
     
+        /// Disable in v1.0 due to bug
         // setup long press gesture
-        let longPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
-        )
-        self.tableView.addGestureRecognizer(longPress)
+//        let longPress = UILongPressGestureRecognizer(
+//            target: self,
+//            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
+//        )
+//        self.tableView.addGestureRecognizer(longPress)
         
         setupCollectionView()
         
@@ -112,7 +113,6 @@ class TripListViewController: UIViewController {
         Crashlytics.sharedInstance().crash()
     }
 
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -386,17 +386,20 @@ extension TripListViewController: UITableViewDataSource {
         // possible nil??
         guard let datas = detailData[indexPath.section], datas.count != 0 else {
             
-            /// Empty cell ( disable for swap cell issue)
+            /// Empty cell
 //            let cell = tableView.dequeueReusableCell(
-//                withIdentifier: String(describing: EmptyTableViewCell.self),
+//                withIdentifier: String(describing: TripListTableViewCell.self),
 //                for: indexPath
 //            )
+//            guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
 //
-//            guard let emptyCell = cell as? EmptyTableViewCell else { return cell}
-            
+//            emptyCell.flag = false
+//            emptyCell.switchCellContent()
+//            emptyCell.selectionStyle = .none
+//
             return UITableViewCell()
         }
-
+        
         let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: TripListTableViewCell.self),
             for: indexPath
@@ -408,6 +411,9 @@ extension TripListViewController: UITableViewDataSource {
                 return cell
         }
         
+        listCell.flag = true
+        listCell.switchCellContent()
+        
         #warning ("Refactor: seems will delay, better way?")
         let placeId = datas[indexPath.row].photo
         photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
@@ -418,6 +424,7 @@ extension TripListViewController: UITableViewDataSource {
         listCell.placeNameLabel.text = datas[indexPath.row].name
         listCell.addressLabel.text = datas[indexPath.row].address
         
+        listCell.selectionStyle = .none
         //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
         //        cell.setSelected(true, animated: true)
         return listCell
@@ -458,8 +465,6 @@ extension TripListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
         ) {
-        
-        print(indexPath.section)
         
         guard let locationArray = detailData[indexPath.section] else { return }
         let location = locationArray[indexPath.row]
@@ -606,47 +611,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             }
         }
     }
-    
-    func addLocation(location: Location, indexPath: IndexPath) {
-        
-        let days = indexPath.section + 1
-        let order = indexPath.row
-    
-        ref.child("/tripDays/\(daysKey)/").queryOrdered(byChild: "locationId").queryEqual(toValue: location.locationId).observeSingleEvent(of: .value) { (snapshot) in
-            
-            guard let value =  snapshot.value as? NSDictionary else { return }
-            guard value[location.locationId] == nil else {
-                
-                let orderUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/order": order]
-                self.ref.updateChildValues(orderUpdate)
-                
-                let daysUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/days": days]
-                self.ref.updateChildValues(daysUpdate)
-                
-                return
-            }
-            
-            guard let key = self.ref.child("tripDays").childByAutoId().key else { return }
-            //        let day = indexPath.section + 1
-            //        let order = indexPath.row + 1
-            
-            let post = ["addTime": location.addTime,
-                        "address": location.address,
-                        "latitude": location.latitude,
-                        "longitude": location.longitude,
-                        "locationId": key,
-                        "name": location.name,
-                        "order": order,
-                        "photo": location.photo,
-                        "days": days
-                ] as [String: Any]
-            
-            let postUpdate = ["/tripDays/\(self.daysKey)/\(key)": post]
-            
-            self.ref.updateChildValues(postUpdate)
-        }
-    }
-    
+
     func updateAllData(daysKey: String, total: Int, datas: [Int: [Location]]) {
         
         for day in 0 ... total - 1 {
@@ -686,21 +651,16 @@ extension TripListViewController {
         let locationInView = longPress.location(in: self.tableView)
         
         let indexPath = self.tableView.indexPathForRow(at: locationInView)
-        
+    
         switch state {
             
         case .began:
-            if indexPath != nil {
-                
+            
+            guard indexPath != nil else { return }
+            
                 Path.initialIndexPath = indexPath
                 guard let cell = self.tableView.cellForRow(at: indexPath!) as? TripListTableViewCell else { return }
-                
-//                print("-=----------------")
-//                print("begin row")
-//                for data in detailData[indexPath!.section]! {
-//                    print(data)
-//                }
-                
+            
                 Path.cellSnapShot = snapshotOfCell(inputView: cell)
                 var center = cell.center
                 Path.cellSnapShot?.center = center
@@ -719,9 +679,6 @@ extension TripListViewController {
                         cell.isHidden = true
                     }
                 })
-//                index = (Path.initialIndexPath?.row)!
-//                print(index)
-            }
             
         case .changed:
             
@@ -731,29 +688,12 @@ extension TripListViewController {
             
             guard let indexPath = indexPath, indexPath != Path.initialIndexPath else { return }
             guard let firstIndexPath = Path.initialIndexPath else { return }
-            
-//            print("-=----------------")
-//            print("did change row")
-//            for data in detailData[iniIndexPath.section]! {
-//                print(data)
-//            }
-            
-            guard let insertSection = detailData[firstIndexPath.section] else { return }
-            let location = insertSection[firstIndexPath.row]
 
             let firstDay = firstIndexPath.section
             let secondDay = indexPath.section
             
             if firstDay == secondDay {
-//
-//                print("-------------------")
-//                print("first: \(iniIndexPath.row)")
-//                print("second: \(indexPath.row)")
-//                print("-------------------")
-                
-                print(detailData[firstDay]![firstIndexPath.row].order)
-                print(detailData[secondDay]![indexPath.row].order)
-                
+
                 // swap order
                 let firstOrder = detailData[firstDay]![firstIndexPath.row].order
                 detailData[firstDay]![firstIndexPath.row].order = detailData[secondDay]![indexPath.row].order
@@ -777,7 +717,8 @@ extension TripListViewController {
                 detailData[secondDay]?.insert(data, at: 0)
                 detailData[secondDay]?[0].order = 0
                 detailData[secondDay]?[0].days = secondDay + 1
-            } else {
+                
+            } else if firstDay > secondDay {
                 
                 let data = detailData[firstDay]![firstIndexPath.row]
                 detailData[firstDay]?.remove(at: firstIndexPath.row)
@@ -801,15 +742,11 @@ extension TripListViewController {
             
         default:
             
+            guard Path.initialIndexPath != nil else { return }
+            
             guard let cell = self.tableView.cellForRow(at: Path.initialIndexPath!) as? TripListTableViewCell else {
                 return
             }
-            
-//            print("-=----------------")
-//            print("default row")
-//            for data in detailData[Path.initialIndexPath!.section]! {
-//                print(data)
-//            }
             
             cell.isHidden = false
             cell.alpha = 0.0
