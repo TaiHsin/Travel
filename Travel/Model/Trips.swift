@@ -16,9 +16,9 @@ struct Trips: Codable {
     
     let startDate: Double
     
-    let endDate: Double
+    var endDate: Double
     
-    let totalDays: Int
+    var totalDays: Int
     
     let createdTime: Double
     

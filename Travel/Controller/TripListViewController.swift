@@ -11,7 +11,6 @@ import GoogleMaps
 import GooglePlaces
 import FirebaseDatabase
 import Crashlytics
-//import MapKit
 
 struct Path {
     
@@ -36,6 +35,8 @@ class TripListViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
     
+    let dateFormatter = DateFormatter()
+    
     let tripsManager = TripsManager()
     
     let photoManager = PhotoManager()
@@ -53,12 +54,22 @@ class TripListViewController: UIViewController {
     var daysArray: [Int] = []
     
     var name = ""
+    
+    var trip = [Trips]()
 
     var totalDays = 0
     
     var daysKey = ""
     
     var index = 0
+    
+    var dates = [Date]()
+    
+    var startDate = 0.0
+    
+    var endDate = 0.0
+    
+    var id = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,17 +111,6 @@ class TripListViewController: UIViewController {
             name: Notification.Name("triplist"),
             object: nil
         )
-        
-        let button = UIButton(type: .roundedRect)
-        button.frame = CGRect(x: 20, y: 50, width: 100, height: 30)
-        button.setTitle("Crash", for: [])
-        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
-        view.addSubview(button)
-
-    }
-    
-    @IBAction func crashButtonTapped(_ sender: AnyObject) {
-        Crashlytics.sharedInstance().crash()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -181,6 +181,14 @@ class TripListViewController: UIViewController {
         let xib = UINib(nibName: identifier, bundle: nil)
         
         collectionView.register(xib, forCellWithReuseIdentifier: identifier)
+        
+        let footerXib = UINib(nibName: String(describing: DayCollectionFooter.self), bundle: nil)
+        
+        collectionView.register(
+            footerXib,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: String(describing: DayCollectionFooter.self)
+        )
     }
     
     // MARK: - Google Map View
@@ -240,6 +248,18 @@ class TripListViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
+
+    func createWeekDay(startDate: Double, totalDays: Int) {
+        
+        var date = Date(timeIntervalSince1970: startDate)
+        guard let endDate = Calendar.current.date(byAdding: .day, value: totalDays, to: date) else { return }
+        
+        while date < endDate {
+            
+            date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            dates.append(date)
+        }
+    }
     
     #warning ("Refact to alert manager")
     
@@ -283,6 +303,8 @@ class TripListViewController: UIViewController {
             daysArray.append(index)
         }
         print(daysArray)
+        
+        createWeekDay(startDate: startDate, totalDays: days)
         return
     }
     
@@ -374,9 +396,9 @@ extension TripListViewController: UITableViewDataSource {
     #warning ("Refactor: replace by enum")
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
  
-        guard let tripData = detailData[section] else { return 0 }
+        guard let tripData = detailData[section] else { return 1 }
         guard tripData.count != 0 else {
-            return 0
+            return 1
         }
         return tripData.count
     }
@@ -387,17 +409,17 @@ extension TripListViewController: UITableViewDataSource {
         guard let datas = detailData[indexPath.section], datas.count != 0 else {
             
             /// Empty cell
-//            let cell = tableView.dequeueReusableCell(
-//                withIdentifier: String(describing: TripListTableViewCell.self),
-//                for: indexPath
-//            )
-//            guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
-//
-//            emptyCell.flag = false
-//            emptyCell.switchCellContent()
-//            emptyCell.selectionStyle = .none
-//
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: TripListTableViewCell.self),
+                for: indexPath
+            )
+            guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
+
+            emptyCell.flag = false
+            emptyCell.switchCellContent()
+            emptyCell.selectionStyle = .none
+
+            return emptyCell
         }
         
         let cell = tableView.dequeueReusableCell(
@@ -518,6 +540,7 @@ extension TripListViewController: UICollectionViewDataSource {
         }
         
         dayTitleCell.dayLabel.text = String(daysArray[indexPath.item] + 1)
+        dayTitleCell.convertWeek(date: dates[indexPath.item])
         
         return dayTitleCell
     }
@@ -542,7 +565,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
         ) -> CGSize {
         
-        return CGSize(width: 55, height: 30)
+        return CGSize(width: 40, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -554,6 +577,66 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         showMarker(locations: locations)
     }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForFooterInSection section: Int
+        ) -> CGSize {
+        
+        return CGSize(width: 40, height: 60)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+        ) -> UICollectionReusableView {
+        
+        guard let footerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: String(describing: DayCollectionFooter.self),
+            for: indexPath
+            ) as? DayCollectionFooter else { return UICollectionReusableView() }
+        
+        footerView.plusButton.addTarget(self, action: #selector(addNewDay(sender: )), for: .touchUpInside)
+    
+        return footerView
+    }
+    
+    @objc func addNewDay(sender: UIButton) {
+        
+        let total = daysArray.count
+        daysArray.append(total)
+        
+        let array = [Location]()
+        detailData[total] = array
+        
+        let date = Date(timeIntervalSince1970: endDate)
+        
+        dateFormatter.dateFormat = "yyyy MM dd"
+        guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else { return }
+        dates.append(newDate)
+        
+//        dateFormatter.dateFormat = "MMM.dd"
+//        let endMonth = dateFormatter.string(from: newDate)
+        let newDateDouble = Double(newDate.timeIntervalSince1970)
+        
+        collectionView.reloadData()
+        tableView.reloadData()
+        
+        endDate = newDateDouble
+        NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
+        updateMyTrips(total: total + 1, end: newDateDouble)
+    }
+    
+    func updateMyTrips(total: Int, end: Double) {
+        
+        ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
+        ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
+    }
+    
+    // Firebase update
     
     func deletaData(daysKey: String, location: Location) {
 
@@ -569,6 +652,22 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func updateMyTrip(dayskey: String, trip: Trips) {
+        
+        let post = ["place": trip.place,
+                    "startDate": trip.startDate,
+                    "endDate": trip.endDate,
+                    "totalDays": trip.totalDays,
+                    "createdTime": trip.createdTime,
+                    "id": trip.id,
+                    "placePic": trip.placePic,
+                    "daysKey": trip.daysKey
+            ] as [String: Any]
+        
+        let postUpdate = ["/myTrips/\(trip.id)": post]
+        ref.updateChildValues(postUpdate)
+    }
+
     func updateData(daysKey: String, indexPath: IndexPath, location: Location) {
         
         let days = indexPath.section + 1

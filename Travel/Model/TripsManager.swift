@@ -57,6 +57,7 @@ class TripsManager {
     
     /// Try to use model to replace
     func createTripData(
+        name: String,
         place: String,
         startDate: Double,
         endDate: Double,
@@ -82,7 +83,8 @@ class TripsManager {
         
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
         
-        let post = ["place": place,
+        let post = ["name": name,
+                    "place": place,
                     "startDate": startDate,
                     "endDate": endDate,
                     "totalDays": totalDays,

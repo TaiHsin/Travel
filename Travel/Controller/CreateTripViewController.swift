@@ -60,7 +60,7 @@ class CreateTripViewController: UIViewController {
     
     @IBAction func createNewTrip(_ sender: UIButton) {
         
-        guard let place = placeTextField.text else {
+        guard let place = placeTextField.text, place != "" else {
             
             print("Please input Place or select dates")
             // TODO: showAlert
@@ -91,6 +91,7 @@ class CreateTripViewController: UIViewController {
         let currenDateInt = Double(currentDate.timeIntervalSince1970)
         
         tripManager.createTripData(
+            name: place,
             place: place,
             startDate: startDate,
             endDate: endDate,
@@ -117,29 +118,6 @@ class CreateTripViewController: UIViewController {
         controller.daysKey = key
         
         show(controller, sender: nil)
-    }
-    
-    /// To learn: How to get sender passed data by performSegue or show ？
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        guard let identifier = segue.identifier else { return }
-        
-        switch identifier {
-            
-        case String(describing: TripListViewController.self):
-            
-            guard let detailController = segue.destination as? TripListViewController else {
-                
-                return
-            }
-            
-            print(detailController)
-            
-        default:
-            
-            return super.prepare(for: segue, sender: sender)
-        }
     }
     
     func setupCalendarView() {

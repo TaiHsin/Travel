@@ -73,10 +73,17 @@ class MyTripViewController: UIViewController {
             let totalDays = trips[indexPath.row].totalDays
             let daysKey = trips[indexPath.row].daysKey
             let name = trips[indexPath.row].name
+            let startDate = trips[indexPath.row].startDate
+            let endDate = trips[indexPath.row].endDate
+            let id = trips[indexPath.row].id
             
+            detailController.id = id
+            detailController.endDate = endDate
+            detailController.startDate = startDate
             detailController.name = name
             detailController.totalDays = totalDays
             detailController.daysKey = daysKey
+//            detailController.trip.append(trips[indexPath.row])
             
         default:
             return super.prepare(for: segue, sender: sender)
