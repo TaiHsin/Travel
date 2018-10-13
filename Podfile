@@ -26,7 +26,9 @@ target 'Travel' do
   pod 'IQKeyboardManagerSwift'
   pod 'JTAppleCalendar', '~> 7.0'
   pod 'KeychainAccess'
+  pod 'Kingfisher', '~> 4.0'
   
+  # Pods for Crahlythics
   pod 'Fabric'
   pod 'Crashlytics'
 end

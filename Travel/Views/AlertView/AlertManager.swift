@@ -16,16 +16,31 @@ class AlertManager {
     
     /// Not used yet, wait for refactor and gether alert func. here together
     
-    func showAlert(with title: String?, message: String, completion: @escaping () -> Void) -> UIAlertController {
+    func showAlert(
+        with title: [String],
+        message: String,
+        cancel: Bool,
+        completion: @escaping () -> Void
+        ) -> UIAlertController {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: title.first, message: message, preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "OK", style: .default) { _ in
+        let action = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            
             completion()
-        }
+        })
         
         alertController.addAction(action)
         
+        guard cancel == true else {
+            
+            return alertController
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(cancelAction)
+    
         return alertController
     }
     

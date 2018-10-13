@@ -33,8 +33,8 @@ class LoginViewController: UIViewController {
             }
             
             let user = authResult?.user
-            let isAnonymous = user?.isAnonymous
-            let uid = user?.uid
+//            let isAnonymous = user?.isAnonymous
+//            let uid = user?.uid
             
             print(user.debugDescription)
             
@@ -66,7 +66,7 @@ class LoginViewController: UIViewController {
                     let user = authResult?.user
                     guard let uid = user?.uid else { return }
                     
-                    // store uid or getIDtoken?
+                    /// store uid or getIDtoken?
                     let keychain = Keychain(service: "com.TaiHsinLee.Travel")
                     keychain["userId"] = uid
     

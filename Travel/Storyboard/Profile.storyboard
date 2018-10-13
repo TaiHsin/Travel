@@ -23,22 +23,25 @@
                                     <constraint firstAttribute="height" constant="110" id="VTm-vs-YOq"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TaiHsin Lee" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1b-kE-Rux">
-                                <rect key="frame" x="136" y="279" width="103" height="23.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1b-kE-Rux">
+                                <rect key="frame" x="80" y="279" width="215" height="23.5"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="peterlee0466@gmail.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53t-xe-QYH">
-                                <rect key="frame" x="88" y="308" width="199" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53t-xe-QYH">
+                                <rect key="frame" x="50" y="308" width="275" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g23-BI-t3R">
-                                <rect key="frame" x="334" y="79" width="25" height="25"/>
+                                <rect key="frame" x="335" y="79" width="24" height="24"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="logout_btn"/>
+                                <state key="normal" image="btn_logout"/>
+                                <connections>
+                                    <action selector="logout:" destination="jXC-K7-0rY" eventType="touchUpInside" id="nuJ-Kf-WGi"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -46,10 +49,14 @@
                             <constraint firstItem="53t-xe-QYH" firstAttribute="centerX" secondItem="l1b-kE-Rux" secondAttribute="centerX" id="45c-29-40z"/>
                             <constraint firstItem="YHK-VX-t7w" firstAttribute="leading" secondItem="RUU-X2-JxG" secondAttribute="leading" constant="132" id="4JC-TC-CWF"/>
                             <constraint firstItem="53t-xe-QYH" firstAttribute="top" secondItem="l1b-kE-Rux" secondAttribute="bottom" constant="5.5" id="4Og-NI-NI3"/>
+                            <constraint firstItem="RUU-X2-JxG" firstAttribute="trailing" secondItem="l1b-kE-Rux" secondAttribute="trailing" constant="80" id="CwY-df-ux2"/>
                             <constraint firstItem="g23-BI-t3R" firstAttribute="top" secondItem="RUU-X2-JxG" secondAttribute="top" constant="15" id="ETn-8g-8kx"/>
                             <constraint firstItem="l1b-kE-Rux" firstAttribute="centerX" secondItem="YHK-VX-t7w" secondAttribute="centerX" id="Pfl-Xy-onu"/>
+                            <constraint firstItem="RUU-X2-JxG" firstAttribute="trailing" secondItem="53t-xe-QYH" secondAttribute="trailing" constant="50" id="S3R-Bh-bAX"/>
                             <constraint firstItem="YHK-VX-t7w" firstAttribute="top" secondItem="RUU-X2-JxG" secondAttribute="top" constant="65" id="buy-F4-kJR"/>
                             <constraint firstItem="l1b-kE-Rux" firstAttribute="top" secondItem="YHK-VX-t7w" secondAttribute="bottom" constant="40" id="gXQ-6P-bJD"/>
+                            <constraint firstItem="l1b-kE-Rux" firstAttribute="leading" secondItem="RUU-X2-JxG" secondAttribute="leading" constant="80" id="mxs-p2-wLl"/>
+                            <constraint firstItem="53t-xe-QYH" firstAttribute="leading" secondItem="RUU-X2-JxG" secondAttribute="leading" constant="50" id="oFv-ol-16I"/>
                             <constraint firstItem="RUU-X2-JxG" firstAttribute="trailing" secondItem="g23-BI-t3R" secondAttribute="trailing" constant="16" id="xzl-eh-eCJ"/>
                             <constraint firstItem="YHK-VX-t7w" firstAttribute="centerX" secondItem="GDm-lZ-mYD" secondAttribute="centerX" id="z6l-qL-mVy"/>
                         </constraints>
@@ -57,7 +64,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="ejP-Zz-L5V"/>
                     <connections>
+                        <outlet property="emailLabel" destination="53t-xe-QYH" id="YwY-yI-gVN"/>
                         <outlet property="logoutButton" destination="g23-BI-t3R" id="cEj-OC-6Un"/>
+                        <outlet property="nameLabel" destination="l1b-kE-Rux" id="c0B-Ax-F2x"/>
+                        <outlet property="profileImage" destination="YHK-VX-t7w" id="Rxf-nI-DTT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dtf-HS-4GT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -87,7 +97,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logout_btn" width="25.600000381469727" height="25.600000381469727"/>
+        <image name="btn_logout" width="24" height="24"/>
         <image name="profile_black" width="51.200000762939453" height="51.200000762939453"/>
     </resources>
 </document>
