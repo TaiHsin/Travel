@@ -67,7 +67,14 @@ class TripListViewController: UIViewController {
     
     var startDate = 0.0
     
-    var endDate = 0.0
+    var endDate = 0.0 {
+        
+        didSet {
+            print("=========================")
+            print("changed: \(endDate)")
+            print("=========================")
+        }
+    }
     
     var id = ""
     
@@ -252,6 +259,7 @@ class TripListViewController: UIViewController {
     func createWeekDay(startDate: Double, totalDays: Int) {
         
         var date = Date(timeIntervalSince1970: startDate)
+        
         guard let endDate = Calendar.current.date(byAdding: .day, value: totalDays, to: date) else { return }
         
         while date < endDate {
@@ -259,6 +267,10 @@ class TripListViewController: UIViewController {
             date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
             dates.append(date)
         }
+    }
+    
+    func editDays() {
+        
     }
     
     #warning ("Refact to alert manager")
@@ -503,7 +515,7 @@ extension TripListViewController: UITableViewDelegate {
             
             guard let locationArray = detailData[indexPath.section] else { return }
             let location = locationArray[indexPath.row]
-            deletaData(daysKey: daysKey, location: location)
+            deletLocation(daysKey: daysKey, location: location)
             changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
             
             detailData[indexPath.section]!.remove(at: indexPath.row)
@@ -599,35 +611,75 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             for: indexPath
             ) as? DayCollectionFooter else { return UICollectionReusableView() }
         
-        footerView.plusButton.addTarget(self, action: #selector(addNewDay(sender: )), for: .touchUpInside)
+        footerView.plusButton.addTarget(self, action: #selector(editDaysCollection(sender: )), for: .touchUpInside)
     
         return footerView
     }
     
-    @objc func addNewDay(sender: UIButton) {
+    @objc func editDaysCollection(sender: UIButton) {
+        
+        let alertVC = AlertManager.shared.showActionSheet(
+            
+            defaultOptions: ["Add new day"],
+            
+            defaultCompletion: { [weak self] _ in
+                
+                self?.addNewDay()
+            },
+            
+            destructiveOptions: ["Delete last day"],
+            
+            destructiveCompletion: { [weak self] (_) in
+                
+                self?.deleteDay()
+        })
+                
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func addNewDay() {
         
         let total = daysArray.count
         daysArray.append(total)
+        let newTotal = total + 1
         
         let array = [Location]()
         detailData[total] = array
         
-        let date = Date(timeIntervalSince1970: endDate)
-        
-        dateFormatter.dateFormat = "yyyy MM dd"
-        guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else { return }
+        guard let last = dates.last else { return }
+
+        guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: last) else { return }
         dates.append(newDate)
         
-//        dateFormatter.dateFormat = "MMM.dd"
-//        let endMonth = dateFormatter.string(from: newDate)
         let newDateDouble = Double(newDate.timeIntervalSince1970)
         
         collectionView.reloadData()
         tableView.reloadData()
         
         endDate = newDateDouble
+        
+        updateMyTrips(total: newTotal, end: newDateDouble)
         NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
-        updateMyTrips(total: total + 1, end: newDateDouble)
+    }
+    
+    func deleteDay() {
+        
+        let total = daysArray.count
+        let newTotal = total - 1
+        daysArray.remove(at: total - 1)
+        dates.remove(at: total - 1)
+        
+        detailData.removeValue(forKey: newTotal)
+        
+        guard let date = dates.last else { return }
+    
+        collectionView.reloadData()
+        tableView.reloadData()
+        
+        endDate = Double(date.timeIntervalSince1970)
+        updateMyTrips(total: newTotal, end: endDate)
+        deleteDay(daysKey: daysKey, day: total)
+        NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
     }
     
     func updateMyTrips(total: Int, end: Double) {
@@ -638,7 +690,23 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     // Firebase update
     
-    func deletaData(daysKey: String, location: Location) {
+    func deleteDay(daysKey: String, day: Int) {
+        
+        ref.child("tripDays")
+            .child(daysKey)
+            .queryOrdered(byChild: "days")
+            .queryEqual(toValue: day)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                guard let value = snapshot.value as? NSDictionary else { return }
+                guard let keys = value.allKeys as? [String] else { return }
+                
+                for key in keys {
+                    self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                }
+        }
+    }
+    
+    func deletLocation(daysKey: String, location: Location) {
 
         ref.child("tripDays")
             .child(daysKey)
@@ -881,8 +949,10 @@ extension TripListViewController {
         ////        cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
+    
+    
 }
 
-/// Firebase "order" start from 0 ..., "days" start from 1 ...
+/// Firebase "order" start from 0 ..., "days" start from 1 ..., detail start from 0
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?

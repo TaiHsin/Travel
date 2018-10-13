@@ -12,12 +12,17 @@ class MyTripViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
+    
     // Reuse photo randomly
     // wait to re construct (requset Google photo or fake photo on Firebase)
+    
     /// Array -> randomElement
-    let photoArray: [UIImage] = [#imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "paris"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "iceland")]
+    let photoArray: [UIImage] = [#imageLiteral(resourceName: "Hallstatt"), #imageLiteral(resourceName: "sri_lanka"), #imageLiteral(resourceName: "iceland"), #imageLiteral(resourceName: "notre_dame_de_paris"), #imageLiteral(resourceName: "palais_du_louvre")]
     
     let tripsManager = TripsManager()
+    
+//    var tripsPhoto: [UIImage] = []
     
     var trips: [Trips] = []
  
@@ -28,6 +33,8 @@ class MyTripViewController: UIViewController {
         
         setupCollectionView()
         fetchData()
+        
+        navigationItem.leftBarButtonItem = editButtonItem
         
         #warning ("Refactor: use enum for all notification strings")
         NotificationCenter.default.addObserver(
@@ -49,7 +56,7 @@ class MyTripViewController: UIViewController {
         
         collectionView.delegate = self
         
-        let identifier = String(describing: MyTripsCollectionViewCell.self)
+        let identifier = String(describing: MyTripsCell.self)
         
         let xib = UINib(nibName: identifier, bundle: nil)
         
@@ -70,12 +77,12 @@ class MyTripViewController: UIViewController {
                     
                     return
             }
-            let totalDays = trips[indexPath.row].totalDays
-            let daysKey = trips[indexPath.row].daysKey
-            let name = trips[indexPath.row].name
-            let startDate = trips[indexPath.row].startDate
-            let endDate = trips[indexPath.row].endDate
-            let id = trips[indexPath.row].id
+            let totalDays = trips[indexPath.item].totalDays
+            let daysKey = trips[indexPath.item].daysKey
+            let name = trips[indexPath.item].name
+            let startDate = trips[indexPath.item].startDate
+            let endDate = trips[indexPath.item].endDate
+            let id = trips[indexPath.item].id
             
             detailController.id = id
             detailController.endDate = endDate
@@ -83,14 +90,14 @@ class MyTripViewController: UIViewController {
             detailController.name = name
             detailController.totalDays = totalDays
             detailController.daysKey = daysKey
-//            detailController.trip.append(trips[indexPath.row])
+//            detailController.trip.append(trips[indexPath.item])
             
         default:
             return super.prepare(for: segue, sender: sender)
         }
     }
     
-    // TODO: call firebase fetchdata function
+    // MARK: - Fetch data from Firebase
     
     func fetchData() {
         
@@ -103,7 +110,7 @@ class MyTripViewController: UIViewController {
                 self?.trips = datas
                 print(datas.count)
                 
-                #warning ("better not to reload data?")
+                #warning ("better not to reload data (only add/ insert one)?")
                 
                 self?.collectionView.reloadData()
             },
@@ -111,10 +118,29 @@ class MyTripViewController: UIViewController {
                 //TODO
         })
     }
-    
+
     @objc func createNewTrip(noti: Notification) {
         
         fetchData()
+    }
+
+    // MARK: - Delete Items
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        addBarButtonItem.isEnabled = !editing
+        
+        guard let indexPaths = collectionView?.indexPathsForVisibleItems else { return }
+        
+        for indexPath in indexPaths {
+            
+            guard let cell = collectionView?.cellForItem(at: indexPath) as? MyTripsCell else { return }
+            
+            // use "isEditing" didSet to hide/ show UI
+            
+            cell.isEditing = editing
+        }
     }
 }
 
@@ -134,23 +160,25 @@ extension MyTripViewController: UICollectionViewDataSource {
         ) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: String(describing: MyTripsCollectionViewCell.self),
+            withReuseIdentifier: String(describing: MyTripsCell.self),
             for: indexPath
         )
         
-        guard let myTripCell = cell as? MyTripsCollectionViewCell, indexPath.row < trips.count else { return cell }
+        guard let myTripCell = cell as? MyTripsCell, indexPath.item < trips.count else { return cell }
         
-        myTripCell.tripImage.image = photoArray[indexPath.row]
-        
-        myTripCell.tripTitle.text = trips[indexPath.row].place
+        myTripCell.delegate = self
     
+        myTripCell.tripImage.image = photoArray.randomElement()
+        
+        myTripCell.tripTitle.text = trips[indexPath.item].place
+        
         #warning ("Refactor out to stand alone manager")
         
-        print(trips[indexPath.row].startDate)
+        print(trips[indexPath.item].startDate)
         
         dateFormatter.dateFormat = "yyyy MM dd"
-        let startDate = Date(timeIntervalSince1970: trips[indexPath.row].startDate)
-        let endDate = Date(timeIntervalSince1970: trips[indexPath.row].endDate)
+        let startDate = Date(timeIntervalSince1970: trips[indexPath.item].startDate)
+        let endDate = Date(timeIntervalSince1970: trips[indexPath.item].endDate)
 
         dateFormatter.dateFormat = "yyyy"
         let startYear = dateFormatter.string(from: startDate)
@@ -218,22 +246,28 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
-//        print(trips[indexPath.row].daysKey)
-        
-//        let daysKey = trips[indexPath.row].daysKey
-        
         performSegue(
             withIdentifier: String(describing: TripListViewController.self),
             sender: indexPath
         )
         
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - MyTripCell Delegate
+
+extension MyTripViewController: MyTripCellDelegate {
+    
+    func delete(for cell: MyTripsCell) {
         
-        //        guard let controller = UIStoryboard.mainStoryboard()
-        //            .instantiateViewController(
-        //                withIdentifier: String(describing: TripDetailViewController.self)
-        //            ) as? TripDetailViewController else { return }
-        //
-        //        show(controller, sender: nil)
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        
+        let daysKey = trips[indexPath.item].daysKey
+        let tripID = trips[indexPath.item].id
+        trips.remove(at: indexPath.item)
+        tripsManager.deleteMyTrip(tripID: tripID, daysKey: daysKey)
+                
+        collectionView.deleteItems(at: [indexPath])
     }
 }

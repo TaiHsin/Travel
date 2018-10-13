@@ -98,6 +98,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addBarButtonItem" destination="1OP-39-PJr" id="nHY-ct-fyN"/>
                         <outlet property="collectionView" destination="oBX-To-cS1" id="o5V-5x-UZe"/>
                         <segue destination="nxr-5W-XUN" kind="show" identifier="TripListViewController" id="2lV-tZ-1fA"/>
                     </connections>
@@ -495,6 +496,6 @@
         <image name="main_black" width="51.200000762939453" height="51.200000762939453"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="57r-DY-dIy"/>
+        <segue reference="2lV-tZ-1fA"/>
     </inferredMetricsTieBreakers>
 </document>

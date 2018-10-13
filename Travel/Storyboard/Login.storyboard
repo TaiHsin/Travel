@@ -65,6 +65,9 @@
                                         <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="loninAnonymously:" destination="z7S-bR-cKt" eventType="touchUpInside" id="ea4-b5-Jk8"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DD7-lE-FWE">
                                 <rect key="frame" x="45" y="363" width="118" height="1"/>

@@ -56,7 +56,7 @@ class TripSelectionViewController: UIViewController {
     @IBAction func savePlace(_ sender: Any) {
         
         guard let location = location else { return }
-        addLocation(daysKey: daysKey, index: dayIndex, location: location)
+        checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
         
         self.view.removeFromSuperview()
     }
@@ -286,26 +286,30 @@ extension TripSelectionViewController {
     
     #warning ("better way?")
     
-    func addLocation(daysKey: String, index: Int, location: Location) {
-        
-        guard daysKey != "", index != 0 else { return }
-        
-        ref.child("/tripDays/\(daysKey)")
-            .queryOrdered(byChild: "isEmpty").observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else { return }
-                
-                if value["isEmpty"] != nil {
-                    
-                    self.updataLocation(daysKey: daysKey, days: index, location: location)
-                } else {
-                    
-                    self.checkLocationDays(daysKey: daysKey, index: index, location: location)
-                }
-            })
-    }
+//    func addLocation(daysKey: String, index: Int, location: Location) {
+//
+//        guard daysKey != "", index != 0 else { return }
+//
+//        self.updataLocation(daysKey: daysKey, days: index, location: location)
+    
+//        ref.child("/tripDays/\(daysKey)")
+//            .queryOrdered(byChild: "isEmpty").observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//                guard let value = snapshot.value as? NSDictionary else { return }
+//
+//                if value["isEmpty"] != nil {
+//
+//                    self.updataLocation(daysKey: daysKey, days: index, location: location)
+//                } else {
+//
+//                    self.checkLocationDays(daysKey: daysKey, index: index, location: location)
+//                }
+//            })
+//    }
     
     func checkLocationDays(daysKey: String, index: Int, location: Location) {
+        
+        guard daysKey != "", index != 0 else { return }
         
         ref.child("/tripDays/\(daysKey)")
             .queryOrdered(byChild: "days")
@@ -351,7 +355,7 @@ extension TripSelectionViewController {
         ref.updateChildValues(postUpdate)
         
         // Remove isEmpty data
-        ref.child("/tripDays/\(daysKey)/isEmpty/").removeValue()
+//        ref.child("/tripDays/\(daysKey)/isEmpty/").removeValue()
         NotificationCenter.default.post(name: Notification.Name("triplist"), object: nil)
     }
 }

@@ -21,6 +21,8 @@ class TripsManager {
     
     var sorted: [String: Any] = [:]
     
+    // MARK: - Fetch MyTrip data
+    
     func fetchTripsData(
         success: @escaping ([Trips]) -> Void,
         failure: @escaping (TripsError) -> Void
@@ -66,21 +68,9 @@ class TripsManager {
         success: @escaping (String) -> Void
         ) {
         
-        // Add data at tripDays node
+        // Add daysKey for tripDays node
         
         guard let daysKey = ref.child("tripDays").childByAutoId().key else { return }
-        print(daysKey)
-        
-        for day in 1 ... totalDays {
-            
-            let addDays = [ "isEmpty": true ] as [String: Any]
-            let daysUpdate = ["/tripDays/\(daysKey)/Day\(day)": addDays]
-            
-            ref.updateChildValues(daysUpdate)
-        }
-        
-        // Add myTrips data
-        
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
         
         let post = ["name": name,
@@ -100,7 +90,7 @@ class TripsManager {
         success(daysKey)
     }
     
-    // MARK: - Fetch trip list data (once for all)
+    // MARK: - Fetch Triplist data (once for all)
     
     func fetchDayList(daysKey: String, success: @escaping ([Location]) -> Void) {
         
@@ -108,16 +98,13 @@ class TripsManager {
         
         ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { (snapshot) in
             
-            guard let value = snapshot.value as? NSDictionary else { return }
-            
-            print(value.allValues)
-            
-            guard value["isEmpty"] == nil else {
+            guard let value = snapshot.value as? NSDictionary else {
                 
-                // TODO: deal with empty location situation
+                // TODO: Handle empty data (performance)
+                
                 return
             }
-
+            
             for value in value.allValues {
                 guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
 
@@ -133,5 +120,13 @@ class TripsManager {
             
             success(location)
         }
-    }    
+    }
+    
+    // MARK: - Delete MyTrip data
+    
+    func deleteMyTrip(tripID: String, daysKey: String) {
+        
+        ref.child("/myTrips/\(tripID)").removeValue()
+        ref.child("/tripDays/\(daysKey)").removeValue()
+    }
 }

@@ -68,6 +68,7 @@ class CreateTripViewController: UIViewController {
             return
         }
         
+        // Same value as firstDate
         guard let start = selectedDates.first else {
             
             print("Please input Place or select dates")
@@ -76,6 +77,7 @@ class CreateTripViewController: UIViewController {
             return
         }
         
+        // Same value as lastDate
         guard let theEnd = selectedDates.last else { return }
         let totalDays = selectedDates.count
         
@@ -90,6 +92,8 @@ class CreateTripViewController: UIViewController {
         let currentDate = Date()
         let currenDateInt = Double(currentDate.timeIntervalSince1970)
         
+        
+        /// Refact with model
         tripManager.createTripData(
             name: place,
             place: place,
@@ -99,7 +103,7 @@ class CreateTripViewController: UIViewController {
             createdTime: currenDateInt
         ) { [weak self] (daysKey) in
             
-            self?.switchViewController(key: daysKey)
+            self?.switchViewController(key: daysKey, first: startDate, last: endDate, total: totalDays, name: place)
         }
         
         placeTextField.text = ""
@@ -108,14 +112,19 @@ class CreateTripViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
     }
     
-    func switchViewController(key: String) {
+    func switchViewController(key: String, first: Double, last: Double, total: Int, name: String) {
         
         guard let controller = UIStoryboard.myTripStoryboard()
             .instantiateViewController(
                 withIdentifier: String(describing: TripListViewController.self)
             ) as? TripListViewController else { return }
-        
+    
+        /// Refact with model
         controller.daysKey = key
+        controller.startDate = first
+        controller.endDate = last
+        controller.totalDays = total
+        controller.name = name
         
         show(controller, sender: nil)
     }
@@ -289,7 +298,7 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         indexPath: IndexPath
         ) {
         
-        // TODO: debug
+        // TODO: debug function
         handleCellTextColor(cell: cell, cellState: cellState)
         
         handleCellSelected(cell: cell, cellState: cellState)

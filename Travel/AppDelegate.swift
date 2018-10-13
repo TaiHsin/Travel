@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
-        guard keychain["facebookToken"] == nil else {
+        guard keychain["userId"] == nil else {
             
             switchToMainStoryBoard()
             

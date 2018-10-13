@@ -24,7 +24,7 @@ class MenuBarCollectionViewCell: UICollectionViewCell {
     }
     
     func convertWeek(date: Date) {
-
+        
         dateFormatter.dateFormat = "EE dd"
         let dateString = dateFormatter.string(from: date)
         guard let first = dateString.first else { return }
