@@ -247,7 +247,7 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
         
-        Analytics.logEvent("view_item_list", parameters: nil)
+        Analytics.logEvent("view_item", parameters: nil)
         performSegue(
             withIdentifier: String(describing: TripListViewController.self),
             sender: indexPath

@@ -376,18 +376,17 @@ extension ChecklistViewController {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = false
             
-            checklistCell.checkButton.isSelected = false
-            checklistCell.checkButton.tintColor = UIColor.darkGray
+            checklistCell.checkImage.image = UIImage(named: "check_disable")
+            checklistCell.checkImage.tintColor = UIColor.darkGray
             checklistCell.contentLabel.textColor = UIColor.darkGray
-            
             let item = Items.init(name: "", number: 1, order: 1, isSelected: false)
             updateChecklistData(item: item, indexPath: indexPath, type: .edit)
         } else {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = true
             
-            checklistCell.checkButton.isSelected = true
-            checklistCell.checkButton.tintColor = UIColor.lightGray
+            checklistCell.checkImage.image = UIImage(named: "check_enable")
+            checklistCell.checkImage.tintColor = UIColor.lightGray
             checklistCell.contentLabel.textColor = UIColor.lightGray
             
             let item = Items.init(name: "", number: 1, order: 1, isSelected: true)
@@ -401,14 +400,14 @@ extension ChecklistViewController {
         guard let checklistCell = cell as? ChecklistTableViewCell else { return }
         
         if checklists[indexPath.section].items[indexPath.row].isSelected {
-            
-            checklistCell.checkButton.isSelected = true
-            checklistCell.checkButton.tintColor = UIColor.lightGray
+        
+            checklistCell.checkImage.image = UIImage(named: "check_enable")
+            checklistCell.checkImage.tintColor = UIColor.lightGray
             checklistCell.contentLabel.textColor = UIColor.lightGray
         } else {
-            
-            checklistCell.checkButton.isSelected = false
-            checklistCell.checkButton.tintColor = UIColor.darkGray
+        
+            checklistCell.checkImage.image = UIImage(named: "check_disable")
+            checklistCell.checkImage.tintColor = UIColor.darkGray
             checklistCell.contentLabel.textColor = UIColor.darkGray
         }
     }

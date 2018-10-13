@@ -24,30 +24,27 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8T-qJ-U8c">
-                        <rect key="frame" x="5" y="5" width="30" height="30"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_disable" translatesAutoresizingMaskIntoConstraints="NO" id="aam-VJ-cnf">
+                        <rect key="frame" x="10" y="10" width="20" height="20"/>
+                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="30" id="BTO-Za-NbB"/>
-                            <constraint firstAttribute="height" constant="30" id="cCS-nB-OG8"/>
+                            <constraint firstAttribute="width" constant="20" id="BQY-6X-5be"/>
+                            <constraint firstAttribute="height" constant="20" id="vrU-uo-w4P"/>
                         </constraints>
-                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <state key="normal" image="check_disable"/>
-                        <state key="selected" image="check_enable"/>
-                    </button>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="MTf-pP-csN" firstAttribute="leading" secondItem="m8T-qJ-U8c" secondAttribute="trailing" constant="10" id="DXU-MD-z1Y"/>
                     <constraint firstAttribute="trailing" secondItem="MTf-pP-csN" secondAttribute="trailing" constant="50" id="JZC-Aq-Pt2"/>
-                    <constraint firstItem="m8T-qJ-U8c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="KBl-dv-pMH"/>
-                    <constraint firstItem="m8T-qJ-U8c" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="TpS-q4-9h3"/>
+                    <constraint firstItem="aam-VJ-cnf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="SXe-c6-JiI"/>
                     <constraint firstAttribute="bottom" secondItem="MTf-pP-csN" secondAttribute="bottom" constant="9.5" id="Wye-fz-7Jd"/>
+                    <constraint firstItem="aam-VJ-cnf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Z5A-44-sND"/>
+                    <constraint firstItem="MTf-pP-csN" firstAttribute="leading" secondItem="aam-VJ-cnf" secondAttribute="trailing" constant="15" id="bBY-ek-vO9"/>
                     <constraint firstItem="MTf-pP-csN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="s6M-jq-Aee"/>
-                    <constraint firstAttribute="bottom" secondItem="m8T-qJ-U8c" secondAttribute="bottom" constant="5" id="v9v-UR-BEk"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="checkButton" destination="m8T-qJ-U8c" id="xKB-hm-nSq"/>
+                <outlet property="checkImage" destination="aam-VJ-cnf" id="Nm5-Ys-fJH"/>
                 <outlet property="contentLabel" destination="MTf-pP-csN" id="Opo-fo-6Ju"/>
             </connections>
             <point key="canvasLocation" x="-270" y="108"/>
@@ -55,6 +52,5 @@
     </objects>
     <resources>
         <image name="check_disable" width="25.600000381469727" height="25.600000381469727"/>
-        <image name="check_enable" width="25.600000381469727" height="25.600000381469727"/>
     </resources>
 </document>
