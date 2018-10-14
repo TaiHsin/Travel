@@ -14,6 +14,8 @@ class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var addPlace: UIBarButtonItem!
+    
     let photoManager = PhotoManager()
     
     var ref: DatabaseReference!
@@ -41,6 +43,12 @@ class PreservedViewController: UIViewController {
             name: Notification.Name("preserved"),
             object: nil
         )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
     }
     
     @objc func updatePreserved(noti: Notification) {

@@ -54,6 +54,8 @@ class CreateTripViewController: UIViewController {
         
         createTripButton.layer.cornerRadius = 5
         
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         // Scroll to present date
         //        calendarView.scrollToDate(Date(), extraAddedOffset: )
     }

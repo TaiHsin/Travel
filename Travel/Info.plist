@@ -2,20 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Fabric</key>
-    <dict>
-        <key>APIKey</key>
-        <string>a06359c6a4d729556eb42574cce42dd2f5b30490</string>
-        <key>Kits</key>
-        <array>
-            <dict>
-                <key>KitInfo</key>
-                <dict/>
-                <key>KitName</key>
-                <string>Crashlytics</string>
-            </dict>
-        </array>
-    </dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFCompactDisplay-Bold.otf</string>
+		<string>SFCompactDisplay-Light.otf</string>
+		<string>SFCompactDisplay-Medium.otf</string>
+		<string>SFCompactDisplay-Regular.otf</string>
+		<string>SFCompactDisplay-Semibold.otf</string>
+		<string>SFCompactDisplay-Thin.otf</string>
+		<string>SFCompactText-Bold.otf</string>
+		<string>SFCompactText-Light.otf</string>
+		<string>SFCompactText-Medium.otf</string>
+		<string>SFCompactText-Regular.otf</string>
+		<string>SFCompactText-Semibold.otf</string>
+		<string>SFCompactDisplay-Ultralight.otf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -41,6 +42,20 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>a06359c6a4d729556eb42574cce42dd2f5b30490</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
 	<string>702452576780672</string>
 	<key>FacebookDisplayName</key>
@@ -69,8 +84,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

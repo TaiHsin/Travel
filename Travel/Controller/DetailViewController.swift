@@ -47,7 +47,7 @@ class DetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        placeInfoCard.layer.cornerRadius = 10
+        placeInfoCard.layer.cornerRadius = 8
         
         setupButton()
         
@@ -70,13 +70,13 @@ class DetailViewController: UIViewController {
         favoriteButton.layer.borderWidth = 1
         favoriteButton.layer.borderColor = UIColor.darkGray.cgColor
         
-        favoriteButton.layer.cornerRadius = 10
+        favoriteButton.layer.cornerRadius = 8
         favoriteButton.layer.maskedCorners = [.layerMaxXMaxYCorner]
         
         myTripButton.layer.borderWidth = 1
         myTripButton.layer.borderColor = UIColor.darkGray.cgColor
         
-        myTripButton.layer.cornerRadius = 10
+        myTripButton.layer.cornerRadius = 8
         myTripButton.layer.maskedCorners = [.layerMinXMaxYCorner]
     }
     

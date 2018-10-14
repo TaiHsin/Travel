@@ -126,6 +126,8 @@ class TripListViewController: UIViewController {
         /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
         navigationItem.title = name
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {

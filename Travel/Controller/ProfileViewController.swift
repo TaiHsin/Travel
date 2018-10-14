@@ -29,6 +29,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        showProfile()
         profileImage.layer.cornerRadius = profileImage.bounds.width / 2.0
         profileImage.layer.masksToBounds = true
     }

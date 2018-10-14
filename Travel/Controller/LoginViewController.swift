@@ -13,13 +13,29 @@ import KeychainAccess
 
 class LoginViewController: UIViewController {
 
-    @IBOutlet weak var fbLoginButton: UIButton!
+    @IBOutlet weak var facebookButton: UIButton!
+    
+    @IBOutlet weak var anonymousButton: UIButton!
     
     private let manager = FacebookManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        facebookButton.layer.cornerRadius = 8.0
+        anonymousButton.layer.cornerRadius = 8.0
+        anonymousButton.layer.borderColor = UIColor.white.cgColor
+        anonymousButton.layer.borderWidth = 1.0
+    }
+
+    // MARK: - Set status bar color at specific View Controller
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     @IBAction func loninAnonymously(_ sender: UIButton) {

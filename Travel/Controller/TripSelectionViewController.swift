@@ -50,7 +50,7 @@ class TripSelectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        saveButton.layer.cornerRadius = 5
+        saveButton.layer.cornerRadius = 8
     }
     
     @IBAction func savePlace(_ sender: Any) {

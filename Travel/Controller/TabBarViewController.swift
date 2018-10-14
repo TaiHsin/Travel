@@ -45,13 +45,13 @@ private enum Tab {
         
         switch self {
             
-        case .myTrip: return #imageLiteral(resourceName: "main_black")
+        case .myTrip: return #imageLiteral(resourceName: "tab_trips_normal")
             
-        case .preserved: return #imageLiteral(resourceName: "wishlist_black")
+        case .preserved: return #imageLiteral(resourceName: "tab_collections_normal")
             
-        case .package: return #imageLiteral(resourceName: "baggage_black")
+        case .package: return #imageLiteral(resourceName: "tab_packlist_normal")
             
-        case .profile: return #imageLiteral(resourceName: "profile_black")
+        case .profile: return #imageLiteral(resourceName: "tab_profile_normal")
         }
     }
     
@@ -59,13 +59,13 @@ private enum Tab {
         
         switch self {
             
-        case .myTrip: return #imageLiteral(resourceName: "main_black").withRenderingMode(.alwaysTemplate)
+        case .myTrip: return #imageLiteral(resourceName: "tab_trips").withRenderingMode(.alwaysTemplate)
             
-        case .preserved: return #imageLiteral(resourceName: "wishlist_black").withRenderingMode(.alwaysTemplate)
+        case .preserved: return #imageLiteral(resourceName: "tab_collections").withRenderingMode(.alwaysTemplate)
         
-        case .package: return #imageLiteral(resourceName: "baggage_black").withRenderingMode(.alwaysTemplate)
+        case .package: return #imageLiteral(resourceName: "tab_packlist").withRenderingMode(.alwaysTemplate)
         
-        case .profile: return #imageLiteral(resourceName: "profile_black").withRenderingMode(.alwaysTemplate)
+        case .profile: return #imageLiteral(resourceName: "tab_profile").withRenderingMode(.alwaysTemplate)
             
         }
     }
@@ -81,7 +81,7 @@ class TabBarViewController: UITabBarController {
     
     private func setupTab() {
         
-        tabBar.tintColor = #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)
+        tabBar.tintColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         
         var controllers: [UIViewController] = []
         
