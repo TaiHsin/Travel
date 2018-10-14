@@ -14,6 +14,8 @@ class MenuBarCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var weekLabel: UILabel!
     
+    @IBOutlet weak var selectedView: UIView!
+    
     let dateFormatter = DateFormatter()
     
     override func awakeFromNib() {
@@ -21,6 +23,10 @@ class MenuBarCollectionViewCell: UICollectionViewCell {
     
         dayLabel.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.semibold)
         weekLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.regular)
+        
+        selectedView.layer.cornerRadius = 4.0
+        selectedView.layer.masksToBounds = true
+        selectedView.isHidden = true
     }
     
     func convertWeek(date: Date) {
@@ -28,7 +34,21 @@ class MenuBarCollectionViewCell: UICollectionViewCell {
         dateFormatter.dateFormat = "EE dd"
         let dateString = dateFormatter.string(from: date)
         guard let first = dateString.first else { return }
+        let stringFirst = String(first)
         
-        weekLabel.text = String(first)
+        if stringFirst == "S" {
+            
+            let range = (stringFirst as NSString).range(of: stringFirst)
+            let attribute = NSMutableAttributedString.init(string: stringFirst)
+            attribute.addAttribute(
+                NSAttributedString.Key.foregroundColor, value: #colorLiteral(red: 0.8509803922, green: 0.6078431373, blue: 0.6117647059, alpha: 1),
+                range: range
+            )
+            
+            weekLabel.attributedText = attribute
+        } else {
+         
+            weekLabel.text = String(first)
+        }
     }
 }

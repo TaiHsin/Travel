@@ -163,6 +163,16 @@ class TripListViewController: UIViewController {
             forCellReuseIdentifier: String(describing: TripListTableViewCell.self)
         )
         
+        let headerXib = UINib(
+            nibName: String(describing: TriplistHeader.self),
+            bundle: nil
+        )
+        
+        tableView.register(
+            headerXib,
+            forHeaderFooterViewReuseIdentifier: String(describing: TriplistHeader.self)
+        )
+        
         /// Empty cell ( disable for swap cell issue)
 //        let xibEmpty = UINib(
 //            nibName: String(describing: EmptyTableViewCell.self),
@@ -223,6 +233,11 @@ class TripListViewController: UIViewController {
             
             let position = CLLocationCoordinate2DMake(latitude, longitude)
             let marker = GMSMarker(position: position)
+            
+            let markerImage = UIImage(named: "icon_location")
+            let markerView = UIImageView(image: markerImage)
+            markerView.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+            marker.iconView = markerView
             marker.title = data.name
             marker.map = mapView
             
@@ -353,6 +368,8 @@ class TripListViewController: UIViewController {
         self.detailData = data
         print(detailData)
     }
+    
+    
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -447,6 +464,7 @@ extension TripListViewController: UITableViewDataSource {
                 return cell
         }
         
+//        listCell.layer.cornerRadius = 5.0
         listCell.flag = true
         listCell.switchCellContent()
         
@@ -476,17 +494,28 @@ extension TripListViewController: UITableViewDelegate {
         viewForHeaderInSection section: Int
         ) -> UIView? {
         
-        let view = UIView()
-        view.backgroundColor = UIColor.darkGray
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: String(describing: TriplistHeader.self)) as? TriplistHeader else { return UIView() }
+        headerView.backgroundColor = UIColor.darkGray
         
-        let label = UILabel()
-        label.text = String(describing: daysArray[section] + 1)
+        let date = dates[section]
+        dateFormatter.dateFormat = "MMM dd YYYY / EEEE"
+        let dateString = dateFormatter.string(from: date)
 
-        label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
-        label.textColor = UIColor.white
-        view.addSubview(label)
+        headerView.dateTitleLabel.text = dateString
+        headerView.dayLabel.text = String(describing: daysArray[section] + 1)
         
-        return view
+//        let view = UIView()
+//        view.backgroundColor = UIColor.darkGray
+//
+//        let label = UILabel()
+//        label.text = String(describing: daysArray[section] + 1)
+//
+//        label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
+//        label.textColor = UIColor.white
+//        view.addSubview(label)
+        
+        return headerView
     }
     
     func tableView(
@@ -494,8 +523,16 @@ extension TripListViewController: UITableViewDelegate {
         heightForHeaderInSection section: Int
         ) -> CGFloat {
         
-        return 35
+        return 40
     }
+    
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 0.2
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        return nil
+//    }
     
     func tableView(
         _ tableView: UITableView,
@@ -587,9 +624,20 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         let tableViewIndexPath = IndexPath(row: 0, section: indexPath.row)
         tableView.scrollToRow(at: tableViewIndexPath, at: .top, animated: true)
 
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+        
+        cell.selectedView.isHidden = false
+        
         guard let locations = detailData[indexPath.row] else { return }
         
         showMarker(locations: locations)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+        
+        cell.selectedView.isHidden = true
     }
 
     func collectionView(

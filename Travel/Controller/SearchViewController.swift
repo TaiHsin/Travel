@@ -81,11 +81,11 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         // Do something with the selected place.
         
-        print("Place name: \(place.name)")
-        print("Place address: \(String(describing: place.formattedAddress))")
-        print("Place attributions: \(place.attributions)")
-        print("Place coordinate: \(place.coordinate)")
-        print("Place id: \(place.placeID)")
+//        print("Place name: \(place.name)")
+//        print("Place address: \(String(describing: place.formattedAddress))")
+//        print("Place attributions: \(place.attributions)")
+//        print("Place coordinate: \(place.coordinate)")
+//        print("Place id: \(place.placeID)")
         
         /// Remove "total" parameter if is useless
         
@@ -107,13 +107,15 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         detailViewController.location = location
         
-//        show(detailViewController, sender: nil)
-        self.addChild(detailViewController)
-    
-        self.view.addSubview(detailViewController.view)
-        detailViewController.didMove(toParent: self)
+        present(detailViewController, animated: true)
         
-//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
+//        self.addChild(detailViewController)
+//
+//        self.view.addSubview(detailViewController.view)
+//        detailViewController.didMove(toParent: self)
+        
+//        UIApplication.shared.keyWindow?
+//            .bringSubviewToFront(detailViewController.view)
     }
     
     func resultsController(

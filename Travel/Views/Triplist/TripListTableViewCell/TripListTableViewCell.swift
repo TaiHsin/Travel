@@ -12,6 +12,8 @@ class TripListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var listImage: UIImageView!
     
+    @IBOutlet weak var locationImage: UIImageView!
+    
     @IBOutlet weak var placeNameLabel: UILabel!
     
     @IBOutlet weak var addressLabel: UILabel!
@@ -39,12 +41,14 @@ class TripListTableViewCell: UITableViewCell {
             listImage.isHidden = false
             addressLabel.isHidden = false
             placeNameLabel.isHidden = false
+            locationImage.isHidden = false
         } else {
             
             emptyLabel.isHidden = false
             listImage.isHidden = true
             addressLabel.isHidden = true
             placeNameLabel.isHidden = true
+            locationImage.isHidden = true
         }
     }
 }

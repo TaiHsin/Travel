@@ -41,6 +41,8 @@
 		9DD30ACE2172506800AF7BC1 /* SFCompactDisplay-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AB121724F9800AF7BC1 /* SFCompactDisplay-Thin.otf */; };
 		9DD30AD02172526A00AF7BC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD30ACF2172526A00AF7BC1 /* ViewController.swift */; };
 		9DD30AD2217255C700AF7BC1 /* SFCompactDisplay-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AD1217255BC00AF7BC1 /* SFCompactDisplay-Ultralight.otf */; };
+		9DD30AD421733E7D00AF7BC1 /* TriplistHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */; };
+		9DD30AD621733E9900AF7BC1 /* TriplistHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */; };
 		9DD7944521620EDA00C42800 /* TravelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD7944421620EDA00C42800 /* TravelColor.swift */; };
 		9DDE5B61215F4F310096C4FC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B60215F4F310096C4FC /* DetailViewController.swift */; };
 		9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B63215F84B50096C4FC /* AlertManager.swift */; };
@@ -80,8 +82,6 @@
 		9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F3F21589670000D0300 /* MyTripViewController.swift */; };
 		9DF64F42215896F9000D0300 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F41215896F9000D0300 /* ChecklistViewController.swift */; };
 		9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F4321589715000D0300 /* ProfileViewController.swift */; };
-		9DF74F26216B6E04003D4605 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF74F24216B6E04003D4605 /* EmptyTableViewCell.swift */; };
-		9DF74F27216B6E04003D4605 /* EmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF74F25216B6E04003D4605 /* EmptyTableViewCell.xib */; };
 		9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF74F28216C56FA003D4605 /* PhotoProvider.swift */; };
 		9DFA4FF22168704300A9C13F /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFA4FF12168704300A9C13F /* Checklist.swift */; };
 		9DFD95C02164F0520098DE55 /* TripsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD95BF2164F0520098DE55 /* TripsManager.swift */; };
@@ -125,6 +125,8 @@
 		9DD30ABF21724F9A00AF7BC1 /* SFCompactDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.otf"; sourceTree = "<group>"; };
 		9DD30ACF2172526A00AF7BC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9DD30AD1217255BC00AF7BC1 /* SFCompactDisplay-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Ultralight.otf"; sourceTree = "<group>"; };
+		9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriplistHeader.swift; sourceTree = "<group>"; };
+		9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriplistHeader.xib; sourceTree = "<group>"; };
 		9DD7944421620EDA00C42800 /* TravelColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelColor.swift; sourceTree = "<group>"; };
 		9DDE5B60215F4F310096C4FC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9DDE5B63215F84B50096C4FC /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
@@ -164,8 +166,6 @@
 		9DF64F3F21589670000D0300 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
 		9DF64F41215896F9000D0300 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
 		9DF64F4321589715000D0300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		9DF74F24216B6E04003D4605 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
-		9DF74F25216B6E04003D4605 /* EmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyTableViewCell.xib; sourceTree = "<group>"; };
 		9DF74F28216C56FA003D4605 /* PhotoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProvider.swift; sourceTree = "<group>"; };
 		9DFA4FF12168704300A9C13F /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		9DFD95BF2164F0520098DE55 /* TripsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsManager.swift; sourceTree = "<group>"; };
@@ -395,12 +395,12 @@
 		9DF143C8215B7901004E2DF1 /* TripListTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				9DF74F24216B6E04003D4605 /* EmptyTableViewCell.swift */,
-				9DF74F25216B6E04003D4605 /* EmptyTableViewCell.xib */,
 				9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */,
 				9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */,
 				9D26487A216E401300718F7A /* TripListFooter.swift */,
 				9D26487C216E402600718F7A /* TripListFooter.xib */,
+				9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */,
+				9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */,
 			);
 			path = TripListTableViewCell;
 			sourceTree = "<group>";
@@ -568,11 +568,11 @@
 			files = (
 				9DD30AC52172503700AF7BC1 /* SFCompactText-Medium.otf in Resources */,
 				9DD30ACB2172505600AF7BC1 /* SFCompactText-Semibold.otf in Resources */,
-				9DF74F27216B6E04003D4605 /* EmptyTableViewCell.xib in Resources */,
 				9D4A14862152543100748E06 /* Login.storyboard in Resources */,
 				9DF61B5C215A62D7005919E8 /* MenuBarCollectionViewCell.xib in Resources */,
 				9DD30AD2217255C700AF7BC1 /* SFCompactDisplay-Ultralight.otf in Resources */,
 				9D26487D216E402600718F7A /* TripListFooter.xib in Resources */,
+				9DD30AD621733E9900AF7BC1 /* TriplistHeader.xib in Resources */,
 				9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */,
 				9DD30AC82172504D00AF7BC1 /* SFCompactDisplay-Medium.otf in Resources */,
 				9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */,
@@ -722,6 +722,7 @@
 				9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
 				9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */,
+				9DD30AD421733E7D00AF7BC1 /* TriplistHeader.swift in Sources */,
 				9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */,
 				9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */,
 				9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */,
@@ -750,7 +751,6 @@
 				9DADC85521650DA6008D50D2 /* TripsProvider.swift in Sources */,
 				9DFA4FF22168704300A9C13F /* Checklist.swift in Sources */,
 				9DF34018215C8FF3002A957D /* PreservedViewController.swift in Sources */,
-				9DF74F26216B6E04003D4605 /* EmptyTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -35,6 +35,8 @@ class DetailViewController: UIViewController {
     
     var location: Location?
     
+    let fullScreenSize = UIScreen.main.bounds.size
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,7 +48,7 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        self.view.backgroundColor = UIColor(displayP3Red: 108/255.0, green: 117/255.0, blue: 143/255.0, alpha: 0.7)
         placeInfoCard.layer.cornerRadius = 8
         
         setupButton()
@@ -62,7 +64,11 @@ class DetailViewController: UIViewController {
             self.placeImage.image = photo
         }
         
-        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
+//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
+    }
+    
+    func setupView() {
+        
     }
     
     func setupButton() {
@@ -78,6 +84,11 @@ class DetailViewController: UIViewController {
         
         myTripButton.layer.cornerRadius = 8
         myTripButton.layer.maskedCorners = [.layerMinXMaxYCorner]
+    }
+    
+    func show() {
+        
+//        UIApplication.shared.windows.first!.addSubview(self)
     }
     
     #warning ("Refactor")
@@ -164,7 +175,8 @@ class DetailViewController: UIViewController {
             self.view.alpha = 0.0
         }, completion: {(finished: Bool)  in
             if finished {
-                self.view.removeFromSuperview()
+                self.dismiss(animated: true)
+//                self.view.removeFromSuperview()
             }
         })
     }

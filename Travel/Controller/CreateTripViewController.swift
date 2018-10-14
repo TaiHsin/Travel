@@ -19,11 +19,13 @@ class CreateTripViewController: UIViewController {
     
     @IBOutlet weak var createTripButton: UIButton!
     
+    @IBOutlet weak var closeButton: UIButton!
+    
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     
-    @IBAction func backBottun(_ sender: UIBarButtonItem) {
+    @IBAction func backBottun(_ sender: UIButton) {
         
-        navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     var tapped: Bool = false
@@ -38,9 +40,10 @@ class CreateTripViewController: UIViewController {
     
     var selectedDates: [Date] = []
     
-    let outsideMonthColor = UIColor.lightGray
-    let monthColor = UIColor.darkGray
-    let selectedMonthColor = UIColor.white
+//    let outsideMonthColor = UIColor.lightGray
+    let monthColor = #colorLiteral(red: 0.4862745098, green: 0.5294117647, blue: 0.631372549, alpha: 1)
+    let selectedViewColor = #colorLiteral(red: 0.6705882353, green: 0.768627451, blue: 0.8431372549, alpha: 1)
+    let selectedTextColor = UIColor.white
     let currentDateSelectedViewColor = UIColor.darkGray
     
     override func viewDidLoad() {
@@ -51,11 +54,7 @@ class CreateTripViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        createTripButton.layer.cornerRadius = 5
-        
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
-        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+
         // Scroll to present date
         //        calendarView.scrollToDate(Date(), extraAddedOffset: )
     }
@@ -93,7 +92,6 @@ class CreateTripViewController: UIViewController {
         // get current create time
         let currentDate = Date()
         let currenDateInt = Double(currentDate.timeIntervalSince1970)
-        
         
         /// Refact with model
         tripManager.createTripData(
@@ -202,7 +200,7 @@ class CreateTripViewController: UIViewController {
             validCell.rightView.isHidden = true
             
             validCell.dateLabel.isHidden = false
-            validCell.dateLabel.textColor = UIColor.black
+            validCell.dateLabel.textColor = monthColor
         }
     }
     
@@ -218,36 +216,36 @@ class CreateTripViewController: UIViewController {
                     
                 case .full:
                     
-                    cell.selectedView.backgroundColor = UIColor.darkGray
+                    cell.selectedView.backgroundColor = selectedViewColor
                     cell.leftView.isHidden = true
                     cell.rightView.isHidden = true
-                    cell.dateLabel.textColor = UIColor.white
+                    cell.dateLabel.textColor = selectedTextColor
                     
                 case .right:
                     
                     cell.leftView.isHidden = false
-                    cell.selectedView.backgroundColor = UIColor.darkGray
-                    cell.dateLabel.textColor = UIColor.white
+                    cell.selectedView.backgroundColor = selectedViewColor
+                    cell.dateLabel.textColor = selectedTextColor
                     
                 case .left:
                     
                     cell.rightView.isHidden = false
-                    cell.selectedView.backgroundColor = UIColor.darkGray
-                    cell.dateLabel.textColor = UIColor.white
+                    cell.selectedView.backgroundColor = selectedViewColor
+                    cell.dateLabel.textColor = selectedTextColor
                     
                 case .middle:
                     
                     cell.leftView.isHidden = false
                     cell.rightView.isHidden = false
-                    cell.selectedView.backgroundColor = UIColor.darkGray
-                    cell.dateLabel.textColor = UIColor.white
+                    cell.selectedView.backgroundColor = selectedViewColor
+                    cell.dateLabel.textColor = selectedTextColor
                     
                 default:
                     
                     cell.leftView.isHidden = true
                     cell.rightView.isHidden = true
                     cell.selectedView.isHidden = true
-                    cell.dateLabel.textColor = UIColor.black
+                    cell.dateLabel.textColor = monthColor
                     
                 }
             }
@@ -275,7 +273,7 @@ extension CreateTripViewController: JTAppleCalendarViewDataSource {
         /// What guard let should return to avoid force unwrapped?
         
         let startDate = Date()
-        let endDate = dateFormatter.date(from: "2020 12 31")!
+        let endDate = dateFormatter.date(from: "2100 12 31")!
         
         let parameters = ConfigurationParameters(
             startDate: startDate,
