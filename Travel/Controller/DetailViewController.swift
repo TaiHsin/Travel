@@ -48,10 +48,10 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.view.backgroundColor = UIColor(displayP3Red: 108/255.0, green: 117/255.0, blue: 143/255.0, alpha: 0.7)
-        placeInfoCard.layer.cornerRadius = 8
+        self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
         
-        setupButton()
+        placeInfoCard.layer.cornerRadius = 8
+        placeInfoCard.layer.masksToBounds = true
         
         #warning ("below shouldn't in viewWillAppear")
         
@@ -66,26 +66,7 @@ class DetailViewController: UIViewController {
         
 //        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
-    
-    func setupView() {
-        
-    }
-    
-    func setupButton() {
-        
-        favoriteButton.layer.borderWidth = 1
-        favoriteButton.layer.borderColor = UIColor.darkGray.cgColor
-        
-        favoriteButton.layer.cornerRadius = 8
-        favoriteButton.layer.maskedCorners = [.layerMaxXMaxYCorner]
-        
-        myTripButton.layer.borderWidth = 1
-        myTripButton.layer.borderColor = UIColor.darkGray.cgColor
-        
-        myTripButton.layer.cornerRadius = 8
-        myTripButton.layer.maskedCorners = [.layerMinXMaxYCorner]
-    }
-    
+
     func show() {
         
 //        UIApplication.shared.windows.first!.addSubview(self)

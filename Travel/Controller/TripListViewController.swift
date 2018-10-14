@@ -666,6 +666,19 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         return footerView
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cell = cell as? MenuBarCollectionViewCell else { return }
+        
+        if cell.isSelected {
+            
+            cell.selectedView.isHidden = false
+        } else {
+            
+            cell.selectedView.isHidden = true
+        }
+    }
+    
     @objc func editDaysCollection(sender: UIButton) {
         
         let alertVC = AlertManager.shared.showActionSheet(
@@ -999,8 +1012,6 @@ extension TripListViewController {
         ////        cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
-    
-    
 }
 
 /// Firebase "order" start from 0 ..., "days" start from 1 ..., detail start from 0

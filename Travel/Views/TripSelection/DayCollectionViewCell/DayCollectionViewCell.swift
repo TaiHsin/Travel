@@ -19,9 +19,8 @@ class DayCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        cellView.layer.cornerRadius = 10
-        cellView.layer.borderColor = UIColor.darkGray.cgColor
-        cellView.layer.borderWidth = 2
-        
+        cellView.layer.cornerRadius = 5
+        cellView.layer.borderWidth = 1
+        cellView.layer.borderColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
     }
 }
