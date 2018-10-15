@@ -62,8 +62,7 @@ class DetailViewController: UIViewController {
         photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
             
             self.placeImage.image = photo
-        }
-        
+        }        
 //        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
 

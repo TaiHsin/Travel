@@ -65,7 +65,7 @@ class TripsManager {
         endDate: Double,
         totalDays: Int,
         createdTime: Double,
-        success: @escaping (String) -> Void
+        success: @escaping (String, String) -> Void
         ) {
         
         // Add daysKey for tripDays node
@@ -87,7 +87,7 @@ class TripsManager {
         let postUpdate = ["/myTrips/\(key)": post]
         ref.updateChildValues(postUpdate)
         
-        success(daysKey)
+        success(daysKey, key)
     }
     
     // MARK: - Fetch Triplist data (once for all)

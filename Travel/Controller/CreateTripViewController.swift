@@ -100,9 +100,9 @@ class CreateTripViewController: UIViewController {
             endDate: endDate,
             totalDays: totalDays,
             createdTime: currenDateInt
-        ) { [weak self] (daysKey) in
+        ) { [weak self] (daysKey, key) in
             
-            self?.switchViewController(key: daysKey, first: startDate, last: endDate, total: totalDays, name: place)
+            self?.switchViewController(id: key, daysKey: daysKey, first: startDate, last: endDate, total: totalDays, name: place)
         }
         
         placeTextField.text = ""
@@ -111,7 +111,7 @@ class CreateTripViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
     }
     
-    func switchViewController(key: String, first: Double, last: Double, total: Int, name: String) {
+    func switchViewController(id: String, daysKey: String, first: Double, last: Double, total: Int, name: String) {
         
         guard let controller = UIStoryboard.myTripStoryboard()
             .instantiateViewController(
@@ -119,12 +119,14 @@ class CreateTripViewController: UIViewController {
             ) as? TripListViewController else { return }
     
         /// Refact with model
-        controller.daysKey = key
+        controller.id = id
+        controller.daysKey = daysKey
         controller.startDate = first
         controller.endDate = last
         controller.totalDays = total
         controller.name = name
         
+        /// Why presentingViewController is tabBarViewController??
         let superViewController = self.presentingViewController
         superViewController?.children[0].show(controller, sender: nil)
 
