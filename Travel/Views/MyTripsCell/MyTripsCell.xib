@@ -27,12 +27,12 @@
                         <color key="backgroundColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="yNf-JZ-MXl">
-                        <rect key="frame" x="17" y="115.5" width="101.5" height="58.5"/>
+                        <rect key="frame" x="10" y="115.5" width="115" height="58.5"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QKb-qM-OvE">
-                                <rect key="frame" x="0.0" y="0.0" width="101.5" height="41"/>
+                                <rect key="frame" x="7" y="0.0" width="101.5" height="41"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paris" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4IK-Py-so4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paris" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4IK-Py-so4">
                                         <rect key="frame" x="0.0" y="0.0" width="101.5" height="20.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -47,7 +47,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koR-yp-Eux">
-                                <rect key="frame" x="36" y="43" width="29" height="15.5"/>
+                                <rect key="frame" x="43" y="43" width="29" height="15.5"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -81,9 +81,11 @@
                 <constraint firstItem="hE0-c1-8Ob" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IUL-Uo-yUM"/>
                 <constraint firstAttribute="bottom" secondItem="yNf-JZ-MXl" secondAttribute="bottom" constant="11" id="Krs-zF-ahF"/>
                 <constraint firstItem="G9d-vj-VeR" firstAttribute="top" secondItem="pwl-gh-YBN" secondAttribute="bottom" constant="5" id="Pji-wz-SoJ"/>
+                <constraint firstItem="yNf-JZ-MXl" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="Qak-Qy-YhM"/>
                 <constraint firstAttribute="trailing" secondItem="Pgm-ZM-zDo" secondAttribute="trailing" id="Rdv-mY-13C"/>
                 <constraint firstAttribute="trailing" secondItem="hE0-c1-8Ob" secondAttribute="trailing" id="dfc-0Y-sJ2"/>
                 <constraint firstItem="Pgm-ZM-zDo" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dwz-kt-cRJ"/>
+                <constraint firstAttribute="trailing" secondItem="yNf-JZ-MXl" secondAttribute="trailing" constant="10" id="ggf-k1-jQ2"/>
                 <constraint firstItem="G9d-vj-VeR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="icf-kH-9uJ"/>
                 <constraint firstItem="hE0-c1-8Ob" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="m4l-zv-XqW"/>
                 <constraint firstItem="yNf-JZ-MXl" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="oPt-Cl-ata"/>

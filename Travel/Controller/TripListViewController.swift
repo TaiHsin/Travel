@@ -78,6 +78,12 @@ class TripListViewController: UIViewController {
     
     var id = ""
     
+    let mapViewHeight: CGFloat = 230.0
+    
+    var mapViewTopConstraints: NSLayoutConstraint?
+    
+    var mapViewHeightConstraints: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,6 +109,10 @@ class TripListViewController: UIViewController {
         setupCollectionView()
         
         setupTableView()
+        
+        setupMapView()
+        
+        automaticallyAdjustsScrollViewInsets = false
         
         setupLocationManager()
         
@@ -173,16 +183,11 @@ class TripListViewController: UIViewController {
             forHeaderFooterViewReuseIdentifier: String(describing: TriplistHeader.self)
         )
         
-        /// Empty cell ( disable for swap cell issue)
-//        let xibEmpty = UINib(
-//            nibName: String(describing: EmptyTableViewCell.self),
-//            bundle: nil
-//        )
-//
-//        tableView.register(
-//            xibEmpty,
-//            forCellReuseIdentifier: String(describing: EmptyTableViewCell.self)
-//        )
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
+        
+        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
     }
     
     func setupCollectionView() {
@@ -212,6 +217,24 @@ class TripListViewController: UIViewController {
     
     // MARK: - Google Map View
     
+    func setupMapView() {
+        
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        
+        mapViewTopConstraints = mapView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        
+        mapViewTopConstraints?.isActive = true
+        
+        mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        
+        mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        mapViewHeightConstraints = mapView.heightAnchor.constraint(equalToConstant: mapViewHeight)
+        
+        mapViewHeightConstraints?.isActive = true
+        
+    }
+
     // Locate device location and show location button
     func getCurrentLocation() {
         locationManager.startUpdatingLocation()

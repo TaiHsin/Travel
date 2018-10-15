@@ -52,6 +52,11 @@ class DetailViewController: UIViewController {
         
         placeInfoCard.layer.cornerRadius = 8
         placeInfoCard.layer.masksToBounds = true
+        placeImage.clipsToBounds = true
+        
+//        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+//        detailInfoView.layer.shouldRasterize = true
+//        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
         
         #warning ("below shouldn't in viewWillAppear")
         
@@ -66,11 +71,6 @@ class DetailViewController: UIViewController {
 //        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
 
-    func show() {
-        
-//        UIApplication.shared.windows.first!.addSubview(self)
-    }
-    
     #warning ("Refactor")
     
     @IBAction func addToFavorite(_ sender: UIButton) {

@@ -49,6 +49,7 @@ class CreateTripViewController: UIViewController {
         super.viewDidLoad()
         
         setupCalendarView()
+        placeTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -438,5 +439,21 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
     
     func calendarSizeForMonths(_ calendar: JTAppleCalendarView?) -> MonthSize? {
         return MonthSize(defaultSize: 30)
+    }
+}
+
+extension CreateTripViewController: UITextFieldDelegate {
+
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+        ) -> Bool {
+        
+        let maxLength = 40
+        guard let currentString: NSString = textField.text as NSString? else { return true}
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
     }
 }

@@ -69,6 +69,21 @@ private enum Tab {
             
         }
     }
+    
+    func title() -> String {
+        
+        switch self {
+            
+        case .myTrip: return "TRIPS"
+            
+        case .preserved: return "COLLECTIONS"
+            
+        case .package: return "PACKLIST"
+            
+        case .profile: return "PROFILE"
+            
+        }
+    }
 }
 
 class TabBarViewController: UITabBarController {
@@ -80,8 +95,15 @@ class TabBarViewController: UITabBarController {
     }
     
     private func setupTab() {
-        
+    
+        tabBar.layer.borderWidth = 0
+        tabBar.clipsToBounds = true
+        tabBar.barTintColor = UIColor.white
         tabBar.tintColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+        
+        let appearance = UITabBarItem.appearance()
+        let attributes = [NSAttributedString.Key.font: UIFont(name: "SFCompactDisplay-Regular", size: 8)]
+        appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key: Any], for: .normal)
         
         var controllers: [UIViewController] = []
         
@@ -92,20 +114,21 @@ class TabBarViewController: UITabBarController {
             let controller = tab.controller()
             
             let item = UITabBarItem(
-                title: nil,
+                title: tab.title(),
                 image: tab.image(),
                 selectedImage: tab.selectedImage()
             )
             
             item.imageInsets = UIEdgeInsets(
-                top: 6,
+                top: 0,
                 left: 0,
-                bottom: -6,
+                bottom: 0,
                 right: 0
             )
             
-            controller.tabBarItem = item
+            item.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -2)
             
+            controller.tabBarItem = item
             controllers.append(controller)
         }
         

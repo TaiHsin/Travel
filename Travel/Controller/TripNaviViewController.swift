@@ -18,10 +18,6 @@ class TripNaviViewController: UINavigationController {
         super.viewWillAppear(animated)
         
         setupNavigationBar()
-        
-        // get rid of black bar underneath navbar
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
     }
     
     func setupNavigationBar() {
