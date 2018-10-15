@@ -1,20 +1,16 @@
 //
-//  TripListTableViewCell.swift
+//  EmptyTableViewCell.swift
 //  Travel
 //
-//  Created by TaiHsinLee on 2018/9/26.
+//  Created by TaiHsinLee on 2018/10/8.
 //  Copyright © 2018 TaiHsinLee. All rights reserved.
 //
 
 import UIKit
 
-class TripListTableViewCell: UITableViewCell {
+class EmptyTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var listImage: UIImageView!
-    
-    @IBOutlet weak var placeNameLabel: UILabel!
-    
-    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var emptyLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

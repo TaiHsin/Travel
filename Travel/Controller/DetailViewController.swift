@@ -8,9 +8,11 @@
 
 import UIKit
 import GooglePlaces
+import FirebaseDatabase
+import Firebase
 
 class DetailViewController: UIViewController {
-
+    
     @IBOutlet weak var placeName: UILabel!
     
     @IBOutlet weak var placeImage: UIImageView!
@@ -23,12 +25,20 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var detailInfoView: UIView!
     
-    var place: GMSPlace?
+    var ref: DatabaseReference!
+    
+    let photoManager = PhotoManager()
+    
+    let dateFormatter = DateFormatter()
+    
+    var total = 0
+    
+    var location: Location?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        
+        ref = Database.database().reference()
         
         showAnimate()
     }
@@ -36,84 +46,97 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupButton()
-        
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         placeInfoCard.layer.cornerRadius = 10
         
-        guard let place = place else { return }
+        setupButton()
         
-        placeName.text = place.name
-        loadFirstPhotoForPlace(placeID: place.placeID)
+        #warning ("below shouldn't in viewWillAppear")
+        
+        guard let location = location else { return }
+        let placeId = location.photo
+        
+        placeName.text = location.name
+        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+            
+            self.placeImage.image = photo
+        }
         
         UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
     
     func setupButton() {
-
+        
         favoriteButton.layer.borderWidth = 1
         favoriteButton.layer.borderColor = UIColor.darkGray.cgColor
-
+        
         favoriteButton.layer.cornerRadius = 10
         favoriteButton.layer.maskedCorners = [.layerMaxXMaxYCorner]
-
+        
         myTripButton.layer.borderWidth = 1
         myTripButton.layer.borderColor = UIColor.darkGray.cgColor
-
+        
         myTripButton.layer.cornerRadius = 10
         myTripButton.layer.maskedCorners = [.layerMinXMaxYCorner]
     }
     
+    #warning ("Refactor")
+    
     @IBAction func addToFavorite(_ sender: UIButton) {
+
+        guard let location = location else { return }
         
-        showAlertWith(title: nil, message: "Added to favorite", style: .alert)
+        ref.child("/favorite/")
+            .queryOrdered(byChild: "locationId")
+            .queryEqual(toValue: location.locationId)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                
+                if (snapshot.value as? NSDictionary) != nil {
+                    
+                    // alert view to notify
+                    print("-------------------------")
+                    print("Already in your favorite!")
+                    print("-------------------------")
+                    
+                } else {
+                    
+                    // Notify view but not with alert view
+                    // Didn't find location in Firebase
+                    self.updateLocation(location: location)
+                    self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
+                    
+                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
+                }
+        }
     }
     
-    @IBAction func addToMyTrip(_ sender: Any) {
+    #warning ("Need to pop out to cover tab bar and navigation bar")
     
-        guard let selectionVC = UIStoryboard.searchStoryboard().instantiateViewController(
+    @IBAction func addToMyTrip(_ sender: Any) {
+        
+        guard let selectionViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: TripSelectionViewController.self)
             ) as? TripSelectionViewController else { return }
         
-        self.addChild(selectionVC)
+        selectionViewController.location = location
         
-        selectionVC.view.frame = self.placeInfoCard.frame
-        self.view.addSubview(selectionVC.view)
-        selectionVC.didMove(toParent: self)
+        self.addChild(selectionViewController)
+        
+        selectionViewController.view.frame = self.placeInfoCard.frame
+        self.view.addSubview(selectionViewController.view)
+        selectionViewController.didMove(toParent: self)
     }
     
-    func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
-            if let error = error {
-                
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto)
-                }
-            }
-        }
-    }
+    //    func show() {
+    //        UIApplication.shared.windows.first?.addSubview(self.view)
+    //        UIApplication.shared.windows.first?.endEditing(true)
+    //    }
     
     @IBAction func closeView(_ sender: Any) {
         removeAnimate()
     }
     
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
-            -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                self.placeImage.image = photo
-                
-                //  self.imageView.image = photo;
-                //  self.attributionTextView.attributedText = photoMetadata.attributions;
-            }
-        })
-    }
-    
+    #warning ("Refactor: gether all alert function together")
     func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
@@ -134,7 +157,7 @@ class DetailViewController: UIViewController {
             self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
     }
-
+    
     func removeAnimate() {
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
@@ -144,5 +167,35 @@ class DetailViewController: UIViewController {
                 self.view.removeFromSuperview()
             }
         })
+    }
+}
+
+extension DetailViewController {
+    
+    #warning ("Refactor: gether all Firebase relative function together")
+    func updateLocation(location: Location) {
+    
+        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? NSDictionary else { return }
+            
+            self.total = value.allKeys.count
+        }
+    
+        guard let key = ref.child("favorite").childByAutoId().key else { return }
+ 
+        let post = ["addTime": location.addTime,
+                    "address": location.address,
+                    "latitude": location.latitude,
+                    "longitude": location.longitude,
+                    "locationId": key,
+                    "name": location.name,
+                    "order": location.order,
+                    "photo": location.photo,
+                    "days": location.days
+            ] as [String: Any]
+        
+        let postUpdate = ["/favorite/\(key)": post]
+        
+        ref.updateChildValues(postUpdate)
     }
 }

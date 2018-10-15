@@ -8,6 +8,7 @@
 
 import UIKit
 import GooglePlaces
+import FirebaseDatabase
 
 class SearchViewController: UIViewController {
     
@@ -18,7 +19,11 @@ class SearchViewController: UIViewController {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITableView?
-
+    var ref: DatabaseReference!
+    var location: Location?
+    var total = 0
+    let fullScreenSize = UIScreen.main.bounds.size
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,6 +43,12 @@ class SearchViewController: UIViewController {
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
+        
+        ref = Database.database().reference()
+        
+        fetchDataCount { (number) in
+            self.total = number
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,34 +80,38 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         // Do something with the selected place.
         
         print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
+        print("Place address: \(String(describing: place.formattedAddress))")
         print("Place attributions: \(place.attributions)")
         print("Place coordinate: \(place.coordinate)")
         print("Place id: \(place.placeID)")
         
-        switchDetailVC(place: place)
+        /// Remove "total" parameter if is useless
         
+        convertData(place: place, total: total) { (location) in
+            
+            self.location = location
+            self.switchDetailVC(location: self.location)
+        }
 //        loadFirstPhotoForPlace(placeID: place.placeID)
 //        nameLabel.text = place.name
     }
 
-    func switchDetailVC(place: GMSPlace) {
+    func switchDetailVC(location: Location?) {
         
         /// How to remove childView from parentView?
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
-        detailViewController.place = place
+        detailViewController.location = location
         
-        show(detailViewController, sender: nil)
-//        self.addChild(detailViewController)
-//
-//        detailViewController.view.frame = self.view.frame
-//        self.view.addSubview(detailViewController.view)
-//        detailViewController.didMove(toParent: self)
+//        show(detailViewController, sender: nil)
+        self.addChild(detailViewController)
+    
+        self.view.addSubview(detailViewController.view)
+        detailViewController.didMove(toParent: self)
         
-        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
+//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
     }
     
     func resultsController(
@@ -116,6 +131,42 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+    func convertData(place: GMSPlace, total: Int, success: @escaping (Location) -> Void) {
+        
+        let date = Date()
+        let dateInt = Double(date.timeIntervalSince1970)
+        
+        let latitude = place.coordinate.latitude
+        let longitude = place.coordinate.longitude
+        
+        let locationId = "\(latitude)" + "_" + "\(longitude)"
+        
+        let location = Location.init(
+            addTime: dateInt,
+            address: place.formattedAddress!,
+            latitude: latitude,
+            longitude: longitude,
+            locationId: locationId,
+            name: place.name,
+            order: total + 1,
+            photo: place.placeID,
+            days: 0
+        )
+        
+        success(location)
+    }
+    
+    func fetchDataCount(success: @escaping (Int) -> Void) {
+        
+        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            let number = value.allKeys.count
+            
+            success(number)
+        }
     }
 }
 

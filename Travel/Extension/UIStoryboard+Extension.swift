@@ -10,6 +10,11 @@ import UIKit
 
 extension UIStoryboard {
     
+    static func loginStoryboard() -> UIStoryboard {
+        
+        return UIStoryboard(name: "Login", bundle: nil)
+    }
+    
     static func mainStoryboard() -> UIStoryboard {
         
         return UIStoryboard(name: "Main", bundle: nil)

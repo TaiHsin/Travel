@@ -14,6 +14,7 @@ target 'Travel' do
   # Pods for Firebase
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 
   # Pods for GoogleMap
   pod 'GooglePlaces'
@@ -24,5 +25,8 @@ target 'Travel' do
   pod 'SwiftLint'
   pod 'IQKeyboardManagerSwift'
   pod 'JTAppleCalendar', '~> 7.0'
+  pod 'KeychainAccess'
   
+  pod 'Fabric'
+  pod 'Crashlytics'
 end

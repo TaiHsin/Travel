@@ -8,32 +8,44 @@
 
 import UIKit
 import GooglePlaces
+import FirebaseDatabase
 
 class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    let photoManager = PhotoManager()
+    
+    var ref: DatabaseReference!
+    
     var place: GMSPlace?
     
-    var locationData = [LocationData]()
+    var photo: UIImage?
+    
+    var locationArray: [Location] = []
+    
+    let decoder = JSONDecoder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationData = [LocationData(placeName: "Effel Tower", photo: #imageLiteral(resourceName: "paris"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.858539, longitude: 2.294524),
-                        LocationData(placeName: "Arc de Triomphe", photo: #imageLiteral(resourceName: "Arc_de_Triomphe"), address: "Place Charles de Gaulle, 75008 Paris, France", latitude: 48.873982, longitude: 2.295457),
-                        LocationData(placeName: "Notre-Dame de Paris", photo: #imageLiteral(resourceName: "notre_dame_de_paris"), address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France", latitude: 48.853116, longitude: 2.349924),
-                        LocationData(placeName: "Palais du Louvre", photo: #imageLiteral(resourceName: "palais_du_louvre"), address: "91A Rue de Rivoli, 75001 Paris, France", latitude: 48.860533, longitude: 2.338588)
-        ]
+        ref = Database.database().reference()
+        
+        fetchData()
         
         setupTableView()
-        
-        let longPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
+ 
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updatePreserved(noti: )),
+            name: Notification.Name("preserved"),
+            object: nil
         )
+    }
+    
+    @objc func updatePreserved(noti: Notification) {
         
-        self.tableView.addGestureRecognizer(longPress)
+        fetchData()
     }
     
     @IBAction func searchPlace(_ sender: Any) {
@@ -60,96 +72,31 @@ class PreservedViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    @objc func longPressGestureRecognized(gestureRecognizer: UIGestureRecognizer) {
+    func fetchData() {
         
-        guard let longPress = gestureRecognizer as? UILongPressGestureRecognizer else { return }
-        
-        let state = longPress.state
-        
-        let locationInView = longPress.location(in: self.tableView)
-        
-        var indexPath = self.tableView.indexPathForRow(at: locationInView)
-        
-        switch state {
-            
-        case .began:
-            if indexPath != nil {
-                Path.initialIndexPath = indexPath
-                guard let cell = self.tableView.cellForRow(at: indexPath!) as? PreservedTableViewCell else {
-                    return
-                }
+        locationArray.removeAll()
+        fetchPreservedData(
+            success: { (location) in
+                print(self.locationArray)
+                self.locationArray = location
                 
-                Path.cellSnapShot = snapshopOfCell(inputView: cell)
-                var center = cell.center
-                Path.cellSnapShot?.center = center
-                Path.cellSnapShot?.alpha = 0.0
-                self.tableView.addSubview(Path.cellSnapShot!)
+                // Sort array alphabetically
+                self.locationArray.sort(by: {$0.name < $1.name})
                 
-                UIView.animate(withDuration: 0.25, animations: {
-                    center.y = locationInView.y
-                    Path.cellSnapShot?.center = center
-                    Path.cellSnapShot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                    Path.cellSnapShot?.alpha = 0.98
-                    cell.alpha = 0.0
-                }, completion: { (finished) -> Void in
-                    if finished {
-                        cell.isHidden = true
-                    }
-                })
-            }
-        case .changed:
-            
-            var center = Path.cellSnapShot?.center
-            center?.y = locationInView.y
-            Path.cellSnapShot?.center = center!
-            if indexPath != nil && indexPath != Path.initialIndexPath {
-                
-                self.locationData.swapAt((indexPath?.row)!, (Path.initialIndexPath?.row)!)
-                
-                self.tableView.moveRow(at: Path.initialIndexPath!, to: indexPath!)
-                Path.initialIndexPath = indexPath
-            }
-        default:
-            
-            guard let cell = self.tableView.cellForRow(at: Path.initialIndexPath!) as? PreservedTableViewCell else {
-                return
-            }
-            cell.isHidden = false
-            cell.alpha = 0.0
-            UIView.animate(withDuration: 0.25, animations: {
-                Path.cellSnapShot?.center = cell.center
-                Path.cellSnapShot?.transform = .identity
-                Path.cellSnapShot?.alpha = 0.0
-                cell.alpha = 1.0
-            }, completion: { (finished) -> Void in
-                if finished {
-                    Path.initialIndexPath = nil
-                    Path.cellSnapShot?.removeFromSuperview()
-                    Path.cellSnapShot = nil
-                }
-            })
+                self.tableView.reloadData()
+        },
+            failure: { (_) in
+                //TODO
         }
+        )
     }
-    
-    func snapshopOfCell(inputView: UIView) -> UIView {
-        
-        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
-        
-        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()!
-        let cellSnapshot: UIView = UIImageView(image: image)
-        cellSnapshot.layer.masksToBounds = false
 
-//        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-//        cellSnapshot.layer.shadowRadius = 5.0
-//        cellSnapshot.layer.shadowOpacity = 0.4
-        return cellSnapshot
-    }
-    
-    func switchDetailVC() {
+    func showDetailInfo(location: Location) {
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        detailViewController.location = location
         
         self.addChild(detailViewController)
         
@@ -161,12 +108,18 @@ class PreservedViewController: UIViewController {
 
 extension PreservedViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+        ) -> Int {
         
-        return locationData.count
+        return locationArray.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+        ) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: PreservedTableViewCell.self),
@@ -174,12 +127,15 @@ extension PreservedViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.photoImage.image = locationData[indexPath.row].photo
+        let placeId = locationArray[indexPath.row].photo
         
-        cell.placeName.text = locationData[indexPath.row].placeName
+        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+            cell.photoImage.image = photo
+        }
+    
+        cell.placeName.text = locationArray[indexPath.row].name
         
 //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-        
 //        cell.setSelected(true, animated: true)
         return cell
     }
@@ -192,15 +148,21 @@ extension PreservedViewController: UITableViewDataSource {
         
         if editingStyle == .delete {
             
-            locationData.remove(at: indexPath.row)
+            let location = locationArray[indexPath.row]
+            deleteData(location: location)
+            locationArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             
             // TODO
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+        ) -> CGFloat {
         
         return 100
     }
@@ -208,8 +170,60 @@ extension PreservedViewController: UITableViewDataSource {
 
 extension PreservedViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+        ) {
         
-        switchDetailVC()
+        let locationData = locationArray[indexPath.row]
+        showDetailInfo(location: locationData)
+    }
+}
+
+// MARK: - Firebase data
+extension PreservedViewController {
+    
+    #warning ("Refact to TripsManager")
+    func fetchPreservedData(
+        success: @escaping ([Location]) -> Void,
+        failure: @escaping (TripsError) -> Void
+        ) {
+        
+        var location: [Location] = []
+        
+        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            
+            for value in value.allValues {
+                
+                // Data convert: can be refact out independently
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                
+                do {
+                    let data = try self.decoder.decode(Location.self, from: jsonData)
+                    
+                    location.append(data)
+                
+                } catch {
+                    print(error)
+                }
+            }
+            print(location)
+            success(location)
+        }
+    }
+    
+    func deleteData(location: Location) {
+        
+        ref.child("favorite")
+            .queryOrdered(byChild: "locationId")
+            .queryEqual(toValue: location.locationId)
+            .observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            guard let key = value.allKeys.first as? String else { return }
+            self.ref.child("/favorite/\(key)").removeValue()
+        }
     }
 }

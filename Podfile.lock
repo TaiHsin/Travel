@@ -5,6 +5,9 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - Crashlytics (3.10.8):
+    - Fabric (~> 1.7.12)
+  - Fabric (1.7.12)
   - FBSDKCoreKit (4.37.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.37.0):
@@ -19,6 +22,9 @@ PODS:
     - FirebaseAnalytics (= 5.2.0)
   - Firebase/CoreOnly (5.9.0):
     - FirebaseCore (= 5.1.4)
+  - Firebase/Database (5.9.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (= 5.0.3)
   - FirebaseAnalytics (5.2.0):
     - FirebaseCore (~> 5.1)
     - FirebaseInstanceID (~> 3.2)
@@ -36,6 +42,9 @@ PODS:
   - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.1.4):
     - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseDatabase (5.0.3):
+    - FirebaseCore (~> 5.0)
+    - leveldb-library (~> 1.18)
   - FirebaseInstanceID (3.2.2):
     - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.3)
@@ -77,6 +86,8 @@ PODS:
   - GTMSessionFetcher/Core (1.2.0)
   - IQKeyboardManagerSwift (6.1.1)
   - JTAppleCalendar (7.1.6)
+  - KeychainAccess (3.1.1)
+  - leveldb-library (1.20)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -86,21 +97,27 @@ PODS:
 
 DEPENDENCIES:
   - Bolts
+  - Crashlytics
+  - Fabric
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
   - Firebase/Auth
   - Firebase/Core
+  - Firebase/Database
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
   - IQKeyboardManagerSwift
   - JTAppleCalendar (~> 7.0)
+  - KeychainAccess
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bolts
+    - Crashlytics
+    - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
@@ -109,6 +126,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
+    - FirebaseDatabase
     - FirebaseInstanceID
     - GoogleAppMeasurement
     - GoogleMaps
@@ -118,11 +136,15 @@ SPEC REPOS:
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - JTAppleCalendar
+    - KeychainAccess
+    - leveldb-library
     - nanopb
     - SwiftLint
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Crashlytics: 058dc1ba579f6c100bc60a6878703779bff383c4
+  Fabric: d7387db9a31aadff63b147a4b91d982c53afaa4f
   FBSDKCoreKit: fe5f3474499a81963e11e3f3a5c753d0a95ca2b4
   FBSDKLoginKit: 2f7249686d1e30ce8a5ef5400eedf50b3e3df332
   FBSDKShareKit: 52e0083222c38e930eb6878007478326599195c3
@@ -131,6 +153,7 @@ SPEC CHECKSUMS:
   FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: 2a84b6b325792a4319ef71ee18819dcba08d2fd7
+  FirebaseDatabase: e2bcbc106adc4b11a2da3ec2eb63c0c4a44f2f54
   FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
   GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
@@ -140,9 +163,11 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   IQKeyboardManagerSwift: 977affaeb4d6e971975c7790a6850f31d38f1207
   JTAppleCalendar: abb30678f42a4ef8a340a932b1dcb8c85a33dac2
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: b2f28d07f2d575ea7183cf25ea46533f136dc812
+PODFILE CHECKSUM: a66a5a96f0e5b0cb9455a355f478075c79eb8655
 
 COCOAPODS: 1.5.3
