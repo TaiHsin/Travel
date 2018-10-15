@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
     
     private let manager = FacebookManager()
     
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,8 +85,8 @@ class LoginViewController: UIViewController {
                     guard let uid = user?.uid else { return }
                     
                     /// store uid or getIDtoken?
-                    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
-                    keychain["userId"] = uid
+                    
+                    self?.keychain["userId"] = uid
     
                     DispatchQueue.main.async {
                     

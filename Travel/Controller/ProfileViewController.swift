@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import Kingfisher
+import KeychainAccess
 
 class ProfileViewController: UIViewController {
 
@@ -19,6 +20,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var emailLabel: UILabel!
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +61,8 @@ class ProfileViewController: UIViewController {
             
             do {
                 try firbaseAuth.signOut()
+                
+                self.keychain["userId"] = nil
                 
                 DispatchQueue.main.async {
                     AppDelegate.shared.window?.rootViewController
