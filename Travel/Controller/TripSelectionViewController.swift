@@ -124,7 +124,7 @@ extension TripSelectionViewController: UITableViewDataSource {
             cell.cellView.backgroundColor = UIColor.white
         }
         
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        cell.selectionStyle = .none
         cell.nameLabel.text = trips[indexPath.row].name
         
         return cell

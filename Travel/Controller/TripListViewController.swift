@@ -446,7 +446,7 @@ extension TripListViewController: UITableViewDataSource {
             )
             guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
 
-            emptyCell.flag = false
+            emptyCell.isEmpty = true
             emptyCell.switchCellContent()
             emptyCell.selectionStyle = .none
 
@@ -464,8 +464,7 @@ extension TripListViewController: UITableViewDataSource {
                 return cell
         }
         
-//        listCell.layer.cornerRadius = 5.0
-        listCell.flag = true
+        listCell.isEmpty = false
         listCell.switchCellContent()
         
         #warning ("Refactor: seems will delay, better way?")
@@ -550,16 +549,21 @@ extension TripListViewController: UITableViewDelegate {
         forRowAt indexPath: IndexPath
         ) {
         
+        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
+        
+        guard cell.isEmpty != true else { return }
+        
         if editingStyle == .delete {
-            
-            guard let locationArray = detailData[indexPath.section] else { return }
-            let location = locationArray[indexPath.row]
-            deletLocation(daysKey: daysKey, location: location)
-            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
-            
-            detailData[indexPath.section]!.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+                
+                guard let locationArray = detailData[indexPath.section] else { return }
+                let location = locationArray[indexPath.row]
+                deletLocation(daysKey: daysKey, location: location)
+                changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
+                
+                detailData[indexPath.section]!.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
         }
+
     }
 }
 
@@ -666,7 +670,11 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         return footerView
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+        ) {
         
         guard let cell = cell as? MenuBarCollectionViewCell else { return }
         

@@ -27,6 +27,10 @@ class ChecklistViewController: UIViewController {
     
     var checklists: [Checklist] = []
     
+    let uncheckColor = #colorLiteral(red: 0.4862745098, green: 0.5294117647, blue: 0.631372549, alpha: 1)
+    
+    let checkedColor = #colorLiteral(red: 0.8823529412, green: 0.8941176471, blue: 0.9058823529, alpha: 1)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -170,7 +174,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
             guard let createCell = cell as? ChecklistFooter else { return cell }
             
             createCell.addItemButton.addTarget(self, action: #selector(addNewItem(sender:)), for: .touchUpInside)
-            
+            createCell.selectionStyle = .none
             return createCell
         }
         
@@ -187,6 +191,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         handleCellColor(cell: cell, indexPath: indexPath)
         updateHeaderNumber(section: indexPath.section)
         
+        checklistCell.selectionStyle = .none
         checklistCell.layoutIfNeeded()
         
         return checklistCell
@@ -376,9 +381,9 @@ extension ChecklistViewController {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = false
             
-            checklistCell.checkImage.image = UIImage(named: "check_disable")
-            checklistCell.checkImage.tintColor = UIColor.darkGray
-            checklistCell.contentLabel.textColor = UIColor.darkGray
+            checklistCell.checkImage.image = UIImage(named: "icon_uncheck")
+            checklistCell.checkImage.tintColor = uncheckColor
+            checklistCell.contentLabel.textColor = uncheckColor
             let item = Items.init(name: "", number: 1, order: 1, isSelected: false)
             updateChecklistData(item: item, indexPath: indexPath, type: .edit)
         } else {
@@ -386,8 +391,8 @@ extension ChecklistViewController {
             checklists[indexPath.section].items[indexPath.row].isSelected = true
             
             checklistCell.checkImage.image = UIImage(named: "check_enable")
-            checklistCell.checkImage.tintColor = UIColor.lightGray
-            checklistCell.contentLabel.textColor = UIColor.lightGray
+            checklistCell.checkImage.tintColor = checkedColor
+            checklistCell.contentLabel.textColor = checkedColor
             
             let item = Items.init(name: "", number: 1, order: 1, isSelected: true)
             updateChecklistData(item: item, indexPath: indexPath, type: .edit)
@@ -402,13 +407,13 @@ extension ChecklistViewController {
         if checklists[indexPath.section].items[indexPath.row].isSelected {
         
             checklistCell.checkImage.image = UIImage(named: "check_enable")
-            checklistCell.checkImage.tintColor = UIColor.lightGray
-            checklistCell.contentLabel.textColor = UIColor.lightGray
+            checklistCell.checkImage.tintColor = checkedColor
+            checklistCell.contentLabel.textColor = checkedColor
         } else {
         
-            checklistCell.checkImage.image = UIImage(named: "check_disable")
-            checklistCell.checkImage.tintColor = UIColor.darkGray
-            checklistCell.contentLabel.textColor = UIColor.darkGray
+            checklistCell.checkImage.image = UIImage(named: "icon_uncheck")
+            checklistCell.checkImage.tintColor = uncheckColor
+            checklistCell.contentLabel.textColor = uncheckColor
         }
     }
     

@@ -20,7 +20,7 @@ class TripListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var emptyLabel: UILabel!
     
-    var flag = true
+    var isEmpty = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,20 +35,21 @@ class TripListTableViewCell: UITableViewCell {
     
     func switchCellContent() {
         
-        if flag {
+//        if isEmpty {
+        
+            emptyLabel.isHidden = !isEmpty
+            listImage.isHidden = isEmpty
+            addressLabel.isHidden = isEmpty
+            placeNameLabel.isHidden = isEmpty
+            locationImage.isHidden = isEmpty
             
-            emptyLabel.isHidden = true
-            listImage.isHidden = false
-            addressLabel.isHidden = false
-            placeNameLabel.isHidden = false
-            locationImage.isHidden = false
-        } else {
-            
-            emptyLabel.isHidden = false
-            listImage.isHidden = true
-            addressLabel.isHidden = true
-            placeNameLabel.isHidden = true
-            locationImage.isHidden = true
-        }
+//        } else {
+//
+//            emptyLabel.isHidden = true
+//            listImage.isHidden = false
+//            addressLabel.isHidden = false
+//            placeNameLabel.isHidden = false
+//            locationImage.isHidden = false
+//        }
     }
 }

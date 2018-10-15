@@ -8,6 +8,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SFCompactText-Regular.otf">
+            <string>SFCompactText-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -23,21 +28,21 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="13.5" id="xo4-pR-ugO"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="13"/>
+                        <color key="textColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NRO-AC-afI">
                         <rect key="frame" x="0.0" y="16" width="320" height="1"/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="mwk-Pz-lpO"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9B-P8-AqS">
-                        <rect key="frame" x="281" y="2" width="19" height="16"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <rect key="frame" x="274.5" y="2" width="20.5" height="16"/>
+                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="13"/>
+                        <color key="textColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -46,7 +51,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="v6W-hH-oP9" secondAttribute="trailing" constant="100" id="9Ky-lX-Klz"/>
                     <constraint firstItem="v6W-hH-oP9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="9ih-Za-Ma0"/>
                     <constraint firstAttribute="trailing" secondItem="NRO-AC-afI" secondAttribute="trailing" id="WKW-hx-5OL"/>
-                    <constraint firstAttribute="trailing" secondItem="u9B-P8-AqS" secondAttribute="trailing" constant="20" id="WPg-bk-zeq"/>
+                    <constraint firstAttribute="trailing" secondItem="u9B-P8-AqS" secondAttribute="trailing" constant="25" id="WPg-bk-zeq"/>
                     <constraint firstItem="v6W-hH-oP9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fiI-Kl-VeN"/>
                     <constraint firstAttribute="bottom" secondItem="u9B-P8-AqS" secondAttribute="bottom" constant="1.5" id="fqT-6q-5JZ"/>
                     <constraint firstItem="NRO-AC-afI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="fwO-ms-Z8n"/>
@@ -60,7 +65,7 @@
                 <outlet property="contentLabel" destination="v6W-hH-oP9" id="AmZ-bK-WAP"/>
                 <outlet property="numberLabel" destination="u9B-P8-AqS" id="SRo-de-atT"/>
             </connections>
-            <point key="canvasLocation" x="94" y="92"/>
+            <point key="canvasLocation" x="162" y="91"/>
         </tableViewCell>
     </objects>
 </document>

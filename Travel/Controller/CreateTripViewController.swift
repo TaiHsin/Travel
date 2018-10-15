@@ -40,7 +40,6 @@ class CreateTripViewController: UIViewController {
     
     var selectedDates: [Date] = []
     
-//    let outsideMonthColor = UIColor.lightGray
     let monthColor = #colorLiteral(red: 0.4862745098, green: 0.5294117647, blue: 0.631372549, alpha: 1)
     let selectedViewColor = #colorLiteral(red: 0.6705882353, green: 0.768627451, blue: 0.8431372549, alpha: 1)
     let selectedTextColor = UIColor.white
@@ -126,7 +125,10 @@ class CreateTripViewController: UIViewController {
         controller.totalDays = total
         controller.name = name
         
-        show(controller, sender: nil)
+        let superViewController = self.presentingViewController
+        superViewController?.children[0].show(controller, sender: nil)
+
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setupCalendarView() {
