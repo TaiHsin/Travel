@@ -13,10 +13,11 @@
 		9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */; };
 		9D26487B216E401300718F7A /* TripListFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26487A216E401300718F7A /* TripListFooter.swift */; };
 		9D26487D216E402600718F7A /* TripListFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D26487C216E402600718F7A /* TripListFooter.xib */; };
+		9D3D357721760226003212D6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D3D357521760226003212D6 /* Info.plist */; };
+		9D3D3579217602CB003212D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D3D3578217602CB003212D6 /* GoogleService-Info.plist */; };
 		9D4A14862152543100748E06 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14852152543100748E06 /* Login.storyboard */; };
 		9D4A14882152560D00748E06 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A14872152560D00748E06 /* UIView+Extension.swift */; };
 		9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A148E2152627C00748E06 /* LoginViewController.swift */; };
-		9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14902152A56600748E06 /* GoogleService-Info.plist */; };
 		9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A149221533E9600748E06 /* FacebookManager.swift */; };
 		9D514DAF2175C79700A39151 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D514DAE2175C79700A39151 /* Photos.swift */; };
 		9D6B5D03216F4C3500066756 /* DayCollectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B5D02216F4C3500066756 /* DayCollectionFooter.swift */; };
@@ -94,13 +95,13 @@
 		9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D0E19722151FE1C00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9D0E19772151FE1D00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9D0E19792151FE1D00CE1C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D26487A216E401300718F7A /* TripListFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListFooter.swift; sourceTree = "<group>"; };
 		9D26487C216E402600718F7A /* TripListFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListFooter.xib; sourceTree = "<group>"; };
+		9D3D357521760226003212D6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D3D3578217602CB003212D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9D4A14852152543100748E06 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9D4A14872152560D00748E06 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		9D4A148E2152627C00748E06 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		9D4A14902152A56600748E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9D4A149221533E9600748E06 /* FacebookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookManager.swift; sourceTree = "<group>"; };
 		9D514DAE2175C79700A39151 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		9D6B5D02216F4C3500066756 /* DayCollectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCollectionFooter.swift; sourceTree = "<group>"; };
@@ -233,8 +234,8 @@
 				9D4A148D21525CA700748E06 /* Storyboard */,
 				9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */,
 				9DDE5B65215FC63F0096C4FC /* Assets.xcassets */,
-				9D0E19792151FE1D00CE1C4A /* Info.plist */,
-				9D4A14902152A56600748E06 /* GoogleService-Info.plist */,
+				9D3D3578217602CB003212D6 /* GoogleService-Info.plist */,
+				9D3D357521760226003212D6 /* Info.plist */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
@@ -514,7 +515,7 @@
 				9DF34024215CD875002A957D /* WeatherTableViewCell.xib in Resources */,
 				9DF34036215DD745002A957D /* ChecklistFooter.xib in Resources */,
 				9DF34029215CE285002A957D /* ChecklistTableViewCell.xib in Resources */,
-				9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */,
+				9D3D357721760226003212D6 /* Info.plist in Resources */,
 				9DF34031215D401B002A957D /* ChecklistHeader.xib in Resources */,
 				9DD30ACC2172505900AF7BC1 /* SFCompactDisplay-Bold.otf in Resources */,
 				9DD30AC92172505000AF7BC1 /* SFCompactDisplay-Regular.otf in Resources */,
@@ -523,6 +524,7 @@
 				9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */,
 				9DD30AC72172504A00AF7BC1 /* SFCompactDisplay-Light.otf in Resources */,
 				9DF61B392159DFF4005919E8 /* MyTripsCell.xib in Resources */,
+				9D3D3579217602CB003212D6 /* GoogleService-Info.plist in Resources */,
 				9DF34015215C6873002A957D /* MyTrip.storyboard in Resources */,
 				9DD30AC32172502500AF7BC1 /* SFCompactText-Regular.otf in Resources */,
 				9DF3401D215C90AF002A957D /* PreservedTableViewCell.xib in Resources */,
