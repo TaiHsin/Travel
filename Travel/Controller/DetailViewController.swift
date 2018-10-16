@@ -55,7 +55,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+//        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
         
         ref = Database.database().reference()
         
@@ -65,7 +65,7 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
+        self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.8)
         
         placeInfoCard.layer.cornerRadius = 8
         placeInfoCard.layer.masksToBounds = true
@@ -124,7 +124,6 @@ class DetailViewController: UIViewController {
                     
                 } else {
                     
-                    // Notify view but not with alert view
                     // Didn't find location in Firebase
                     self.updateLocation(location: location)
                     self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)

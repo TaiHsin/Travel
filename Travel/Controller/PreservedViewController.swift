@@ -9,12 +9,17 @@
 import UIKit
 import GooglePlaces
 import FirebaseDatabase
+import NVActivityIndicatorView
 
 class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var addPlace: UIBarButtonItem!
+    
+    @IBOutlet weak var emptyLabel: UILabel!
+    
+    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
     let photoManager = PhotoManager()
     
@@ -39,6 +44,11 @@ class PreservedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
+        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
+        
+        activityIndicatorView.startAnimating()
+        
         ref = Database.database().reference()
     
         setupTableView()
@@ -57,6 +67,8 @@ class PreservedViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        
+        emptyLabel.isHidden = true
     }
     
     @objc func updatePreserved(noti: Notification) {
@@ -101,6 +113,15 @@ class PreservedViewController: UIViewController {
                 self.locationArray.sort(by: {$0.name < $1.name})
                 
                 self.getPhotos()
+                
+                if self.locationArray.count == 0 {
+                    
+                    self.emptyLabel.isHidden = false
+                } else {
+                    
+                    self.emptyLabel.isHidden = true
+                }
+                
         },
             failure: { (_) in
                 //TODO
@@ -117,9 +138,9 @@ class PreservedViewController: UIViewController {
             #warning ("photoArray order is wrong")
             photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
                 
-                
                 self.photosDict[placeID] = photo
-//                self.photoArray.append(photo)
+                
+                self.activityIndicatorView.stopAnimating()
                 
                 self.tableView.reloadData()
                 
@@ -128,6 +149,8 @@ class PreservedViewController: UIViewController {
                 guard let image = UIImage(named: "picture_placeholder02") else { return }
                 
                 self.photosDict["Nophoto"] = image
+                
+                self.activityIndicatorView.stopAnimating()
                 
                 self.tableView.reloadData()
             }

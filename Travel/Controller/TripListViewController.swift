@@ -301,13 +301,11 @@ class TripListViewController: UIViewController {
 
     func createWeekDay(startDate: Double, totalDays: Int) {
         
-        var date = Date(timeIntervalSince1970: startDate)
-        
-        guard let endDate = Calendar.current.date(byAdding: .day, value: totalDays, to: date) else { return }
-        
-        while date < endDate {
+        for index in 0 ... totalDays - 1 {
             
-            date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            var date = Date(timeIntervalSince1970: startDate)
+            
+            date = Calendar.current.date(byAdding: .day, value: index, to: date)!
             dates.append(date)
         }
     }

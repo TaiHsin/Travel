@@ -152,7 +152,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.43137254899999999" green="0.45882352939999999" blue="0.54901960780000003" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.3369768126154582" green="0.36099302378469011" blue="0.43304165729238586" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="centerX" secondItem="h9W-rK-9UN" secondAttribute="centerX" id="896-2h-cm5"/>

@@ -16,6 +16,8 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
     
+    @IBOutlet weak var emptyLabel: UILabel!
+    
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
     let tripsManager = TripsManager()
@@ -30,8 +32,9 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         super.viewDidLoad()
         
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
+        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
     
-//        activityIndicatorView.startAnimating()
+        activityIndicatorView.startAnimating()
         
         setupCollectionView()
         fetchData()
@@ -45,8 +48,6 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
             name: Notification.Name("myTrips"),
             object: nil
         )
-        
-//        activityIndicatorView.stopAnimating() 
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +55,8 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        
+        emptyLabel.isHidden = true
     }
     
     func setupLoadingAnimation() {
@@ -126,6 +129,16 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
                 #warning ("better not to reload data (only add/ insert one)?")
                 
                 self?.collectionView.reloadData()
+                
+                if self?.trips.count == 0 {
+                    
+                    self?.emptyLabel.isHidden = false
+                } else {
+                    
+                    self?.emptyLabel.isHidden = true
+                }
+                
+                self?.activityIndicatorView.stopAnimating()
             },
             failure: { _ in
                 //TODO

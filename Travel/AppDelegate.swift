@@ -57,8 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
-//        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
-        
         let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
         guard keychain["userId"] == nil else {
