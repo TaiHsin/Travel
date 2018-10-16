@@ -245,7 +245,6 @@
 				9D6B5D01216F4C0100066756 /* Triplist */,
 				9D96457A21613BCC00D6E42E /* CalendarCell */,
 				9DDE5B692160616B0096C4FC /* TripSelection */,
-				9DDE5B62215F84970096C4FC /* AlertView */,
 				9DF3402B215D3F8E002A957D /* Checklist */,
 				9DF34020215CD820002A957D /* WeatherTableViewCell */,
 				9DF34019215C9080002A957D /* PreservedTableViewCell */,
@@ -257,12 +256,13 @@
 		9D4A148A21525C5100748E06 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9DFA4FF02168701A00A9C13F /* Checklist */,
+				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 				9D4A149221533E9600748E06 /* FacebookManager.swift */,
 				9DFD95BF2164F0520098DE55 /* TripsManager.swift */,
 				9DADC85421650DA6008D50D2 /* TripsProvider.swift */,
 				9DADC8502164F4C9008D50D2 /* TripsError.swift */,
 				9DADC85221650AEA008D50D2 /* Trips.swift */,
+				9DDE5B63215F84B50096C4FC /* AlertManager.swift */,
 				9DF74F28216C56FA003D4605 /* PhotoProvider.swift */,
 			);
 			path = Model;
@@ -355,14 +355,6 @@
 				9DD30AAB21724F7E00AF7BC1 /* SanFranciscoFont */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		9DDE5B62215F84970096C4FC /* AlertView */ = {
-			isa = PBXGroup;
-			children = (
-				9DDE5B63215F84B50096C4FC /* AlertManager.swift */,
-			);
-			path = AlertView;
 			sourceTree = "<group>";
 		};
 		9DDE5B692160616B0096C4FC /* TripSelection */ = {
@@ -494,14 +486,6 @@
 				9D6B5D06216F5A6000066756 /* DayCollectionFooter.xib */,
 			);
 			path = MenuBarCell;
-			sourceTree = "<group>";
-		};
-		9DFA4FF02168701A00A9C13F /* Checklist */ = {
-			isa = PBXGroup;
-			children = (
-				9DFA4FF12168704300A9C13F /* Checklist.swift */,
-			);
-			path = Checklist;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

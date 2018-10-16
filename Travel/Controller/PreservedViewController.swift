@@ -24,17 +24,28 @@ class PreservedViewController: UIViewController {
     
     var photo: UIImage?
     
+    var photoArray: [UIImage] = []
+    
     var locationArray: [Location] = []
     
     let decoder = JSONDecoder()
+    
+    let dispatchGroup = DispatchGroup()
+    
+    let isFavorite = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
         
+//        dispatchGroup.enter()
         fetchData()
         
+//        dispatchGroup.notify(queue: .main) {
+//            self.setupTableView()
+//            self.tableView.reloadData()
+//        }
         setupTableView()
  
         NotificationCenter.default.addObserver(
@@ -83,6 +94,7 @@ class PreservedViewController: UIViewController {
     func fetchData() {
         
         locationArray.removeAll()
+        
         fetchPreservedData(
             success: { (location) in
                 print(self.locationArray)
@@ -91,7 +103,7 @@ class PreservedViewController: UIViewController {
                 // Sort array alphabetically
                 self.locationArray.sort(by: {$0.name < $1.name})
                 
-                self.tableView.reloadData()
+                self.getPhotos()
         },
             failure: { (_) in
                 //TODO
@@ -99,12 +111,36 @@ class PreservedViewController: UIViewController {
         )
     }
 
+    func getPhotos() {
+        
+        for location in locationArray {
+            
+            let placeID = location.photo
+            
+            #warning ("photoArray order is wrong")
+            photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
+                
+                self.photoArray.append(photo)
+                
+                self.tableView.reloadData()
+                
+            }) { (error) in
+                
+                guard let image = UIImage(named: "picture_placeholder02") else { return }
+                
+                self.photoArray.append(image)
+            }
+        }
+//        tableView.reloadData()
+    }
+    
     func showDetailInfo(location: Location) {
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
         detailViewController.location = location
+        detailViewController.isFavorite = isFavorite
         
         self.addChild(detailViewController)
         
@@ -135,12 +171,16 @@ extension PreservedViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let placeId = locationArray[indexPath.row].photo
-        
-        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
-            cell.photoImage.image = photo
+//        let placeId = locationArray[indexPath.row].photo
+//
+//        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+//            cell.photoImage.image = photo
+//        }
+
+        if photoArray.count == locationArray.count {
+            cell.photoImage.image = photoArray[indexPath.row]
         }
-    
+        
         cell.placeName.text = locationArray[indexPath.row].name
         
 //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)

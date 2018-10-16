@@ -51,8 +51,8 @@ class LoginViewController: UIViewController {
             }
             
             let user = authResult?.user
-//            let isAnonymous = user?.isAnonymous
-//            let uid = user?.uid
+            let isAnonymous = user?.isAnonymous
+            let uid = user?.uid
             
             print(user.debugDescription)
             

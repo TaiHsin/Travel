@@ -35,6 +35,8 @@ class ProfileViewController: UIViewController {
         showProfile()
         profileImage.layer.cornerRadius = profileImage.bounds.width / 2.0
         profileImage.layer.masksToBounds = true
+        
+        logoutButton.layer.cornerRadius = 8
     }
     
     func showProfile() {

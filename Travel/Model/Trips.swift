@@ -58,4 +58,6 @@ struct Location: Codable {
     var photo: String
     
     var days: Int
+    
+    var position: String
 }

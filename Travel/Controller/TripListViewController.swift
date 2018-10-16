@@ -67,14 +67,9 @@ class TripListViewController: UIViewController {
     
     var startDate = 0.0
     
-    var endDate = 0.0 {
-        
-        didSet {
-            print("=========================")
-            print("changed: \(endDate)")
-            print("=========================")
-        }
-    }
+    var endDate = 0.0
+    
+    var isMyTrips = true
     
     var id = ""
     
@@ -183,11 +178,11 @@ class TripListViewController: UIViewController {
             forHeaderFooterViewReuseIdentifier: String(describing: TriplistHeader.self)
         )
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
-        
-        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
+//        tableView.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
+//        
+//        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
     }
     
     func setupCollectionView() {
@@ -265,8 +260,10 @@ class TripListViewController: UIViewController {
             marker.map = mapView
             
             // Fit all markers in map camera
+            
             bounds = bounds.includingCoordinate(marker.position)
             let update = GMSCameraUpdate.fit(bounds)
+            mapView.setMinZoom(5, maxZoom: 15)
             mapView.animate(with: update)
         }
     }
@@ -277,6 +274,7 @@ class TripListViewController: UIViewController {
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
         detailViewController.location = location
+        detailViewController.isMyTrip = isMyTrips
         
         self.addChild(detailViewController)
         
@@ -391,8 +389,6 @@ class TripListViewController: UIViewController {
         self.detailData = data
         print(detailData)
     }
-    
-    
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -492,10 +488,14 @@ extension TripListViewController: UITableViewDataSource {
         
         #warning ("Refactor: seems will delay, better way?")
         let placeId = datas[indexPath.row].photo
-        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+        
+        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
             
             listCell.listImage.image = photo
-        }
+        }, failure: { (error) in
+            
+            // TODO:
+            })
         
         listCell.placeNameLabel.text = datas[indexPath.row].name
         listCell.addressLabel.text = datas[indexPath.row].address
@@ -658,6 +658,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         guard let locations = detailData[indexPath.row] else { return }
         
         showMarker(locations: locations)
+        
+        mapView.setMinZoom(5, maxZoom: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

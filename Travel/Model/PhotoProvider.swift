@@ -13,7 +13,11 @@ import GooglePlaces
 
 class PhotoManager {
     
-    func loadFirstPhotoForPlace(placeID: String, success: @escaping (UIImage) -> Void) {
+    func loadFirstPhotoForPlace(
+        placeID: String,
+        success: @escaping (UIImage) -> Void,
+        failure: @escaping (Error) -> Void
+        ) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
             if let error = error {
                 
@@ -24,17 +28,25 @@ class PhotoManager {
                     self.loadImageForMetadata(photoMetadata: firstPhoto, success: { (photo) in
                         
                         success(photo)
+                    }, failure: { (error) in
+                        
+                        failure(error)
                     })
                 }
             }
         }
     }
     
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, success: @escaping (UIImage) -> Void) {
+    func loadImageForMetadata(
+        photoMetadata: GMSPlacePhotoMetadata,
+        success: @escaping (UIImage) -> Void,
+        failure: @escaping (Error) -> Void
+        ) {
         GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
             -> Void in
             if let error = error {
-                // TODO: handle the error.
+                
+                failure(error)
                 print("Error: \(error.localizedDescription)")
             } else {
                 guard let photo = photo else { return }

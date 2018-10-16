@@ -17,22 +17,26 @@ class ChecklistFooter: UITableViewCell {
     @IBAction func addItem(_ sender: UIButton) {
         
     }
+
+    var isTexting = false {
+        didSet {
+            addItemButton.isHidden = !isTexting
+        }
+    }
+
+    /// Use UITextFieldDelegate to hide and show button (under investigation)
     
 //    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        addItemButton.isHidden = false
+//        isTexting = contentTextField.isEditing
+//    }
+//
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        isTexting = !contentTextField.isEditing
 //    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+    
         addItemButton.layer.cornerRadius = 5
     }
-    
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
 }

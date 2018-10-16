@@ -14,7 +14,7 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var photoImage: UIImageView!
     
-    @IBOutlet weak var nameLabel: UILabel!
+//    @IBOutlet weak var nameLabel: UILabel!
     
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
@@ -78,15 +78,7 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         ) {
         
         searchController?.isActive = false
-        
-        // Do something with the selected place.
-        
-//        print("Place name: \(place.name)")
-//        print("Place address: \(String(describing: place.formattedAddress))")
-//        print("Place attributions: \(place.attributions)")
-//        print("Place coordinate: \(place.coordinate)")
-//        print("Place id: \(place.placeID)")
-        
+    
         /// Remove "total" parameter if is useless
         
         convertData(place: place, total: total) { (location) in
@@ -144,19 +136,19 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         let latitude = place.coordinate.latitude
         let longitude = place.coordinate.longitude
-        
-        let locationId = "\(latitude)" + "_" + "\(longitude)"
+        let position = "\(latitude)" + "_" + "\(longitude)"
         
         let location = Location.init(
             addTime: dateInt,
             address: place.formattedAddress!,
             latitude: latitude,
             longitude: longitude,
-            locationId: locationId,
+            locationId: "",
             name: place.name,
             order: total + 1,
             photo: place.placeID,
-            days: 0
+            days: 0,
+            position: position
         )
         
         success(location)

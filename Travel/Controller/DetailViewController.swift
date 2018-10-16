@@ -6,6 +6,7 @@
 //  Copyright © 2018 TaiHsinLee. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import GooglePlaces
 import FirebaseDatabase
@@ -14,6 +15,8 @@ import Firebase
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var placeName: UILabel!
+    
+    @IBOutlet weak var positionLabel: UILabel!
     
     @IBOutlet weak var placeImage: UIImageView!
     
@@ -25,15 +28,27 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var detailInfoView: UIView!
     
+    @IBOutlet weak var myTripsButtonWidthConstraints: NSLayoutConstraint!
+    
+    @IBOutlet weak var favoriteButtonWidthConstraints: NSLayoutConstraint!
+    
+    @IBOutlet weak var intervalConstraints: NSLayoutConstraint!
+    
     var ref: DatabaseReference!
     
     let photoManager = PhotoManager()
+    
+    let alertManager = AlertManager()
     
     let dateFormatter = DateFormatter()
     
     var total = 0
     
     var location: Location?
+    
+    var isFavorite = false
+    
+    var isMyTrip = false
     
     let fullScreenSize = UIScreen.main.bounds.size
     
@@ -54,6 +69,20 @@ class DetailViewController: UIViewController {
         placeInfoCard.layer.masksToBounds = true
         placeImage.clipsToBounds = true
         
+        if isMyTrip {
+            
+            let width = myTripsButtonWidthConstraints.constant
+            myTripsButtonWidthConstraints.constant = 0.0
+            favoriteButtonWidthConstraints.constant += width
+            intervalConstraints.constant = 0.0
+        } else if isFavorite {
+            
+            let width = favoriteButtonWidthConstraints.constant
+            favoriteButtonWidthConstraints.constant = 0.0
+            myTripsButtonWidthConstraints.constant += width
+            intervalConstraints.constant = 0.0
+        }
+        
 //        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
 //        detailInfoView.layer.shouldRasterize = true
 //        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
@@ -64,10 +93,15 @@ class DetailViewController: UIViewController {
         let placeId = location.photo
         
         placeName.text = location.name
-        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
+        positionLabel.text = location.address
+        
+        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
             
             self.placeImage.image = photo
-        }        
+        }, failure: { (error) in
+            // TODO:
+            })
+      
 //        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
 
@@ -78,16 +112,13 @@ class DetailViewController: UIViewController {
         guard let location = location else { return }
         
         ref.child("/favorite/")
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
+            .queryOrdered(byChild: "position")
+            .queryEqual(toValue: location.position)
             .observeSingleEvent(of: .value) { (snapshot) in
                 
                 if (snapshot.value as? NSDictionary) != nil {
                     
-                    // alert view to notify
-                    print("-------------------------")
-                    print("Already in your favorite!")
-                    print("-------------------------")
+                    self.showAlertWith(title: nil, message: "Already in favorite", style: .alert)
                     
                 } else {
                     
@@ -183,7 +214,8 @@ extension DetailViewController {
                     "name": location.name,
                     "order": location.order,
                     "photo": location.photo,
-                    "days": location.days
+                    "days": location.days,
+                    "position": location.position
             ] as [String: Any]
         
         let postUpdate = ["/favorite/\(key)": post]

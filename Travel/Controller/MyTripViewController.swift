@@ -110,6 +110,7 @@ class MyTripViewController: UIViewController {
                 
                 self?.trips = datas
                 
+                self?.sortDataWithUpComimgDate()
                 #warning ("better not to reload data (only add/ insert one)?")
                 
                 self?.collectionView.reloadData()
@@ -117,6 +118,11 @@ class MyTripViewController: UIViewController {
             failure: { _ in
                 //TODO
         })
+    }
+    
+    func sortDataWithUpComimgDate() {
+        
+        trips.sort(by: {$0.startDate < $1.startDate})
     }
 
     @objc func createNewTrip(noti: Notification) {
@@ -173,8 +179,6 @@ extension MyTripViewController: UICollectionViewDataSource {
         myTripCell.tripTitle.text = trips[indexPath.item].place
         
         #warning ("Refactor out to stand alone manager")
-        
-//        print(trips[indexPath.item].startDate)
         
         dateFormatter.dateFormat = "yyyy MM dd"
         let startDate = Date(timeIntervalSince1970: trips[indexPath.item].startDate)

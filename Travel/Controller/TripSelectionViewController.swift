@@ -231,7 +231,11 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         cell.cellView.backgroundColor = UIColor.white
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+        ) {
         
         guard let cell = cell as? DayCollectionViewCell else { return }
         
@@ -361,15 +365,14 @@ extension TripSelectionViewController {
                     "name": location.name,
                     "order": order,
                     "photo": location.photo,
-                    "days": days
+                    "days": days,
+                    "position": location.position
             ] as [String: Any]
         
         let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
         
         ref.updateChildValues(postUpdate)
         
-        // Remove isEmpty data
-//        ref.child("/tripDays/\(daysKey)/isEmpty/").removeValue()
         NotificationCenter.default.post(name: Notification.Name("triplist"), object: nil)
     }
 }
