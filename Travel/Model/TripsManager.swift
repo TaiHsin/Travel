@@ -17,6 +17,8 @@ class TripsManager {
         ref = Database.database().reference()
     }
     
+    let photoStrArray = Photos().photos
+    
     let decoder = JSONDecoder()
     
     var sorted: [String: Any] = [:]
@@ -65,7 +67,7 @@ class TripsManager {
         endDate: Double,
         totalDays: Int,
         createdTime: Double,
-        success: @escaping (String) -> Void
+        success: @escaping (String, String) -> Void
         ) {
         
         // Add daysKey for tripDays node
@@ -80,14 +82,14 @@ class TripsManager {
                     "totalDays": totalDays,
                     "createdTime": createdTime,
                     "id": key,
-                    "placePic": "urlnumber",
+                    "placePic": photoStrArray.randomElement(),
                     "daysKey": daysKey
             ] as [String: Any]
         
         let postUpdate = ["/myTrips/\(key)": post]
         ref.updateChildValues(postUpdate)
         
-        success(daysKey)
+        success(daysKey, key)
     }
     
     // MARK: - Fetch Triplist data (once for all)

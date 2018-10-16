@@ -45,13 +45,13 @@ private enum Tab {
         
         switch self {
             
-        case .myTrip: return #imageLiteral(resourceName: "main_black")
+        case .myTrip: return #imageLiteral(resourceName: "tab_trips_normal")
             
-        case .preserved: return #imageLiteral(resourceName: "wishlist_black")
+        case .preserved: return #imageLiteral(resourceName: "tab_collections_normal")
             
-        case .package: return #imageLiteral(resourceName: "baggage_black")
+        case .package: return #imageLiteral(resourceName: "tab_packlist_normal")
             
-        case .profile: return #imageLiteral(resourceName: "profile_black")
+        case .profile: return #imageLiteral(resourceName: "tab_profile_normal")
         }
     }
     
@@ -59,13 +59,28 @@ private enum Tab {
         
         switch self {
             
-        case .myTrip: return #imageLiteral(resourceName: "main_black").withRenderingMode(.alwaysTemplate)
+        case .myTrip: return #imageLiteral(resourceName: "tab_trips").withRenderingMode(.alwaysTemplate)
             
-        case .preserved: return #imageLiteral(resourceName: "wishlist_black").withRenderingMode(.alwaysTemplate)
+        case .preserved: return #imageLiteral(resourceName: "tab_collections").withRenderingMode(.alwaysTemplate)
         
-        case .package: return #imageLiteral(resourceName: "baggage_black").withRenderingMode(.alwaysTemplate)
+        case .package: return #imageLiteral(resourceName: "tab_packlist").withRenderingMode(.alwaysTemplate)
         
-        case .profile: return #imageLiteral(resourceName: "profile_black").withRenderingMode(.alwaysTemplate)
+        case .profile: return #imageLiteral(resourceName: "tab_profile").withRenderingMode(.alwaysTemplate)
+            
+        }
+    }
+    
+    func title() -> String {
+        
+        switch self {
+            
+        case .myTrip: return "TRIPS"
+            
+        case .preserved: return "COLLECTIONS"
+            
+        case .package: return "PACKLIST"
+            
+        case .profile: return "PROFILE"
             
         }
     }
@@ -80,8 +95,15 @@ class TabBarViewController: UITabBarController {
     }
     
     private func setupTab() {
+    
+        tabBar.layer.borderWidth = 0
+        tabBar.clipsToBounds = true
+        tabBar.barTintColor = UIColor.white
+        tabBar.tintColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         
-        tabBar.tintColor = #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)
+        let appearance = UITabBarItem.appearance()
+        let attributes = [NSAttributedString.Key.font: UIFont(name: "SFCompactDisplay-Regular", size: 8)]
+        appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key: Any], for: .normal)
         
         var controllers: [UIViewController] = []
         
@@ -92,20 +114,21 @@ class TabBarViewController: UITabBarController {
             let controller = tab.controller()
             
             let item = UITabBarItem(
-                title: nil,
+                title: tab.title(),
                 image: tab.image(),
                 selectedImage: tab.selectedImage()
             )
             
             item.imageInsets = UIEdgeInsets(
-                top: 6,
+                top: 0,
                 left: 0,
-                bottom: -6,
+                bottom: 0,
                 right: 0
             )
             
-            controller.tabBarItem = item
+            item.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -2)
             
+            controller.tabBarItem = item
             controllers.append(controller)
         }
         

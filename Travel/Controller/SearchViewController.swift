@@ -14,7 +14,7 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var photoImage: UIImageView!
     
-    @IBOutlet weak var nameLabel: UILabel!
+//    @IBOutlet weak var nameLabel: UILabel!
     
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
@@ -54,6 +54,8 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        
         /// Put search place and favorite together
 //        guard let favoriteVC = UIStoryboard.preservedStoryboard().instantiateViewController(
 //            withIdentifier: String(describing: PreservedViewController.self)) as? PreservedViewController else { return }
@@ -76,15 +78,7 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         ) {
         
         searchController?.isActive = false
-        
-        // Do something with the selected place.
-        
-        print("Place name: \(place.name)")
-        print("Place address: \(String(describing: place.formattedAddress))")
-        print("Place attributions: \(place.attributions)")
-        print("Place coordinate: \(place.coordinate)")
-        print("Place id: \(place.placeID)")
-        
+    
         /// Remove "total" parameter if is useless
         
         convertData(place: place, total: total) { (location) in
@@ -104,14 +98,17 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
         detailViewController.location = location
+        detailViewController.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+        detailViewController.showAnimate()
+        tabBarController?.present(detailViewController, animated: true)
         
-//        show(detailViewController, sender: nil)
-        self.addChild(detailViewController)
-    
-        self.view.addSubview(detailViewController.view)
-        detailViewController.didMove(toParent: self)
+//        self.addChild(detailViewController)
+//
+//        self.view.addSubview(detailViewController.view)
+//        detailViewController.didMove(toParent: self)
         
-//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailViewController.view)
+//        UIApplication.shared.keyWindow?
+//            .bringSubviewToFront(detailViewController.view)
     }
     
     func resultsController(
@@ -140,19 +137,19 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         let latitude = place.coordinate.latitude
         let longitude = place.coordinate.longitude
-        
-        let locationId = "\(latitude)" + "_" + "\(longitude)"
+        let position = "\(latitude)" + "_" + "\(longitude)"
         
         let location = Location.init(
             addTime: dateInt,
             address: place.formattedAddress!,
             latitude: latitude,
             longitude: longitude,
-            locationId: locationId,
+            locationId: "",
             name: place.name,
             order: total + 1,
             photo: place.placeID,
-            days: 0
+            days: 0,
+            position: position
         )
         
         success(location)

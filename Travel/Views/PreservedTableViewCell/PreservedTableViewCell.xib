@@ -21,9 +21,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ikw-Pr-ntN">
                         <rect key="frame" x="10" y="5" width="300" height="59.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9kR-X6-9hv">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9kR-X6-9hv">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="59.5"/>
                             </imageView>
+                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="55c-Fe-z0N">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="59.5"/>
+                                <color key="backgroundColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xGI-if-Uxt">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -41,14 +45,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9kR-X6-9hv" secondAttribute="trailing" id="I4s-BW-Qp0"/>
+                            <constraint firstItem="55c-Fe-z0N" firstAttribute="top" secondItem="ikw-Pr-ntN" secondAttribute="top" id="Kop-aW-XND"/>
                             <constraint firstItem="9kR-X6-9hv" firstAttribute="top" secondItem="ikw-Pr-ntN" secondAttribute="top" id="OXY-LQ-LoW"/>
                             <constraint firstAttribute="trailing" secondItem="xGI-if-Uxt" secondAttribute="trailing" id="U40-nR-S5G"/>
                             <constraint firstItem="5r2-MR-HuR" firstAttribute="leading" secondItem="ikw-Pr-ntN" secondAttribute="leading" constant="10" id="YP1-b0-lhE"/>
                             <constraint firstAttribute="trailing" secondItem="5r2-MR-HuR" secondAttribute="trailing" constant="50" id="aTV-f9-B5H"/>
                             <constraint firstItem="9kR-X6-9hv" firstAttribute="leading" secondItem="ikw-Pr-ntN" secondAttribute="leading" id="dZP-KY-odQ"/>
                             <constraint firstAttribute="bottom" secondItem="9kR-X6-9hv" secondAttribute="bottom" id="iLh-jb-5Uz"/>
+                            <constraint firstAttribute="bottom" secondItem="55c-Fe-z0N" secondAttribute="bottom" id="jtG-Pj-rKF"/>
                             <constraint firstItem="xGI-if-Uxt" firstAttribute="top" secondItem="ikw-Pr-ntN" secondAttribute="top" id="kPP-xb-PpF"/>
+                            <constraint firstAttribute="trailing" secondItem="55c-Fe-z0N" secondAttribute="trailing" id="q2X-y7-rnp"/>
                             <constraint firstItem="5r2-MR-HuR" firstAttribute="top" secondItem="ikw-Pr-ntN" secondAttribute="top" constant="5" id="qqZ-9p-17l"/>
+                            <constraint firstItem="55c-Fe-z0N" firstAttribute="leading" secondItem="ikw-Pr-ntN" secondAttribute="leading" id="qzR-Te-zn9"/>
                             <constraint firstItem="xGI-if-Uxt" firstAttribute="leading" secondItem="ikw-Pr-ntN" secondAttribute="leading" id="zRs-IP-CuT"/>
                         </constraints>
                     </view>
@@ -68,4 +76,7 @@
             <point key="canvasLocation" x="76.799999999999997" y="112.44377811094454"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="photo_placeholder" width="768" height="768"/>
+    </resources>
 </document>

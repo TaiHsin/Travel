@@ -87,12 +87,16 @@ PODS:
   - IQKeyboardManagerSwift (6.1.1)
   - JTAppleCalendar (7.1.6)
   - KeychainAccess (3.1.1)
+  - Kingfisher (4.10.0)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NVActivityIndicatorView (4.4.0):
+    - NVActivityIndicatorView/Presenter (= 4.4.0)
+  - NVActivityIndicatorView/Presenter (4.4.0)
   - SwiftLint (0.27.0)
 
 DEPENDENCIES:
@@ -111,6 +115,8 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - JTAppleCalendar (~> 7.0)
   - KeychainAccess
+  - Kingfisher (~> 4.0)
+  - NVActivityIndicatorView
   - SwiftLint
 
 SPEC REPOS:
@@ -137,8 +143,10 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - JTAppleCalendar
     - KeychainAccess
+    - Kingfisher
     - leveldb-library
     - nanopb
+    - NVActivityIndicatorView
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -164,10 +172,12 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 977affaeb4d6e971975c7790a6850f31d38f1207
   JTAppleCalendar: abb30678f42a4ef8a340a932b1dcb8c85a33dac2
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
+  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: a66a5a96f0e5b0cb9455a355f478075c79eb8655
+PODFILE CHECKSUM: 0b686fe66d30b5526868360108793af713bfbf96
 
 COCOAPODS: 1.5.3

@@ -43,8 +43,10 @@ Pods/
 Podfile.lock
 xcuserdata/
 *.xcworkspace
-GoogleService-Info.plist
-Info.plist
+Travel/GoogleService-Info.plist
+Travel/sInfo.plist
+
+*.plist
 
 ### Swift ###
 # Xcode

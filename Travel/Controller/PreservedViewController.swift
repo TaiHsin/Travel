@@ -14,6 +14,8 @@ class PreservedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var addPlace: UIBarButtonItem!
+    
     let photoManager = PhotoManager()
     
     var ref: DatabaseReference!
@@ -22,18 +24,26 @@ class PreservedViewController: UIViewController {
     
     var photo: UIImage?
     
+    var photoArray: [UIImage] = []
+    
+    var photosDict: [String: UIImage] = [:]
+    
     var locationArray: [Location] = []
     
     let decoder = JSONDecoder()
+    
+    let dispatchGroup = DispatchGroup()
+    
+    let isFavorite = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
+    
+        setupTableView()
         
         fetchData()
-        
-        setupTableView()
  
         NotificationCenter.default.addObserver(
             self,
@@ -41,6 +51,12 @@ class PreservedViewController: UIViewController {
             name: Notification.Name("preserved"),
             object: nil
         )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
     }
     
     @objc func updatePreserved(noti: Notification) {
@@ -75,6 +91,7 @@ class PreservedViewController: UIViewController {
     func fetchData() {
         
         locationArray.removeAll()
+        
         fetchPreservedData(
             success: { (location) in
                 print(self.locationArray)
@@ -83,7 +100,7 @@ class PreservedViewController: UIViewController {
                 // Sort array alphabetically
                 self.locationArray.sort(by: {$0.name < $1.name})
                 
-                self.tableView.reloadData()
+                self.getPhotos()
         },
             failure: { (_) in
                 //TODO
@@ -91,18 +108,47 @@ class PreservedViewController: UIViewController {
         )
     }
 
+    func getPhotos() {
+        
+        for location in locationArray {
+            
+            let placeID = location.photo
+            
+            #warning ("photoArray order is wrong")
+            photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
+                
+                
+                self.photosDict[placeID] = photo
+//                self.photoArray.append(photo)
+                
+                self.tableView.reloadData()
+                
+            }) { (error) in
+                
+                guard let image = UIImage(named: "picture_placeholder02") else { return }
+                
+                self.photosDict["Nophoto"] = image
+                
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     func showDetailInfo(location: Location) {
         
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
         detailViewController.location = location
+        detailViewController.isFavorite = isFavorite
         
-        self.addChild(detailViewController)
-        
-        detailViewController.view.frame = self.view.frame
-        self.view.addSubview(detailViewController.view)
-        detailViewController.didMove(toParent: self)
+        tabBarController?.present(detailViewController, animated: true)
+//        self.present(detailViewController, animated: true, completion: nil)
+//        self.addChild(detailViewController)
+//
+//        detailViewController.view.frame = self.view.frame
+//        self.view.addSubview(detailViewController.view)
+//        detailViewController.didMove(toParent: self)
     }
 }
 
@@ -124,19 +170,16 @@ extension PreservedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: PreservedTableViewCell.self),
             for: indexPath) as? PreservedTableViewCell else {
-            return UITableViewCell()
+                return UITableViewCell()
         }
         
-        let placeId = locationArray[indexPath.row].photo
-        
-        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
-            cell.photoImage.image = photo
-        }
+        let photoID = locationArray[indexPath.row].photo
+        cell.photoImage.image = photosDict[photoID]
     
         cell.placeName.text = locationArray[indexPath.row].name
         
-//        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-//        cell.setSelected(true, animated: true)
+        //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+        //        cell.setSelected(true, animated: true)
         return cell
     }
     

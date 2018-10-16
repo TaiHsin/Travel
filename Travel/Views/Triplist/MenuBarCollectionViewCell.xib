@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MenuBarCollectionViewCell" customModule="Travel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KK2-zO-f0u">
+                        <rect key="frame" x="9" y="17" width="37" height="36"/>
+                        <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="A3i-ny-0UF"/>
+                            <constraint firstAttribute="width" constant="37" id="MJF-WW-Fnc"/>
+                        </constraints>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gz5-to-sqU">
+                        <rect key="frame" x="17.5" y="21" width="20" height="28"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tn-HuV">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="11" id="3c6-Kg-5AC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
+                                <color key="textColor" red="0.43022221326828003" green="0.45706826448440552" blue="0.55251884460449219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-tb-ECy">
+                                <rect key="frame" x="0.0" y="14" width="20" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="Zcf-gQ-6tc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.43022221326828003" green="0.45706826448440552" blue="0.55251884460449219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="hxc-00-WG2"/>
+                            <constraint firstItem="Ev8-tb-ECy" firstAttribute="centerX" secondItem="qbC-tn-HuV" secondAttribute="centerX" id="tP8-jg-cQ6"/>
+                        </constraints>
+                    </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSl-xz-Mal">
+                        <rect key="frame" x="23" y="4" width="9" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="yKk-H7-dcE"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
+                        <color key="textColor" red="0.43022221326828003" green="0.45706826448440552" blue="0.55251884460449219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="pSl-xz-Mal" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="OPX-Na-Iyl"/>
+                <constraint firstItem="Gz5-to-sqU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Ycc-5w-RMu"/>
+                <constraint firstAttribute="bottom" secondItem="Gz5-to-sqU" secondAttribute="bottom" constant="6" id="eb0-k8-yYs"/>
+                <constraint firstItem="KK2-zO-f0u" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="gJP-jd-aMp"/>
+                <constraint firstItem="pSl-xz-Mal" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="4" id="h7y-e2-Ho5"/>
+                <constraint firstItem="Ev8-tb-ECy" firstAttribute="bottom" secondItem="KK2-zO-f0u" secondAttribute="bottom" constant="-4" id="re6-6P-oiB"/>
+                <constraint firstItem="KK2-zO-f0u" firstAttribute="top" secondItem="qbC-tn-HuV" secondAttribute="top" constant="-4" id="waD-Zs-qXK"/>
+                <constraint firstItem="KK2-zO-f0u" firstAttribute="top" secondItem="pSl-xz-Mal" secondAttribute="bottom" constant="3" id="wn4-dh-brK"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="50" height="25"/>
+            <connections>
+                <outlet property="dayLabel" destination="Ev8-tb-ECy" id="G3b-NB-JZj"/>
+                <outlet property="selectedView" destination="KK2-zO-f0u" id="dCl-gO-90D"/>
+                <outlet property="weekLabel" destination="pSl-xz-Mal" id="qkM-5S-OKW"/>
+            </connections>
+            <point key="canvasLocation" x="-109.59999999999999" y="74.212893553223395"/>
+        </collectionViewCell>
+    </objects>
+</document>

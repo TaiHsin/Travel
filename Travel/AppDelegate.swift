@@ -30,7 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
         ) -> Bool {
         
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        // get rid of black bar underneath navbar
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
         // Crashlytics
         Fabric.with([Crashlytics.self])
@@ -54,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+//        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         
         let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     

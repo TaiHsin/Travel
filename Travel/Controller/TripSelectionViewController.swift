@@ -17,7 +17,7 @@ class TripSelectionViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    @IBOutlet var detailView: UIView!
+    @IBOutlet var selectionView: UIView!
     
     @IBOutlet weak var saveButton: UIButton!
     
@@ -50,7 +50,8 @@ class TripSelectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        saveButton.layer.cornerRadius = 5
+        selectionView.layer.cornerRadius = 8
+        selectionView.layer.masksToBounds = true
     }
     
     @IBAction func savePlace(_ sender: Any) {
@@ -116,14 +117,14 @@ extension TripSelectionViewController: UITableViewDataSource {
         if cell.isSelected {
             
             cell.nameLabel.textColor = UIColor.white
-            cell.cellView.backgroundColor = UIColor.darkGray
+            cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         } else {
             
-            cell.nameLabel.textColor = UIColor.darkGray
+            cell.nameLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
             cell.cellView.backgroundColor = UIColor.white
         }
         
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        cell.selectionStyle = .none
         cell.nameLabel.text = trips[indexPath.row].name
         
         return cell
@@ -149,7 +150,7 @@ extension TripSelectionViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
         
         cell.nameLabel.textColor = UIColor.white
-        cell.cellView.backgroundColor = UIColor.darkGray
+        cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         
         daysKey = trips[indexPath.row].daysKey
         
@@ -164,7 +165,7 @@ extension TripSelectionViewController: UITableViewDelegate {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
         
-        cell.nameLabel.textColor = UIColor.darkGray
+        cell.nameLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         cell.cellView.backgroundColor = UIColor.white
     }
 }
@@ -195,16 +196,14 @@ extension TripSelectionViewController: UICollectionViewDataSource {
 
                 return UICollectionViewCell()
         }
-        
-        print("---------")
-        print(cell.isSelected)
+
         if cell.isSelected {
             
             cell.numberLabel.textColor = UIColor.white
-            cell.cellView.backgroundColor = UIColor.darkGray
+            cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         } else {
             
-            cell.numberLabel.textColor = UIColor.darkGray
+            cell.numberLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
             cell.cellView.backgroundColor = UIColor.white
         }
         
@@ -219,7 +218,7 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         print(cell.isSelected)
         cell.numberLabel.textColor = UIColor.white
-        cell.cellView.backgroundColor = UIColor.darkGray
+        cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         
         dayIndex = indexPath.item + 1
     }
@@ -228,9 +227,28 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? DayCollectionViewCell else { return }
         
-        print(cell.isSelected)
-        cell.numberLabel.textColor = UIColor.darkGray
+        cell.numberLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
         cell.cellView.backgroundColor = UIColor.white
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+        ) {
+        
+        guard let cell = cell as? DayCollectionViewCell else { return }
+        
+        if cell.isSelected {
+            
+            cell.numberLabel.textColor = UIColor.white
+            cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+          
+        } else {
+            
+            cell.numberLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.cellView.backgroundColor = UIColor.white
+        }
     }
 }
 
@@ -347,15 +365,14 @@ extension TripSelectionViewController {
                     "name": location.name,
                     "order": order,
                     "photo": location.photo,
-                    "days": days
+                    "days": days,
+                    "position": location.position
             ] as [String: Any]
         
         let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
         
         ref.updateChildValues(postUpdate)
         
-        // Remove isEmpty data
-//        ref.child("/tripDays/\(daysKey)/isEmpty/").removeValue()
         NotificationCenter.default.post(name: Notification.Name("triplist"), object: nil)
     }
 }
