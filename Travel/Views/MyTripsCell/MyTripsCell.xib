@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="135" height="185"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hE0-c1-8Ob">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="hE0-c1-8Ob">
                         <rect key="frame" x="0.0" y="0.0" width="135" height="185"/>
                         <color key="backgroundColor" red="0.34295685279999999" green="0.34295685279999999" blue="0.34295685279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
@@ -107,5 +107,6 @@
     </objects>
     <resources>
         <image name="delete_btn" width="102.40000152587891" height="102.40000152587891"/>
+        <image name="photo_placeholder" width="768" height="768"/>
     </resources>
 </document>

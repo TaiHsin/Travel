@@ -49,7 +49,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jLs-J4-xg4">
                                 <rect key="frame" x="27" y="100" width="321" height="467"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ioF-bo-UIW">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ioF-bo-UIW">
                                         <rect key="frame" x="39" y="90" width="243" height="157"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="157" id="e4w-56-ecA"/>
@@ -338,5 +338,6 @@
     <resources>
         <image name="btn_close" width="51.200000762939453" height="51.200000762939453"/>
         <image name="icon_location" width="30" height="30"/>
+        <image name="photo_placeholder" width="768" height="768"/>
     </resources>
 </document>

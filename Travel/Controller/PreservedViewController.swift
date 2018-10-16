@@ -26,6 +26,8 @@ class PreservedViewController: UIViewController {
     
     var photoArray: [UIImage] = []
     
+    var photosDict: [String: UIImage] = [:]
+    
     var locationArray: [Location] = []
     
     let decoder = JSONDecoder()
@@ -38,15 +40,10 @@ class PreservedViewController: UIViewController {
         super.viewDidLoad()
         
         ref = Database.database().reference()
-        
-//        dispatchGroup.enter()
-        fetchData()
-        
-//        dispatchGroup.notify(queue: .main) {
-//            self.setupTableView()
-//            self.tableView.reloadData()
-//        }
+    
         setupTableView()
+        
+        fetchData()
  
         NotificationCenter.default.addObserver(
             self,
@@ -120,7 +117,9 @@ class PreservedViewController: UIViewController {
             #warning ("photoArray order is wrong")
             photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
                 
-                self.photoArray.append(photo)
+                
+                self.photosDict[placeID] = photo
+//                self.photoArray.append(photo)
                 
                 self.tableView.reloadData()
                 
@@ -128,10 +127,11 @@ class PreservedViewController: UIViewController {
                 
                 guard let image = UIImage(named: "picture_placeholder02") else { return }
                 
-                self.photoArray.append(image)
+                self.photosDict["Nophoto"] = image
+                
+                self.tableView.reloadData()
             }
         }
-//        tableView.reloadData()
     }
     
     func showDetailInfo(location: Location) {
@@ -168,23 +168,16 @@ extension PreservedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: PreservedTableViewCell.self),
             for: indexPath) as? PreservedTableViewCell else {
-            return UITableViewCell()
+                return UITableViewCell()
         }
         
-//        let placeId = locationArray[indexPath.row].photo
-//
-//        photoManager.loadFirstPhotoForPlace(placeID: placeId) { (photo) in
-//            cell.photoImage.image = photo
-//        }
-
-        if photoArray.count == locationArray.count {
-            cell.photoImage.image = photoArray[indexPath.row]
-        }
-        
+        let photoID = locationArray[indexPath.row].photo
+        cell.photoImage.image = photosDict[photoID]
+    
         cell.placeName.text = locationArray[indexPath.row].name
         
-//        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-//        cell.setSelected(true, animated: true)
+        //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+        //        cell.setSelected(true, animated: true)
         return cell
     }
     

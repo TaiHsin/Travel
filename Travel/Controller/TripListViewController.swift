@@ -50,12 +50,14 @@ class TripListViewController: UIViewController {
     var detailData: [Int: [Location]] = [:]
     
     var photo: UIImage?
+    
+    var photosDict: [String: UIImage] = [:]
 
     var daysArray: [Int] = []
     
     var name = ""
     
-    var trip = [Trips]()
+//    var trip = [Trips]()
 
     var totalDays = 0
     
@@ -179,9 +181,9 @@ class TripListViewController: UIViewController {
         )
         
 //        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        
+//
 //        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
-//        
+//
 //        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
     }
     
@@ -290,6 +292,7 @@ class TripListViewController: UIViewController {
         tripsManager.fetchDayList(daysKey: daysKey) { (location) in
             
             self.sortLocations(locations: location, total: self.daysArray.count)
+            self.getPhotos()
             self.tableView.reloadData()
         }
     }
@@ -306,9 +309,31 @@ class TripListViewController: UIViewController {
             dates.append(date)
         }
     }
-    
-    func editDays() {
+
+    func getPhotos() {
         
+        detailData.forEach { (key, values) in
+            
+            for item in values {
+                
+                let placeID = item.photo
+                
+                photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
+                    
+                    self.photosDict[placeID] = photo
+                    self.tableView.reloadData()
+                    
+                    self.tableView.reloadData()
+                    
+                }, failure: { (error) in
+                    
+                    guard let image = UIImage(named: "picture_placeholder") else { return }
+                    self.photosDict["Nophoto"] = image
+                    
+                    self.tableView.reloadData()
+                    })
+            }
+        }
     }
     
     #warning ("Refact to alert manager")
@@ -352,7 +377,7 @@ class TripListViewController: UIViewController {
         for index in 0 ... days - 1 {
             daysArray.append(index)
         }
-        print(daysArray)
+//        print(daysArray)
         
         createWeekDay(startDate: startDate, totalDays: days)
         return
@@ -387,7 +412,7 @@ class TripListViewController: UIViewController {
         }
         
         self.detailData = data
-        print(detailData)
+        self.getPhotos()
     }
 }
 
@@ -487,15 +512,17 @@ extension TripListViewController: UITableViewDataSource {
         listCell.switchCellContent()
         
         #warning ("Refactor: seems will delay, better way?")
-        let placeId = datas[indexPath.row].photo
+        let placeID = datas[indexPath.row].photo
+        listCell.listImage.image = photosDict[placeID]
         
-        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
-            
-            listCell.listImage.image = photo
-        }, failure: { (error) in
-            
-            // TODO:
-            })
+        
+//        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
+//
+//            listCell.listImage.image = photo
+//        }, failure: { (error) in
+//
+//            // TODO:
+//            })
         
         listCell.placeNameLabel.text = datas[indexPath.row].name
         listCell.addressLabel.text = datas[indexPath.row].address

@@ -19,7 +19,7 @@ class MyTripViewController: UIViewController {
     // wait to re construct (requset Google photo or fake photo on Firebase)
     
     /// Array -> randomElement
-    let photoArray: [UIImage] = [#imageLiteral(resourceName: "trip_3"), #imageLiteral(resourceName: "trip_1"), #imageLiteral(resourceName: "trip_10"), #imageLiteral(resourceName: "trip_4"), #imageLiteral(resourceName: "trip_9"), #imageLiteral(resourceName: "trip_8"), #imageLiteral(resourceName: "trip_7"), #imageLiteral(resourceName: "trip_2"), #imageLiteral(resourceName: "trip_12"), #imageLiteral(resourceName: "trip_6"), #imageLiteral(resourceName: "trip_5"), #imageLiteral(resourceName: "trip_11"),  #imageLiteral(resourceName: "trip_20"), #imageLiteral(resourceName: "trip_14"), #imageLiteral(resourceName: "trip_18"), #imageLiteral(resourceName: "trip_19"), #imageLiteral(resourceName: "trip_13"), #imageLiteral(resourceName: "trip_15"), #imageLiteral(resourceName: "trip_16"), #imageLiteral(resourceName: "trip_17")]
+//    let photoArray: [UIImage] = [#imageLiteral(resourceName: "trip_3"), #imageLiteral(resourceName: "trip_1"), #imageLiteral(resourceName: "trip_10"), #imageLiteral(resourceName: "trip_4"), #imageLiteral(resourceName: "trip_9"), #imageLiteral(resourceName: "trip_8"), #imageLiteral(resourceName: "trip_7"), #imageLiteral(resourceName: "trip_2"), #imageLiteral(resourceName: "trip_12"), #imageLiteral(resourceName: "trip_6"), #imageLiteral(resourceName: "trip_5"), #imageLiteral(resourceName: "trip_11"),  #imageLiteral(resourceName: "trip_20"), #imageLiteral(resourceName: "trip_14"), #imageLiteral(resourceName: "trip_18"), #imageLiteral(resourceName: "trip_19"), #imageLiteral(resourceName: "trip_13"), #imageLiteral(resourceName: "trip_15"), #imageLiteral(resourceName: "trip_16"), #imageLiteral(resourceName: "trip_17")]
     
     let tripsManager = TripsManager()
     
@@ -174,7 +174,7 @@ extension MyTripViewController: UICollectionViewDataSource {
         
         myTripCell.delegate = self
     
-        myTripCell.tripImage.image = photoArray.randomElement()
+        myTripCell.tripImage.image = UIImage(named: trips[indexPath.item].placePic)
         
         myTripCell.tripTitle.text = trips[indexPath.item].place
         

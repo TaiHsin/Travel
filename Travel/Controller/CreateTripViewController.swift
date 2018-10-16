@@ -28,6 +28,8 @@ class CreateTripViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    let photoStrArray = Photos().photos
+    
     var tapped: Bool = false
     
     var firstDate: Date?

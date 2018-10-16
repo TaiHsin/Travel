@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ikw-Pr-ntN">
                         <rect key="frame" x="10" y="5" width="300" height="59.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9kR-X6-9hv">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9kR-X6-9hv">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="59.5"/>
                             </imageView>
                             <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="55c-Fe-z0N">
@@ -76,4 +76,7 @@
             <point key="canvasLocation" x="76.799999999999997" y="112.44377811094454"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="photo_placeholder" width="768" height="768"/>
+    </resources>
 </document>

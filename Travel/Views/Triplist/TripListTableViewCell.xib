@@ -23,7 +23,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="54.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i4V-ru-xYT">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i4V-ru-xYT">
                         <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="8lp-hw-P1V"/>
@@ -83,10 +83,11 @@
                 <outlet property="locationImage" destination="CVo-cU-iYA" id="zrZ-jV-bn0"/>
                 <outlet property="placeNameLabel" destination="Hfq-Gi-Pwn" id="0HH-V9-jaM"/>
             </connections>
-            <point key="canvasLocation" x="-670" y="117"/>
+            <point key="canvasLocation" x="-670.39999999999998" y="116.49175412293854"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="icon_location" width="30" height="30"/>
+        <image name="photo_placeholder" width="768" height="768"/>
     </resources>
 </document>

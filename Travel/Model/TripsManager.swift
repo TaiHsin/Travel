@@ -17,6 +17,8 @@ class TripsManager {
         ref = Database.database().reference()
     }
     
+    let photoStrArray = Photos().photos
+    
     let decoder = JSONDecoder()
     
     var sorted: [String: Any] = [:]
@@ -80,7 +82,7 @@ class TripsManager {
                     "totalDays": totalDays,
                     "createdTime": createdTime,
                     "id": key,
-                    "placePic": "urlnumber",
+                    "placePic": photoStrArray.randomElement(),
                     "daysKey": daysKey
             ] as [String: Any]
         

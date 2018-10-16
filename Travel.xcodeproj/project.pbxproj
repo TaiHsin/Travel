@@ -18,6 +18,7 @@
 		9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A148E2152627C00748E06 /* LoginViewController.swift */; };
 		9D4A14912152A56600748E06 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14902152A56600748E06 /* GoogleService-Info.plist */; };
 		9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4A149221533E9600748E06 /* FacebookManager.swift */; };
+		9D514DAF2175C79700A39151 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D514DAE2175C79700A39151 /* Photos.swift */; };
 		9D6B5D03216F4C3500066756 /* DayCollectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B5D02216F4C3500066756 /* DayCollectionFooter.swift */; };
 		9D6B5D07216F5A6000066756 /* DayCollectionFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D6B5D06216F5A6000066756 /* DayCollectionFooter.xib */; };
 		9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C1584215E846100574A12 /* CreateTripViewController.swift */; };
@@ -75,7 +76,6 @@
 		9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B3A215A0950005919E8 /* TripNaviViewController.swift */; };
 		9DF61B3D215A0C7B005919E8 /* TripListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */; };
 		9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B40215A162F005919E8 /* TabBarViewController.swift */; };
-		9DF61B44215A1863005919E8 /* ReferenceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B43215A1863005919E8 /* ReferenceData.swift */; };
 		9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */; };
 		9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */; };
 		9DF61B5C215A62D7005919E8 /* MenuBarCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */; };
@@ -102,6 +102,7 @@
 		9D4A148E2152627C00748E06 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9D4A14902152A56600748E06 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9D4A149221533E9600748E06 /* FacebookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookManager.swift; sourceTree = "<group>"; };
+		9D514DAE2175C79700A39151 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		9D6B5D02216F4C3500066756 /* DayCollectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCollectionFooter.swift; sourceTree = "<group>"; };
 		9D6B5D06216F5A6000066756 /* DayCollectionFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DayCollectionFooter.xib; sourceTree = "<group>"; };
 		9D6C1584215E846100574A12 /* CreateTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripViewController.swift; sourceTree = "<group>"; };
@@ -159,7 +160,6 @@
 		9DF61B3A215A0950005919E8 /* TripNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripNaviViewController.swift; sourceTree = "<group>"; };
 		9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListViewController.swift; sourceTree = "<group>"; };
 		9DF61B40215A162F005919E8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		9DF61B43215A1863005919E8 /* ReferenceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceData.swift; sourceTree = "<group>"; };
 		9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuBarCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -256,7 +256,6 @@
 		9D4A148A21525C5100748E06 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 				9D4A149221533E9600748E06 /* FacebookManager.swift */,
 				9DFD95BF2164F0520098DE55 /* TripsManager.swift */,
 				9DADC85421650DA6008D50D2 /* TripsProvider.swift */,
@@ -264,6 +263,7 @@
 				9DADC85221650AEA008D50D2 /* Trips.swift */,
 				9DDE5B63215F84B50096C4FC /* AlertManager.swift */,
 				9DF74F28216C56FA003D4605 /* PhotoProvider.swift */,
+				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -315,8 +315,16 @@
 		9D6B5D01216F4C0100066756 /* Triplist */ = {
 			isa = PBXGroup;
 			children = (
-				9DF143C8215B7901004E2DF1 /* TripListTableViewCell */,
-				9DF61B54215A629A005919E8 /* MenuBarCell */,
+				9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */,
+				9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */,
+				9D26487A216E401300718F7A /* TripListFooter.swift */,
+				9D26487C216E402600718F7A /* TripListFooter.xib */,
+				9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */,
+				9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */,
+				9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */,
+				9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */,
+				9D6B5D02216F4C3500066756 /* DayCollectionFooter.swift */,
+				9D6B5D06216F5A6000066756 /* DayCollectionFooter.xib */,
 			);
 			path = Triplist;
 			sourceTree = "<group>";
@@ -360,41 +368,12 @@
 		9DDE5B692160616B0096C4FC /* TripSelection */ = {
 			isa = PBXGroup;
 			children = (
-				9DDE5B6B216061920096C4FC /* TripTableViewCell */,
-				9DDE5B6A216061740096C4FC /* DayCollectionViewCell */,
-			);
-			path = TripSelection;
-			sourceTree = "<group>";
-		};
-		9DDE5B6A216061740096C4FC /* DayCollectionViewCell */ = {
-			isa = PBXGroup;
-			children = (
+				9DDE5B70216062050096C4FC /* TripTableViewCell.swift */,
+				9DDE5B71216062050096C4FC /* TripTableViewCell.xib */,
 				9DDE5B6C216061B60096C4FC /* DayCollectionViewCell.swift */,
 				9DDE5B6D216061B60096C4FC /* DayCollectionViewCell.xib */,
 			);
-			path = DayCollectionViewCell;
-			sourceTree = "<group>";
-		};
-		9DDE5B6B216061920096C4FC /* TripTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				9DDE5B70216062050096C4FC /* TripTableViewCell.swift */,
-				9DDE5B71216062050096C4FC /* TripTableViewCell.xib */,
-			);
-			path = TripTableViewCell;
-			sourceTree = "<group>";
-		};
-		9DF143C8215B7901004E2DF1 /* TripListTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */,
-				9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */,
-				9D26487A216E401300718F7A /* TripListFooter.swift */,
-				9D26487C216E402600718F7A /* TripListFooter.xib */,
-				9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */,
-				9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */,
-			);
-			path = TripListTableViewCell;
+			path = TripSelection;
 			sourceTree = "<group>";
 		};
 		9DF34016215C7036002A957D /* Support */ = {
@@ -423,41 +402,17 @@
 			path = WeatherTableViewCell;
 			sourceTree = "<group>";
 		};
-		9DF34025215CE25F002A957D /* ChecklistTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				9DF34026215CE285002A957D /* ChecklistTableViewCell.swift */,
-				9DF34027215CE285002A957D /* ChecklistTableViewCell.xib */,
-			);
-			path = ChecklistTableViewCell;
-			sourceTree = "<group>";
-		};
-		9DF3402A215D3F81002A957D /* ChecklistTableViewHeader */ = {
-			isa = PBXGroup;
-			children = (
-				9DF3402E215D401B002A957D /* ChecklistHeader.swift */,
-				9DF3402F215D401B002A957D /* ChecklistHeader.xib */,
-			);
-			path = ChecklistTableViewHeader;
-			sourceTree = "<group>";
-		};
 		9DF3402B215D3F8E002A957D /* Checklist */ = {
-			isa = PBXGroup;
-			children = (
-				9DF34032215DD645002A957D /* ChecklistFooter */,
-				9DF3402A215D3F81002A957D /* ChecklistTableViewHeader */,
-				9DF34025215CE25F002A957D /* ChecklistTableViewCell */,
-			);
-			path = Checklist;
-			sourceTree = "<group>";
-		};
-		9DF34032215DD645002A957D /* ChecklistFooter */ = {
 			isa = PBXGroup;
 			children = (
 				9DF34033215DD745002A957D /* ChecklistFooter.swift */,
 				9DF34034215DD745002A957D /* ChecklistFooter.xib */,
+				9DF3402E215D401B002A957D /* ChecklistHeader.swift */,
+				9DF3402F215D401B002A957D /* ChecklistHeader.xib */,
+				9DF34026215CE285002A957D /* ChecklistTableViewCell.swift */,
+				9DF34027215CE285002A957D /* ChecklistTableViewCell.xib */,
 			);
-			path = ChecklistFooter;
+			path = Checklist;
 			sourceTree = "<group>";
 		};
 		9DF61B352159DFA8005919E8 /* MyTripsCell */ = {
@@ -472,20 +427,9 @@
 		9DF61B42215A1833005919E8 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				9DF61B43215A1863005919E8 /* ReferenceData.swift */,
+				9D514DAE2175C79700A39151 /* Photos.swift */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		9DF61B54215A629A005919E8 /* MenuBarCell */ = {
-			isa = PBXGroup;
-			children = (
-				9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */,
-				9DF61B5A215A62D7005919E8 /* MenuBarCollectionViewCell.xib */,
-				9D6B5D02216F4C3500066756 /* DayCollectionFooter.swift */,
-				9D6B5D06216F5A6000066756 /* DayCollectionFooter.xib */,
-			);
-			path = MenuBarCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -693,13 +637,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DF61B44215A1863005919E8 /* ReferenceData.swift in Sources */,
 				9D26487B216E401300718F7A /* TripListFooter.swift in Sources */,
 				9DDE5B6E216061B60096C4FC /* DayCollectionViewCell.swift in Sources */,
 				9DF61B382159DFF4005919E8 /* MyTripsCell.swift in Sources */,
 				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
 				9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */,
 				9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */,
+				9D514DAF2175C79700A39151 /* Photos.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
 				9DADC85321650AEA008D50D2 /* Trips.swift in Sources */,
 				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
