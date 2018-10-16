@@ -161,6 +161,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PEB-jg-6K0"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
                         <outlet property="detailInfoView" destination="h9W-rK-9UN" id="h58-6a-hIP"/>
                         <outlet property="favoriteButton" destination="Kk9-4k-n0f" id="pBE-AN-tFq"/>

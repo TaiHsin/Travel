@@ -27,6 +27,7 @@ target 'Travel' do
   pod 'JTAppleCalendar', '~> 7.0'
   pod 'KeychainAccess'
   pod 'Kingfisher', '~> 4.0'
+  pod 'NVActivityIndicatorView'
   
   # Pods for Crahlythics
   pod 'Fabric'

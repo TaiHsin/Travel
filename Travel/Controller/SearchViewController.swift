@@ -98,8 +98,9 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
         detailViewController.location = location
+        detailViewController.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
         
-        present(detailViewController, animated: true)
+        tabBarController?.present(detailViewController, animated: true)
         
 //        self.addChild(detailViewController)
 //

@@ -51,9 +51,11 @@ class DetailViewController: UIViewController {
     var isMyTrip = false
     
     let fullScreenSize = UIScreen.main.bounds.size
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
         
         ref = Database.database().reference()
         

@@ -142,11 +142,13 @@ class PreservedViewController: UIViewController {
         detailViewController.location = location
         detailViewController.isFavorite = isFavorite
         
-        self.addChild(detailViewController)
-        
-        detailViewController.view.frame = self.view.frame
-        self.view.addSubview(detailViewController.view)
-        detailViewController.didMove(toParent: self)
+        tabBarController?.present(detailViewController, animated: true)
+//        self.present(detailViewController, animated: true, completion: nil)
+//        self.addChild(detailViewController)
+//
+//        detailViewController.view.frame = self.view.frame
+//        self.view.addSubview(detailViewController.view)
+//        detailViewController.didMove(toParent: self)
     }
 }
 

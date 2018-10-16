@@ -57,6 +57,14 @@
                                 <color key="textColor" red="0.6705882352941176" green="0.76862745098039209" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1CH-2e-l3s" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="172.5" y="318.5" width="30" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="VJd-N4-s4b"/>
+                                    <constraint firstAttribute="width" constant="30" id="uNy-ie-Ibh"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZN-vQ-Ytu">
                                 <rect key="frame" x="260.5" y="103" width="84.5" height="1"/>
                                 <color key="backgroundColor" red="0.6705882352941176" green="0.76862745098039209" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -82,11 +90,13 @@
                             <constraint firstItem="oBX-To-cS1" firstAttribute="top" secondItem="vF9-3V-aaC" secondAttribute="bottom" constant="24" id="N7l-IY-xxY"/>
                             <constraint firstAttribute="trailing" secondItem="LZN-vQ-Ytu" secondAttribute="trailing" constant="30" id="Qzn-Qh-2rC"/>
                             <constraint firstItem="oBX-To-cS1" firstAttribute="top" secondItem="bfz-WX-iQr" secondAttribute="bottom" constant="15" id="Tvn-Om-AC8"/>
+                            <constraint firstItem="1CH-2e-l3s" firstAttribute="centerX" secondItem="CfN-4u-OWG" secondAttribute="centerX" id="XOj-cr-dmm"/>
                             <constraint firstItem="bfz-WX-iQr" firstAttribute="top" secondItem="eXl-If-XIs" secondAttribute="top" constant="30" id="ZBK-Nj-a7U"/>
                             <constraint firstItem="vF9-3V-aaC" firstAttribute="leading" secondItem="CfN-4u-OWG" secondAttribute="leading" constant="30" id="a97-NH-gHo"/>
                             <constraint firstItem="oBX-To-cS1" firstAttribute="leading" secondItem="eXl-If-XIs" secondAttribute="leading" constant="30" id="abn-Xk-dHC"/>
                             <constraint firstItem="bfz-WX-iQr" firstAttribute="centerX" secondItem="CfN-4u-OWG" secondAttribute="centerX" id="eIs-U8-BNd"/>
                             <constraint firstItem="LZN-vQ-Ytu" firstAttribute="centerY" secondItem="bfz-WX-iQr" secondAttribute="centerY" id="isO-4A-2to"/>
+                            <constraint firstItem="1CH-2e-l3s" firstAttribute="centerY" secondItem="CfN-4u-OWG" secondAttribute="centerY" id="q45-Vb-X5f"/>
                             <constraint firstItem="oBX-To-cS1" firstAttribute="top" secondItem="LZN-vQ-Ytu" secondAttribute="bottom" constant="24" id="yMJ-mZ-U4w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eXl-If-XIs"/>
@@ -101,6 +111,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="1CH-2e-l3s" id="mNp-ia-xEv"/>
                         <outlet property="addBarButtonItem" destination="1OP-39-PJr" id="nHY-ct-fyN"/>
                         <outlet property="collectionView" destination="oBX-To-cS1" id="o5V-5x-UZe"/>
                         <segue destination="nxr-5W-XUN" kind="show" identifier="TripListViewController" id="2lV-tZ-1fA"/>
@@ -260,12 +271,12 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
-                                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="CalendarHeader" id="tAp-5x-4yI" customClass="CalendarHeader" customModule="Travel" customModuleProvider="target">
+                                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="CalendarHeader" id="tAp-5x-4yI" customClass="CalendarHeader" customModule="Travel" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monthes Years" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wkc-y2-bD5">
-                                                            <rect key="frame" x="50" y="3.5" width="243" height="18"/>
+                                                            <rect key="frame" x="50" y="10.5" width="243" height="18"/>
                                                             <fontDescription key="fontDescription" name="SFCompactText-Medium" family="SF Compact Text" pointSize="15"/>
                                                             <color key="textColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>

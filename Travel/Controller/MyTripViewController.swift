@@ -8,12 +8,16 @@
 
 import UIKit
 import Firebase
+import NVActivityIndicatorView
 
-class MyTripViewController: UIViewController {
+class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
+    
+    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
+    
     
     // Reuse photo randomly
     // wait to re construct (requset Google photo or fake photo on Firebase)
@@ -27,8 +31,14 @@ class MyTripViewController: UIViewController {
  
     let dateFormatter = DateFormatter()
     
+    let fullScreenSize = UIScreen.main.bounds.size
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
+    
+//        activityIndicatorView.startAnimating()
         
         setupCollectionView()
         fetchData()
@@ -42,6 +52,8 @@ class MyTripViewController: UIViewController {
             name: Notification.Name("myTrips"),
             object: nil
         )
+        
+//        activityIndicatorView.stopAnimating() 
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +61,13 @@ class MyTripViewController: UIViewController {
         
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+    }
+    
+    func setupLoadingAnimation() {
+        
+        let frame = CGRect(x: fullScreenSize.width / 2, y: fullScreenSize.height / 2, width: 30, height: 30)
+        
+        NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.circleStrokeSpin, color: #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1), padding: 10)
     }
     
     func setupCollectionView() {

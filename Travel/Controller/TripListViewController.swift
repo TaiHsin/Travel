@@ -278,11 +278,13 @@ class TripListViewController: UIViewController {
         detailViewController.location = location
         detailViewController.isMyTrip = isMyTrips
         
-        self.addChild(detailViewController)
+        tabBarController?.present(detailViewController, animated: true)
         
-        detailViewController.view.frame = self.view.frame
-        self.view.addSubview(detailViewController.view)
-        detailViewController.didMove(toParent: self)
+//        self.addChild(detailViewController)
+//
+//        detailViewController.view.frame = self.view.frame
+//        self.view.addSubview(detailViewController.view)
+//        detailViewController.didMove(toParent: self)
     }
     
     @objc func updateLocation(noti: Notification) {

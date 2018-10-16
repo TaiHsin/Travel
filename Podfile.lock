@@ -94,6 +94,9 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NVActivityIndicatorView (4.4.0):
+    - NVActivityIndicatorView/Presenter (= 4.4.0)
+  - NVActivityIndicatorView/Presenter (4.4.0)
   - SwiftLint (0.27.0)
 
 DEPENDENCIES:
@@ -113,6 +116,7 @@ DEPENDENCIES:
   - JTAppleCalendar (~> 7.0)
   - KeychainAccess
   - Kingfisher (~> 4.0)
+  - NVActivityIndicatorView
   - SwiftLint
 
 SPEC REPOS:
@@ -142,6 +146,7 @@ SPEC REPOS:
     - Kingfisher
     - leveldb-library
     - nanopb
+    - NVActivityIndicatorView
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -170,8 +175,9 @@ SPEC CHECKSUMS:
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: 4c0d866075563a3265764ff85daee5aa54fd84b1
+PODFILE CHECKSUM: 0b686fe66d30b5526868360108793af713bfbf96
 
 COCOAPODS: 1.5.3
