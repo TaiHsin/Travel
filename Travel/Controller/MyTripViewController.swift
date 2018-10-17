@@ -247,10 +247,9 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
         ) -> CGSize {
         
-//        let width = Int((fullScreenSize.width - 60) / 2)
         let width = Int(collectionView.frame.width - 25) / 2
         
-        let height = 185
+        let height = (width * 4) / 3
         
         return CGSize(width: width, height: height)
     }
