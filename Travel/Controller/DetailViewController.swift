@@ -140,9 +140,13 @@ class DetailViewController: UIViewController {
     func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-        let okAction = UIAlertAction(title: "OK", style: .default)
+//        let okAction = UIAlertAction(title: "OK", style: .default)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.removeAnimate()
+        }
         
         alertController.addAction(okAction)
+        
         present(alertController, animated: true, completion: nil)
     }
     

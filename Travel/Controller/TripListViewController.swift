@@ -601,17 +601,29 @@ extension TripListViewController: UITableViewDelegate {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
         
-        guard cell.isEmpty != true else { return }
+        let total = tableView.numberOfRows(inSection: indexPath.section)
+        
+        guard cell.isEmpty != true, total > 1 else { return }
         
         if editingStyle == .delete {
-                
-                guard let locationArray = detailData[indexPath.section] else { return }
-                let location = locationArray[indexPath.row]
-                deletLocation(daysKey: daysKey, location: location)
-                changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
-                
-                detailData[indexPath.section]!.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            guard let locationArray = detailData[indexPath.section] else { return }
+            let location = locationArray[indexPath.row]
+            deletLocation(daysKey: daysKey, location: location)
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
+            
+            detailData[indexPath.section]!.remove(at: indexPath.row)
+            
+//            if total == 1 {
+//
+//                let newIndexPath = IndexPath(row: total, section: indexPath.section)
+//                tableView.insertRows(at: [newIndexPath], with: .none)
+//                guard let cell = tableView.cellForRow(at: newIndexPath) as? TripListTableViewCell else { return }
+//                cell.isEmpty = true
+//                cell.switchCellContent()
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
 
     }

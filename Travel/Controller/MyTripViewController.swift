@@ -153,6 +153,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
                 
                 self?.activityIndicatorView.stopAnimating()
             },
+            
             failure: { (error) in
                 
                 self.activityIndicatorView.stopAnimating()
@@ -246,7 +247,8 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
         ) -> CGSize {
         
-        let width = 145
+//        let width = Int((fullScreenSize.width - 60) / 2)
+        let width = Int(collectionView.frame.width - 25) / 2
         
         let height = 185
         
