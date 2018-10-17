@@ -11,6 +11,7 @@ import UIKit
 import GooglePlaces
 import FirebaseDatabase
 import Firebase
+import KeychainAccess
 
 class DetailViewController: UIViewController {
     
@@ -33,6 +34,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var favoriteButtonWidthConstraints: NSLayoutConstraint!
     
     @IBOutlet weak var intervalConstraints: NSLayoutConstraint!
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     var ref: DatabaseReference!
     
@@ -106,32 +109,6 @@ class DetailViewController: UIViewController {
       
 //        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
     }
-
-    #warning ("Refactor")
-    
-    @IBAction func addToFavorite(_ sender: UIButton) {
-
-        guard let location = location else { return }
-        
-        ref.child("/favorite/")
-            .queryOrdered(byChild: "position")
-            .queryEqual(toValue: location.position)
-            .observeSingleEvent(of: .value) { (snapshot) in
-                
-                if (snapshot.value as? NSDictionary) != nil {
-                    
-                    self.showAlertWith(title: nil, message: "Already in favorite", style: .alert)
-                    
-                } else {
-                    
-                    // Didn't find location in Firebase
-                    self.updateLocation(location: location)
-                    self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
-                    
-                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
-                }
-        }
-    }
     
     #warning ("Need to pop out to cover tab bar and navigation bar")
     
@@ -192,21 +169,47 @@ class DetailViewController: UIViewController {
             }
         })
     }
-}
-
-extension DetailViewController {
+    
+    #warning ("Refactor")
+    
+    @IBAction func addToFavorite(_ sender: UIButton) {
+        
+        guard let location = location else { return }
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/favorite/\(uid)")
+            .queryOrdered(byChild: "position")
+            .queryEqual(toValue: location.position)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                
+                if (snapshot.value as? NSDictionary) != nil {
+                    
+                    self.showAlertWith(title: nil, message: "Already in favorite", style: .alert)
+                    
+                } else {
+                    
+                    // Didn't find location in Firebase
+                    self.updateLocation(location: location)
+                    self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
+                    
+                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
+                }
+        }
+    }
     
     #warning ("Refactor: gether all Firebase relative function together")
     func updateLocation(location: Location) {
-    
-        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+        
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? NSDictionary else { return }
             
             self.total = value.allKeys.count
         }
-    
+        
         guard let key = ref.child("favorite").childByAutoId().key else { return }
- 
+        
         let post = ["addTime": location.addTime,
                     "address": location.address,
                     "latitude": location.latitude,
@@ -219,7 +222,7 @@ extension DetailViewController {
                     "position": location.position
             ] as [String: Any]
         
-        let postUpdate = ["/favorite/\(key)": post]
+        let postUpdate = ["/favorite/\(uid)/\(key)": post]
         
         ref.updateChildValues(postUpdate)
     }

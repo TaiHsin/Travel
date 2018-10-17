@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import KeychainAccess
 
 enum Status {
     case add
@@ -23,7 +24,10 @@ class ChecklistViewController: UIViewController {
     #warning ("Refactor")
     
     let decoder = JSONDecoder()
+    
     var ref: DatabaseReference!
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     var checklists: [Checklist] = []
     
@@ -265,7 +269,9 @@ extension ChecklistViewController: UITableViewDelegate {
         
         updateHeaderNumber(section: indexPath.section)
         
-        ref.child("/checklist/\(indexPath.section)/items/")
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/checklist/\(uid)/\(indexPath.section)/items/")
             .queryOrdered(byChild: "order")
             .queryEqual(toValue: 0)
             .observeSingleEvent(of: .value) { (snapshot) in
@@ -314,7 +320,9 @@ extension ChecklistViewController {
         failure: @escaping (TripsError) -> Void
         ) {
         
-        ref.child("checklist").observeSingleEvent(of: .value) { (snapshot) in
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/checklist/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSArray else { return }
             guard let jsonData = try? JSONSerialization.data(withJSONObject: value) else { return }
@@ -334,6 +342,8 @@ extension ChecklistViewController {
     
     func updateChecklistData(item: Items, indexPath: IndexPath, type: Status) {
         
+        guard let uid = keychain["userId"] else { return }
+        
         switch type {
             
         case .add:
@@ -344,19 +354,19 @@ extension ChecklistViewController {
                         "isSelected": item.isSelected
                 ] as [String: Any]
             
-            let postUpdate = ["/checklist/\(indexPath.section)/items/\(indexPath.row)": post]
+            let postUpdate = ["/checklist/\(uid)/\(indexPath.section)/items/\(indexPath.row)": post]
             
             ref.updateChildValues(postUpdate)
             
         case .edit:
             
-            let postUpdate = ["/checklist/\(indexPath.section)/items/\(indexPath.row)/isSelected": item.isSelected]
+            let postUpdate = ["/checklist/\(uid)/\(indexPath.section)/items/\(indexPath.row)/isSelected": item.isSelected]
             
             ref.updateChildValues(postUpdate)
             
         case .delete:
             
-            ref.child("/checklist/\(indexPath.section)/items/\(indexPath.row)").removeValue()
+            ref.child("/checklist/\(uid)/\(indexPath.section)/items/\(indexPath.row)").removeValue()
             
             let totalRows = tableView.numberOfRows(inSection: indexPath.section)
             
@@ -374,7 +384,7 @@ extension ChecklistViewController {
                     updateChecklistData(item: item, indexPath: newIndexPath, type: .add)
                 }
             }
-            ref.child("/checklist/\(indexPath.section)/items/\(totalRows - 1)").removeValue()
+            ref.child("/checklist/\(uid)/\(indexPath.section)/items/\(totalRows - 1)").removeValue()
         }
     }
     

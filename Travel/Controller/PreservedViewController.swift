@@ -10,6 +10,7 @@ import UIKit
 import GooglePlaces
 import FirebaseDatabase
 import NVActivityIndicatorView
+import KeychainAccess
 
 class PreservedViewController: UIViewController {
 
@@ -20,6 +21,8 @@ class PreservedViewController: UIViewController {
     @IBOutlet weak var emptyLabel: UILabel!
     
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     let photoManager = PhotoManager()
     
@@ -43,6 +46,13 @@ class PreservedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.fetchFailed(noti: )),
+            name: Notification.Name("NoData"),
+            object: nil
+        )
         
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
         activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
@@ -68,7 +78,13 @@ class PreservedViewController: UIViewController {
         
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         
-        emptyLabel.isHidden = true
+//        emptyLabel.isHidden = true
+    }
+    
+    @objc func fetchFailed(noti: Notification) {
+        
+        activityIndicatorView.stopAnimating()
+        emptyLabel.isHidden = false
     }
     
     @objc func updatePreserved(noti: Notification) {
@@ -106,7 +122,7 @@ class PreservedViewController: UIViewController {
         
         fetchPreservedData(
             success: { (location) in
-                print(self.locationArray)
+
                 self.locationArray = location
                 
                 // Sort array alphabetically
@@ -124,7 +140,7 @@ class PreservedViewController: UIViewController {
                 
         },
             failure: { (_) in
-                //TODO
+                self.activityIndicatorView.stopAnimating()
         }
         )
     }
@@ -148,7 +164,7 @@ class PreservedViewController: UIViewController {
                 
                 guard let image = UIImage(named: "picture_placeholder02") else { return }
                 
-                self.photosDict["Nophoto"] = image
+                self.photosDict["NoPhoto"] = image
                 
                 self.activityIndicatorView.stopAnimating()
                 
@@ -252,14 +268,24 @@ extension PreservedViewController {
     #warning ("Refact to TripsManager")
     func fetchPreservedData(
         success: @escaping ([Location]) -> Void,
-        failure: @escaping (TripsError) -> Void
+        failure: @escaping (Error) -> Void
         ) {
         
         var location: [Location] = []
         
-        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+        guard let uid = keychain["userId"] else {
             
-            guard let value = snapshot.value as? NSDictionary else { return }
+            NotificationCenter.default.post(name: Notification.Name("NoData"), object: nil)
+            return
+        }
+        
+        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else {
+                
+                NotificationCenter.default.post(name: Notification.Name("NoData"), object: nil)
+                return
+            }
             
             for value in value.allValues {
                 
@@ -273,6 +299,7 @@ extension PreservedViewController {
                 
                 } catch {
                     print(error)
+                    failure(error)
                 }
             }
             print(location)
@@ -282,14 +309,16 @@ extension PreservedViewController {
     
     func deleteData(location: Location) {
         
-        ref.child("favorite")
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/favorite/\(uid)")
             .queryOrdered(byChild: "locationId")
             .queryEqual(toValue: location.locationId)
             .observeSingleEvent(of: .value) { (snapshot) in
             
             guard let value = snapshot.value as? NSDictionary else { return }
             guard let key = value.allKeys.first as? String else { return }
-            self.ref.child("/favorite/\(key)").removeValue()
+            self.ref.child("/favorite/\(uid)/\(key)").removeValue()
         }
     }
 }

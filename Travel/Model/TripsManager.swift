@@ -8,6 +8,7 @@
 
 import Firebase
 import FirebaseDatabase
+import KeychainAccess
 
 class TripsManager {
     
@@ -16,6 +17,8 @@ class TripsManager {
     init() {
         ref = Database.database().reference()
     }
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     let photoStrArray = Photos().photos
     
@@ -27,21 +30,33 @@ class TripsManager {
     
     func fetchTripsData(
         success: @escaping ([Trips]) -> Void,
-        failure: @escaping (TripsError) -> Void
+        failure: @escaping (Error) -> Void
         ) {
         
         var datas: [Trips] = []
+        
+        guard let uid = keychain["userId"] else {
+            
+            NotificationCenter.default.post(name: Notification.Name("failure"), object: nil)
+            
+            return
+        }
         
         #warning ("better way? observeSingleEvent first and then obeserve for .childAdd ?")
         
         /// Need to add sorting method by startDate!!!
         
-        // Re-write to use singleObserveEvent
-        
-        ref.child("myTrips").queryOrdered(byChild: "startDate")
-            .observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("myTrips")
+            .queryOrdered(byChild: "userId")
+            .queryEqual(toValue: uid)
+            .observeSingleEvent(of: .value, with: { (snapshot) in
             
-            guard let value = snapshot.value as? NSDictionary else { return }
+            guard let value = snapshot.value as? NSDictionary else {
+                
+                NotificationCenter.default.post(name: Notification.Name("failure"), object: nil)
+                
+                return
+            }
             
             for value in value.allValues {
                 
@@ -53,10 +68,11 @@ class TripsManager {
                     datas.append(data)
                 } catch {
                     print(error)
+                    failure(error)
                 }
             }
             success(datas)
-        }
+        })
     }
     
     /// Try to use model to replace
@@ -75,6 +91,8 @@ class TripsManager {
         guard let daysKey = ref.child("tripDays").childByAutoId().key else { return }
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
         
+        guard let uid = keychain["userId"] else { return }
+        
         let post = ["name": name,
                     "place": place,
                     "startDate": startDate,
@@ -83,7 +101,8 @@ class TripsManager {
                     "createdTime": createdTime,
                     "id": key,
                     "placePic": photoStrArray.randomElement(),
-                    "daysKey": daysKey
+                    "daysKey": daysKey,
+                    "userId": uid
             ] as [String: Any]
         
         let postUpdate = ["/myTrips/\(key)": post]

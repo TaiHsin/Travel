@@ -31,6 +31,15 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        emptyLabel.isHidden = true
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.fetchDataFailed(noti: )),
+            name: Notification.Name("failure"),
+            object: nil
+        )
+        
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
         activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
     
@@ -56,14 +65,18 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         
-        emptyLabel.isHidden = true
+//        emptyLabel.isHidden = true
     }
     
-    func setupLoadingAnimation() {
+    @objc func fetchDataFailed(noti: Notification) {
         
-        let frame = CGRect(x: fullScreenSize.width / 2, y: fullScreenSize.height / 2, width: 30, height: 30)
+        activityIndicatorView.stopAnimating()
+        emptyLabel.isHidden = false
+    }
+    
+    @objc func createNewTrip(noti: Notification) {
         
-        NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.circleStrokeSpin, color: #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1), padding: 10)
+        fetchData()
     }
     
     func setupCollectionView() {
@@ -140,19 +153,15 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
                 
                 self?.activityIndicatorView.stopAnimating()
             },
-            failure: { _ in
-                //TODO
+            failure: { (error) in
+                
+                self.activityIndicatorView.stopAnimating()
         })
     }
     
     func sortDataWithUpComimgDate() {
         
         trips.sort(by: {$0.startDate < $1.startDate})
-    }
-
-    @objc func createNewTrip(noti: Notification) {
-        
-        fetchData()
     }
 
     // MARK: - Delete Items

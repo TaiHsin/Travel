@@ -86,7 +86,6 @@ class LoginViewController: UIViewController {
                     
                     /// store uid or getIDtoken?
                     
-                    
                     self?.keychain["userId"] = uid
     
                     DispatchQueue.main.async {

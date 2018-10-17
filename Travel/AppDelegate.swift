@@ -58,13 +58,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
         let keychain = Keychain(service: "com.TaiHsinLee.Travel")
-    
+        
         guard keychain["userId"] == nil else {
             
             switchToMainStoryBoard()
             
             return true
         }
+        
+        let uuid = UUID().uuidString
+        
+        keychain["userId"] = uuid
+        
+        switchToMainStoryBoard()
         
         return true
     }
@@ -85,23 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return handled
     }
     
-    func applicationWillResignActive(_ application: UIApplication) {
- 
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        
-    }
-
     func applicationDidBecomeActive(_ application: UIApplication) {
         FBSDKAppEvents.activateApp()
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        
     }
     
     func switchToLoginStoryBoard() {
@@ -133,5 +124,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = UIStoryboard.mainStoryboard().instantiateInitialViewController()
     }
-    
 }
