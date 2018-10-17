@@ -51,8 +51,8 @@
                     </constraints>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oct 6, 2018 /  Saturday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQF-VG-O2j">
-                    <rect key="frame" x="78" y="13" width="123.5" height="14.5"/>
-                    <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="12"/>
+                    <rect key="frame" x="65" y="11.5" width="144.5" height="17"/>
+                    <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -63,7 +63,7 @@
                 <constraint firstItem="3WJ-lz-S9F" firstAttribute="trailing" secondItem="KaO-zn-wnf" secondAttribute="trailing" id="5Bf-6S-hZ3"/>
                 <constraint firstItem="eQF-VG-O2j" firstAttribute="centerY" secondItem="GT3-kr-p3v" secondAttribute="centerY" id="8Wr-69-dji"/>
                 <constraint firstItem="KaO-zn-wnf" firstAttribute="top" secondItem="Frf-IC-r3P" secondAttribute="top" id="Ade-KP-guA"/>
-                <constraint firstItem="eQF-VG-O2j" firstAttribute="leading" secondItem="GT3-kr-p3v" secondAttribute="trailing" constant="38" id="GZa-3P-5hz"/>
+                <constraint firstItem="eQF-VG-O2j" firstAttribute="leading" secondItem="GT3-kr-p3v" secondAttribute="trailing" constant="25" id="GZa-3P-5hz"/>
                 <constraint firstItem="GT3-kr-p3v" firstAttribute="centerY" secondItem="Frf-IC-r3P" secondAttribute="centerY" id="m7C-Xx-5Y5"/>
                 <constraint firstItem="GT3-kr-p3v" firstAttribute="leading" secondItem="3WJ-lz-S9F" secondAttribute="leading" constant="20" id="v2x-OH-sYQ"/>
                 <constraint firstItem="KaO-zn-wnf" firstAttribute="leading" secondItem="3WJ-lz-S9F" secondAttribute="leading" id="z0k-u8-WpF"/>

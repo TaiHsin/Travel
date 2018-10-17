@@ -135,6 +135,14 @@ class TripListViewController: UIViewController {
         navigationItem.title = name
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        guard let navigationBar = navigationController?.navigationBar else { return }
+        let view = navigationBar.subviews[0]
+        let count = navigationBar.subviews.count
+        navigationBar.subviews[4].isHidden = true
+//        navigationController?.navigationBar.im
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
