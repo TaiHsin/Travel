@@ -297,7 +297,7 @@ extension ChecklistViewController: UITableViewDelegate {
         
         let total = tableView.numberOfRows(inSection: indexPath.section)
         
-        guard total > 1, indexPath.row != total - 1 else {
+        guard total > 2, indexPath.row != total - 1 else {
             
             return UITableViewCell.EditingStyle.none
         }

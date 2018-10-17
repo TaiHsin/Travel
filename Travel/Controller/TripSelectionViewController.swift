@@ -56,10 +56,31 @@ class TripSelectionViewController: UIViewController {
     
     @IBAction func savePlace(_ sender: Any) {
         
-        guard let location = location else { return }
-        checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
-        
-        self.view.removeFromSuperview()
+        if dayIndex != 0 {
+            
+            guard let location = location else { return }
+            checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
+            
+            removeAnimate()
+            //        self.view.removeFromSuperview()
+        } else {
+            
+           /// Add notice to inform user to select day
+        }
+    }
+    
+    func removeAnimate() {
+        UIView.animate(withDuration: 0.25, animations: {
+            
+            self.view.superview?.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            self.view.superview?.alpha = 0.0
+
+        }, completion: {(finished: Bool)  in
+            if finished {
+                
+                self.dismiss(animated: false, completion: nil)
+            }
+        })
     }
     
     @IBAction func closeView(_ sender: Any) {

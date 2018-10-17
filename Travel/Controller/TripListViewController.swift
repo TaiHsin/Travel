@@ -515,7 +515,6 @@ extension TripListViewController: UITableViewDataSource {
         let placeID = datas[indexPath.row].photo
         listCell.listImage.image = photosDict[placeID]
         
-        
 //        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
 //
 //            listCell.listImage.image = photo
@@ -595,15 +594,35 @@ extension TripListViewController: UITableViewDelegate {
     
     func tableView(
         _ tableView: UITableView,
+        editingStyleForRowAt indexPath: IndexPath
+        ) -> UITableViewCell.EditingStyle {
+       
+        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
+            
+            return UITableViewCell.EditingStyle.none
+        }
+        
+        let total = tableView.numberOfRows(inSection: indexPath.section)
+        
+        guard cell.isEmpty != true, total > 1 else {
+            
+            return UITableViewCell.EditingStyle.none
+        }
+        
+        return UITableViewCell.EditingStyle.delete
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath
         ) {
         
-        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
-        
-        let total = tableView.numberOfRows(inSection: indexPath.section)
-        
-        guard cell.isEmpty != true, total > 1 else { return }
+//        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
+//
+//        let total = tableView.numberOfRows(inSection: indexPath.section)
+//
+//        guard cell.isEmpty != true, total > 1 else { return }
         
         if editingStyle == .delete {
             
@@ -751,6 +770,19 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func showAlertAction() {
+        
+        let alertVC = AlertManager.shared.showAlert(
+            with: ["Oops..."],
+            message: "Cannot delete last day",
+            cancel: false,
+            completion: {
+            // TODO
+            })
+        
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
     @objc func editDaysCollection(sender: UIButton) {
         
         let alertVC = AlertManager.shared.showActionSheet(
@@ -778,9 +810,6 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         daysArray.append(total)
         let newTotal = total + 1
         
-        let array = [Location]()
-        detailData[total] = array
-        
         guard let last = dates.last else { return }
 
         guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: last) else { return }
@@ -800,6 +829,14 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     func deleteDay() {
         
         let total = daysArray.count
+        
+        guard total > 1 else {
+            
+            showAlertAction()
+            
+            return
+        }
+        
         let newTotal = total - 1
         daysArray.remove(at: total - 1)
         dates.remove(at: total - 1)

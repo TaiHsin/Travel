@@ -54,11 +54,11 @@ class DetailViewController: UIViewController {
     var isMyTrip = false
     
     let fullScreenSize = UIScreen.main.bounds.size
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+        //        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
         
         ref = Database.database().reference()
         
@@ -88,9 +88,9 @@ class DetailViewController: UIViewController {
             intervalConstraints.constant = 0.0
         }
         
-//        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
-//        detailInfoView.layer.shouldRasterize = true
-//        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
+        //        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+        //        detailInfoView.layer.shouldRasterize = true
+        //        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
         
         #warning ("below shouldn't in viewWillAppear")
         
@@ -105,9 +105,7 @@ class DetailViewController: UIViewController {
             self.placeImage.image = photo
         }, failure: { (error) in
             // TODO:
-            })
-      
-//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
+        })
     }
     
     #warning ("Need to pop out to cover tab bar and navigation bar")
@@ -127,11 +125,6 @@ class DetailViewController: UIViewController {
         selectionViewController.didMove(toParent: self)
     }
     
-    //    func show() {
-    //        UIApplication.shared.windows.first?.addSubview(self.view)
-    //        UIApplication.shared.windows.first?.endEditing(true)
-    //    }
-    
     @IBAction func closeView(_ sender: Any) {
         removeAnimate()
     }
@@ -140,7 +133,7 @@ class DetailViewController: UIViewController {
     func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-//        let okAction = UIAlertAction(title: "OK", style: .default)
+        //        let okAction = UIAlertAction(title: "OK", style: .default)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             self.removeAnimate()
         }
@@ -169,7 +162,6 @@ class DetailViewController: UIViewController {
         }, completion: {(finished: Bool)  in
             if finished {
                 self.dismiss(animated: true)
-//                self.view.removeFromSuperview()
             }
         })
     }
@@ -192,9 +184,9 @@ class DetailViewController: UIViewController {
                     
                 } else {
                     
-                    // Didn't find location in Firebase
                     self.updateLocation(location: location)
-                    self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
+                    
+                    self.removeAnimate()
                     
                     NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
                 }
