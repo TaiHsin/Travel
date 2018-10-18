@@ -1124,9 +1124,9 @@ extension TripListViewController {
         let cellSnapshot: UIView = UIImageView(image: image)
         cellSnapshot.layer.masksToBounds = false
         
-        ////        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-        ////        cellSnapshot.layer.shadowRadius = 5.0
-        ////        cellSnapshot.layer.shadowOpacity = 0.4
+        //        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
+        //        cellSnapshot.layer.shadowRadius = 5.0
+        //        cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
 }

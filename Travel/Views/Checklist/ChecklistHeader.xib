@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -25,9 +26,6 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Checklist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6W-hH-oP9">
                         <rect key="frame" x="16" y="3" width="188" height="13.5"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="13.5" id="xo4-pR-ugO"/>
-                        </constraints>
                         <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="13"/>
                         <color key="textColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -50,12 +48,12 @@
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="v6W-hH-oP9" secondAttribute="trailing" constant="100" id="9Ky-lX-Klz"/>
                     <constraint firstItem="v6W-hH-oP9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="9ih-Za-Ma0"/>
+                    <constraint firstItem="v6W-hH-oP9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="NwE-Kr-NR8"/>
                     <constraint firstAttribute="trailing" secondItem="NRO-AC-afI" secondAttribute="trailing" id="WKW-hx-5OL"/>
                     <constraint firstAttribute="trailing" secondItem="u9B-P8-AqS" secondAttribute="trailing" constant="25" id="WPg-bk-zeq"/>
                     <constraint firstItem="v6W-hH-oP9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fiI-Kl-VeN"/>
                     <constraint firstAttribute="bottom" secondItem="u9B-P8-AqS" secondAttribute="bottom" constant="1.5" id="fqT-6q-5JZ"/>
                     <constraint firstItem="NRO-AC-afI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="fwO-ms-Z8n"/>
-                    <constraint firstItem="NRO-AC-afI" firstAttribute="top" secondItem="v6W-hH-oP9" secondAttribute="topMargin" constant="5" id="ggN-M2-unW"/>
                     <constraint firstItem="NRO-AC-afI" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-2.5" id="h0B-0u-XUp"/>
                     <constraint firstItem="u9B-P8-AqS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="pzp-9s-iXE"/>
                 </constraints>
