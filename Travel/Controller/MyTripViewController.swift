@@ -50,7 +50,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
+//        setupUI()
         
         emptyLabel.isHidden = true
         
@@ -87,7 +87,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         
-        navigationController?.navigationBar.subviews[4].isHidden = false
+//        navigationController?.navigationBar.subviews[4].isHidden = false
         
 //        emptyLabel.isHidden = true
     }
@@ -124,16 +124,6 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             //            imageView.topAnchor.constraint(equalTo: navigationBar.topAnchor, constant: 0)
             ])
-    }
-    
-    func setupNavigationImage() {
-        
-        let logo = UIImage(named: "icon_logo")
-        let imageView = UIImageView(image: logo)
-        imageView.contentMode = UIView.ContentMode.scaleAspectFill
-        
-        self.navigationItem.titleView = imageView
-        
     }
     
     @objc func fetchDataFailed(noti: Notification) {

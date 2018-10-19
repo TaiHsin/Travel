@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,7 +24,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--My Trips-->
+        <!--Trips-->
         <scene sceneID="x9x-Hk-7Z3">
             <objects>
                 <viewController id="8Q1-HV-2Yx" customClass="MyTripViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -109,7 +110,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eXl-If-XIs"/>
                     </view>
-                    <navigationItem key="navigationItem" title="My Trips" id="Krj-5k-4I2">
+                    <navigationItem key="navigationItem" title="Trips" id="Krj-5k-4I2">
                         <barButtonItem key="backBarButtonItem" title=" " id="KhJ-OQ-u4b"/>
                         <barButtonItem key="rightBarButtonItem" image="btn_add" id="1OP-39-PJr">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
