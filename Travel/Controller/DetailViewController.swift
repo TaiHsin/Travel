@@ -129,6 +129,17 @@ class DetailViewController: UIViewController {
         removeAnimate()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        var touch: UITouch? = touches.first
+        
+        if touch?.view != placeInfoCard {
+            
+            removeAnimate()
+        }
+    }
+    
     #warning ("Refactor: gether all alert function together")
     func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
         
@@ -161,6 +172,7 @@ class DetailViewController: UIViewController {
             self.view.alpha = 0.0
         }, completion: {(finished: Bool)  in
             if finished {
+                
                 self.dismiss(animated: true)
             }
         })

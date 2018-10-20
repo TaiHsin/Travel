@@ -57,6 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
+//        UIKeyboardType = UIKeyboardType.default
+        
+        
         let keychain = Keychain(service: "com.TaiHsinLee.Travel")
         
         guard keychain["userId"] == nil else {
