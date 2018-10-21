@@ -12,6 +12,7 @@ import GooglePlaces
 import FirebaseDatabase
 import Firebase
 import KeychainAccess
+import SwiftMessages
 
 class DetailViewController: UIViewController {
     
@@ -63,7 +64,6 @@ class DetailViewController: UIViewController {
         //        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
         
         ref = Database.database().reference()
-        
         showAnimate()
     }
     
@@ -90,11 +90,7 @@ class DetailViewController: UIViewController {
             intervalConstraints.constant = 0.0
         }
         
-        //        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
-        //        detailInfoView.layer.shouldRasterize = true
-        //        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
-        
-        #warning ("below shouldn't in viewWillAppear")
+        #warning ("below shouldn't in viewWillAppear?")
         
         guard let location = location else { return }
         let placeId = location.photo
@@ -108,6 +104,34 @@ class DetailViewController: UIViewController {
         }, failure: { (error) in
             // TODO:
         })
+    }
+    
+    func setupMessageView() {
+        
+        // Instantiate a message view from the provided card view layout. SwiftMessages searches for nib
+        // files in the main bundle first, so you can easily copy them into your project and make changes.
+        let view = MessageView.viewFromNib(layout: .messageView)
+        
+        // Theme message elements with the warning style.
+        view.configureTheme(.warning)
+        
+        // Add a drop shadow.
+        view.configureDropShadow()
+        
+        // Set message title, body, and icon. Here, we're overriding the default warning
+        // image with an emoji character.
+        let iconText = ["🤔", "😳", "🙄", "😶"].sm_random()!
+        view.configureContent(title: "Warning", body: "Consider yourself warned.", iconText: iconText)
+        
+        // Increase the external margin around the card. In general, the effect of this setting
+        // depends on how the given layout is constrained to the layout margins.
+        view.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        
+        // Reduce the corner radius (applicable to layouts featuring rounded corners).
+        (view.backgroundView as? CornerRoundingView)?.cornerRadius = 10
+        
+        // Show the message.
+        SwiftMessages.show(view: view)
     }
     
     #warning ("Need to pop out to cover tab bar and navigation bar")
@@ -202,16 +226,19 @@ class DetailViewController: UIViewController {
                 } else {
                     
                     self.updateLocation(location: location)
-                    
-                    /// pop both mytrips ana collections page (workaround)
-                    /// Other way: check presented by which tab
+                
+                    /// Use tabIndex to pass number for determine tab item
                     
                     if self.tabIndex == 1 {
+                    
+//                        self.setupMessageView()
                         
                         guard let tripsnavi = self.presentingViewController?.children[0] as? TripNaviViewController else { return }
                         
                         tripsnavi.popViewController(animated: true)
                     } else if self.tabIndex == 2 {
+                        
+//                        self.setupMessageView()
                         
                         guard let collectionsNavi = self.presentingViewController?.children[1] as? TripNaviViewController else { return }
                         

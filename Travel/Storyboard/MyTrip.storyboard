@@ -23,7 +23,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Trips-->
+        <!--TRIPS-->
         <scene sceneID="x9x-Hk-7Z3">
             <objects>
                 <viewController id="8Q1-HV-2Yx" customClass="MyTripViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -109,7 +109,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eXl-If-XIs"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Trips" id="Krj-5k-4I2">
+                    <navigationItem key="navigationItem" title="TRIPS" id="Krj-5k-4I2">
                         <barButtonItem key="backBarButtonItem" title=" " id="KhJ-OQ-u4b"/>
                         <barButtonItem key="rightBarButtonItem" image="btn_add" id="1OP-39-PJr">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
