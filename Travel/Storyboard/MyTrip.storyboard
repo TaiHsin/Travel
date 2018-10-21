@@ -475,14 +475,30 @@
                                     <constraint firstAttribute="bottom" secondItem="rJ5-ff-iLv" secondAttribute="bottom" id="mPn-a8-3UY"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERl-kI-rcm">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                                <color key="backgroundColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="iIe-Mi-KD7"/>
+                                </constraints>
+                                <state key="normal" title="Back to list">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="showList:" destination="nxr-5W-XUN" eventType="touchUpInside" id="PDX-LV-nmw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="top" secondItem="Jus-NV-xJa" secondAttribute="bottom" id="0Nr-I8-his"/>
                             <constraint firstItem="x6y-nz-qBr" firstAttribute="trailing" secondItem="Jus-NV-xJa" secondAttribute="trailing" id="3fK-Us-FsQ"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="top" secondItem="x6y-nz-qBr" secondAttribute="top" id="8cL-ty-e4j"/>
+                            <constraint firstItem="ERl-kI-rcm" firstAttribute="trailing" secondItem="x6y-nz-qBr" secondAttribute="trailing" id="D9e-Vh-QJi"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="trailing" secondItem="rWe-Uh-wcR" secondAttribute="trailing" id="JdY-PT-aUQ"/>
+                            <constraint firstItem="ERl-kI-rcm" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="QSI-bz-gGk"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="aAj-tz-baD"/>
+                            <constraint firstItem="x6y-nz-qBr" firstAttribute="bottom" secondItem="ERl-kI-rcm" secondAttribute="bottom" id="aMG-6W-LTr"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="leading" secondItem="rWe-Uh-wcR" secondAttribute="leading" id="nBq-rF-h6o"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="top" secondItem="x6y-nz-qBr" secondAttribute="top" id="p2L-PL-UEo"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="bottom" secondItem="rWe-Uh-wcR" secondAttribute="bottom" id="w5G-gM-zTI"/>
@@ -506,6 +522,7 @@
                         <outlet property="collectionView" destination="Jus-NV-xJa" id="5ei-Gr-4dY"/>
                         <outlet property="mapView" destination="Ly3-Ah-9wI" id="Ojh-IU-4tS"/>
                         <outlet property="searchButton" destination="P2w-PO-RE2" id="DC6-0g-yli"/>
+                        <outlet property="showListButton" destination="ERl-kI-rcm" id="IVF-q9-tEm"/>
                         <outlet property="tableView" destination="rJ5-ff-iLv" id="Nnj-Hr-1G9"/>
                     </connections>
                 </viewController>

@@ -33,6 +33,8 @@ class TripListViewController: UIViewController {
     
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
+    @IBOutlet weak var showListButton: UIButton!
+    
     private let locationManager = CLLocationManager()
     
     let contentOffsetView = UIView()
@@ -44,6 +46,8 @@ class TripListViewController: UIViewController {
     let photoManager = PhotoManager()
 
     let decoder = JSONDecoder()
+    
+    
     
     var ref: DatabaseReference!
     
@@ -119,6 +123,8 @@ class TripListViewController: UIViewController {
         
         mapView.delegate = self
         
+        showListButton.isHidden = true
+        
         /// Show day1 markers as default?
         //        showMarker(locations: )
         
@@ -139,7 +145,7 @@ class TripListViewController: UIViewController {
         navigationItem.title = name
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
-        
+    
         /// Navigation large title effect
 //        navigationController?.navigationBar.prefersLargeTitles = false
 //        
@@ -153,6 +159,15 @@ class TripListViewController: UIViewController {
     @IBAction func backButton(_ sender: UIBarButtonItem) {
         
         self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @IBAction func showList(_ sender: UIButton) {
+        
+        tableView.isHidden = false
+        contentOffsetView.isHidden = false
+        showListButton.isHidden = true
+        
+        
     }
     
     func setupTapGesture() {
@@ -173,10 +188,12 @@ class TripListViewController: UIViewController {
 
     @objc func tapGestureRecognized(gestureRecognizer: UITapGestureRecognizer) {
         
-        print("test success")
-        
         tableView.isHidden = true
         contentOffsetView.isHidden = true
+        showListButton.isHidden = false
+        
+        let padding = showListButton.frame.height
+        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
     }
     
     func setupLocationManager() {
@@ -312,7 +329,7 @@ class TripListViewController: UIViewController {
             
             bounds = bounds.includingCoordinate(marker.position)
             let update = GMSCameraUpdate.fit(bounds)
-            mapView.setMinZoom(5, maxZoom: 10)
+            mapView.setMinZoom(5, maxZoom: 15)
             mapView.animate(with: update)
         }
     }
