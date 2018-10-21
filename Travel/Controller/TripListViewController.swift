@@ -773,7 +773,12 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         cell.selectedView.isHidden = false
         
-        guard let locations = detailData[indexPath.row] else { return }
+        guard let locations = detailData[indexPath.row] else {
+            
+            mapView.clear()
+            mapView.animate(toZoom: 10)
+            return
+        }
         
         showMarker(locations: locations)
         
