@@ -38,6 +38,8 @@ class PreservedViewController: UIViewController {
     
     var locationArray: [Location] = []
     
+    let tabIndex = 2
+    
     let decoder = JSONDecoder()
     
     let dispatchGroup = DispatchGroup()
@@ -98,6 +100,8 @@ class PreservedViewController: UIViewController {
             .instantiateViewController(
                 withIdentifier: String(describing: SearchViewController.self)
             ) as? SearchViewController else { return }
+        
+        controller.tabIndex = tabIndex
         
         self.show(controller, sender: nil)
     }

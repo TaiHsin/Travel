@@ -77,6 +77,8 @@ class TripListViewController: UIViewController {
     
     var id = ""
     
+    let tabIndex = 1
+    
     let mapViewHeight: CGFloat = 230.0
     
     var mapViewTopConstraints: NSLayoutConstraint?
@@ -282,7 +284,7 @@ class TripListViewController: UIViewController {
             
             bounds = bounds.includingCoordinate(marker.position)
 //            let update = GMSCameraUpdate.fit(bounds)
-            mapView.setMinZoom(5, maxZoom: 15)
+            mapView.setMinZoom(3, maxZoom: 15)
             mapView.animate(with: .fit(bounds, withPadding: 50.0))
 //            mapView.animate(with: update)
         }
@@ -295,6 +297,7 @@ class TripListViewController: UIViewController {
         
         detailViewController.location = location
         detailViewController.isMyTrip = isMyTrips
+        detailViewController.tabIndex = tabIndex
         
         tabBarController?.present(detailViewController, animated: true)
         
@@ -377,6 +380,8 @@ class TripListViewController: UIViewController {
                 .instantiateViewController(
                     withIdentifier: String(describing: SearchViewController.self)
                 ) as? SearchViewController else { return }
+            
+            controller.tabIndex = self.tabIndex
             
             self.show(controller, sender: nil)
         }
