@@ -328,9 +328,12 @@ class TripListViewController: UIViewController {
             // Fit all markers in map camera
             
             bounds = bounds.includingCoordinate(marker.position)
-            let update = GMSCameraUpdate.fit(bounds)
-            mapView.setMinZoom(5, maxZoom: 15)
-            mapView.animate(with: update)
+//            let update = GMSCameraUpdate.fit(bounds)
+            mapView.setMinZoom(5, maxZoom: 13)
+            
+            let bottomHeight = mapView.frame.size.height - 220
+            let edgeInsets = UIEdgeInsets(top: 80, left: 20, bottom: bottomHeight, right: 20)
+            mapView.animate(with: .fit(bounds, with: edgeInsets))
         }
     }
     
