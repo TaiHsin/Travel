@@ -506,12 +506,13 @@ extension TripListViewController: CLLocationManagerDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if (scrollView.contentOffset.y > -mapViewHeight && scrollView.contentOffset.y < 20) {
-            
-            changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
-        } else if  scrollView.contentOffset.y <= -mapViewHeight {
+        if scrollView.contentOffset.y > -mapViewHeight && scrollView.contentOffset.y < 20 {
             
             changeMapViewHeightConstraint(contentOffset: scrollView.contentOffset)
+        } else if  scrollView.contentOffset.y <= -mapViewHeight {
+        
+            changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
+            
         }
     }
     
