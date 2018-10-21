@@ -35,6 +35,8 @@ class TripListViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
     
+//    let mapView = GMSMapView()
+    
     let dateFormatter = DateFormatter()
     
     let tripsManager = TripsManager()
@@ -107,8 +109,6 @@ class TripListViewController: UIViewController {
         
         setupTableView()
         
-        setupMapView()
-        
         automaticallyAdjustsScrollViewInsets = false
         
         setupLocationManager()
@@ -136,6 +136,7 @@ class TripListViewController: UIViewController {
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         
+        /// Navigation large title effect
 //        navigationController?.navigationBar.prefersLargeTitles = false
 //        
 //        guard let navigationBar = navigationController?.navigationBar else { return }
@@ -193,8 +194,10 @@ class TripListViewController: UIViewController {
 //        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
 //
 //        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
+//        
+//        self.mapView.bringSubviewToFront(tableView)
     }
-    
+
     func setupCollectionView() {
         
         collectionView.dataSource = self
@@ -223,15 +226,21 @@ class TripListViewController: UIViewController {
     // MARK: - Google Map View
     
     func setupMapView() {
+    
+        mapView.contentMode = .scaleAspectFill
+        
+        mapView.clipsToBounds = true
         
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
+        view.addSubview(mapView)
+        
         mapViewTopConstraints = mapView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
-        
+
         mapViewTopConstraints?.isActive = true
-        
+
         mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        
+
         mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         mapViewHeightConstraints = mapView.heightAnchor.constraint(equalToConstant: mapViewHeight)
@@ -272,9 +281,10 @@ class TripListViewController: UIViewController {
             // Fit all markers in map camera
             
             bounds = bounds.includingCoordinate(marker.position)
-            let update = GMSCameraUpdate.fit(bounds)
+//            let update = GMSCameraUpdate.fit(bounds)
             mapView.setMinZoom(5, maxZoom: 15)
-            mapView.animate(with: update)
+            mapView.animate(with: .fit(bounds, withPadding: 50.0))
+//            mapView.animate(with: update)
         }
     }
     
@@ -422,11 +432,59 @@ class TripListViewController: UIViewController {
         self.detailData = data
         self.getPhotos()
     }
+    
+    func changeMapViewTopConstraint(contentOffset: CGPoint) {
+        
+        mapViewTopConstraints?.isActive = false
+        
+        mapViewHeightConstraints?.isActive = false
+        
+        mapViewTopConstraints = mapView.topAnchor.constraint(
+            equalTo: collectionView.bottomAnchor,
+            constant: -(contentOffset.y - (-mapViewHeight))
+        )
+        
+        mapViewHeightConstraints = mapView.heightAnchor.constraint(equalToConstant: mapViewHeight)
+        
+        mapViewTopConstraints?.isActive = true
+        
+        mapViewHeightConstraints?.isActive = true
+        
+        view.layoutIfNeeded()
+    }
+    
+    func changeMapViewHeightConstraint(contentOffset: CGPoint) {
+        
+        mapViewTopConstraints?.isActive = false
+        
+        mapViewHeightConstraints?.isActive = false
+        
+//        mapViewTopConstraints = mapView.topAnchor.constraint(equalTo: view.topAnchor)
+        
+        mapViewHeightConstraints = mapView.heightAnchor.constraint(equalToConstant: -contentOffset.y)
+        
+        mapViewTopConstraints?.isActive = true
+        
+        mapViewHeightConstraints?.isActive = true
+        
+        view.layoutIfNeeded()
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
 
 extension TripListViewController: CLLocationManagerDelegate {
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        
+//        if (scrollView.contentOffset.y > -mapViewHeight && scrollView.contentOffset.y < 20) {
+//            
+//            changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
+//        } else if ( scrollView.contentOffset.y <= -mapViewHeight) {
+//            
+//            changeMapViewHeightConstraint(contentOffset: scrollView.contentOffset)
+//        }
+//    }
     
     // didChangeAuthorization function is called when the user grants or revokes location permissions.
     
@@ -523,14 +581,6 @@ extension TripListViewController: UITableViewDataSource {
         let placeID = datas[indexPath.row].photo
         listCell.listImage.image = photosDict[placeID]
         
-//        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
-//
-//            listCell.listImage.image = photo
-//        }, failure: { (error) in
-//
-//            // TODO:
-//            })
-        
         listCell.placeNameLabel.text = datas[indexPath.row].name
         listCell.addressLabel.text = datas[indexPath.row].address
         
@@ -582,13 +632,10 @@ extension TripListViewController: UITableViewDelegate {
         return 40
     }
     
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 0.2
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        return nil
-//    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        return 0.1
+    }
     
     func tableView(
         _ tableView: UITableView,
