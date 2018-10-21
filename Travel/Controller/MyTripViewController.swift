@@ -10,11 +10,30 @@ import UIKit
 import Firebase
 import NVActivityIndicatorView
 
+private struct Const {
+    /// Image height/width for Large NavBar state
+    static let ImageSizeForLargeState: CGFloat = 170
+    /// Margin from right anchor of safe area to right anchor of Image
+    static let ImageRightMargin: CGFloat = 90
+    /// Margin from bottom anchor of NavBar to bottom anchor of Image for Large NavBar state
+    static let ImageBottomMarginForLargeState: CGFloat = 12
+    /// Margin from bottom anchor of NavBar to bottom anchor of Image for Small NavBar state
+    static let ImageBottomMarginForSmallState: CGFloat = 6
+    /// Image height/width for Small NavBar state
+    static let ImageSizeForSmallState: CGFloat = 100
+    /// Height of NavBar for Small state. Usually it's just 44
+    static let NavBarHeightSmallState: CGFloat = 44
+    /// Height of NavBar for Large state. Usually it's just 96.5 but if you have a custom font for the title, please make sure to edit this value since it changes the height for Large state of NavBar
+    static let NavBarHeightLargeState: CGFloat = 96.5
+}
+
 class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
+    
+    @IBOutlet weak var emptyLabel: UILabel!
     
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
@@ -26,15 +45,30 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     
     let fullScreenSize = UIScreen.main.bounds.size
     
+    private let imageView = UIImageView(image: UIImage(named: "icon_logo"))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        setupUI()
+        
+        emptyLabel.isHidden = true
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.fetchDataFailed(noti: )),
+            name: Notification.Name("failure"),
+            object: nil
+        )
+        
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
+        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
     
-//        activityIndicatorView.startAnimating()
+        activityIndicatorView.startAnimating()
         
         setupCollectionView()
         fetchData()
+//        setupNavigationImage()
         
         navigationItem.leftBarButtonItem = editButtonItem
         
@@ -45,22 +79,62 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
             name: Notification.Name("myTrips"),
             object: nil
         )
-        
-//        activityIndicatorView.stopAnimating() 
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        
+//        navigationController?.navigationBar.subviews[4].isHidden = false
+        
+//        emptyLabel.isHidden = true
     }
     
-    func setupLoadingAnimation() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        let frame = CGRect(x: fullScreenSize.width / 2, y: fullScreenSize.height / 2, width: 30, height: 30)
+//        NSLayoutConstraint.activate([
+//            imageView.heightAnchor.constraint(equalToConstant: 0),
+//            ])
         
-        NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.circleStrokeSpin, color: #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1), padding: 10)
+//        navigationController?.navigationBar.willRemoveSubview(imageView)
+    }
+    
+    private func setupUI() {
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        title = ""
+        
+        // Initial setup for image for Large NavBar state since the the screen always has Large NavBar once it gets opened
+        guard let navigationBar = self.navigationController?.navigationBar else { return }
+        navigationBar.addSubview(imageView)
+        imageView.layer.cornerRadius = Const.ImageSizeForLargeState / 2
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = #colorLiteral(red: 0.4392156863, green: 0.4588235294, blue: 0.5333333333, alpha: 1)
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: navigationBar.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor, constant: 20),
+            //            imageView.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
+            //            imageView.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
+            imageView.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            //            imageView.topAnchor.constraint(equalTo: navigationBar.topAnchor, constant: 0)
+            ])
+    }
+    
+    @objc func fetchDataFailed(noti: Notification) {
+        
+        activityIndicatorView.stopAnimating()
+        emptyLabel.isHidden = false
+    }
+    
+    @objc func createNewTrip(noti: Notification) {
+        
+        fetchData()
     }
     
     func setupCollectionView() {
@@ -126,20 +200,27 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
                 #warning ("better not to reload data (only add/ insert one)?")
                 
                 self?.collectionView.reloadData()
+                
+                if self?.trips.count == 0 {
+                    
+                    self?.emptyLabel.isHidden = false
+                } else {
+                    
+                    self?.emptyLabel.isHidden = true
+                }
+                
+                self?.activityIndicatorView.stopAnimating()
             },
-            failure: { _ in
-                //TODO
+            
+            failure: { (error) in
+                
+                self.activityIndicatorView.stopAnimating()
         })
     }
     
     func sortDataWithUpComimgDate() {
         
         trips.sort(by: {$0.startDate < $1.startDate})
-    }
-
-    @objc func createNewTrip(noti: Notification) {
-        
-        fetchData()
     }
 
     // MARK: - Delete Items
@@ -224,9 +305,9 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
         ) -> CGSize {
         
-        let width = 145
+        let width = Int(collectionView.frame.width - 25) / 2
         
-        let height = 185
+        let height = (width * 4) / 3
         
         return CGSize(width: width, height: height)
     }

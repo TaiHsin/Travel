@@ -27,6 +27,8 @@ struct Trips: Codable {
     let placePic: String
     
     let id: String
+    
+    let userId :String
 }
 
 //

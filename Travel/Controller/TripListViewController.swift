@@ -135,6 +135,14 @@ class TripListViewController: UIViewController {
         navigationItem.title = name
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        
+//        navigationController?.navigationBar.prefersLargeTitles = false
+//        
+//        guard let navigationBar = navigationController?.navigationBar else { return }
+//        let view = navigationBar.subviews[0]
+//        let count = navigationBar.subviews.count
+//        navigationBar.subviews[4].isHidden = true
+//        navigationController?.navigationBar.im
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -301,13 +309,11 @@ class TripListViewController: UIViewController {
 
     func createWeekDay(startDate: Double, totalDays: Int) {
         
-        var date = Date(timeIntervalSince1970: startDate)
-        
-        guard let endDate = Calendar.current.date(byAdding: .day, value: totalDays, to: date) else { return }
-        
-        while date < endDate {
+        for index in 0 ... totalDays - 1 {
             
-            date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            var date = Date(timeIntervalSince1970: startDate)
+            
+            date = Calendar.current.date(byAdding: .day, value: index, to: date)!
             dates.append(date)
         }
     }
@@ -517,7 +523,6 @@ extension TripListViewController: UITableViewDataSource {
         let placeID = datas[indexPath.row].photo
         listCell.listImage.image = photosDict[placeID]
         
-        
 //        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
 //
 //            listCell.listImage.image = photo
@@ -597,23 +602,55 @@ extension TripListViewController: UITableViewDelegate {
     
     func tableView(
         _ tableView: UITableView,
+        editingStyleForRowAt indexPath: IndexPath
+        ) -> UITableViewCell.EditingStyle {
+       
+        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
+            
+            return UITableViewCell.EditingStyle.none
+        }
+        
+        let total = tableView.numberOfRows(inSection: indexPath.section)
+        
+        guard cell.isEmpty != true, total > 1 else {
+            
+            return UITableViewCell.EditingStyle.none
+        }
+        
+        return UITableViewCell.EditingStyle.delete
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath
         ) {
         
-        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
-        
-        guard cell.isEmpty != true else { return }
+//        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
+//
+//        let total = tableView.numberOfRows(inSection: indexPath.section)
+//
+//        guard cell.isEmpty != true, total > 1 else { return }
         
         if editingStyle == .delete {
-                
-                guard let locationArray = detailData[indexPath.section] else { return }
-                let location = locationArray[indexPath.row]
-                deletLocation(daysKey: daysKey, location: location)
-                changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
-                
-                detailData[indexPath.section]!.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            guard let locationArray = detailData[indexPath.section] else { return }
+            let location = locationArray[indexPath.row]
+            deletLocation(daysKey: daysKey, location: location)
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
+            
+            detailData[indexPath.section]!.remove(at: indexPath.row)
+            
+//            if total == 1 {
+//
+//                let newIndexPath = IndexPath(row: total, section: indexPath.section)
+//                tableView.insertRows(at: [newIndexPath], with: .none)
+//                guard let cell = tableView.cellForRow(at: newIndexPath) as? TripListTableViewCell else { return }
+//                cell.isEmpty = true
+//                cell.switchCellContent()
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
 
     }
@@ -741,6 +778,19 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func showAlertAction() {
+        
+        let alertVC = AlertManager.shared.showAlert(
+            with: ["Oops..."],
+            message: "Cannot delete last day",
+            cancel: false,
+            completion: {
+            // TODO
+            })
+        
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
     @objc func editDaysCollection(sender: UIButton) {
         
         let alertVC = AlertManager.shared.showActionSheet(
@@ -768,9 +818,6 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         daysArray.append(total)
         let newTotal = total + 1
         
-        let array = [Location]()
-        detailData[total] = array
-        
         guard let last = dates.last else { return }
 
         guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: last) else { return }
@@ -790,6 +837,14 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     func deleteDay() {
         
         let total = daysArray.count
+        
+        guard total > 1 else {
+            
+            showAlertAction()
+            
+            return
+        }
+        
         let newTotal = total - 1
         daysArray.remove(at: total - 1)
         dates.remove(at: total - 1)
@@ -1069,9 +1124,9 @@ extension TripListViewController {
         let cellSnapshot: UIView = UIImageView(image: image)
         cellSnapshot.layer.masksToBounds = false
         
-        ////        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-        ////        cellSnapshot.layer.shadowRadius = 5.0
-        ////        cellSnapshot.layer.shadowOpacity = 0.4
+        //        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
+        //        cellSnapshot.layer.shadowRadius = 5.0
+        //        cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
 }

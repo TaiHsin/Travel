@@ -24,32 +24,32 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i4V-ru-xYT">
-                        <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
+                        <rect key="frame" x="0.0" y="0.0" width="55" height="55.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="8lp-hw-P1V"/>
                             <constraint firstAttribute="height" constant="55" id="gZc-gM-rQ4"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlaceName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hfq-Gi-Pwn">
-                        <rect key="frame" x="66" y="8" width="234" height="14.5"/>
-                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="12"/>
+                        <rect key="frame" x="66" y="8.5" width="234" height="17"/>
+                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="14"/>
                         <color key="textColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1CT-UG-h8M">
-                        <rect key="frame" x="85" y="32" width="34" height="11"/>
-                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="9"/>
+                        <rect key="frame" x="85" y="34.5" width="38" height="12"/>
+                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="10"/>
                         <color key="textColor" red="0.43921568630000002" green="0.45882352939999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No attractions..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJP-Lq-SRB">
-                        <rect key="frame" x="50" y="18" width="220" height="20"/>
-                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="17"/>
+                        <rect key="frame" x="50" y="20.5" width="220" height="18"/>
+                        <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="15"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="CVo-cU-iYA">
-                        <rect key="frame" x="64" y="29.5" width="16" height="16"/>
+                        <rect key="frame" x="64" y="32.5" width="16" height="16"/>
                         <color key="tintColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="drO-Dd-Hny"/>

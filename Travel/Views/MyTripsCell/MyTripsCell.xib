@@ -81,11 +81,11 @@
                 <constraint firstItem="hE0-c1-8Ob" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IUL-Uo-yUM"/>
                 <constraint firstAttribute="bottom" secondItem="yNf-JZ-MXl" secondAttribute="bottom" constant="11" id="Krs-zF-ahF"/>
                 <constraint firstItem="G9d-vj-VeR" firstAttribute="top" secondItem="pwl-gh-YBN" secondAttribute="bottom" constant="5" id="Pji-wz-SoJ"/>
-                <constraint firstItem="yNf-JZ-MXl" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="Qak-Qy-YhM"/>
+                <constraint firstItem="yNf-JZ-MXl" firstAttribute="leading" relation="lessThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="Qak-Qy-YhM"/>
                 <constraint firstAttribute="trailing" secondItem="Pgm-ZM-zDo" secondAttribute="trailing" id="Rdv-mY-13C"/>
                 <constraint firstAttribute="trailing" secondItem="hE0-c1-8Ob" secondAttribute="trailing" id="dfc-0Y-sJ2"/>
                 <constraint firstItem="Pgm-ZM-zDo" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dwz-kt-cRJ"/>
-                <constraint firstAttribute="trailing" secondItem="yNf-JZ-MXl" secondAttribute="trailing" constant="10" id="ggf-k1-jQ2"/>
+                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="yNf-JZ-MXl" secondAttribute="trailing" constant="10" id="ggf-k1-jQ2"/>
                 <constraint firstItem="G9d-vj-VeR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="icf-kH-9uJ"/>
                 <constraint firstItem="hE0-c1-8Ob" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="m4l-zv-XqW"/>
                 <constraint firstItem="yNf-JZ-MXl" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="oPt-Cl-ata"/>
@@ -102,7 +102,7 @@
                 <outlet property="tripTitle" destination="4IK-Py-so4" id="ezW-zc-0vD"/>
                 <outlet property="yearsLabel" destination="koR-yp-Eux" id="7mU-kW-EOv"/>
             </connections>
-            <point key="canvasLocation" x="231" y="124"/>
+            <point key="canvasLocation" x="229.59999999999999" y="123.68815592203899"/>
         </collectionViewCell>
     </objects>
     <resources>

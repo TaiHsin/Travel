@@ -8,6 +8,7 @@
 
 import Firebase
 import FirebaseDatabase
+import KeychainAccess
 
 class TripsManager {
     
@@ -16,6 +17,8 @@ class TripsManager {
     init() {
         ref = Database.database().reference()
     }
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     let photoStrArray = Photos().photos
     
@@ -27,21 +30,71 @@ class TripsManager {
     
     func fetchTripsData(
         success: @escaping ([Trips]) -> Void,
-        failure: @escaping (TripsError) -> Void
+        failure: @escaping (Error) -> Void
         ) {
         
         var datas: [Trips] = []
+        
+        guard let uid = keychain["userId"] else {
+            
+            NotificationCenter.default.post(name: Notification.Name("failure"), object: nil)
+            
+            return
+        }
         
         #warning ("better way? observeSingleEvent first and then obeserve for .childAdd ?")
         
         /// Need to add sorting method by startDate!!!
         
-        // Re-write to use singleObserveEvent
-        
-        ref.child("myTrips").queryOrdered(byChild: "startDate")
-            .observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("myTrips")
+            .queryOrdered(byChild: "userId")
+            .queryEqual(toValue: uid)
+            .observeSingleEvent(of: .value, with: { (snapshot) in
             
-            guard let value = snapshot.value as? NSDictionary else { return }
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    self.ref.child("/myTrips/defaultTrip").observeSingleEvent(of: .value, with: { (snapshot) in
+                        
+                        guard let value = snapshot.value as? NSDictionary else { return }
+                        
+                        guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                        
+                        do {
+                            let data = try self.decoder.decode(Trips.self, from: jsonData)
+                            
+                            self.createTripData(
+                                name: data.name,
+                                place: data.place,
+                                startDate: data.startDate,
+                                endDate: data.endDate,
+                                totalDays: data.totalDays,
+                                createdTime: data.createdTime,
+                                success: { (daysKey, key) in
+                                    
+                                    self.fetchDayList(daysKey: data.daysKey, success: { (locations) in
+                                        
+                                        self.addDefauleData(dayskey: daysKey, locations: locations)
+                                        
+                                        self.fetchTripsData(success: { (datas) in
+                                            
+                                            success(datas)
+                                        }, failure: { (_) in
+                                            // TODO
+                                        })
+                                    })
+                            })
+                            
+//                            datas.append(data)
+                        } catch {
+                            print(error)
+                            failure(error)
+                        }
+                    })
+                
+                NotificationCenter.default.post(name: Notification.Name("failure"), object: nil)
+                
+                return
+            }
             
             for value in value.allValues {
                 
@@ -53,10 +106,11 @@ class TripsManager {
                     datas.append(data)
                 } catch {
                     print(error)
+                    failure(error)
                 }
             }
             success(datas)
-        }
+        })
     }
     
     /// Try to use model to replace
@@ -75,6 +129,8 @@ class TripsManager {
         guard let daysKey = ref.child("tripDays").childByAutoId().key else { return }
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
         
+        guard let uid = keychain["userId"] else { return }
+        
         let post = ["name": name,
                     "place": place,
                     "startDate": startDate,
@@ -83,7 +139,8 @@ class TripsManager {
                     "createdTime": createdTime,
                     "id": key,
                     "placePic": photoStrArray.randomElement(),
-                    "daysKey": daysKey
+                    "daysKey": daysKey,
+                    "userId": uid
             ] as [String: Any]
         
         let postUpdate = ["/myTrips/\(key)": post]
@@ -130,5 +187,29 @@ class TripsManager {
         
         ref.child("/myTrips/\(tripID)").removeValue()
         ref.child("/tripDays/\(daysKey)").removeValue()
+    }
+    
+    func addDefauleData(dayskey: String, locations: [Location]) {
+        
+        for location in locations {
+            
+            guard let locationId = self.ref.child("/tripDays/\(dayskey)").childByAutoId().key else { return }
+            
+            let post = ["addTime": location.addTime,
+                        "address": location.address,
+                        "latitude": location.latitude,
+                        "longitude": location.longitude,
+                        "locationId": locationId,
+                        "name": location.name,
+                        "order": location.order,
+                        "photo": location.photo,
+                        "days": location.days,
+                        "position": location.position
+                ] as [String: Any]
+            
+            let postUpdate = ["/tripDays/\(dayskey)/\(locationId)": post]
+            
+            ref.updateChildValues(postUpdate)
+        }
     }
 }

@@ -16,7 +16,7 @@ private enum Tab {
     
     case package
     
-    case profile
+//    case profile
     
     func controller() -> UIViewController {
         
@@ -34,10 +34,10 @@ private enum Tab {
             
             return UIStoryboard.packageStoryboard().instantiateInitialViewController()!
             
-        case .profile:
-            
-            return UIStoryboard.profileStoryboard().instantiateInitialViewController()!
-            
+//        case .profile:
+//
+//            return UIStoryboard.profileStoryboard().instantiateInitialViewController()!
+//
         }
     }
     
@@ -51,7 +51,7 @@ private enum Tab {
             
         case .package: return #imageLiteral(resourceName: "tab_packlist_normal")
             
-        case .profile: return #imageLiteral(resourceName: "tab_profile_normal")
+//        case .profile: return #imageLiteral(resourceName: "tab_profile_normal")
         }
     }
     
@@ -65,7 +65,7 @@ private enum Tab {
         
         case .package: return #imageLiteral(resourceName: "tab_packlist").withRenderingMode(.alwaysTemplate)
         
-        case .profile: return #imageLiteral(resourceName: "tab_profile").withRenderingMode(.alwaysTemplate)
+//        case .profile: return #imageLiteral(resourceName: "tab_profile").withRenderingMode(.alwaysTemplate)
             
         }
     }
@@ -80,7 +80,7 @@ private enum Tab {
             
         case .package: return "PACKLIST"
             
-        case .profile: return "PROFILE"
+//        case .profile: return "PROFILE"
             
         }
     }
@@ -107,7 +107,9 @@ class TabBarViewController: UITabBarController {
         
         var controllers: [UIViewController] = []
         
-        let tabs: [Tab] = [.myTrip, .preserved, .package, .profile]
+        let tabs: [Tab] = [.myTrip, .preserved, .package]
+        
+//        let tabs: [Tab] = [.myTrip, .preserved, .package, .profile]
         
         for tab in tabs {
             

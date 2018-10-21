@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import KeychainAccess
 
 enum Status {
     case add
@@ -23,7 +24,10 @@ class ChecklistViewController: UIViewController {
     #warning ("Refactor")
     
     let decoder = JSONDecoder()
+    
     var ref: DatabaseReference!
+    
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     var checklists: [Checklist] = []
     
@@ -206,7 +210,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         
         guard let cell = sender.superview?.superview as? ChecklistFooter else { return }
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        guard let text = cell.contentTextField.text else { return }
+        guard let text = cell.contentTextField.text, text != "" else { return }
         
         let newItem = Items.init(name: text, number: 1, order: 1, isSelected: false)
         checklists[indexPath.section].items.append(newItem)
@@ -219,7 +223,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         
         cell.contentTextField.text = ""
         cell.contentTextField.endEditing(true)
-        cell.isTexting = false
+//        cell.isTexting = false
     }
 }
 
@@ -265,7 +269,9 @@ extension ChecklistViewController: UITableViewDelegate {
         
         updateHeaderNumber(section: indexPath.section)
         
-        ref.child("/checklist/\(indexPath.section)/items/")
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/checklist/\(uid)/\(indexPath.section)/items/")
             .queryOrdered(byChild: "order")
             .queryEqual(toValue: 0)
             .observeSingleEvent(of: .value) { (snapshot) in
@@ -275,7 +281,7 @@ extension ChecklistViewController: UITableViewDelegate {
                 print(value.count)
                 print(value)
                 
-                let index = value.index(of:"null")
+                let index = value.index(of: "null")
                 print(index)
                 
                 //            for index in 0 ... value.count - 1 {
@@ -285,6 +291,18 @@ extension ChecklistViewController: UITableViewDelegate {
                 //                print(index)
                 //            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        let total = tableView.numberOfRows(inSection: indexPath.section)
+        
+        guard total > 2, indexPath.row != total - 1 else {
+            
+            return UITableViewCell.EditingStyle.none
+        }
+        
+        return UITableViewCell.EditingStyle.delete
     }
     
     func tableView(
@@ -313,10 +331,56 @@ extension ChecklistViewController {
         success: @escaping ([Checklist]) -> Void,
         failure: @escaping (TripsError) -> Void
         ) {
+
+        guard let uid = keychain["userId"] else { return }
         
-        ref.child("checklist").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("/checklist/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
             
-            guard let value = snapshot.value as? NSArray else { return }
+            guard let value = snapshot.value as? NSArray else {
+                
+                self.fetchDefaultData(success: { (data) in
+                    
+                    success(data)
+                    
+                    let numbers = data.count
+                    
+                    for number in 0 ... numbers - 1 {
+                        
+                        let post = [ "category": data[number].category,
+                                     "id": data[number].id,
+                                     "total": data[number].total
+                            ] as [String: Any]
+                        
+                        let postUpdate = ["/checklist/\(uid)/\(number)": post]
+                        
+                        self.ref.updateChildValues(postUpdate)
+                        
+                        let totals = data[number].items.count
+                        
+                        for index in 0 ... totals - 1 {
+                            
+                            let item = data[number].items[index]
+                            
+                            let post = ["name": item.name,
+                                        "number": item.number,
+                                        "order": item.order,
+                                        "isSelected": item.isSelected
+                                ] as [String: Any]
+                            
+                            let postUpdate = ["/checklist/\(uid)/\(number)/items/\(index)": post]
+                            
+                            self.ref.updateChildValues(postUpdate)
+                        }
+                    }
+                    
+                }, failure: { (error) in
+                    
+                    print(error)
+                })
+                
+                return
+            }
+            
             guard let jsonData = try? JSONSerialization.data(withJSONObject: value) else { return }
             
             do {
@@ -328,11 +392,35 @@ extension ChecklistViewController {
                 // TODO: Error handling
                 print(error)
             }
+        }
+    }
+    
+    func fetchDefaultData(
+        success: @escaping ([Checklist]) -> Void,
+        failure: @escaping (TripsError) -> Void
+        ) {
+        
+        ref.child("/checklist/examplechecklist").observeSingleEvent(of: .value) { (snapshot) in
             
+            guard let value = snapshot.value as? NSArray else { return }
+            
+            guard let jsonData = try? JSONSerialization.data(withJSONObject: value) else { return }
+            
+            do {
+                let data = try self.decoder.decode([Checklist].self, from: jsonData)
+                
+                success(data)
+                
+            } catch {
+                // TODO: Error handling
+                print(error)
+            }
         }
     }
     
     func updateChecklistData(item: Items, indexPath: IndexPath, type: Status) {
+        
+        guard let uid = keychain["userId"] else { return }
         
         switch type {
             
@@ -344,19 +432,19 @@ extension ChecklistViewController {
                         "isSelected": item.isSelected
                 ] as [String: Any]
             
-            let postUpdate = ["/checklist/\(indexPath.section)/items/\(indexPath.row)": post]
+            let postUpdate = ["/checklist/\(uid)/\(indexPath.section)/items/\(indexPath.row)": post]
             
             ref.updateChildValues(postUpdate)
             
         case .edit:
             
-            let postUpdate = ["/checklist/\(indexPath.section)/items/\(indexPath.row)/isSelected": item.isSelected]
+            let postUpdate = ["/checklist/\(uid)/\(indexPath.section)/items/\(indexPath.row)/isSelected": item.isSelected]
             
             ref.updateChildValues(postUpdate)
             
         case .delete:
             
-            ref.child("/checklist/\(indexPath.section)/items/\(indexPath.row)").removeValue()
+            ref.child("/checklist/\(uid)/\(indexPath.section)/items/\(indexPath.row)").removeValue()
             
             let totalRows = tableView.numberOfRows(inSection: indexPath.section)
             
@@ -374,7 +462,7 @@ extension ChecklistViewController {
                     updateChecklistData(item: item, indexPath: newIndexPath, type: .add)
                 }
             }
-            ref.child("/checklist/\(indexPath.section)/items/\(totalRows - 1)").removeValue()
+            ref.child("/checklist/\(uid)/\(indexPath.section)/items/\(totalRows - 1)").removeValue()
         }
     }
     

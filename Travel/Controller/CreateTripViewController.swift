@@ -105,7 +105,14 @@ class CreateTripViewController: UIViewController {
             createdTime: currenDateInt
         ) { [weak self] (daysKey, key) in
             
-            self?.switchViewController(id: key, daysKey: daysKey, first: startDate, last: endDate, total: totalDays, name: place)
+            self?.switchViewController(
+                id: key,
+                daysKey: daysKey,
+                first: startDate,
+                last: endDate,
+                total: totalDays,
+                name: place
+            )
         }
         
         placeTextField.text = ""

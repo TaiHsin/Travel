@@ -11,6 +11,7 @@ import UIKit
 import GooglePlaces
 import FirebaseDatabase
 import Firebase
+import KeychainAccess
 
 class DetailViewController: UIViewController {
     
@@ -34,6 +35,8 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var intervalConstraints: NSLayoutConstraint!
     
+    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+    
     var ref: DatabaseReference!
     
     let photoManager = PhotoManager()
@@ -51,11 +54,11 @@ class DetailViewController: UIViewController {
     var isMyTrip = false
     
     let fullScreenSize = UIScreen.main.bounds.size
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+        //        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
         
         ref = Database.database().reference()
         
@@ -65,7 +68,7 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
+        self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.8)
         
         placeInfoCard.layer.cornerRadius = 8
         placeInfoCard.layer.masksToBounds = true
@@ -85,9 +88,9 @@ class DetailViewController: UIViewController {
             intervalConstraints.constant = 0.0
         }
         
-//        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
-//        detailInfoView.layer.shouldRasterize = true
-//        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
+        //        detailInfoView.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
+        //        detailInfoView.layer.shouldRasterize = true
+        //        detailInfoView.layer.rasterizationScale = UIScreen.main.scale
         
         #warning ("below shouldn't in viewWillAppear")
         
@@ -102,36 +105,7 @@ class DetailViewController: UIViewController {
             self.placeImage.image = photo
         }, failure: { (error) in
             // TODO:
-            })
-      
-//        UIApplication.shared.keyWindow?.bringSubviewToFront(detailInfoView)
-    }
-
-    #warning ("Refactor")
-    
-    @IBAction func addToFavorite(_ sender: UIButton) {
-
-        guard let location = location else { return }
-        
-        ref.child("/favorite/")
-            .queryOrdered(byChild: "position")
-            .queryEqual(toValue: location.position)
-            .observeSingleEvent(of: .value) { (snapshot) in
-                
-                if (snapshot.value as? NSDictionary) != nil {
-                    
-                    self.showAlertWith(title: nil, message: "Already in favorite", style: .alert)
-                    
-                } else {
-                    
-                    // Notify view but not with alert view
-                    // Didn't find location in Firebase
-                    self.updateLocation(location: location)
-                    self.showAlertWith(title: nil, message: "Added to favorite", style: .alert)
-                    
-                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
-                }
-        }
+        })
     }
     
     #warning ("Need to pop out to cover tab bar and navigation bar")
@@ -151,11 +125,6 @@ class DetailViewController: UIViewController {
         selectionViewController.didMove(toParent: self)
     }
     
-    //    func show() {
-    //        UIApplication.shared.windows.first?.addSubview(self.view)
-    //        UIApplication.shared.windows.first?.endEditing(true)
-    //    }
-    
     @IBAction func closeView(_ sender: Any) {
         removeAnimate()
     }
@@ -164,9 +133,13 @@ class DetailViewController: UIViewController {
     func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-        let okAction = UIAlertAction(title: "OK", style: .default)
+        //        let okAction = UIAlertAction(title: "OK", style: .default)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.removeAnimate()
+        }
         
         alertController.addAction(okAction)
+        
         present(alertController, animated: true, completion: nil)
     }
     
@@ -189,25 +162,50 @@ class DetailViewController: UIViewController {
         }, completion: {(finished: Bool)  in
             if finished {
                 self.dismiss(animated: true)
-//                self.view.removeFromSuperview()
             }
         })
     }
-}
-
-extension DetailViewController {
+    
+    #warning ("Refactor")
+    
+    @IBAction func addToFavorite(_ sender: UIButton) {
+        
+        guard let location = location else { return }
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/favorite/\(uid)")
+            .queryOrdered(byChild: "position")
+            .queryEqual(toValue: location.position)
+            .observeSingleEvent(of: .value) { (snapshot) in
+                
+                if (snapshot.value as? NSDictionary) != nil {
+                    
+                    self.showAlertWith(title: nil, message: "Already in favorite", style: .alert)
+                    
+                } else {
+                    
+                    self.updateLocation(location: location)
+                    
+                    self.removeAnimate()
+                    
+                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
+                }
+        }
+    }
     
     #warning ("Refactor: gether all Firebase relative function together")
     func updateLocation(location: Location) {
-    
-        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+        
+        guard let uid = keychain["userId"] else { return }
+        
+        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value as? NSDictionary else { return }
             
             self.total = value.allKeys.count
         }
-    
+        
         guard let key = ref.child("favorite").childByAutoId().key else { return }
- 
+        
         let post = ["addTime": location.addTime,
                     "address": location.address,
                     "latitude": location.latitude,
@@ -220,7 +218,7 @@ extension DetailViewController {
                     "position": location.position
             ] as [String: Any]
         
-        let postUpdate = ["/favorite/\(key)": post]
+        let postUpdate = ["/favorite/\(uid)/\(key)": post]
         
         ref.updateChildValues(postUpdate)
     }
