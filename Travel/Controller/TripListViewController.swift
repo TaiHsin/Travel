@@ -189,13 +189,13 @@ class TripListViewController: UIViewController {
             forHeaderFooterViewReuseIdentifier: String(describing: TriplistHeader.self)
         )
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-
-        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
-
-        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
-        
-        self.mapView.bringSubviewToFront(tableView)
+//        tableView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
+//
+//        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
+//        
+//        self.mapView.bringSubviewToFront(tableView)
     }
 
     func setupCollectionView() {
@@ -281,9 +281,10 @@ class TripListViewController: UIViewController {
             // Fit all markers in map camera
             
             bounds = bounds.includingCoordinate(marker.position)
-            let update = GMSCameraUpdate.fit(bounds)
-            mapView.setMinZoom(5, maxZoom: 10)
-            mapView.animate(with: update)
+//            let update = GMSCameraUpdate.fit(bounds)
+            mapView.setMinZoom(5, maxZoom: 15)
+            mapView.animate(with: .fit(bounds, withPadding: 50.0))
+//            mapView.animate(with: update)
         }
     }
     
