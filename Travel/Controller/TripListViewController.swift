@@ -127,11 +127,16 @@ class TripListViewController: UIViewController {
         
         setupTapGesture()
         
+//        setupSwipeGesture()
+        
         setupLocationManager()
         
         mapView.delegate = self
         
         showListButton.isHidden = true
+        
+        let padding = showListButton.frame.height
+        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
         
         /// Show day1 markers as default?
         //        showMarker(locations: )
@@ -168,12 +173,22 @@ class TripListViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
-    @IBAction func showList(_ sender: UIButton) {
+    @IBAction func showTriplist(_ sender: UIButton) {
         
         tableView.isHidden = false
         contentOffsetView.isHidden = false
         showListButton.isHidden = true
         backView.isHidden = false
+    }
+    
+    /// Maybe combine with showlist?
+    
+    func hideTriplist() {
+        
+        tableView.isHidden = true
+        contentOffsetView.isHidden = true
+        showListButton.isHidden = false
+        backView.isHidden = true
     }
     
     func setupTapGesture() {
@@ -189,19 +204,37 @@ class TripListViewController: UIViewController {
         
         // ???
         tableView.isUserInteractionEnabled = true
-        
     }
-
+    
     @objc func tapGestureRecognized(gestureRecognizer: UITapGestureRecognizer) {
         
-        tableView.isHidden = true
-        contentOffsetView.isHidden = true
-        showListButton.isHidden = false
-        backView.isHidden = true
-        
-        let padding = showListButton.frame.height
-        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
+        hideTriplist()
     }
+    
+    func setupSwipeGesture() {
+        
+        let swipeGesture = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(self.swipeGestureRecognized(gestureRecognizer: ))
+        )
+        
+        swipeGesture.direction = .down
+        swipeGesture.numberOfTouchesRequired = 1
+
+        tableView.addGestureRecognizer(swipeGesture)
+    }
+    
+    @objc func swipeGestureRecognized(gestureRecognizer: UISwipeGestureRecognizer) {
+        
+        let point = tableView.center
+        
+        print("--------------------------")
+        print(point)
+        print("GO down")
+        print("--------------------------")
+    }
+    
+
     
     func setupLocationManager() {
         
@@ -584,6 +617,10 @@ extension TripListViewController: CLLocationManagerDelegate {
         
             changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
             
+            if scrollView.contentOffset.y < -(mapViewVisiblewHeight * 1.3) {
+                
+                hideTriplist()
+            }
         }
     }
     
