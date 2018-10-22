@@ -37,6 +37,8 @@ class TripSelectionViewController: UIViewController {
     
     var dayIndex = 0
     
+    var tabIndex = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +62,18 @@ class TripSelectionViewController: UIViewController {
             
             guard let location = location else { return }
             checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
+            
+            if tabIndex == 1 {
+                
+                guard let tripsnavi = self.presentingViewController?.children[0] as? TripNaviViewController else { return }
+                
+                tripsnavi.popViewController(animated: true)
+            } else if tabIndex == 2 {
+                
+                guard let collectionsNavi = self.presentingViewController?.children[1] as? TripNaviViewController else { return }
+                
+                collectionsNavi.popViewController(animated: true)
+            }
             
             removeAnimate()
             //        self.view.removeFromSuperview()

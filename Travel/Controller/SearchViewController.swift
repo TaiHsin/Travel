@@ -23,6 +23,7 @@ class SearchViewController: UIViewController {
     var location: Location?
     var total = 0
     let fullScreenSize = UIScreen.main.bounds.size
+    var tabIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,7 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
             withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
         
+        detailViewController.tabIndex = tabIndex
         detailViewController.location = location
         detailViewController.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
 //        detailViewController.showAnimate()

@@ -23,7 +23,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Trips-->
+        <!--TRIPS-->
         <scene sceneID="x9x-Hk-7Z3">
             <objects>
                 <viewController id="8Q1-HV-2Yx" customClass="MyTripViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -109,7 +109,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eXl-If-XIs"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Trips" id="Krj-5k-4I2">
+                    <navigationItem key="navigationItem" title="TRIPS" id="Krj-5k-4I2">
                         <barButtonItem key="backBarButtonItem" title=" " id="KhJ-OQ-u4b"/>
                         <barButtonItem key="rightBarButtonItem" image="btn_add" id="1OP-39-PJr">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -460,30 +460,59 @@
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-Ah-9wI" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="124" width="375" height="230"/>
+                                <rect key="frame" x="0.0" y="124" width="375" height="543"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HGe-GM-H2B">
+                                        <rect key="frame" x="0.0" y="443" width="375" height="100"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="sCZ-iG-xDY"/>
+                                        </constraints>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="fc3-92-76n">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="543"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableView>
+                                </subviews>
                                 <color key="backgroundColor" red="0.43137254899999999" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="230" id="Mge-c3-Qz2"/>
+                                    <constraint firstItem="HGe-GM-H2B" firstAttribute="leading" secondItem="Ly3-Ah-9wI" secondAttribute="leading" id="4kA-fP-Lg8"/>
+                                    <constraint firstItem="fc3-92-76n" firstAttribute="leading" secondItem="Ly3-Ah-9wI" secondAttribute="leading" id="51R-yt-Bo1"/>
+                                    <constraint firstAttribute="bottom" secondItem="fc3-92-76n" secondAttribute="bottom" id="E4P-mD-C0p"/>
+                                    <constraint firstAttribute="trailing" secondItem="fc3-92-76n" secondAttribute="trailing" id="Hat-n6-ZMg"/>
+                                    <constraint firstAttribute="bottom" secondItem="HGe-GM-H2B" secondAttribute="bottom" id="Tmf-ua-XXi"/>
+                                    <constraint firstAttribute="trailing" secondItem="HGe-GM-H2B" secondAttribute="trailing" id="YOQ-yh-Yr2"/>
+                                    <constraint firstItem="fc3-92-76n" firstAttribute="top" secondItem="Ly3-Ah-9wI" secondAttribute="top" id="uBB-H5-6Cz"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleAspectFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rJ5-ff-iLv">
-                                <rect key="frame" x="0.0" y="354" width="375" height="313"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERl-kI-rcm">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                                <color key="backgroundColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="iIe-Mi-KD7"/>
+                                </constraints>
+                                <state key="normal" title="Back to list">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="showList:" destination="nxr-5W-XUN" eventType="touchUpInside" id="PDX-LV-nmw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="top" secondItem="Jus-NV-xJa" secondAttribute="bottom" id="0Nr-I8-his"/>
                             <constraint firstItem="x6y-nz-qBr" firstAttribute="trailing" secondItem="Jus-NV-xJa" secondAttribute="trailing" id="3fK-Us-FsQ"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="top" secondItem="x6y-nz-qBr" secondAttribute="top" id="8cL-ty-e4j"/>
+                            <constraint firstItem="ERl-kI-rcm" firstAttribute="trailing" secondItem="x6y-nz-qBr" secondAttribute="trailing" id="D9e-Vh-QJi"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="trailing" secondItem="rWe-Uh-wcR" secondAttribute="trailing" id="JdY-PT-aUQ"/>
-                            <constraint firstItem="rJ5-ff-iLv" firstAttribute="top" secondItem="Ly3-Ah-9wI" secondAttribute="bottom" id="VCD-A3-PYW"/>
+                            <constraint firstItem="ERl-kI-rcm" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="QSI-bz-gGk"/>
+                            <constraint firstAttribute="bottom" secondItem="Ly3-Ah-9wI" secondAttribute="bottom" id="S0F-ke-JAF"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="aAj-tz-baD"/>
-                            <constraint firstItem="rJ5-ff-iLv" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="bUL-y0-6fV"/>
-                            <constraint firstItem="rJ5-ff-iLv" firstAttribute="bottom" secondItem="x6y-nz-qBr" secondAttribute="bottom" id="jUY-Vn-e97"/>
+                            <constraint firstItem="x6y-nz-qBr" firstAttribute="bottom" secondItem="ERl-kI-rcm" secondAttribute="bottom" id="aMG-6W-LTr"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="leading" secondItem="rWe-Uh-wcR" secondAttribute="leading" id="nBq-rF-h6o"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="top" secondItem="x6y-nz-qBr" secondAttribute="top" id="p2L-PL-UEo"/>
-                            <constraint firstItem="rJ5-ff-iLv" firstAttribute="trailing" secondItem="x6y-nz-qBr" secondAttribute="trailing" id="s0o-WV-tf5"/>
+                            <constraint firstAttribute="trailing" secondItem="x6y-nz-qBr" secondAttribute="trailing" id="s0o-WV-tf5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x6y-nz-qBr"/>
                     </view>
@@ -501,10 +530,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backView" destination="HGe-GM-H2B" id="Vjp-qu-hZN"/>
                         <outlet property="collectionView" destination="Jus-NV-xJa" id="5ei-Gr-4dY"/>
                         <outlet property="mapView" destination="Ly3-Ah-9wI" id="Ojh-IU-4tS"/>
                         <outlet property="searchButton" destination="P2w-PO-RE2" id="DC6-0g-yli"/>
-                        <outlet property="tableView" destination="rJ5-ff-iLv" id="Nnj-Hr-1G9"/>
+                        <outlet property="showListButton" destination="ERl-kI-rcm" id="IVF-q9-tEm"/>
+                        <outlet property="tableView" destination="fc3-92-76n" id="ctF-r8-y7u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1nD-PC-PnT" userLabel="First Responder" sceneMemberID="firstResponder"/>
