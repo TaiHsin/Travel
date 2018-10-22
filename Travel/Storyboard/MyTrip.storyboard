@@ -23,7 +23,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Trips-->
+        <!--TRIPS-->
         <scene sceneID="x9x-Hk-7Z3">
             <objects>
                 <viewController id="8Q1-HV-2Yx" customClass="MyTripViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -109,7 +109,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eXl-If-XIs"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Trips" id="Krj-5k-4I2">
+                    <navigationItem key="navigationItem" title="TRIPS" id="Krj-5k-4I2">
                         <barButtonItem key="backBarButtonItem" title=" " id="KhJ-OQ-u4b"/>
                         <barButtonItem key="rightBarButtonItem" image="btn_add" id="1OP-39-PJr">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -462,17 +462,17 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-Ah-9wI" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="124" width="375" height="543"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleAspectFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="rJ5-ff-iLv">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="fc3-92-76n">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="543"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.43137254899999999" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="rJ5-ff-iLv" firstAttribute="top" secondItem="Ly3-Ah-9wI" secondAttribute="top" id="SaR-8W-cgU"/>
-                                    <constraint firstAttribute="trailing" secondItem="rJ5-ff-iLv" secondAttribute="trailing" id="WLp-Vo-U6g"/>
-                                    <constraint firstItem="rJ5-ff-iLv" firstAttribute="leading" secondItem="Ly3-Ah-9wI" secondAttribute="leading" id="afv-Ej-dEL"/>
-                                    <constraint firstAttribute="bottom" secondItem="rJ5-ff-iLv" secondAttribute="bottom" id="mPn-a8-3UY"/>
+                                    <constraint firstItem="fc3-92-76n" firstAttribute="leading" secondItem="Ly3-Ah-9wI" secondAttribute="leading" id="51R-yt-Bo1"/>
+                                    <constraint firstAttribute="bottom" secondItem="fc3-92-76n" secondAttribute="bottom" id="E4P-mD-C0p"/>
+                                    <constraint firstAttribute="trailing" secondItem="fc3-92-76n" secondAttribute="trailing" id="Hat-n6-ZMg"/>
+                                    <constraint firstItem="fc3-92-76n" firstAttribute="top" secondItem="Ly3-Ah-9wI" secondAttribute="top" id="uBB-H5-6Cz"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERl-kI-rcm">
@@ -497,11 +497,12 @@
                             <constraint firstItem="ERl-kI-rcm" firstAttribute="trailing" secondItem="x6y-nz-qBr" secondAttribute="trailing" id="D9e-Vh-QJi"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="trailing" secondItem="rWe-Uh-wcR" secondAttribute="trailing" id="JdY-PT-aUQ"/>
                             <constraint firstItem="ERl-kI-rcm" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="QSI-bz-gGk"/>
+                            <constraint firstAttribute="bottom" secondItem="Ly3-Ah-9wI" secondAttribute="bottom" id="S0F-ke-JAF"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="leading" secondItem="x6y-nz-qBr" secondAttribute="leading" id="aAj-tz-baD"/>
                             <constraint firstItem="x6y-nz-qBr" firstAttribute="bottom" secondItem="ERl-kI-rcm" secondAttribute="bottom" id="aMG-6W-LTr"/>
                             <constraint firstItem="Ly3-Ah-9wI" firstAttribute="leading" secondItem="rWe-Uh-wcR" secondAttribute="leading" id="nBq-rF-h6o"/>
                             <constraint firstItem="Jus-NV-xJa" firstAttribute="top" secondItem="x6y-nz-qBr" secondAttribute="top" id="p2L-PL-UEo"/>
-                            <constraint firstItem="Ly3-Ah-9wI" firstAttribute="bottom" secondItem="rWe-Uh-wcR" secondAttribute="bottom" id="w5G-gM-zTI"/>
+                            <constraint firstAttribute="trailing" secondItem="x6y-nz-qBr" secondAttribute="trailing" id="s0o-WV-tf5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x6y-nz-qBr"/>
                     </view>
@@ -523,7 +524,7 @@
                         <outlet property="mapView" destination="Ly3-Ah-9wI" id="Ojh-IU-4tS"/>
                         <outlet property="searchButton" destination="P2w-PO-RE2" id="DC6-0g-yli"/>
                         <outlet property="showListButton" destination="ERl-kI-rcm" id="IVF-q9-tEm"/>
-                        <outlet property="tableView" destination="rJ5-ff-iLv" id="Nnj-Hr-1G9"/>
+                        <outlet property="tableView" destination="fc3-92-76n" id="ctF-r8-y7u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1nD-PC-PnT" userLabel="First Responder" sceneMemberID="firstResponder"/>

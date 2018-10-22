@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Checklist-->
+        <!--PACKLIST-->
         <scene sceneID="jpm-nZ-6xf">
             <objects>
                 <viewController id="6jd-X5-BRr" customClass="ChecklistViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
@@ -32,7 +32,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TBc-zx-olg"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Checklist" id="i7E-Sg-CEy"/>
+                    <navigationItem key="navigationItem" title="PACKLIST" id="i7E-Sg-CEy"/>
                     <connections>
                         <outlet property="tableView" destination="5wd-vb-pPQ" id="weL-gZ-teh"/>
                     </connections>

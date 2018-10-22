@@ -47,8 +47,6 @@ class TripListViewController: UIViewController {
 
     let decoder = JSONDecoder()
     
-    
-    
     var ref: DatabaseReference!
     
     // Refactor
@@ -80,6 +78,8 @@ class TripListViewController: UIViewController {
     var isMyTrips = true
     
     var id = ""
+    
+    let tabIndex = 1
     
     let mapViewHeight: CGFloat = 230.0
     
@@ -147,13 +147,12 @@ class TripListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
     
         /// Navigation large title effect
-//        navigationController?.navigationBar.prefersLargeTitles = false
-//        
-//        guard let navigationBar = navigationController?.navigationBar else { return }
+        navigationController?.navigationBar.prefersLargeTitles = false
+
+        guard let navigationBar = navigationController?.navigationBar else { return }
 //        let view = navigationBar.subviews[0]
 //        let count = navigationBar.subviews.count
-//        navigationBar.subviews[4].isHidden = true
-//        navigationController?.navigationBar.im
+        navigationBar.subviews[4].isHidden = true
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -166,7 +165,6 @@ class TripListViewController: UIViewController {
         tableView.isHidden = false
         contentOffsetView.isHidden = false
         showListButton.isHidden = true
-        
         
     }
     
@@ -239,7 +237,7 @@ class TripListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
 
         tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
-        
+
         self.mapView.bringSubviewToFront(tableView)
     }
 
@@ -329,11 +327,15 @@ class TripListViewController: UIViewController {
             
             bounds = bounds.includingCoordinate(marker.position)
 //            let update = GMSCameraUpdate.fit(bounds)
+            
             mapView.setMinZoom(5, maxZoom: 13)
             
             let bottomHeight = mapView.frame.size.height - 220
             let edgeInsets = UIEdgeInsets(top: 80, left: 20, bottom: bottomHeight, right: 20)
             mapView.animate(with: .fit(bounds, with: edgeInsets))
+            
+//            mapView.animate(with: .fit(bounds, withPadding: 50.0))
+
         }
     }
     
@@ -344,6 +346,7 @@ class TripListViewController: UIViewController {
         
         detailViewController.location = location
         detailViewController.isMyTrip = isMyTrips
+        detailViewController.tabIndex = tabIndex
         
         tabBarController?.present(detailViewController, animated: true)
         
@@ -426,6 +429,8 @@ class TripListViewController: UIViewController {
                 .instantiateViewController(
                     withIdentifier: String(describing: SearchViewController.self)
                 ) as? SearchViewController else { return }
+            
+            controller.tabIndex = self.tabIndex
             
             self.show(controller, sender: nil)
         }
@@ -818,7 +823,12 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         cell.selectedView.isHidden = false
         
-        guard let locations = detailData[indexPath.row] else { return }
+        guard let locations = detailData[indexPath.row] else {
+            
+            mapView.clear()
+            mapView.animate(toZoom: 10)
+            return
+        }
         
         showMarker(locations: locations)
         

@@ -98,6 +98,9 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.4.0)
   - NVActivityIndicatorView/Presenter (4.4.0)
   - SwiftLint (0.27.0)
+  - SwiftMessages (6.0.0):
+    - SwiftMessages/App (= 6.0.0)
+  - SwiftMessages/App (6.0.0)
 
 DEPENDENCIES:
   - Bolts
@@ -118,6 +121,7 @@ DEPENDENCIES:
   - Kingfisher (~> 4.0)
   - NVActivityIndicatorView
   - SwiftLint
+  - SwiftMessages
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -148,6 +152,7 @@ SPEC REPOS:
     - nanopb
     - NVActivityIndicatorView
     - SwiftLint
+    - SwiftMessages
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
@@ -177,7 +182,8 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
+  SwiftMessages: da7c981256a65b3e58022d9027a36584cf4eccf5
 
-PODFILE CHECKSUM: 0b686fe66d30b5526868360108793af713bfbf96
+PODFILE CHECKSUM: bcfc22dbe18d3f578cbde8084b4a8c56383d6bea
 
 COCOAPODS: 1.5.3

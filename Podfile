@@ -28,6 +28,7 @@ target 'Travel' do
   pod 'KeychainAccess'
   pod 'Kingfisher', '~> 4.0'
   pod 'NVActivityIndicatorView'
+  pod 'SwiftMessages'
   
   # Pods for Crahlythics
   pod 'Fabric'
