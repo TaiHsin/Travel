@@ -462,6 +462,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-Ah-9wI" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="124" width="375" height="543"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HGe-GM-H2B">
+                                        <rect key="frame" x="0.0" y="443" width="375" height="100"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="sCZ-iG-xDY"/>
+                                        </constraints>
+                                    </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="fc3-92-76n">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="543"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -469,9 +476,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.43137254899999999" green="0.45882352939999999" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="HGe-GM-H2B" firstAttribute="leading" secondItem="Ly3-Ah-9wI" secondAttribute="leading" id="4kA-fP-Lg8"/>
                                     <constraint firstItem="fc3-92-76n" firstAttribute="leading" secondItem="Ly3-Ah-9wI" secondAttribute="leading" id="51R-yt-Bo1"/>
                                     <constraint firstAttribute="bottom" secondItem="fc3-92-76n" secondAttribute="bottom" id="E4P-mD-C0p"/>
                                     <constraint firstAttribute="trailing" secondItem="fc3-92-76n" secondAttribute="trailing" id="Hat-n6-ZMg"/>
+                                    <constraint firstAttribute="bottom" secondItem="HGe-GM-H2B" secondAttribute="bottom" id="Tmf-ua-XXi"/>
+                                    <constraint firstAttribute="trailing" secondItem="HGe-GM-H2B" secondAttribute="trailing" id="YOQ-yh-Yr2"/>
                                     <constraint firstItem="fc3-92-76n" firstAttribute="top" secondItem="Ly3-Ah-9wI" secondAttribute="top" id="uBB-H5-6Cz"/>
                                 </constraints>
                             </view>
@@ -520,6 +530,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="backView" destination="HGe-GM-H2B" id="Vjp-qu-hZN"/>
                         <outlet property="collectionView" destination="Jus-NV-xJa" id="5ei-Gr-4dY"/>
                         <outlet property="mapView" destination="Ly3-Ah-9wI" id="Ojh-IU-4tS"/>
                         <outlet property="searchButton" destination="P2w-PO-RE2" id="DC6-0g-yli"/>

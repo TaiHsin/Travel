@@ -35,6 +35,8 @@ class TripListViewController: UIViewController {
     
     @IBOutlet weak var showListButton: UIButton!
     
+    @IBOutlet weak var backView: UIView!
+    
     private let locationManager = CLLocationManager()
     
     let contentOffsetView = UIView()
@@ -81,11 +83,15 @@ class TripListViewController: UIViewController {
     
     let tabIndex = 1
     
-    let mapViewHeight: CGFloat = 230.0
+    let mapViewVisiblewHeight: CGFloat = 230.0
     
     var mapViewTopConstraints: NSLayoutConstraint?
     
     var mapViewHeightConstraints: NSLayoutConstraint?
+    
+    var backViewTopConstraints: NSLayoutConstraint?
+    
+    var backViewHeightConstraints: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +114,8 @@ class TripListViewController: UIViewController {
 //            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
 //        )
 //        self.tableView.addGestureRecognizer(longPress)
+        
+        setupBackgroundView()
         
         setupContentOffsetView()
         
@@ -165,7 +173,7 @@ class TripListViewController: UIViewController {
         tableView.isHidden = false
         contentOffsetView.isHidden = false
         showListButton.isHidden = true
-        
+        backView.isHidden = false
     }
     
     func setupTapGesture() {
@@ -189,6 +197,7 @@ class TripListViewController: UIViewController {
         tableView.isHidden = true
         contentOffsetView.isHidden = true
         showListButton.isHidden = false
+        backView.isHidden = true
         
         let padding = showListButton.frame.height
         mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
@@ -234,9 +243,9 @@ class TripListViewController: UIViewController {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
-        tableView.contentInset = UIEdgeInsets(top: mapViewHeight, left: 0.0, bottom: 0.0, right: 0.0)
+        tableView.contentInset = UIEdgeInsets(top: mapViewVisiblewHeight, left: 0.0, bottom: 0.0, right: 0.0)
 
-        tableView.contentOffset = CGPoint(x: 0, y: -mapViewHeight)
+        tableView.contentOffset = CGPoint(x: 0, y: -mapViewVisiblewHeight)
 
         self.mapView.bringSubviewToFront(tableView)
     }
@@ -288,10 +297,26 @@ class TripListViewController: UIViewController {
 
         contentOffsetView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
-        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewHeight)
+        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewVisiblewHeight)
         
         mapViewHeightConstraints?.isActive = true
+    }
+    
+    func setupBackgroundView() {
         
+        mapView.bringSubviewToFront(backView)
+        
+        backView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let mapViewHeight = mapView.frame.height
+        
+        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: mapViewVisiblewHeight)
+        
+        backViewTopConstraints?.isActive = true
+        
+        backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: mapViewHeight - mapViewVisiblewHeight)
+        
+        backViewHeightConstraints?.isActive = true
     }
 
     // Locate device location and show location button
@@ -335,7 +360,6 @@ class TripListViewController: UIViewController {
             mapView.animate(with: .fit(bounds, with: edgeInsets))
             
 //            mapView.animate(with: .fit(bounds, withPadding: 50.0))
-
         }
     }
     
@@ -495,14 +519,25 @@ class TripListViewController: UIViewController {
         
         mapViewTopConstraints = contentOffsetView.topAnchor.constraint(
             equalTo: collectionView.bottomAnchor,
-            constant: -(contentOffset.y - (-mapViewHeight))
+            constant: -(contentOffset.y - (-mapViewVisiblewHeight))
         )
         
-        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewHeight)
+        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewVisiblewHeight)
         
         mapViewTopConstraints?.isActive = true
         
         mapViewHeightConstraints?.isActive = true
+        
+        backViewTopConstraints?.isActive = false
+        backViewHeightConstraints?.isActive = false
+        
+        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
+        
+        backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
+        
+        backViewTopConstraints?.isActive = true
+        
+        backViewHeightConstraints?.isActive = true
         
         view.layoutIfNeeded()
     }
@@ -521,6 +556,17 @@ class TripListViewController: UIViewController {
         
         mapViewHeightConstraints?.isActive = true
         
+        backViewTopConstraints?.isActive = false
+        backViewHeightConstraints?.isActive = false
+        
+        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: mapViewVisiblewHeight)
+        
+        backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
+        
+        backViewTopConstraints?.isActive = true
+        
+        backViewHeightConstraints?.isActive = true
+        
         view.layoutIfNeeded()
     }
 }
@@ -531,10 +577,10 @@ extension TripListViewController: CLLocationManagerDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.y > -mapViewHeight && scrollView.contentOffset.y < 20 {
+        if scrollView.contentOffset.y > -mapViewVisiblewHeight && scrollView.contentOffset.y < 20 {
             
             changeMapViewHeightConstraint(contentOffset: scrollView.contentOffset)
-        } else if  scrollView.contentOffset.y <= -mapViewHeight {
+        } else if  scrollView.contentOffset.y <= -mapViewVisiblewHeight {
         
             changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
             
