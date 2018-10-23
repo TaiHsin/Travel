@@ -76,17 +76,25 @@ class DetailViewController: UIViewController {
         placeInfoCard.layer.masksToBounds = true
         placeImage.clipsToBounds = true
         
+        let width = placeInfoCard.frame.width
+    
+        myTripsButtonWidthConstraints = myTripButton.widthAnchor.constraint(equalToConstant: width * 0.5)
+        myTripsButtonWidthConstraints.isActive = true
+
+        favoriteButtonWidthConstraints = favoriteButton.widthAnchor.constraint(equalToConstant: width * 0.5)
+        favoriteButtonWidthConstraints.isActive = true
+        
         if isMyTrip || tabIndex == 2 {
             
-            let width = myTripsButtonWidthConstraints.constant
+//            let width = myTripsButtonWidthConstraints.constant
             myTripsButtonWidthConstraints.constant = 0.0
             favoriteButtonWidthConstraints.constant = width
             intervalConstraints.constant = 0.0
         } else if isFavorite || tabIndex == 1 {
             
-            let width = favoriteButtonWidthConstraints.constant
+//            let width = favoriteButtonWidthConstraints.constant
             favoriteButtonWidthConstraints.constant = 0.0
-            myTripsButtonWidthConstraints.constant += width
+            myTripsButtonWidthConstraints.constant = width
             intervalConstraints.constant = 0.0
         }
         

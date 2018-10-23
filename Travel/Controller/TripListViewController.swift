@@ -128,7 +128,7 @@ class TripListViewController: UIViewController {
 //            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
 //        )
 //        self.tableView.addGestureRecognizer(longPress)
-        
+//        
         setupBackgroundView()
         
         setupContentOffsetView()
@@ -557,7 +557,6 @@ class TripListViewController: UIViewController {
     func changeMapViewTopConstraint(contentOffset: CGPoint) {
         
         mapViewTopConstraints?.isActive = false
-        
         mapViewHeightConstraints?.isActive = false
         
         mapViewTopConstraints = contentOffsetView.topAnchor.constraint(
@@ -568,7 +567,6 @@ class TripListViewController: UIViewController {
         mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewVisiblewHeight)
         
         mapViewTopConstraints?.isActive = true
-        
         mapViewHeightConstraints?.isActive = true
         
         backViewTopConstraints?.isActive = false
@@ -579,7 +577,6 @@ class TripListViewController: UIViewController {
         backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
         
         backViewTopConstraints?.isActive = true
-        
         backViewHeightConstraints?.isActive = true
         
         view.layoutIfNeeded()
@@ -588,7 +585,6 @@ class TripListViewController: UIViewController {
     func changeMapViewHeightConstraint(contentOffset: CGPoint) {
         
         mapViewTopConstraints?.isActive = false
-        
         mapViewHeightConstraints?.isActive = false
         
         mapViewTopConstraints = contentOffsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
@@ -596,20 +592,16 @@ class TripListViewController: UIViewController {
         mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: -contentOffset.y)
         
         mapViewTopConstraints?.isActive = true
-        
         mapViewHeightConstraints?.isActive = true
         
         backViewTopConstraints?.isActive = false
         backViewHeightConstraints?.isActive = false
-        
-        let mapViewHeight = mapView.frame.height
         
         backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
         
         backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
         
         backViewTopConstraints?.isActive = true
-        
         backViewHeightConstraints?.isActive = true
         
         view.layoutIfNeeded()
@@ -859,9 +851,6 @@ extension TripListViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
         ) {
         
-//        guard let locationArray = detailData[indexPath.section] else { return }
-//        let location = locationArray[indexPath.row]
-//
         let datas = locationArray[indexPath.section]
         let location = datas[indexPath.row]
         
@@ -894,16 +883,9 @@ extension TripListViewController: UITableViewDelegate {
         forRowAt indexPath: IndexPath
         ) {
         
-//        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
-//
-//        let total = tableView.numberOfRows(inSection: indexPath.section)
-//
-//        guard cell.isEmpty != true, total > 1 else { return }
-        
         if editingStyle == .delete {
             
             guard day == 0 else {
-                
                 
                 let datas = locationArray[indexPath.section]
                 let location = datas[indexPath.row]
@@ -924,18 +906,7 @@ extension TripListViewController: UITableViewDelegate {
             
             locationArray[indexPath.section].remove(at: indexPath.row)
             dataArray[day - 1].remove(at: indexPath.row)
-            
-//            detailData[indexPath.section]!.remove(at: indexPath.row)
-            
-//            if total == 1 {
-//
-//                let newIndexPath = IndexPath(row: total, section: indexPath.section)
-//                tableView.insertRows(at: [newIndexPath], with: .none)
-//                guard let cell = tableView.cellForRow(at: newIndexPath) as? TripListTableViewCell else { return }
-//                cell.isEmpty = true
-//                cell.switchCellContent()
-//                tableView.deleteRows(at: [indexPath], with: .fade)
-//            }
+
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
 
@@ -1006,7 +977,10 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 40, height: 60)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+        ) {
         
         guard indexPath.item != 0 else {
             
@@ -1070,8 +1044,6 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         cell.selectedView.isHidden = false
         
         guard locationArray[0].count != 0 else {
-        
-//        guard let locations = locationArray[indexPath.item - 1] else {
             
             mapView.clear()
             mapView.animate(toZoom: 10)
@@ -1106,20 +1078,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         viewForSupplementaryElementOfKind kind: String,
         at indexPath: IndexPath
         ) -> UICollectionReusableView {
-        
-//        if kind == UICollectionView.elementKindSectionHeader {
-//
-//            guard let headerView = collectionView.dequeueReusableSupplementaryView(
-//                ofKind: kind,
-//                withReuseIdentifier: String(describing: DayCollectionHeader.self),
-//                for: indexPath
-//                ) as? DayCollectionHeader else { return UICollectionReusableView() }
-//
-//            headerView.delegate = self
-//
-//            return headerView
-//        }
-        
+
         guard let footerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: String(describing: DayCollectionFooter.self),
