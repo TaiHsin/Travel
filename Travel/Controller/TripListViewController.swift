@@ -128,7 +128,7 @@ class TripListViewController: UIViewController {
 //            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
 //        )
 //        self.tableView.addGestureRecognizer(longPress)
-//        
+
         setupBackgroundView()
         
         setupContentOffsetView()
@@ -140,8 +140,6 @@ class TripListViewController: UIViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         setupTapGesture()
-        
-//        setupSwipeGesture()
         
         setupLocationManager()
         
@@ -550,7 +548,12 @@ class TripListViewController: UIViewController {
                 }
             }
         }
-
+        
+        // Sort array by order property
+        for number in 0 ... total - 1 {
+            dataArray[number].sort(by: {$0.order < $1.order})
+        }
+        
         self.getPhotos()
     }
     
@@ -887,29 +890,39 @@ extension TripListViewController: UITableViewDelegate {
             
             guard day == 0 else {
                 
-                let datas = locationArray[indexPath.section]
-                let location = datas[indexPath.row]
+                let location = locationArray[indexPath.section][indexPath.row]
+                let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
+                
                 deletLocation(daysKey: daysKey, location: location)
-                changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
+                changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location, type: .delete)
                 
                 locationArray[indexPath.section].remove(at: indexPath.row)
-                dataArray[indexPath.section].remove(at: indexPath.row)
+                dataArray[day - 1].remove(at: indexPath.row)
+                
+                tableView.deleteRows(at: [indexPath], with: .fade)
                 
                 return
             }
             
-            let location = locationArray[indexPath.section][indexPath.row]
-            let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
-            
+            let datas = locationArray[indexPath.section]
+            let location = datas[indexPath.row]
             deletLocation(daysKey: daysKey, location: location)
-            changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location, type: .delete)
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location, type: .delete)
             
             locationArray[indexPath.section].remove(at: indexPath.row)
-            dataArray[day - 1].remove(at: indexPath.row)
+            dataArray[indexPath.section].remove(at: indexPath.row)
+            
+//            let location = locationArray[indexPath.section][indexPath.row]
+//            let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
+//
+//            deletLocation(daysKey: daysKey, location: location)
+//            changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location, type: .delete)
+//
+//            locationArray[indexPath.section].remove(at: indexPath.row)
+//            dataArray[day - 1].remove(at: indexPath.row)
 
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
-
     }
 }
 
@@ -1259,8 +1272,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
 
-        let days = indexPath.section + 1
-        guard let locationArray = detailData[days - 1] else { return }
+//        let days = indexPath.section + 1
+        let locationArray = dataArray[indexPath.section]
         
         // Compare other data order to update
         for item in locationArray {
@@ -1368,53 +1381,57 @@ extension TripListViewController {
             let firstDay = firstIndexPath.section
             let secondDay = indexPath.section
             
-            if firstDay == secondDay {
-
-                // swap order
-                let firstOrder = detailData[firstDay]![firstIndexPath.row].order
-                detailData[firstDay]![firstIndexPath.row].order = detailData[secondDay]![indexPath.row].order
-                detailData[secondDay]![indexPath.row].order = firstOrder
-                
-                let data = detailData[firstDay]![firstIndexPath.row]
-                detailData[firstDay]![firstIndexPath.row] = detailData[secondDay]![indexPath.row]
-                detailData[secondDay]![indexPath.row] = data
-                
-            } else if firstDay < secondDay {
+            // swap order
+            let firstOrder = locationArray[firstDay][firstIndexPath.row].order
+            locationArray[firstDay][firstIndexPath.row].order = locationArray[secondDay][indexPath.row].order
+            locationArray[secondDay][indexPath.row].order = firstOrder
             
-                let data = detailData[firstDay]![firstIndexPath.row]
-                detailData[firstDay]?.remove(at: firstIndexPath.row)
-                
-                let total = tableView.numberOfRows(inSection: secondDay)
-                
-                for index in 0 ... total - 1 {
-                    detailData[secondDay]![index].order += 1
-                }
-                
-                detailData[secondDay]?.insert(data, at: 0)
-                detailData[secondDay]?[0].order = 0
-                detailData[secondDay]?[0].days = secondDay + 1
-                
-            } else if firstDay > secondDay {
-                
-                let data = detailData[firstDay]![firstIndexPath.row]
-                detailData[firstDay]?.remove(at: firstIndexPath.row)
-                
-                let total = tableView.numberOfRows(inSection: firstDay)
-                
-                for index in 0 ... total - 2 {
-                    detailData[firstDay]![index].order -= 1
-                }
-                
-                let totalSecond = tableView.numberOfRows(inSection: secondDay)
-                detailData[secondDay]?.insert(data, at: totalSecond - 1)
-                detailData[secondDay]?[totalSecond - 1].order = totalSecond - 1
-                detailData[secondDay]?[totalSecond - 1].days = secondDay + 1
-                detailData[secondDay]?[totalSecond].order = totalSecond
-            }
+            let data = locationArray[firstDay][firstIndexPath.row]
+            locationArray[firstDay][firstIndexPath.row] = locationArray[secondDay][indexPath.row]
+            locationArray[secondDay][indexPath.row] = data
             
             self.tableView.moveRow(at: firstIndexPath, to: indexPath)
- 
+            
             Path.initialIndexPath = indexPath
+            
+//            if firstDay == secondDay {
+//
+//            } else if firstDay < secondDay {
+//
+//                let data = detailData[firstDay]![firstIndexPath.row]
+//                detailData[firstDay]?.remove(at: firstIndexPath.row)
+//
+//                let total = tableView.numberOfRows(inSection: secondDay)
+//
+//                for index in 0 ... total - 1 {
+//                    detailData[secondDay]![index].order += 1
+//                }
+//
+//                detailData[secondDay]?.insert(data, at: 0)
+//                detailData[secondDay]?[0].order = 0
+//                detailData[secondDay]?[0].days = secondDay + 1
+//
+//            } else if firstDay > secondDay {
+//
+//                let data = detailData[firstDay]![firstIndexPath.row]
+//                detailData[firstDay]?.remove(at: firstIndexPath.row)
+//
+//                let total = tableView.numberOfRows(inSection: firstDay)
+//
+//                for index in 0 ... total - 2 {
+//                    detailData[firstDay]![index].order -= 1
+//                }
+//
+//                let totalSecond = tableView.numberOfRows(inSection: secondDay)
+//                detailData[secondDay]?.insert(data, at: totalSecond - 1)
+//                detailData[secondDay]?[totalSecond - 1].order = totalSecond - 1
+//                detailData[secondDay]?[totalSecond - 1].days = secondDay + 1
+//                detailData[secondDay]?[totalSecond].order = totalSecond
+//            }
+//
+//            self.tableView.moveRow(at: firstIndexPath, to: indexPath)
+//
+//            Path.initialIndexPath = indexPath
             
         default:
             
