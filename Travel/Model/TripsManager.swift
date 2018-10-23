@@ -159,7 +159,7 @@ class TripsManager {
             
             guard let value = snapshot.value as? NSDictionary else {
                 
-                // TODO: Handle empty data (performance)
+                success(location)
                 
                 return
             }

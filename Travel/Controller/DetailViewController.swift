@@ -80,7 +80,7 @@ class DetailViewController: UIViewController {
             
             let width = myTripsButtonWidthConstraints.constant
             myTripsButtonWidthConstraints.constant = 0.0
-            favoriteButtonWidthConstraints.constant += width
+            favoriteButtonWidthConstraints.constant = width
             intervalConstraints.constant = 0.0
         } else if isFavorite || tabIndex == 1 {
             
@@ -159,7 +159,7 @@ class DetailViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        var touch: UITouch? = touches.first
+        let touch: UITouch? = touches.first
         
         if touch?.view != placeInfoCard {
             
