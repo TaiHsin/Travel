@@ -602,7 +602,9 @@ class TripListViewController: UIViewController {
         backViewTopConstraints?.isActive = false
         backViewHeightConstraints?.isActive = false
         
-        backViewTopConstraints = backView.topAnchor.constraint(equalTo: contentOffsetView.bottomAnchor)
+        let mapViewHeight = mapView.frame.height
+        
+        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
         
         backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
         
@@ -620,6 +622,7 @@ extension TripListViewController: CLLocationManagerDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
+        guard scrollView == tableView else { return }
         if scrollView.contentOffset.y > -mapViewVisiblewHeight && scrollView.contentOffset.y < 20 {
             
             changeMapViewHeightConstraint(contentOffset: scrollView.contentOffset)
@@ -627,7 +630,7 @@ extension TripListViewController: CLLocationManagerDelegate {
         
             changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
             
-            if scrollView.contentOffset.y < -(mapViewVisiblewHeight * 1.5) {
+            if scrollView.contentOffset.y < -(mapViewVisiblewHeight * 1.4) {
                 
                 hideTriplist()
             }
