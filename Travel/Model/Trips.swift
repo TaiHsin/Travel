@@ -28,18 +28,8 @@ struct Trips: Codable {
     
     let id: String
     
-    let userId :String
+    let userId: String
 }
-
-//
-//struct Details {
-//    
-//    var location: [Location]?
-//    
-//    var isEmpty: Bool?
-//    
-////    var day: String
-//}
 
 struct Location: Codable {
     
@@ -62,4 +52,34 @@ struct Location: Codable {
     var days: Int
     
     var position: String
+    
+    static func emptyLocation() -> Location {
+        
+        return Location(
+            addTime: 0.0,
+            address: "",
+            latitude: 0,
+            longitude: 0,
+            locationId: "",
+            name: "",
+            order: 0,
+            photo: "",
+            days: 0,
+            position: "0_0"
+        )
+    }
+}
+
+enum LocationCellType {
+    
+    case empty
+    
+    case location
+}
+
+struct THdata {
+    
+    var location: Location
+    
+    let type: LocationCellType
 }
