@@ -35,6 +35,7 @@ class MenuBarCollectionViewCell: UICollectionViewCell {
         let dateString = dateFormatter.string(from: date)
         guard let first = dateString.first else { return }
         let stringFirst = String(first)
+        weekLabel.isHidden = false
         
         if stringFirst == "S" {
             

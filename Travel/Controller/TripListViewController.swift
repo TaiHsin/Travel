@@ -176,12 +176,12 @@ class TripListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
         
         /// Navigation large title effect
-        navigationController?.navigationBar.prefersLargeTitles = false
+//        navigationController?.navigationBar.prefersLargeTitles = false
         
-        guard let navigationBar = navigationController?.navigationBar else { return }
+//        guard let navigationBar = navigationController?.navigationBar else { return }
         //        let view = navigationBar.subviews[0]
         //        let count = navigationBar.subviews.count
-        navigationBar.subviews[4].isHidden = true
+//        navigationBar.subviews[4].isHidden = true
     }
     
     func preSelectCollectionView() {
@@ -261,7 +261,7 @@ class TripListViewController: UIViewController {
         
         locationManager.delegate = self
         
-        locationManager.requestWhenInUseAuthorization()
+//        locationManager.requestWhenInUseAuthorization()
     }
     
     @IBAction func searchLocation(_ sender: UIBarButtonItem) {
@@ -561,6 +561,7 @@ class TripListViewController: UIViewController {
         /// Append empty object if array is empty
         for i in 0 ..< dataArray.count {
             if dataArray[i].count == 0 {
+                
                 dataArray[i].append(THdata(location: Location.emptyLocation(), type: .empty))
             }
         }
@@ -699,32 +700,11 @@ extension TripListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        //        guard isDaily == false else {
-        //
-        //            guard locations.count != 0 else {
-        //
-        //                /// Empty cell
-        //                let cell = tableView.dequeueReusableCell(
-        //                    withIdentifier: String(describing: TripListTableViewCell.self),
-        //                    for: indexPath
-        //                )
-        //                guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
-        //
-        //                emptyCell.isEmpty = true
-        //                emptyCell.switchCellContent()
-        //                emptyCell.selectionStyle = .none
-        //
-        //                return emptyCell
-        //            }
-        //            return
-        //        }
-        // possible nil??
-        //        guard let datas = detailData[indexPath.section], datas.count != 0 else {
-        
-        
+      
         switch locationArray[indexPath.section][indexPath.row].type {
+            
         case .empty:
+            
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: TripListTableViewCell.self),
                 for: indexPath
@@ -765,65 +745,6 @@ extension TripListViewController: UITableViewDataSource {
             listCell.selectionStyle = .none
             return listCell
         }
-        
-        //        guard locationArray.count != 0 else {
-        //
-        //            /// Empty cell
-        //            let cell = tableView.dequeueReusableCell(
-        //                withIdentifier: String(describing: TripListTableViewCell.self),
-        //                for: indexPath
-        //            )
-        //            guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
-        //
-        //            emptyCell.isEmpty = true
-        //            emptyCell.switchCellContent()
-        //            emptyCell.selectionStyle = .none
-        //
-        //            return emptyCell
-        //        }
-        //        let datas = locationArray[indexPath.section]
-        //
-        //        guard datas.count != 0 else {
-        //
-        //            /// Empty cell
-        //            let cell = tableView.dequeueReusableCell(
-        //                withIdentifier: String(describing: TripListTableViewCell.self),
-        //                for: indexPath
-        //            )
-        //            guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
-        //
-        //            emptyCell.isEmpty = true
-        //            emptyCell.switchCellContent()
-        //            emptyCell.selectionStyle = .none
-        //
-        //            return emptyCell
-        //        }
-        //
-        //        let cell = tableView.dequeueReusableCell(
-        //            withIdentifier: String(describing: TripListTableViewCell.self),
-        //            for: indexPath
-        //        )
-        //
-        //        guard let listCell = cell as? TripListTableViewCell,
-        //              indexPath.row < datas.count else {
-        //
-        //                return cell
-        //        }
-        //
-        //        listCell.isEmpty = false
-        //        listCell.switchCellContent()
-        //
-        //        #warning ("Refactor: seems will delay, better way?")
-        //        let placeID = datas[indexPath.row].location.photo
-        //        listCell.listImage.image = photosDict[placeID]
-        //
-        //        listCell.placeNameLabel.text = datas[indexPath.row].location.name
-        //        listCell.addressLabel.text = datas[indexPath.row].location.address
-        //
-        //        listCell.selectionStyle = .none
-        //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-        //        cell.setSelected(true, animated: true)
-        //        return listCell
     }
 }
 
@@ -922,6 +843,8 @@ extension TripListViewController: UITableViewDelegate {
         
         return UITableViewCell.EditingStyle.delete
     }
+    
+    #warning ("modify before version 2")
     
     func tableView(
         _ tableView: UITableView,
@@ -1037,6 +960,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
         ) {
+        
+        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
         
         guard indexPath.item != 0 else {
             
@@ -1186,7 +1111,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         let total = daysArray.count
         daysArray.append(total)
-        let newTotal = total + 1
+        let newTotal = total
         
         guard let last = dates.last else { return }
         
@@ -1195,10 +1120,19 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         let newDateDouble = Double(newDate.timeIntervalSince1970)
         
+        endDate = newDateDouble
+        
+        dataArray.append([])
+        dataArray[newTotal - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+        
+        if self.day == 0 {
+         
+            locationArray.append([])
+            locationArray[newTotal - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+        }
+        
         collectionView.reloadData()
         tableView.reloadData()
-        
-        endDate = newDateDouble
         
         updateMyTrips(total: newTotal, end: newDateDouble)
         NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
@@ -1215,13 +1149,18 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             return
         }
         
-        let newTotal = total - 1
-        daysArray.remove(at: total - 1)
-        dates.remove(at: total - 1)
+        daysArray.removeLast()
+        dates.removeLast()
         
-        detailData.removeValue(forKey: newTotal)
+        dataArray.removeLast()
         
         guard let date = dates.last else { return }
+        let newTotal = dates.count
+        
+        if self.day == 0 {
+            
+            locationArray.removeLast()
+        }
         
         collectionView.reloadData()
         tableView.reloadData()
