@@ -12,12 +12,12 @@ import GooglePlaces
 import FirebaseDatabase
 import Crashlytics
 
-struct Path {
-    
-    static var initialIndexPath: IndexPath?
-    
-    static var cellSnapShot: UIView?
-}
+//struct Path {
+//
+//    static var initialIndexPath: IndexPath?
+//
+//    static var cellSnapShot: UIView?
+//}
 
 enum Modify {
     case add, delete
@@ -36,6 +36,10 @@ class TripListViewController: UIViewController {
     @IBOutlet weak var showListButton: UIButton!
     
     @IBOutlet weak var backView: UIView!
+    
+    var snapshot: UIView?
+    
+    var sourceIndexPath: IndexPath?
     
     private let locationManager = CLLocationManager()
     
@@ -125,7 +129,7 @@ class TripListViewController: UIViewController {
         // setup long press gesture
         let longPress = UILongPressGestureRecognizer(
             target: self,
-            action: #selector(longPressGestureRecognized(gestureRecognizer: ))
+            action: #selector(longPressGestureRecognized(longPress: ))
         )
         self.tableView.addGestureRecognizer(longPress)
         
@@ -1391,33 +1395,55 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
 
 extension TripListViewController {
     
-    @objc func longPressGestureRecognized(gestureRecognizer: UIGestureRecognizer) {
-        
-        guard let longPress = gestureRecognizer as? UILongPressGestureRecognizer else { return }
+    @objc func longPressGestureRecognized(longPress: UILongPressGestureRecognizer) {
         
         let state = longPress.state
+
+        let location = longPress.location(in: self.tableView)
         
-        let locationInView = longPress.location(in: self.tableView)
-        
-        guard let indexPath = self.tableView.indexPathForRow(at: locationInView) else { return }
+        guard let indexPath = self.tableView.indexPathForRow(at: location) else {
+
+            let numbers = locationArray[0].count
+            for number in 0 ..< numbers {
+
+                if locationArray[0][number].type == .empty {
+
+                    locationArray[0].remove(at: number)
+                    let indexPath = IndexPath(row: number, section: 0)
+
+                    tableView.deleteRows(at: [indexPath], with: .none)
+                }
+            }
+
+            cleanUp()
+            return
+        }
         
         switch state {
             
         case .began:
             
-            guard locationArray[indexPath.section][indexPath.row].type == .location else { return }
+            print("0000000000")
+            print("Began")
             
-            Path.initialIndexPath = indexPath
-            guard let cell = self.tableView.cellForRow(at: indexPath) as? TripListTableViewCell else { return }
+            guard locationArray[indexPath.section][indexPath.row].type == .location else {
+                return }
             
-            Path.cellSnapShot = snapshotOfCell(inputView: cell)
+            sourceIndexPath = indexPath
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
+                return }
+            
+            snapshot = customSnapshotFromView(inputView: cell)
+            
+            guard let snapshot = self.snapshot else {
+                return }
+            
             var center = cell.center
-            Path.cellSnapShot?.center = center
-            Path.cellSnapShot?.alpha = 0.0
-            self.tableView.addSubview(Path.cellSnapShot!)
+            snapshot.center = center
+            snapshot.alpha = 0.0
+            self.tableView.addSubview(snapshot)
             
-            guard let indexPath = Path.initialIndexPath else { return }
-            
+            /// Insert empty cell for one row's section
             if self.locationArray[indexPath.section].count == 1 {
                 
                 self.locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
@@ -1426,54 +1452,63 @@ extension TripListViewController {
             }
             
             UIView.animate(withDuration: 0.25, animations: {
-                center.y = locationInView.y
-                Path.cellSnapShot?.center = center
-                Path.cellSnapShot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                Path.cellSnapShot?.alpha = 0.98
+                center.y = location.y
+                snapshot.center = center
+                snapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                snapshot.alpha = 0.98
                 cell.alpha = 0.0
                 
             }, completion: { (finished) in
                 if finished {
+                 
                     cell.isHidden = true
                 }
             })
             
         case .changed:
             
-            var center = Path.cellSnapShot?.center
-            center?.y = locationInView.y
-            Path.cellSnapShot?.center = center!
+            print("=============")
+            print("Changed")
             
-            guard indexPath != Path.initialIndexPath, indexPath.section >= 0 else {
-                
+            guard let snapshot = snapshot else {
+                return }
+            
+            var center = snapshot.center
+            center.y = location.y
+            snapshot.center = center
+            
+            guard let sourceIndexPath = self.sourceIndexPath else {
                 return
             }
-            guard let firstIndexPath = Path.initialIndexPath else {
+            
+            if indexPath != sourceIndexPath {
                 
-                return
+                let firstDay = sourceIndexPath.section
+                let secondDay = indexPath.section
+                
+                // swap data
+                let dataToMove = locationArray[firstDay][sourceIndexPath.row]
+                locationArray[firstDay].remove(at: sourceIndexPath.row)
+                locationArray[secondDay].insert(dataToMove, at: indexPath.row)
+                
+                tableView.moveRow(at: sourceIndexPath, to: indexPath)
+                self.sourceIndexPath = indexPath
             }
-            
-            let firstDay = firstIndexPath.section
-            let secondDay = indexPath.section
-            
-            // swap data
-            let dataToMove = locationArray[firstDay][firstIndexPath.row]
-            locationArray[firstDay].remove(at: firstIndexPath.row)
-            locationArray[secondDay].insert(dataToMove, at: indexPath.row)
-            
-            tableView.moveRow(at: firstIndexPath, to: indexPath)
-            Path.initialIndexPath = indexPath
             
         default:
             
-            guard Path.initialIndexPath != nil else { return }
-            guard (Path.initialIndexPath?.section)! >= 0 else { return }
+            /// Check empty cell in section and remove it
+            
+            print("---------------")
+            print("In default")
+            guard sourceIndexPath != nil else {
+                return }
             
             let numbers = locationArray[indexPath.section].count
             
             for number in 0 ..< numbers {
                 
-                if locationArray[indexPath.section][number].type == .empty  {
+                if locationArray[indexPath.section][number].type == .empty {
                     
                     locationArray[indexPath.section].remove(at: number)
                     let indexPath = IndexPath(row: number, section: indexPath.section)
@@ -1481,29 +1516,34 @@ extension TripListViewController {
                     tableView.deleteRows(at: [indexPath], with: .none)
                     
                     let newIndexPath = IndexPath(row: 0, section: indexPath.section)
-                    Path.initialIndexPath = newIndexPath
+                    sourceIndexPath = newIndexPath
                     
                     break
                 }
             }
             
-            guard let cell = self.tableView.cellForRow(at: Path.initialIndexPath!) as? TripListTableViewCell else {
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
+                
+                cleanUp()
                 return
             }
-
+            
+            guard let snapshot = self.snapshot else {
+                return
+            }
+            
             cell.isHidden = false
             cell.alpha = 0.0
             UIView.animate(withDuration: 0.25, animations: {
-                Path.cellSnapShot?.center = cell.center
-                Path.cellSnapShot?.transform = .identity
-                Path.cellSnapShot?.alpha = 0.0
+                snapshot.center = cell.center
+                snapshot.transform = .identity
+                snapshot.alpha = 0.0
                 cell.alpha = 1.0
                 
             }, completion: { (finished) in
                 if finished {
-                    Path.initialIndexPath = nil
-                    Path.cellSnapShot?.removeFromSuperview()
-                    Path.cellSnapShot = nil
+                 
+                    self.cleanUp()
                     
                     /// Update all data with current day(section) and order(row)
                     self.updateLocalData()
@@ -1514,19 +1554,35 @@ extension TripListViewController {
         }
     }
     
-    func snapshotOfCell(inputView: UIView) -> UIView {
+    func cleanUp() {
+
+        sourceIndexPath = nil
+        snapshot?.removeFromSuperview()
+        snapshot = nil
+        tableView.reloadData()
+    }
+    
+    func customSnapshotFromView(inputView: UIView) -> UIView? {
         
         UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
         
-        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()!
-        let cellSnapshot: UIView = UIImageView(image: image)
-        cellSnapshot.layer.masksToBounds = false
+        if let currentContext = UIGraphicsGetCurrentContext() {
+            inputView.layer.render(in: currentContext)
+        }
+        
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            UIGraphicsEndImageContext()
+            return nil
+        }
+
+        UIGraphicsEndImageContext()
+        let snapshot = UIImageView(image: image)
+        snapshot.layer.masksToBounds = false
         
         //        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
         //        cellSnapshot.layer.shadowRadius = 5.0
         //        cellSnapshot.layer.shadowOpacity = 0.4
-        return cellSnapshot
+        return snapshot
     }
 }
 
