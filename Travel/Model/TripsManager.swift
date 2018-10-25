@@ -53,6 +53,8 @@ class TripsManager {
             
                 guard let value = snapshot.value as? NSDictionary else {
                     
+                    /// Create example trips for first user
+                    
                     self.ref.child("/myTrips/defaultTrip").observeSingleEvent(of: .value, with: { (snapshot) in
                         
                         guard let value = snapshot.value as? NSDictionary else { return }
@@ -72,15 +74,15 @@ class TripsManager {
                                 success: { (daysKey, key) in
                                     
                                     self.fetchDayList(daysKey: data.daysKey, success: { (locations) in
-//
-//                                        self.addDefauleData(dayskey: daysKey, locations: locations)
-//
-//                                        self.fetchTripsData(success: { (datas) in
-//
-//                                            success(datas)
-//                                        }, failure: { (_) in
-//                                            // TODO
-//                                        })
+
+                                        self.addDefauleData(dayskey: daysKey, locations: locations)
+
+                                        self.fetchTripsData(success: { (datas) in
+
+                                            success(datas)
+                                        }, failure: { (_) in
+                                            // TODO
+                                        })
                                     })
                             })
                             
@@ -196,22 +198,25 @@ class TripsManager {
         ref.child("/tripDays/\(daysKey)").removeValue()
     }
     
-    func addDefauleData(dayskey: String, locations: [Location]) {
+    func addDefauleData(dayskey: String, locations: [THdata]) {
         
         for location in locations {
             
-            guard let locationId = self.ref.child("/tripDays/\(dayskey)").childByAutoId().key else { return }
+            guard let locationId = self.ref.child("/tripDays/\(dayskey)").childByAutoId().key else {
+                return
+            }
             
-            let post = ["addTime": location.addTime,
-                        "address": location.address,
-                        "latitude": location.latitude,
-                        "longitude": location.longitude,
+            
+            let post = ["addTime": location.location.addTime,
+                        "address": location.location.address,
+                        "latitude": location.location.latitude,
+                        "longitude": location.location.longitude,
                         "locationId": locationId,
-                        "name": location.name,
-                        "order": location.order,
-                        "photo": location.photo,
-                        "days": location.days,
-                        "position": location.position
+                        "name": location.location.name,
+                        "order": location.location.order,
+                        "photo": location.location.photo,
+                        "days": location.location.days,
+                        "position": location.location.position
                 ] as [String: Any]
             
             let postUpdate = ["/tripDays/\(dayskey)/\(locationId)": post]

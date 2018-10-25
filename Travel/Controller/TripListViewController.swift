@@ -898,6 +898,8 @@ extension TripListViewController: UITableViewDelegate {
         let datas = locationArray[indexPath.section]
         let location = datas[indexPath.row]
         
+        guard location.type == .location else { return }
+        
         switchDetailVC(location: location.location)
     }
     
@@ -1053,7 +1055,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
                 
                 for location in value {
                     
-                    if location.location.position != "0_0" {
+                    if location.type == .location {
                         
                         allLocations.append(location.location)
                     }
