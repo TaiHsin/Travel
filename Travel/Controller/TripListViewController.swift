@@ -1032,7 +1032,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         locationArray[0].forEach { (value) in
             
-            if value.location.position != "0_0" {
+            if value.type != .empty {
                 allLocations.append(value.location)
             }
         }

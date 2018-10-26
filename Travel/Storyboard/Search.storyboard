@@ -50,7 +50,7 @@
                                 <rect key="frame" x="27" y="100" width="321" height="467"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_placeholder" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ioF-bo-UIW">
-                                        <rect key="frame" x="39" y="90" width="243" height="157"/>
+                                        <rect key="frame" x="39" y="89.5" width="243" height="157"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="157" id="e4w-56-ecA"/>
                                             <constraint firstAttribute="width" constant="243" id="oNT-wg-dQC"/>
@@ -87,7 +87,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlaceName" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3p-Ir-9Qg">
-                                        <rect key="frame" x="10" y="30" width="301" height="30"/>
+                                        <rect key="frame" x="10" y="30" width="301" height="29.5"/>
                                         <fontDescription key="fontDescription" name="SFCompactText-Semibold" family="SF Compact Text" pointSize="25"/>
                                         <color key="textColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -107,18 +107,18 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="koo-da-cBg">
-                                        <rect key="frame" x="39" y="90" width="243" height="157"/>
+                                        <rect key="frame" x="39" y="89.5" width="243" height="157"/>
                                         <color key="backgroundColor" red="0.43137254899999999" green="0.45882352939999999" blue="0.54901960780000003" alpha="0.35843857020547948" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="Mcv-pK-aHb">
-                                        <rect key="frame" x="39" y="282" width="20" height="20"/>
+                                        <rect key="frame" x="39" y="281.5" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="DSx-kl-kpH"/>
                                             <constraint firstAttribute="height" constant="20" id="Vk0-GO-dAB"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vu-Pp-idw">
-                                        <rect key="frame" x="69" y="283" width="202" height="18"/>
+                                        <rect key="frame" x="69" y="283" width="202" height="17.5"/>
                                         <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="15"/>
                                         <color key="textColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
