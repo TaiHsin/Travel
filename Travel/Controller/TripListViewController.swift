@@ -834,12 +834,19 @@ extension TripListViewController: UITableViewDelegate {
             return UITableViewCell.EditingStyle.none
         }
         
-        let total = tableView.numberOfRows(inSection: indexPath.section)
+//        let total = tableView.numberOfRows(inSection: indexPath.section)
         
-        guard cell.isEmpty != true, total > 1 else {
+        let type = locationArray[indexPath.section][indexPath.row].type
+        
+        guard type == .location else {
             
             return UITableViewCell.EditingStyle.none
         }
+        
+//        guard cell.isEmpty != true, total > 1 else {
+//
+//            return UITableViewCell.EditingStyle.none
+//        }
         
         return UITableViewCell.EditingStyle.delete
     }
@@ -856,38 +863,50 @@ extension TripListViewController: UITableViewDelegate {
             
             guard day == 0 else {
                 
-                let location = locationArray[indexPath.section][indexPath.row]
+                let location = locationArray[indexPath.section][indexPath.row].location
                 let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
                 
-                deletLocation(daysKey: daysKey, location: location.location)
-                //                changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location.location, type: .delete)
+                deletLocation(daysKey: daysKey, location: location)
+                
+                changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location, type: .delete)
                 
                 locationArray[indexPath.section].remove(at: indexPath.row)
                 dataArray[day - 1].remove(at: indexPath.row)
                 
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
+                if locationArray[indexPath.section].count == 0 {
+                    
+                    locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
+                    dataArray[day - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+                    
+                    let newIndexPath = IndexPath(row: 0, section: indexPath.section)
+                    tableView.insertRows(at: [newIndexPath], with: .none)
+                }
+                
                 return
             }
             
             let datas = locationArray[indexPath.section]
             let location = datas[indexPath.row]
+            
             deletLocation(daysKey: daysKey, location: location.location)
-            //            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location.location, type: .delete)
+            
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location.location, type: .delete)
             
             locationArray[indexPath.section].remove(at: indexPath.row)
             dataArray[indexPath.section].remove(at: indexPath.row)
             
-            //            let location = locationArray[indexPath.section][indexPath.row]
-            //            let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
-            //
-            //            deletLocation(daysKey: daysKey, location: location)
-            //            changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location, type: .delete)
-            //
-            //            locationArray[indexPath.section].remove(at: indexPath.row)
-            //            dataArray[day - 1].remove(at: indexPath.row)
-            
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            if locationArray[indexPath.section].count == 0 {
+                
+                locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
+                dataArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
+                
+                let newIndexPath = IndexPath(row: 0, section: indexPath.section)
+                tableView.insertRows(at: [newIndexPath], with: .none)
+            }
         }
     }
 }
@@ -1237,37 +1256,37 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         self.ref.updateChildValues(daysUpdate)
     }
     
-    //    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
-    //
-    ////        let days = indexPath.section + 1
-    //        let locationArray = dataArray[indexPath.section]
-    //
-    //        // Compare other data order to update
-    //        for item in locationArray {
-    //
-    //            switch type {
-    //
-    //            case .delete:
-    //                if item.location.order >= indexPath.row, item.locationId != location.locationId {
-    //
-    //                    let newOrder = item.location.order - 1
-    //                    let key = item.locationId
-    //                    let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
-    //                    ref.updateChildValues(postUpdate)
-    //                }
-    //
-    //                // not use??
-    //            case .add:
-    //                if item.order >= indexPath.row, item.locationId != location.locationId {
-    //
-    //                let newOrder = item.order + 1
-    //                let key = item.locationId
-    //                let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
-    //                ref.updateChildValues(postUpdate)
-    //                }
-    //            }
-    //        }
-    //    }
+        func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
+    
+//            let days = indexPath.section + 1
+            let locationArray = dataArray[indexPath.section]
+    
+            // Compare other data order to update
+            for item in locationArray {
+    
+                switch type {
+    
+                case .delete:
+                    if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
+    
+                        let newOrder = item.location.order - 1
+                        let key = item.location.locationId
+                        let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
+                        ref.updateChildValues(postUpdate)
+                    }
+    
+                    // not use??
+                case .add:
+                    if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
+    
+                    let newOrder = item.location.order + 1
+                    let key = item.location.locationId
+                    let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
+                    ref.updateChildValues(postUpdate)
+                    }
+                }
+            }
+        }
     
     func updateLocalData() {
         
@@ -1437,13 +1456,14 @@ extension TripListViewController {
             }
             
         default:
+
+            guard let sourceIndexPath = self.sourceIndexPath else {
+                return
+            }
+            
+            var sourceIndex = sourceIndexPath
             
             /// Check empty cell in section and remove it
-            
-            print("---------------")
-            print("In default")
-            guard sourceIndexPath != nil else {
-                return }
             
             let numbers = locationArray[indexPath.section].count
             
@@ -1457,13 +1477,13 @@ extension TripListViewController {
                     tableView.deleteRows(at: [indexPath], with: .none)
                     
                     let newIndexPath = IndexPath(row: 0, section: indexPath.section)
-                    sourceIndexPath = newIndexPath
+                    sourceIndex = newIndexPath
                     
                     break
                 }
             }
             
-            guard let cell = self.tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
+            guard let cell = self.tableView.cellForRow(at: sourceIndex) as? TripListTableViewCell else {
                 
                 cleanUp()
                 return
