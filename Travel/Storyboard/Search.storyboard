@@ -57,10 +57,10 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kk9-4k-n0f">
-                                        <rect key="frame" x="161" y="417" width="160" height="50"/>
+                                        <rect key="frame" x="160.5" y="417" width="160.5" height="50"/>
                                         <color key="backgroundColor" red="0.42352941176470588" green="0.45882352941176469" blue="0.5607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="160" id="3H5-6v-wPG"/>
+                                            <constraint firstAttribute="width" constant="160.5" id="D1r-ho-W7D"/>
                                             <constraint firstAttribute="height" constant="50" id="EYh-Oe-Nch"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="17"/>
@@ -72,11 +72,11 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8a-0R-zns">
-                                        <rect key="frame" x="0.0" y="417" width="160" height="50"/>
+                                        <rect key="frame" x="0.0" y="417" width="159.5" height="50"/>
                                         <color key="backgroundColor" red="0.42352941176470588" green="0.45882352941176469" blue="0.5607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="159.5" id="Njo-sZ-Clg"/>
                                             <constraint firstAttribute="height" constant="50" id="TmW-KK-wvw"/>
-                                            <constraint firstAttribute="width" constant="160" id="qiC-R6-69V"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="17"/>
                                         <state key="normal" title="Add to My Trip">
@@ -158,11 +158,9 @@
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="centerX" secondItem="h9W-rK-9UN" secondAttribute="centerX" id="896-2h-cm5"/>
-                            <constraint firstItem="PEB-jg-6K0" firstAttribute="trailing" secondItem="jLs-J4-xg4" secondAttribute="trailing" constant="27" id="DRh-Qj-2Cq"/>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="top" secondItem="PEB-jg-6K0" secondAttribute="top" constant="80" id="K3O-WM-D1Y"/>
                             <constraint firstItem="PEB-jg-6K0" firstAttribute="bottom" secondItem="jLs-J4-xg4" secondAttribute="bottom" constant="100" id="fge-bA-gg3"/>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="centerY" secondItem="h9W-rK-9UN" secondAttribute="centerY" id="ret-W9-a4j"/>
-                            <constraint firstItem="jLs-J4-xg4" firstAttribute="leading" secondItem="PEB-jg-6K0" secondAttribute="leading" constant="27" id="xSV-eX-FnY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PEB-jg-6K0"/>
                     </view>
@@ -170,10 +168,10 @@
                     <connections>
                         <outlet property="detailInfoView" destination="h9W-rK-9UN" id="h58-6a-hIP"/>
                         <outlet property="favoriteButton" destination="Kk9-4k-n0f" id="pBE-AN-tFq"/>
-                        <outlet property="favoriteButtonWidthConstraints" destination="3H5-6v-wPG" id="UxM-wP-fGk"/>
+                        <outlet property="favoriteButtonWidthConstraints" destination="D1r-ho-W7D" id="MVu-sy-c3N"/>
                         <outlet property="intervalConstraints" destination="XZG-og-4Vn" id="cfI-mC-121"/>
                         <outlet property="myTripButton" destination="O8a-0R-zns" id="hn2-hE-npI"/>
-                        <outlet property="myTripsButtonWidthConstraints" destination="qiC-R6-69V" id="fBw-FM-cZY"/>
+                        <outlet property="myTripsButtonWidthConstraints" destination="Njo-sZ-Clg" id="jev-IL-PIM"/>
                         <outlet property="placeImage" destination="ioF-bo-UIW" id="AOR-fa-2ha"/>
                         <outlet property="placeInfoCard" destination="jLs-J4-xg4" id="G48-s8-Ezq"/>
                         <outlet property="placeName" destination="H3p-Ir-9Qg" id="wrl-UE-x0H"/>

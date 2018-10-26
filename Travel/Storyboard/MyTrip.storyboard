@@ -495,7 +495,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="showList:" destination="nxr-5W-XUN" eventType="touchUpInside" id="PDX-LV-nmw"/>
+                                    <action selector="showTriplist:" destination="nxr-5W-XUN" eventType="touchUpInside" id="PDX-LV-nmw"/>
                                 </connections>
                             </button>
                         </subviews>

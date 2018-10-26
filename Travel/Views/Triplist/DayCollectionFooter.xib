@@ -34,7 +34,7 @@
             <connections>
                 <outlet property="plusButton" destination="cCt-3Y-b9f" id="8LC-ff-1zo"/>
             </connections>
-            <point key="canvasLocation" x="19" y="59"/>
+            <point key="canvasLocation" x="17.600000000000001" y="58.47076461769116"/>
         </view>
     </objects>
     <resources>

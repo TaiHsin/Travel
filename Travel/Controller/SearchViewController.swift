@@ -81,7 +81,6 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         searchController?.isActive = false
     
         /// Remove "total" parameter if is useless
-        
         convertData(place: place, total: total) { (location) in
             
             self.location = location
