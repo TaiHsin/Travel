@@ -81,7 +81,7 @@ class DetailViewController: UIViewController {
         myTripsButtonWidthConstraints = myTripButton.widthAnchor.constraint(equalToConstant: width * 0.5)
         myTripsButtonWidthConstraints.isActive = true
 
-        favoriteButtonWidthConstraints = favoriteButton.widthAnchor.constraint(equalToConstant: width * 0.5)
+        favoriteButtonWidthConstraints = favoriteButton.widthAnchor.constraint(equalToConstant: width - width * 0.5)
         favoriteButtonWidthConstraints.isActive = true
         
         if isMyTrip || tabIndex == 2 {

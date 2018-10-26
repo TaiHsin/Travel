@@ -158,11 +158,9 @@
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="centerX" secondItem="h9W-rK-9UN" secondAttribute="centerX" id="896-2h-cm5"/>
-                            <constraint firstItem="PEB-jg-6K0" firstAttribute="trailing" secondItem="jLs-J4-xg4" secondAttribute="trailing" constant="27" id="DRh-Qj-2Cq"/>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="top" secondItem="PEB-jg-6K0" secondAttribute="top" constant="80" id="K3O-WM-D1Y"/>
                             <constraint firstItem="PEB-jg-6K0" firstAttribute="bottom" secondItem="jLs-J4-xg4" secondAttribute="bottom" constant="100" id="fge-bA-gg3"/>
                             <constraint firstItem="jLs-J4-xg4" firstAttribute="centerY" secondItem="h9W-rK-9UN" secondAttribute="centerY" id="ret-W9-a4j"/>
-                            <constraint firstItem="jLs-J4-xg4" firstAttribute="leading" secondItem="PEB-jg-6K0" secondAttribute="leading" constant="27" id="xSV-eX-FnY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PEB-jg-6K0"/>
                     </view>
