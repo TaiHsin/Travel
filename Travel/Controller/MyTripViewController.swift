@@ -291,6 +291,7 @@ extension MyTripViewController: UICollectionViewDataSource {
         let startMonth = dateFormatter.string(from: startDate)
         let endMonth = dateFormatter.string(from: endDate)
 
+        myTripCell.isEditing = false
         myTripCell.dateLabel.text = startMonth + " - " + endMonth
         
         return myTripCell
