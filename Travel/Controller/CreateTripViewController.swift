@@ -87,23 +87,32 @@ class CreateTripViewController: UIViewController {
         let currentDate = Date()
         let currenDateInt = Double(currentDate.timeIntervalSince1970)
         
-        /// Refact with model
-        tripManager.createTripData(
+        var trip = Trips.init(
             name: place,
             place: place,
             startDate: startDate,
             endDate: endDate,
             totalDays: totalDays,
-            createdTime: currenDateInt
-        ) { [weak self] (daysKey, key) in
+            createdTime: currenDateInt,
+            daysKey: Constants.emptyString,
+            placePic: Constants.emptyString,
+            id: Constants.emptyString,
+            userId: Constants.emptyString
+        )
+        
+        /// Refact with model
+        tripManager.createTripData(
+            trip: trip
+            
+        ) { [weak self] (daysKey, key, uid) in
+            
+            trip.id = key
+            trip.daysKey = daysKey
+            trip.userId = uid
             
             self?.switchViewController(
-                id: key,
-                daysKey: daysKey,
-                first: startDate,
-                last: endDate,
-                total: totalDays,
-                name: place
+
+                trip: [trip]
             )
         }
         
@@ -113,7 +122,7 @@ class CreateTripViewController: UIViewController {
         NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
-    func switchViewController(id: String, daysKey: String, first: Double, last: Double, total: Int, name: String) {
+    func switchViewController(trip: [Trips]) {
         
         guard let controller = UIStoryboard.myTripStoryboard()
             .instantiateViewController(
@@ -121,14 +130,16 @@ class CreateTripViewController: UIViewController {
             ) as? TripListViewController else { return }
     
         /// Refact with model
-        controller.id = id
-        controller.daysKey = daysKey
-        controller.startDate = first
-        controller.endDate = last
-        controller.totalDays = total
-        controller.name = name
+        /// Pass whole Trip class
         
-        /// Why presentingViewController is tabBarViewController??
+        controller.trip = trip
+//        controller.id = id
+//        controller.daysKey = daysKey
+//        controller.startDate = first
+//        controller.endDate = last
+//        controller.totalDays = total
+//        controller.name = name
+      
         let superViewController = self.presentingViewController
         superViewController?.children[0].show(controller, sender: nil)
 

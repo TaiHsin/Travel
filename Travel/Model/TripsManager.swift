@@ -65,13 +65,8 @@ class TripsManager {
                             let data = try self.decoder.decode(Trips.self, from: jsonData)
                             
                             self.createTripData(
-                                name: data.name,
-                                place: data.place,
-                                startDate: data.startDate,
-                                endDate: data.endDate,
-                                totalDays: data.totalDays,
-                                createdTime: data.createdTime,
-                                success: { (daysKey, key) in
+                                trip: data,
+                                success: { (daysKey, key, uid) in
                                     
                                     self.fetchDayList(daysKey: data.daysKey, success: { (locations) in
 
@@ -86,7 +81,6 @@ class TripsManager {
                                     })
                             })
                             
-//                            datas.append(data)
                         } catch {
                             print(error)
                             failure(error)
@@ -117,28 +111,22 @@ class TripsManager {
     
     /// Try to use model to replace
     func createTripData(
-        name: String,
-        place: String,
-        startDate: Double,
-        endDate: Double,
-        totalDays: Int,
-        createdTime: Double,
-        success: @escaping (String, String) -> Void
+        trip: Trips,
+        success: @escaping (String, String, String) -> Void
         ) {
         
         // Add daysKey for tripDays node
         
         guard let daysKey = ref.child("tripDays").childByAutoId().key else { return }
         guard let key = ref.child("myTrips").childByAutoId().key else { return }
-        
         guard let uid = keychain["userId"] else { return }
         
-        let post = ["name": name,
-                    "place": place,
-                    "startDate": startDate,
-                    "endDate": endDate,
-                    "totalDays": totalDays,
-                    "createdTime": createdTime,
+        let post = ["name": trip.name,
+                    "place": trip.place,
+                    "startDate": trip.startDate,
+                    "endDate": trip.endDate,
+                    "totalDays": trip.totalDays,
+                    "createdTime": trip.createdTime,
                     "id": key,
                     "placePic": photoStrArray.randomElement(),
                     "daysKey": daysKey,
@@ -148,7 +136,7 @@ class TripsManager {
         let postUpdate = ["/myTrips/\(key)": post]
         ref.updateChildValues(postUpdate)
         
-        success(daysKey, key)
+        success(daysKey, key, uid)
     }
     
     // MARK: - Fetch Triplist data (once for all)

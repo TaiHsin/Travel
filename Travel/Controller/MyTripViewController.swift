@@ -164,20 +164,8 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
                     
                     return
             }
-            let totalDays = trips[indexPath.item].totalDays
-            let daysKey = trips[indexPath.item].daysKey
-            let name = trips[indexPath.item].name
-            let startDate = trips[indexPath.item].startDate
-            let endDate = trips[indexPath.item].endDate
-            let id = trips[indexPath.item].id
-            
-            detailController.id = id
-            detailController.endDate = endDate
-            detailController.startDate = startDate
-            detailController.name = name
-            detailController.totalDays = totalDays
-            detailController.daysKey = daysKey
-//            detailController.trip.append(trips[indexPath.item])
+
+            detailController.trip.append(trips[indexPath.item])
             
         default:
             return super.prepare(for: segue, sender: sender)

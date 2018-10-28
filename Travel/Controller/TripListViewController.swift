@@ -50,8 +50,6 @@ class TripListViewController: UIViewController {
     
     // Refactor
     
-    var detailData: [Int: [Location]] = [:]
-    
     var dataArray: [[THdata]] = []
     
     var locationArray: [[THdata]] = []
@@ -64,25 +62,13 @@ class TripListViewController: UIViewController {
     
     var daysArray: [Int] = []
     
-    var name = ""
-    
-    //    var trip = [Trips]()
-    
-    var totalDays = 0
-    
-    var daysKey = ""
-    
     var index = 0
     
     var dates = [Date]()
     
-    var startDate = 0.0
-    
-    var endDate = 0.0
-    
+    var trip = [Trips]()
+
     var isMyTrips = true
-    
-    var id = ""
     
     var isDaily = false
     
@@ -105,7 +91,7 @@ class TripListViewController: UIViewController {
         
         ref = Database.database().reference()
         
-        createDays(total: totalDays)
+        createDays(total: trip[0].totalDays)
         
         fetchData()
         
@@ -125,16 +111,13 @@ class TripListViewController: UIViewController {
         setupTableView()
         
         automaticallyAdjustsScrollViewInsets = false
+        
         setupLongPressGesture()
         
         setupTapGesture()
         
         showListButton.isHidden = true
-        
-        /// Show day1 markers as default?
-        //        showMarker(locations: )
-        
-        #warning ("Refactor: use enum for all notification strings")
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.updateLocation(noti: )),
@@ -161,13 +144,13 @@ class TripListViewController: UIViewController {
         
         /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
-        navigationItem.title = name
+        navigationItem.title = trip[0].name
         navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
         navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
     }
     
     func fetchData() {
-        tripsManager.fetchDayList(daysKey: daysKey) { (location) in
+        tripsManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
             
             self.sortLocations(locations: location, total: self.daysArray.count - 1)
             self.filterDatalist(day: self.day)
@@ -460,7 +443,7 @@ class TripListViewController: UIViewController {
         
         dataArray.removeAll()
         
-        tripsManager.fetchDayList(daysKey: daysKey) { (location) in
+        tripsManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
             
             self.sortLocations(locations: location, total: self.daysArray.count - 1)
             
@@ -468,6 +451,18 @@ class TripListViewController: UIViewController {
             self.getPhotos()
             self.tableView.reloadData()
         }
+    }
+    
+    // create days array depend on passed days
+    func createDays(total days: Int) {
+        
+        for index in 0 ... days {
+            daysArray.append(index)
+        }
+        
+        createWeekDay(startDate: trip[0].startDate, totalDays: days)
+        
+        return
     }
     
     func createWeekDay(startDate: Double, totalDays: Int) {
@@ -502,6 +497,35 @@ class TripListViewController: UIViewController {
                     self.tableView.reloadData()
                 })
             }
+        }
+    }
+    
+    // Get data and sort locally
+    func sortLocations(locations: [THdata], total: Int) {
+        
+        // better way to avoid for loops?
+        for _ in 0 ... total - 1 {
+            dataArray.append([])
+        }
+        
+        for index in 0 ..< locations.count {
+            
+            for key in 0 ... total - 1 where locations[index].location.days == key + 1 {
+                
+                let item = locations[index]
+                dataArray[key].append(item)
+            }
+        }
+        
+        for number in 0 ... total - 1 {
+            
+            dataArray[number].sort(by: {$0.location.order < $1.location.order})
+        }
+        
+        /// Append empty object if array is empty
+        for index in 0 ..< dataArray.count where dataArray[index].count == 0 {
+            
+            dataArray[index].append(THdata(location: Location.emptyLocation(), type: .empty))
         }
     }
     
@@ -542,47 +566,6 @@ class TripListViewController: UIViewController {
         actionSheetController.addAction(searchAction)
         
         present(actionSheetController, animated: true, completion: nil)
-    }
-    
-    // create days array depend on passed days
-    func createDays(total days: Int) {
-        
-        for index in 0 ... days {
-            daysArray.append(index)
-        }
-        
-        createWeekDay(startDate: startDate, totalDays: days)
-        
-        return
-    }
-    
-    // Get data and sort locally
-    func sortLocations(locations: [THdata], total: Int) {
-        
-        // better way to avoid for loops?
-        for _ in 0 ... total - 1 {
-            dataArray.append([])
-        }
-        
-        for index in 0 ..< locations.count {
-            
-            for key in 0 ... total - 1 where locations[index].location.days == key + 1 {
-                
-                    let item = locations[index]
-                    dataArray[key].append(item)
-            }
-        }
-        
-        for number in 0 ... total - 1 {
-            
-            dataArray[number].sort(by: {$0.location.order < $1.location.order})
-        }
-        
-        /// Append empty object if array is empty
-        for index in 0 ..< dataArray.count where dataArray[index].count == 0 {
-            
-                dataArray[index].append(THdata(location: Location.emptyLocation(), type: .empty))
-        }
     }
     
     func changeContentOffsetViewTopConstraint(contentOffset: CGPoint) {
@@ -769,7 +752,6 @@ extension TripListViewController: UITableViewDataSource {
             listCell.isEmpty = false
             listCell.switchCellContent()
             
-            #warning ("Refactor: seems will delay, better way?")
             let placeID = datas[indexPath.row].location.photo
             listCell.listImage.image = photosDict[placeID]
             
@@ -868,6 +850,8 @@ extension TripListViewController: UITableViewDelegate {
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath
         ) {
+        
+        let daysKey = trip[0].daysKey
         
         if editingStyle == .delete {
             
@@ -1149,7 +1133,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         let newDateDouble = Double(newDate.timeIntervalSince1970)
         
-        endDate = newDateDouble
+        trip[0].endDate = newDateDouble
+//        endDate = newDateDouble
         
         dataArray.append([])
         dataArray[newTotal - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
@@ -1169,7 +1154,9 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func deleteDay() {
         
-        let total = daysArray.count
+        let daysKey = trip[0].daysKey
+        
+        let total = dates.count
         
         guard total > 1 else {
             
@@ -1180,7 +1167,6 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         daysArray.removeLast()
         dates.removeLast()
-        
         dataArray.removeLast()
         
         guard let date = dates.last else { return }
@@ -1194,7 +1180,9 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         collectionView.reloadData()
         tableView.reloadData()
         
-        endDate = Double(date.timeIntervalSince1970)
+        trip[0].endDate = Double(date.timeIntervalSince1970)
+        let endDate = trip[0].endDate
+        
         updateMyTrips(total: newTotal, end: endDate)
         deleteDay(daysKey: daysKey, day: total)
         NotificationCenter.default.post(name: .myTrips, object: nil)
@@ -1203,6 +1191,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     // MARK: - Firebase functions
     
     func updateMyTrips(total: Int, end: Double) {
+        
+        let id = trip[0].id
         
         ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
         ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
@@ -1256,19 +1246,19 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func updateData(daysKey: String, indexPath: IndexPath, location: Location) {
         
+        let daysKey = trip[0].daysKey
         let days = indexPath.section + 1
         let order = indexPath.row
         
-        let orderUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/order": order]
+        let orderUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/order": order]
         self.ref.updateChildValues(orderUpdate)
         
-        let daysUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/days": days]
+        let daysUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/days": days]
         self.ref.updateChildValues(daysUpdate)
     }
     
         func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
     
-//            let days = indexPath.section + 1
             let locationArray = dataArray[indexPath.section]
     
             // Compare other data order to update
@@ -1285,7 +1275,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
                         ref.updateChildValues(postUpdate)
                     }
     
-                    // not use??
+                /// not use??
                 case .add:
                     if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
     
@@ -1333,6 +1323,8 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func updateAllData(daysKey: String, total: Int) {
         
+        let daysKey = trip[0].daysKey
+        
         for day in 0 ... total - 1 {
             
             dataArray[day].forEach({ (location) in
@@ -1353,7 +1345,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
                                 "position": location.location.position
                         ] as [String: Any]
                     
-                    let postUpdate = ["/tripDays/\(self.daysKey)/\(key)": post]
+                    let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
                     self.ref.updateChildValues(postUpdate)
                 }
                 })
@@ -1366,6 +1358,10 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
 extension TripListViewController {
     
     @objc func longPressGestureRecognized(longPress: UILongPressGestureRecognizer) {
+        
+        let daysKey = trip[0].daysKey
+        
+        let totalDays = trip[0].totalDays
         
         let state = longPress.state
 
@@ -1512,7 +1508,7 @@ extension TripListViewController {
                     /// Update all data with current day(section) and order(row)
                     self.updateLocalData()
                     
-                    self.updateAllData(daysKey: self.daysKey, total: self.totalDays)
+                    self.updateAllData(daysKey: daysKey, total: totalDays)
                 }
             })
         }
