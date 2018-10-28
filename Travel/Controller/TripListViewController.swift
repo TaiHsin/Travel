@@ -245,7 +245,7 @@ class TripListViewController: UIViewController {
         
         locationManager.delegate = self
         
-//        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     @IBAction func searchLocation(_ sender: UIBarButtonItem) {
@@ -379,7 +379,7 @@ class TripListViewController: UIViewController {
         
         mapView.isMyLocationEnabled = true
         
-        //        mapView.settings.myLocationButton = true
+        mapView.settings.myLocationButton = true
     }
     
     func showMarker(locations: [Location]) {
