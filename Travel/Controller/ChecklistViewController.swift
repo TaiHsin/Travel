@@ -31,9 +31,10 @@ class ChecklistViewController: UIViewController {
     
     var checklists: [Checklist] = []
     
-    let uncheckColor = #colorLiteral(red: 0.4862745098, green: 0.5294117647, blue: 0.631372549, alpha: 1)
+    let uncheckColor = UIColor.battleshipGrey
     
-    let checkedColor = #colorLiteral(red: 0.8823529412, green: 0.8941176471, blue: 0.9058823529, alpha: 1)
+//    let checkedColor = #colorLiteral(red: 0.8823529412, green: 0.8941176471, blue: 0.9058823529, alpha: 1)
+    let checkedColor = UIColor.cloudyBlue
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -477,7 +478,7 @@ extension ChecklistViewController {
             checklistCell.checkImage.image = UIImage(named: "icon_uncheck")
             checklistCell.checkImage.tintColor = uncheckColor
             checklistCell.contentLabel.textColor = uncheckColor
-            let item = Items.init(name: "", number: 1, order: 1, isSelected: false)
+            let item = Items.init(name: Constants.emptyString, number: 1, order: 1, isSelected: false)
             updateChecklistData(item: item, indexPath: indexPath, type: .edit)
         } else {
             
@@ -487,7 +488,7 @@ extension ChecklistViewController {
             checklistCell.checkImage.tintColor = checkedColor
             checklistCell.contentLabel.textColor = checkedColor
             
-            let item = Items.init(name: "", number: 1, order: 1, isSelected: true)
+            let item = Items.init(name: Constants.emptyString, number: 1, order: 1, isSelected: true)
             updateChecklistData(item: item, indexPath: indexPath, type: .edit)
         }
     }

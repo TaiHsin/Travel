@@ -99,7 +99,7 @@ class TabBarViewController: UITabBarController {
         tabBar.layer.borderWidth = 0
         tabBar.clipsToBounds = true
         tabBar.barTintColor = UIColor.white
-        tabBar.tintColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+        tabBar.tintColor = UIColor.battleshipGrey
         
         let appearance = UITabBarItem.appearance()
         let attributes = [NSAttributedString.Key.font: UIFont(name: "SFCompactDisplay-Regular", size: 8)]

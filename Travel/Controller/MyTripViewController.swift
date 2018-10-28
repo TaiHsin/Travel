@@ -62,8 +62,8 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         )
         
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
-        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
-    
+//        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
+        activityIndicatorView.color = UIColor.cloudyBlue
         activityIndicatorView.startAnimating()
         
         setupCollectionView()
@@ -84,8 +84,8 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
-        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
         
 //        navigationController?.navigationBar.subviews[4].isHidden = false
         
@@ -105,7 +105,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     private func setupUI() {
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        title = ""
+        title = Constants.emptyString
         
         // Initial setup for image for Large NavBar state since the the screen always has Large NavBar once it gets opened
         guard let navigationBar = self.navigationController?.navigationBar else { return }
@@ -114,7 +114,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = #colorLiteral(red: 0.4392156863, green: 0.4588235294, blue: 0.5333333333, alpha: 1)
+        imageView.tintColor = UIColor.battleshipGrey
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: navigationBar.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor, constant: 10),

@@ -162,8 +162,8 @@ class TripListViewController: UIViewController {
         /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
         navigationItem.title = name
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
-        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
     }
     
     func fetchData() {
@@ -413,7 +413,7 @@ class TripListViewController: UIViewController {
             
             let markerImage = UIImage(named: Constants.locationIcon)
             let markerView = UIImageView(image: markerImage)
-            markerView.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+            markerView.tintColor = UIColor.cloudyBlue
             marker.iconView = markerView
             marker.title = data.name
             marker.map = mapView

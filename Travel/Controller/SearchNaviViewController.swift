@@ -21,7 +21,7 @@ class SearchNaviViewController: UINavigationController {
         
         navigationBar.barTintColor = UIColor.darkGray
         UISearchBar.appearance().tintColor = UIColor.white
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
-        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
     }
 }
