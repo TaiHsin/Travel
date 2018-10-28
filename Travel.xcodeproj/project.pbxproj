@@ -26,6 +26,8 @@
 		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
 		9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */; };
 		9DA770A22178AF7C005D6E76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DA770A12178AF7C005D6E76 /* GoogleService-Info.plist */; };
+		9DAB633E218586870028D9B9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB633D218586870028D9B9 /* Constants.swift */; };
+		9DAB63402185884E0028D9B9 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */; };
 		9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC8502164F4C9008D50D2 /* TripsError.swift */; };
 		9DADC85321650AEA008D50D2 /* Trips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC85221650AEA008D50D2 /* Trips.swift */; };
 		9DADC85521650DA6008D50D2 /* TripsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC85421650DA6008D50D2 /* TripsProvider.swift */; };
@@ -112,6 +114,8 @@
 		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNaviViewController.swift; sourceTree = "<group>"; };
 		9DA770A12178AF7C005D6E76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9DAB633D218586870028D9B9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		9DADC8502164F4C9008D50D2 /* TripsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsError.swift; sourceTree = "<group>"; };
 		9DADC85221650AEA008D50D2 /* Trips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trips.swift; sourceTree = "<group>"; };
 		9DADC85421650DA6008D50D2 /* TripsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsProvider.swift; sourceTree = "<group>"; };
@@ -268,6 +272,7 @@
 				9DDE5B63215F84B50096C4FC /* AlertManager.swift */,
 				9DF74F28216C56FA003D4605 /* PhotoProvider.swift */,
 				9DFA4FF12168704300A9C13F /* Checklist.swift */,
+				9DAB633D218586870028D9B9 /* Constants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 			children = (
 				9D4A14872152560D00748E06 /* UIView+Extension.swift */,
 				9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */,
+				9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -653,6 +659,7 @@
 				9DF61B382159DFF4005919E8 /* MyTripsCell.swift in Sources */,
 				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
 				9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */,
+				9DAB63402185884E0028D9B9 /* NotificationName+Extension.swift in Sources */,
 				9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */,
 				9D514DAF2175C79700A39151 /* Photos.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
@@ -671,6 +678,7 @@
 				9DDE5B68215FD7160096C4FC /* TripSelectionViewController.swift in Sources */,
 				9DF34023215CD875002A957D /* WeatherTableViewCell.swift in Sources */,
 				9DF61B3D215A0C7B005919E8 /* TripListViewController.swift in Sources */,
+				9DAB633E218586870028D9B9 /* Constants.swift in Sources */,
 				9DDE5B61215F4F310096C4FC /* DetailViewController.swift in Sources */,
 				9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */,
 				9D4A148F2152627C00748E06 /* LoginViewController.swift in Sources */,

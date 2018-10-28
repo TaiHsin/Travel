@@ -255,7 +255,7 @@ class DetailViewController: UIViewController {
                     
                     self.removeAnimate()
                     
-                    NotificationCenter.default.post(name: Notification.Name("preserved"), object: nil)
+                    NotificationCenter.default.post(name: .collections, object: nil)
                 }
         }
     }

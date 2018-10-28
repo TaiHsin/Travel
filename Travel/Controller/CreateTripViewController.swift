@@ -63,25 +63,17 @@ class CreateTripViewController: UIViewController {
     
     @IBAction func createNewTrip(_ sender: UIButton) {
         
-        guard let place = placeTextField.text, place != "" else {
+        guard let place = placeTextField.text,
+              !place.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty,
+              let start = firstDate,
+              let theEnd = lastDate else {
             
             print("Please input Place or select dates")
             // TODO: showAlert
             
             return
         }
-        
-        // Same value as firstDate
-        guard let start = selectedDates.first else {
-            
-            print("Please input Place or select dates")
-            // TODO: showAlert
-            
-            return
-        }
-        
-        // Same value as lastDate
-        guard let theEnd = selectedDates.last else { return }
+
         let totalDays = selectedDates.count
         
         // DateFormatter need to refactor
