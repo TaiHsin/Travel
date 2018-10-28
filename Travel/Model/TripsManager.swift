@@ -37,7 +37,7 @@ class TripsManager {
         
         guard let uid = keychain["userId"] else {
             
-            NotificationCenter.default.post(name: Notification.Name("failure"), object: nil)
+            NotificationCenter.default.post(name: .failure, object: nil)
             
             return
         }
@@ -93,7 +93,7 @@ class TripsManager {
                         }
                     })
                 
-                NotificationCenter.default.post(name: Notification.Name("failure"), object: nil)
+                NotificationCenter.default.post(name: .failure, object: nil)
                 
                 return
             }

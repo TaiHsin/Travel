@@ -12,13 +12,6 @@ import GooglePlaces
 import FirebaseDatabase
 import Crashlytics
 
-//struct Path {
-//
-//    static var initialIndexPath: IndexPath?
-//
-//    static var cellSnapShot: UIView?
-//}
-
 enum Modify {
     case add, delete
 }
@@ -145,7 +138,7 @@ class TripListViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.updateLocation(noti: )),
-            name: Notification.Name("triplist"),
+            name: .triplist,
             object: nil
         )
     }
@@ -305,7 +298,12 @@ class TripListViewController: UIViewController {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        tableView.contentInset = UIEdgeInsets(top: contentOffsetViewVisiblewHeight, left: 0.0, bottom: 0.0, right: 0.0)
+        tableView.contentInset = UIEdgeInsets(
+            top: contentOffsetViewVisiblewHeight,
+            left: 0.0,
+            bottom: 0.0,
+            right: 0.0
+        )
         
         tableView.contentOffset = CGPoint(x: 0, y: -contentOffsetViewVisiblewHeight)
         
@@ -529,7 +527,10 @@ class TripListViewController: UIViewController {
             guard let controller = UIStoryboard.searchStoryboard()
                 .instantiateViewController(
                     withIdentifier: String(describing: SearchViewController.self)
-                ) as? SearchViewController else { return }
+                ) as? SearchViewController else {
+                    
+                    return
+            }
             
             controller.tabIndex = self.tabIndex
             
@@ -551,6 +552,7 @@ class TripListViewController: UIViewController {
         }
         
         createWeekDay(startDate: startDate, totalDays: days)
+        
         return
     }
     
@@ -681,7 +683,6 @@ extension TripListViewController: CLLocationManagerDelegate {
             
             changeContentOffsetViewHeightConstraint(contentOffset: scrollView.contentOffset)
             changeBackViewHeightConstraint(contentOffset: scrollView.contentOffset)
-            changeBackViewTopConstraint(contentOffset: scrollView.contentOffset)
             
         } else if  scrollView.contentOffset.y <= -contentOffsetViewVisiblewHeight {
             
@@ -998,7 +999,10 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             filterDatalist(day: day)
             tableView.reloadData()
             
-            guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+            guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else {
+                
+                return
+            }
             
             cell.selectedView.isHidden = false
             
@@ -1006,12 +1010,9 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             
             locationArray.forEach { (value) in
                 
-                for location in value {
+                for location in value where location.type == .location {
                     
-                    if location.type == .location {
-                        
                         allLocations.append(location.location)
-                    }
                 }
             }
             
@@ -1373,18 +1374,17 @@ extension TripListViewController {
         guard let indexPath = self.tableView.indexPathForRow(at: location) else {
 
             let numbers = locationArray[0].count
-            for number in 0 ..< numbers {
-
-                if locationArray[0][number].type == .empty {
+            
+            for number in 0 ..< numbers where locationArray[0][number].type == .empty {
 
                     locationArray[0].remove(at: number)
                     let indexPath = IndexPath(row: number, section: 0)
 
                     tableView.deleteRows(at: [indexPath], with: .none)
-                }
             }
 
             cleanUp()
+            
             return
         }
         
@@ -1409,7 +1409,8 @@ extension TripListViewController {
             snapshot.alpha = 0.0
             self.tableView.addSubview(snapshot)
             
-            /// Insert empty cell for one row's section
+            // Insert empty cell for one row's section
+            
             if self.locationArray[indexPath.section].count == 1 {
                 
                 self.locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
@@ -1449,7 +1450,6 @@ extension TripListViewController {
                 let firstDay = sourceIndexPath.section
                 let secondDay = indexPath.section
                 
-                // swap data
                 let dataToMove = locationArray[firstDay][sourceIndexPath.row]
                 locationArray[firstDay].remove(at: sourceIndexPath.row)
                 locationArray[secondDay].insert(dataToMove, at: indexPath.row)

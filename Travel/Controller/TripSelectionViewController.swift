@@ -408,6 +408,6 @@ extension TripSelectionViewController {
         
         ref.updateChildValues(postUpdate)
         
-        NotificationCenter.default.post(name: Notification.Name("triplist"), object: nil)
+        NotificationCenter.default.post(name: .triplist, object: nil)
     }
 }

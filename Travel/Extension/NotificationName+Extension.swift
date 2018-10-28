@@ -10,9 +10,13 @@ import Foundation
 
 extension Notification.Name {
     
-    static let myTrips = Notification.Name(rawValue: "myTrips")
+    static let myTrips = Notification.Name("myTrips")
     
-    static let collections = Notification.Name(rawValue: "collections")
+    static let collections = Notification.Name("collections")
     
-    static let noData = Notification.Name(rawValue: "noData")
+    static let noData = Notification.Name("noData")
+    
+    static let triplist = Notification.Name("triplist")
+    
+    static let failure = Notification.Name("failure")
 }

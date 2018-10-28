@@ -57,7 +57,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.fetchDataFailed(noti: )),
-            name: Notification.Name("failure"),
+            name: .failure,
             object: nil
         )
         
@@ -76,7 +76,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.createNewTrip(noti: )),
-            name: Notification.Name("myTrips"),
+            name: .myTrips,
             object: nil
         )
     }
@@ -214,6 +214,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
             
             failure: { (error) in
                 
+                print(error.localizedDescription)
                 self.activityIndicatorView.stopAnimating()
         })
     }
