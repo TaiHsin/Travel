@@ -42,8 +42,6 @@ class DetailViewController: UIViewController {
     
     let photoManager = PhotoManager()
     
-    let alertManager = AlertManager()
-    
     let dateFormatter = DateFormatter()
     
     var total = 0
@@ -176,17 +174,14 @@ class DetailViewController: UIViewController {
     }
     
     #warning ("Refactor: gether all alert function together")
-    func showAlertWith(title: String?, message: String, style: UIAlertController.Style = .alert) {
+    
+    func showAlertWith() {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-        //        let okAction = UIAlertAction(title: "OK", style: .default)
-        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+        let alertViewController = UIAlertController.showAlert(title: nil, message: "Already in favorite", cancel: false) {
+            
             self.removeAnimate()
         }
-        
-        alertController.addAction(okAction)
-        
-        present(alertController, animated: true, completion: nil)
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     // Pop out animation
@@ -227,7 +222,7 @@ class DetailViewController: UIViewController {
                 
                 if (snapshot.value as? NSDictionary) != nil {
                     
-                    self.showAlertWith(title: nil, message: "Already in favorite", style: .alert)
+                    self.showAlertWith()
                     
                     /// use SDK to replace alertAction
                     

@@ -194,7 +194,6 @@ class TripsManager {
                 return
             }
             
-            
             let post = ["addTime": location.location.addTime,
                         "address": location.location.address,
                         "latitude": location.location.latitude,

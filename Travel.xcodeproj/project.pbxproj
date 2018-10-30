@@ -30,7 +30,6 @@
 		9DAB63402185884E0028D9B9 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */; };
 		9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC8502164F4C9008D50D2 /* TripsError.swift */; };
 		9DADC85321650AEA008D50D2 /* Trips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC85221650AEA008D50D2 /* Trips.swift */; };
-		9DADC85521650DA6008D50D2 /* TripsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC85421650DA6008D50D2 /* TripsProvider.swift */; };
 		9DD30AC32172502500AF7BC1 /* SFCompactText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30ABD21724F9A00AF7BC1 /* SFCompactText-Regular.otf */; };
 		9DD30AC52172503700AF7BC1 /* SFCompactText-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AAC21724F9800AF7BC1 /* SFCompactText-Medium.otf */; };
 		9DD30AC62172503E00AF7BC1 /* SFCompactText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AB221724F9800AF7BC1 /* SFCompactText-Light.otf */; };
@@ -48,7 +47,7 @@
 		9DD30AD621733E9900AF7BC1 /* TriplistHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */; };
 		9DD7944521620EDA00C42800 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD7944421620EDA00C42800 /* UIColor+Extension.swift */; };
 		9DDE5B61215F4F310096C4FC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B60215F4F310096C4FC /* DetailViewController.swift */; };
-		9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B63215F84B50096C4FC /* AlertManager.swift */; };
+		9DDE5B64215F84B50096C4FC /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B63215F84B50096C4FC /* UIAlertController+Extension.swift */; };
 		9DDE5B66215FC63F0096C4FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DDE5B65215FC63F0096C4FC /* Assets.xcassets */; };
 		9DDE5B68215FD7160096C4FC /* TripSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B67215FD7160096C4FC /* TripSelectionViewController.swift */; };
 		9DDE5B6E216061B60096C4FC /* DayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B6C216061B60096C4FC /* DayCollectionViewCell.swift */; };
@@ -85,6 +84,7 @@
 		9DF64F42215896F9000D0300 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F41215896F9000D0300 /* ChecklistViewController.swift */; };
 		9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF64F4321589715000D0300 /* ProfileViewController.swift */; };
 		9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF74F28216C56FA003D4605 /* PhotoProvider.swift */; };
+		9DF78CD921880C7600C80666 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF78CD821880C7600C80666 /* FirebaseManager.swift */; };
 		9DF91F3A217E1B060082F9D7 /* DayCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF91F38217E1B060082F9D7 /* DayCollectionHeader.swift */; };
 		9DF91F3B217E1B060082F9D7 /* DayCollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF91F39217E1B060082F9D7 /* DayCollectionHeader.xib */; };
 		9DFA4FF22168704300A9C13F /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFA4FF12168704300A9C13F /* Checklist.swift */; };
@@ -118,7 +118,6 @@
 		9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		9DADC8502164F4C9008D50D2 /* TripsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsError.swift; sourceTree = "<group>"; };
 		9DADC85221650AEA008D50D2 /* Trips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trips.swift; sourceTree = "<group>"; };
-		9DADC85421650DA6008D50D2 /* TripsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsProvider.swift; sourceTree = "<group>"; };
 		9DD30AAC21724F9800AF7BC1 /* SFCompactText-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactText-Medium.otf"; sourceTree = "<group>"; };
 		9DD30AAD21724F9800AF7BC1 /* SFCompactText-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactText-Bold.otf"; sourceTree = "<group>"; };
 		9DD30AB021724F9800AF7BC1 /* SFCompactDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Regular.otf"; sourceTree = "<group>"; };
@@ -136,7 +135,7 @@
 		9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriplistHeader.xib; sourceTree = "<group>"; };
 		9DD7944421620EDA00C42800 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		9DDE5B60215F4F310096C4FC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		9DDE5B63215F84B50096C4FC /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		9DDE5B63215F84B50096C4FC /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		9DDE5B65215FC63F0096C4FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9DDE5B67215FD7160096C4FC /* TripSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSelectionViewController.swift; sourceTree = "<group>"; };
 		9DDE5B6C216061B60096C4FC /* DayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -173,6 +172,7 @@
 		9DF64F41215896F9000D0300 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
 		9DF64F4321589715000D0300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9DF74F28216C56FA003D4605 /* PhotoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProvider.swift; sourceTree = "<group>"; };
+		9DF78CD821880C7600C80666 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		9DF91F38217E1B060082F9D7 /* DayCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCollectionHeader.swift; sourceTree = "<group>"; };
 		9DF91F39217E1B060082F9D7 /* DayCollectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DayCollectionHeader.xib; sourceTree = "<group>"; };
 		9DFA4FF12168704300A9C13F /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
@@ -266,13 +266,12 @@
 			children = (
 				9D4A149221533E9600748E06 /* FacebookManager.swift */,
 				9DFD95BF2164F0520098DE55 /* TripsManager.swift */,
-				9DADC85421650DA6008D50D2 /* TripsProvider.swift */,
 				9DADC8502164F4C9008D50D2 /* TripsError.swift */,
 				9DADC85221650AEA008D50D2 /* Trips.swift */,
-				9DDE5B63215F84B50096C4FC /* AlertManager.swift */,
 				9DF74F28216C56FA003D4605 /* PhotoProvider.swift */,
 				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 				9DAB633D218586870028D9B9 /* Constants.swift */,
+				9DF78CD821880C7600C80666 /* FirebaseManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,6 +300,7 @@
 		9D4A148C21525C7100748E06 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				9DDE5B63215F84B50096C4FC /* UIAlertController+Extension.swift */,
 				9D4A14872152560D00748E06 /* UIView+Extension.swift */,
 				9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */,
 				9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */,
@@ -666,11 +666,12 @@
 				9DADC85321650AEA008D50D2 /* Trips.swift in Sources */,
 				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
 				9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */,
+				9DF78CD921880C7600C80666 /* FirebaseManager.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
 				9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */,
 				9DD30AD421733E7D00AF7BC1 /* TriplistHeader.swift in Sources */,
 				9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */,
-				9DDE5B64215F84B50096C4FC /* AlertManager.swift in Sources */,
+				9DDE5B64215F84B50096C4FC /* UIAlertController+Extension.swift in Sources */,
 				9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */,
 				9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */,
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
@@ -696,7 +697,6 @@
 				9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */,
 				9DEFCBC021634B1E00CE452A /* CalendarHeader.swift in Sources */,
 				9DF34028215CE285002A957D /* ChecklistTableViewCell.swift in Sources */,
-				9DADC85521650DA6008D50D2 /* TripsProvider.swift in Sources */,
 				9DFA4FF22168704300A9C13F /* Checklist.swift in Sources */,
 				9DF34018215C8FF3002A957D /* PreservedViewController.swift in Sources */,
 			);

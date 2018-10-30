@@ -16,6 +16,8 @@ extension UIColor {
     
     static let cloudyBlue = UIColor().colorFromHex("abc4d7") // 170 196 216
     
+    static let lightOrange = UIColor().colorFromHex("ffaa39") // 255 170 57
+    
     func colorFromHex(_ hex: String) -> UIColor {
         
         var hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
