@@ -58,8 +58,6 @@ class TripListViewController: UIViewController {
     
     var photosDict: [String: UIImage] = [:]
     
-    var daysArray: [Int] = []
-    
     var index = 0
     
     var dates = [Date]()
@@ -89,7 +87,7 @@ class TripListViewController: UIViewController {
         
         ref = Database.database().reference()
         
-        createDays(total: trip[0].totalDays)
+        createWeekDay(startDate: trip[0].startDate, totalDays: trip[0].totalDays)
         
         fetchData()
     
@@ -143,7 +141,7 @@ class TripListViewController: UIViewController {
     func fetchData() {
         tripsManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
             
-            self.sortLocations(locations: location, total: self.daysArray.count - 1)
+            self.sortLocations(locations: location, total: self.dates.count)
             self.filterDatalist(day: self.day)
             self.getPhotos()
             self.tableView.reloadData()
@@ -444,24 +442,12 @@ class TripListViewController: UIViewController {
         
         tripsManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
             
-            self.sortLocations(locations: location, total: self.daysArray.count - 1)
+            self.sortLocations(locations: location, total: self.dates.count)
             
             self.filterDatalist(day: self.day)
             self.getPhotos()
             self.tableView.reloadData()
         }
-    }
-    
-    // create days array depend on passed days
-    func createDays(total days: Int) {
-        
-        for index in 0 ... days {
-            daysArray.append(index)
-        }
-        
-        createWeekDay(startDate: trip[0].startDate, totalDays: days)
-        
-        return
     }
     
     func createWeekDay(startDate: Double, totalDays: Int) {
@@ -785,7 +771,7 @@ extension TripListViewController: UITableViewDelegate {
             let dateString = dateFormatter.string(from: date)
             
             headerView.dateTitleLabel.text = dateString
-            headerView.dayLabel.text = String(describing: daysArray[section] + 1)
+            headerView.dayLabel.text = String(describing: section + 1)
             
             return headerView
         } else {
@@ -915,7 +901,7 @@ extension TripListViewController: UICollectionViewDataSource {
         numberOfItemsInSection section: Int
         ) -> Int {
         
-        return daysArray.count
+        return dates.count + 1
     }
     
     func collectionView(
@@ -928,7 +914,7 @@ extension TripListViewController: UICollectionViewDataSource {
             for: indexPath)
         
         guard let dayTitleCell = cell as? MenuBarCollectionViewCell,
-            indexPath.row < daysArray.count else {
+            indexPath.row < dates.count + 1 else {
                 
                 return cell
         }
@@ -939,12 +925,13 @@ extension TripListViewController: UICollectionViewDataSource {
             dayTitleCell.weekLabel.isHidden = true
             
             return dayTitleCell
+        } else {
+            
+            dayTitleCell.dayLabel.text = String(indexPath.item)
+            dayTitleCell.convertWeek(date: dates[indexPath.item - 1])
+            
+            return dayTitleCell
         }
-        
-        dayTitleCell.dayLabel.text = String(daysArray[indexPath.item])
-        dayTitleCell.convertWeek(date: dates[indexPath.item - 1])
-        
-        return dayTitleCell
     }
 }
 
@@ -1120,33 +1107,30 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func addNewDay() {
-        
-        let total = daysArray.count
-        daysArray.append(total)
-        let newTotal = total
-        
+
         guard let last = dates.last else { return }
         
         guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: last) else { return }
         dates.append(newDate)
+        let total = dates.count
         
         let newDateDouble = Double(newDate.timeIntervalSince1970)
         
         trip[0].endDate = newDateDouble
         
         dataArray.append([])
-        dataArray[newTotal - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+        dataArray[total - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
         
         if self.day == 0 {
          
             locationArray.append([])
-            locationArray[newTotal - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+            locationArray[total - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
         }
         
         collectionView.reloadData()
         tableView.reloadData()
         
-        updateMyTrips(total: newTotal, end: newDateDouble)
+        updateMyTrips(total: total, end: newDateDouble)
         NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
@@ -1163,12 +1147,12 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             return
         }
         
-        daysArray.removeLast()
         dates.removeLast()
         dataArray.removeLast()
         
         guard let date = dates.last else { return }
         let newTotal = dates.count
+        dataArray.removeLast()
         
         if self.day == 0 {
             
