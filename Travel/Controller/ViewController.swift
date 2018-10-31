@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// for San Francisco font extension???
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -15,6 +17,7 @@ class ViewController: UIViewController {
 
         for family: String in UIFont.familyNames {
             print("\(family)")
+            
             for names: String in UIFont.fontNames(forFamilyName: family) {
                 print("== \(names)")
             }

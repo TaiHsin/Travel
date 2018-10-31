@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController {
         
         let firbaseAuth = Auth.auth()
         
-        let alertVC = AlertManager.shared.showAlert(with: ["Log out"], message: "Logging out?", cancel: true) {
+        let alertVC = UIAlertController.showAlert(title: "Log out", message: "Logging out?", cancel: true) {
             
             do {
                 try firbaseAuth.signOut()

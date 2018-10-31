@@ -22,13 +22,13 @@ struct Trips: Codable {
     
     let createdTime: Double
     
-    let daysKey: String
+    var daysKey: String
     
     let placePic: String
     
-    let id: String
+    var id: String
     
-    let userId: String
+    var userId: String
 }
 
 struct Location: Codable {

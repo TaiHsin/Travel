@@ -55,7 +55,7 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
         
         /// Put search place and favorite together
 //        guard let favoriteVC = UIStoryboard.preservedStoryboard().instantiateViewController(

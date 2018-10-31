@@ -52,13 +52,12 @@ class PreservedViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.fetchFailed(noti: )),
-            name: Notification.Name("NoData"),
+            name: .noData,
             object: nil
         )
         
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
-        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
-        
+        activityIndicatorView.color = UIColor.cloudyBlue
         activityIndicatorView.startAnimating()
         
         ref = Database.database().reference()
@@ -70,7 +69,7 @@ class PreservedViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updatePreserved(noti: )),
-            name: Notification.Name("preserved"),
+            name: .collections,
             object: nil
         )
     }
@@ -78,9 +77,10 @@ class PreservedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
         
-//        emptyLabel.isHidden = true
+        emptyLabel.textColor = UIColor.cloudyBlue
+        emptyLabel.isHidden = true
     }
     
     @objc func fetchFailed(noti: Notification) {
@@ -168,7 +168,7 @@ class PreservedViewController: UIViewController {
                 
                 guard let image = UIImage(named: "picture_placeholder02") else { return }
                 
-                self.photosDict["NoPhoto"] = image
+                self.photosDict[Constants.noPhoto] = image
                 
                 self.activityIndicatorView.stopAnimating()
                 
@@ -279,7 +279,7 @@ extension PreservedViewController {
         
         guard let uid = keychain["userId"] else {
             
-            NotificationCenter.default.post(name: Notification.Name("NoData"), object: nil)
+            NotificationCenter.default.post(name: .noData, object: nil)
             return
         }
         
@@ -287,7 +287,7 @@ extension PreservedViewController {
             
             guard let value = snapshot.value as? NSDictionary else {
                 
-                NotificationCenter.default.post(name: Notification.Name("NoData"), object: nil)
+                NotificationCenter.default.post(name: .noData, object: nil)
                 return
             }
             

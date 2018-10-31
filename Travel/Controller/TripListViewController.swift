@@ -12,17 +12,6 @@ import GooglePlaces
 import FirebaseDatabase
 import Crashlytics
 
-//struct Path {
-//
-//    static var initialIndexPath: IndexPath?
-//
-//    static var cellSnapShot: UIView?
-//}
-
-enum Modify {
-    case add, delete
-}
-
 class TripListViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -36,6 +25,8 @@ class TripListViewController: UIViewController {
     @IBOutlet weak var showListButton: UIButton!
     
     @IBOutlet weak var backView: UIView!
+    
+    let firebaseManager = FirebaseManager()
     
     var snapshot: UIView?
     
@@ -57,8 +48,6 @@ class TripListViewController: UIViewController {
     
     // Refactor
     
-    var detailData: [Int: [Location]] = [:]
-    
     var dataArray: [[THdata]] = []
     
     var locationArray: [[THdata]] = []
@@ -71,25 +60,13 @@ class TripListViewController: UIViewController {
     
     var daysArray: [Int] = []
     
-    var name = ""
-    
-    //    var trip = [Trips]()
-    
-    var totalDays = 0
-    
-    var daysKey = ""
-    
     var index = 0
     
     var dates = [Date]()
     
-    var startDate = 0.0
-    
-    var endDate = 0.0
-    
+    var trip = [Trips]()
+
     var isMyTrips = true
-    
-    var id = ""
     
     var isDaily = false
     
@@ -97,11 +74,11 @@ class TripListViewController: UIViewController {
     
     let tabIndex = 1
     
-    let mapViewVisiblewHeight: CGFloat = 230.0
+    let contentOffsetViewVisiblewHeight: CGFloat = 230.0
     
-    var mapViewTopConstraints: NSLayoutConstraint?
+    var contentOffsetViewTopConstraints: NSLayoutConstraint?
     
-    var mapViewHeightConstraints: NSLayoutConstraint?
+    var contentOffsetViewViewHeightConstraints: NSLayoutConstraint?
     
     var backViewTopConstraints: NSLayoutConstraint?
     
@@ -112,30 +89,15 @@ class TripListViewController: UIViewController {
         
         ref = Database.database().reference()
         
-        createDays(total: totalDays)
+        createDays(total: trip[0].totalDays)
         
-        tripsManager.fetchDayList(daysKey: daysKey) { (location) in
-            
-            self.sortLocations(locations: location, total: self.daysArray.count - 1)
-            
-            self.filterDatalist(day: self.day)
-            
-            self.tableView.reloadData()
-            
-            self.preSelectCollectionView()
-        }
-        
-        /// Disable in v1.0 due to bug
-        // setup long press gesture
-        let longPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(longPressGestureRecognized(longPress: ))
-        )
-        self.tableView.addGestureRecognizer(longPress)
-        
+        fetchData()
+    
         setupBackgroundView()
         
         setupContentOffsetView()
+
+        setupMapView()
         
         setupCollectionView()
         
@@ -143,25 +105,14 @@ class TripListViewController: UIViewController {
         
         automaticallyAdjustsScrollViewInsets = false
         
-        setupTapGesture()
-        
-        setupLocationManager()
-        
-        mapView.delegate = self
-        
+        setupGestures()
+
         showListButton.isHidden = true
-        
-        let padding = showListButton.frame.height
-        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
-        
-        /// Show day1 markers as default?
-        //        showMarker(locations: )
-        
-        #warning ("Refactor: use enum for all notification strings")
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.updateLocation(noti: )),
-            name: Notification.Name("triplist"),
+            name: .triplist,
             object: nil
         )
     }
@@ -169,11 +120,7 @@ class TripListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        /// what's diff with leftItemsSupplementBackButton?
-        navigationItem.hidesBackButton = true
-        navigationItem.title = name
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
-        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5529411765, alpha: 1)
+        setupNavigationItems()
         
         /// Navigation large title effect
 //        navigationController?.navigationBar.prefersLargeTitles = false
@@ -184,6 +131,27 @@ class TripListViewController: UIViewController {
 //        navigationBar.subviews[4].isHidden = true
     }
     
+    func setupNavigationItems() {
+        
+        /// what's diff with leftItemsSupplementBackButton?
+        navigationItem.hidesBackButton = true
+        navigationItem.title = trip[0].name
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
+    }
+    
+    func fetchData() {
+        tripsManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
+            
+            self.sortLocations(locations: location, total: self.daysArray.count - 1)
+            self.filterDatalist(day: self.day)
+            self.getPhotos()
+            self.tableView.reloadData()
+            
+            self.preSelectCollectionView()
+        }
+    }
+    
     func preSelectCollectionView() {
         
         let indexPath = IndexPath(row: 0, section: 0)
@@ -191,7 +159,7 @@ class TripListViewController: UIViewController {
         collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
         guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
         
-        cell.dayLabel.text = "All"
+        cell.dayLabel.text = Constants.allString
         cell.weekLabel.isHidden = true
         cell.selectedView.isHidden = false
         
@@ -202,11 +170,9 @@ class TripListViewController: UIViewController {
         
         locationArray.forEach { (value) in
             
-            for location in value {
+            for location in value where location.type != .empty {
                 
-                if location.location.position != "0_0" {
-                    allLocations.append(location.location)
-                }
+                allLocations.append(location.location)
             }
         }
         
@@ -219,22 +185,23 @@ class TripListViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
-    @IBAction func showTriplist(_ sender: UIButton) {
+    @IBAction func backToList(_ sender: UIButton) {
         
-        tableView.isHidden = false
-        contentOffsetView.isHidden = false
-        showListButton.isHidden = true
-        backView.isHidden = false
+        hideTriplist(hideList: false)
     }
     
-    /// Maybe combine with showlist?
-    
-    func hideTriplist() {
+    func hideTriplist(hideList isHiding: Bool) {
         
-        tableView.isHidden = true
-        contentOffsetView.isHidden = true
-        showListButton.isHidden = false
-        backView.isHidden = true
+        tableView.isHidden = isHiding
+        contentOffsetView.isHidden = isHiding
+        showListButton.isHidden = !isHiding
+        backView.isHidden = isHiding
+    }
+    
+    func setupGestures() {
+        
+        setupTapGesture()
+        setupLongPressGesture()
     }
     
     func setupTapGesture() {
@@ -248,25 +215,38 @@ class TripListViewController: UIViewController {
         tapGesture.numberOfTouchesRequired = 1
         contentOffsetView.addGestureRecognizer(tapGesture)
         
-        // ???
         tableView.isUserInteractionEnabled = true
+    }
+
+    func setupLongPressGesture() {
+        
+        let longPress = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(longPressGestureRecognized(longPress: ))
+        )
+        self.tableView.addGestureRecognizer(longPress)
     }
     
     @objc func tapGestureRecognized(gestureRecognizer: UITapGestureRecognizer) {
         
-        hideTriplist()
+        hideTriplist(hideList: true)
     }
     
-    func setupLocationManager() {
+    func setupMapView() {
+        
+        mapView.delegate = self
+        
+        let padding = showListButton.frame.height
+        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
         
         locationManager.delegate = self
         
-//        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     @IBAction func searchLocation(_ sender: UIBarButtonItem) {
         
-        showAlertWith()
+        addAttractionSheet()
     }
     
     func setupTableView() {
@@ -297,9 +277,14 @@ class TripListViewController: UIViewController {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        tableView.contentInset = UIEdgeInsets(top: mapViewVisiblewHeight, left: 0.0, bottom: 0.0, right: 0.0)
+        tableView.contentInset = UIEdgeInsets(
+            top: contentOffsetViewVisiblewHeight,
+            left: 0.0,
+            bottom: 0.0,
+            right: 0.0
+        )
         
-        tableView.contentOffset = CGPoint(x: 0, y: -mapViewVisiblewHeight)
+        tableView.contentOffset = CGPoint(x: 0, y: -contentOffsetViewVisiblewHeight)
         
         self.mapView.bringSubviewToFront(tableView)
     }
@@ -329,13 +314,7 @@ class TripListViewController: UIViewController {
         )
     }
     
-    // MARK: - Google Map View
-    
     func setupContentOffsetView() {
-        
-        //        mapView.contentMode = .scaleAspectFill
-        
-        //        mapView.clipsToBounds = true
         
         contentOffsetView.backgroundColor = .clear
         
@@ -343,17 +322,25 @@ class TripListViewController: UIViewController {
         
         view.addSubview(contentOffsetView)
         
-        mapViewTopConstraints = contentOffsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        contentOffsetViewTopConstraints = contentOffsetView
+            .topAnchor
+            .constraint(
+                equalTo: collectionView.bottomAnchor
+        )
         
-        mapViewTopConstraints?.isActive = true
+        contentOffsetViewTopConstraints?.isActive = true
         
         contentOffsetView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         
         contentOffsetView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
-        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewVisiblewHeight)
+        contentOffsetViewViewHeightConstraints = contentOffsetView
+            .heightAnchor
+            .constraint(
+                equalToConstant: contentOffsetViewVisiblewHeight
+        )
         
-        mapViewHeightConstraints?.isActive = true
+        contentOffsetViewViewHeightConstraints?.isActive = true
     }
     
     func setupBackgroundView() {
@@ -364,22 +351,30 @@ class TripListViewController: UIViewController {
         
         let mapViewHeight = mapView.frame.height
         
-        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: mapViewVisiblewHeight)
+        backViewTopConstraints = backView
+            .topAnchor
+            .constraint(
+                equalTo: tableView.topAnchor,
+                constant: contentOffsetViewVisiblewHeight
+        )
         
         backViewTopConstraints?.isActive = true
         
-        backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: mapViewHeight - mapViewVisiblewHeight)
+        backViewHeightConstraints = backView
+            .heightAnchor
+            .constraint(
+                equalToConstant: mapViewHeight - contentOffsetViewVisiblewHeight
+        )
         
         backViewHeightConstraints?.isActive = true
     }
     
-    // Locate device location and show location button
     func getCurrentLocation() {
+        
         locationManager.startUpdatingLocation()
         
         mapView.isMyLocationEnabled = true
-        
-        //        mapView.settings.myLocationButton = true
+        mapView.settings.myLocationButton = true
     }
     
     func showMarker(locations: [Location]) {
@@ -394,9 +389,9 @@ class TripListViewController: UIViewController {
             let position = CLLocationCoordinate2DMake(latitude, longitude)
             let marker = GMSMarker(position: position)
             
-            let markerImage = UIImage(named: "icon_location")
+            let markerImage = UIImage(named: Constants.locationIcon)
             let markerView = UIImageView(image: markerImage)
-            markerView.tintColor = #colorLiteral(red: 0.431372549, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+            markerView.tintColor = UIColor.battleshipGrey
             marker.iconView = markerView
             marker.title = data.name
             marker.map = mapView
@@ -404,11 +399,15 @@ class TripListViewController: UIViewController {
             mapView.setMinZoom(5, maxZoom: 15)
             
             let bottomHeight = mapView.frame.size.height - 260
-            let edgeInsets = UIEdgeInsets(top: 80, left: 50, bottom: bottomHeight, right: 50)
+            let edgeInsets = UIEdgeInsets(
+                top: 80,
+                left: 50,
+                bottom: bottomHeight,
+                right: 50
+            )
+            
             bounds = bounds.includingCoordinate(marker.position)
             mapView.animate(with: .fit(bounds, with: edgeInsets))
-            
-            //            mapView.animate(with: .fit(bounds, withPadding: 50.0))
         }
     }
     
@@ -442,16 +441,27 @@ class TripListViewController: UIViewController {
     @objc func updateLocation(noti: Notification) {
         
         dataArray.removeAll()
-        day = 0
         
-        tripsManager.fetchDayList(daysKey: daysKey) { (location) in
+        tripsManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
             
             self.sortLocations(locations: location, total: self.daysArray.count - 1)
             
-            self.filterDatalist(day: 0)
+            self.filterDatalist(day: self.day)
             self.getPhotos()
             self.tableView.reloadData()
         }
+    }
+    
+    // create days array depend on passed days
+    func createDays(total days: Int) {
+        
+        for index in 0 ... days {
+            daysArray.append(index)
+        }
+        
+        createWeekDay(startDate: trip[0].startDate, totalDays: days)
+        
+        return
     }
     
     func createWeekDay(startDate: Double, totalDays: Int) {
@@ -480,60 +490,15 @@ class TripListViewController: UIViewController {
                     
                 }, failure: { (error) in
                     
-                    guard let image = UIImage(named: "picture_placeholder") else { return }
-                    self.photosDict["Nophoto"] = image
+                    print(error.localizedDescription)
+                    
+                    guard let image = UIImage(named: Constants.picPlaceholder) else { return }
+                    self.photosDict[Constants.noPhoto] = image
                     
                     self.tableView.reloadData()
                 })
             }
         }
-    }
-    
-    #warning ("Refact to alert manager")
-    
-    func showAlertWith() {
-        
-        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            
-        }
-        
-        let favoriteAction = UIAlertAction(title: "Add from favorite ", style: .default) { (_) in
-            
-            let tabController = self.view.window?.rootViewController as? UITabBarController
-            tabController?.dismiss(animated: false, completion: nil)
-            tabController?.selectedIndex = 1
-        }
-        
-        let searchAction = UIAlertAction(title: "Search places", style: .default) { (_) in
-            
-            guard let controller = UIStoryboard.searchStoryboard()
-                .instantiateViewController(
-                    withIdentifier: String(describing: SearchViewController.self)
-                ) as? SearchViewController else { return }
-            
-            controller.tabIndex = self.tabIndex
-            
-            self.show(controller, sender: nil)
-        }
-        
-        actionSheetController.addAction(cancelAction)
-        actionSheetController.addAction(favoriteAction)
-        actionSheetController.addAction(searchAction)
-        
-        present(actionSheetController, animated: true, completion: nil)
-    }
-    
-    // create days array depend on passed days
-    func createDays(total days: Int) {
-        
-        for index in 0 ... days {
-            daysArray.append(index)
-        }
-        
-        createWeekDay(startDate: startDate, totalDays: days)
-        return
     }
     
     // Get data and sort locally
@@ -545,51 +510,106 @@ class TripListViewController: UIViewController {
         }
         
         for index in 0 ..< locations.count {
-            for key in 0 ... total - 1 {
-                if locations[index].location.days == key + 1 {
-                    
-                    let item = locations[index]
-                    dataArray[key].append(item)
-                }
+            
+            for key in 0 ... total - 1 where locations[index].location.days == key + 1 {
+                
+                let item = locations[index]
+                dataArray[key].append(item)
             }
         }
         
         for number in 0 ... total - 1 {
+            
             dataArray[number].sort(by: {$0.location.order < $1.location.order})
         }
         
         /// Append empty object if array is empty
-        for i in 0 ..< dataArray.count {
-            if dataArray[i].count == 0 {
-                
-                dataArray[i].append(THdata(location: Location.emptyLocation(), type: .empty))
-            }
+        for index in 0 ..< dataArray.count where dataArray[index].count == 0 {
+            
+            dataArray[index].append(THdata(location: Location.emptyLocation(), type: .empty))
         }
-        
-        self.getPhotos()
     }
     
-    func changeMapViewTopConstraint(contentOffset: CGPoint) {
+    func addAttractionSheet() {
         
-        mapViewTopConstraints?.isActive = false
-        mapViewHeightConstraints?.isActive = false
+        let alertVC = UIAlertController.showActionSheet(
+            
+            defaultOptions: [Constants.addFromCollections, Constants.searchPlace],
+            
+            defaultCompletion: { [weak self] action in
+                
+                switch action.title {
+                    
+                case Constants.addFromCollections:
+                    
+                    let tabController = self?.view.window?.rootViewController as? UITabBarController
+                    tabController?.dismiss(animated: false, completion: nil)
+                    tabController?.selectedIndex = 1
+                    
+                case Constants.searchPlace:
+                    
+                    guard let controller = UIStoryboard.searchStoryboard()
+                        .instantiateViewController(
+                            withIdentifier: String(describing: SearchViewController.self)
+                        ) as? SearchViewController else {
+                            
+                            return
+                    }
+                    
+                    controller.tabIndex = self!.tabIndex
+                    
+                    self?.show(controller, sender: nil)
+                    
+                default:
+                    
+                    break
+                }
+            })
         
-        mapViewTopConstraints = contentOffsetView.topAnchor.constraint(
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func changeContentOffsetViewTopConstraint(contentOffset: CGPoint) {
+        
+        contentOffsetViewTopConstraints?.isActive = false
+        contentOffsetViewViewHeightConstraints?.isActive = false
+        
+        contentOffsetViewTopConstraints = contentOffsetView
+            .topAnchor
+            .constraint(
             equalTo: collectionView.bottomAnchor,
-            constant: -(contentOffset.y - (-mapViewVisiblewHeight))
+            constant: -(contentOffset.y - (-contentOffsetViewVisiblewHeight))
         )
         
-        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: mapViewVisiblewHeight)
+        contentOffsetViewViewHeightConstraints = contentOffsetView
+            .heightAnchor
+            .constraint(
+                equalToConstant: contentOffsetViewVisiblewHeight
+        )
         
-        mapViewTopConstraints?.isActive = true
-        mapViewHeightConstraints?.isActive = true
+        contentOffsetViewTopConstraints?.isActive = true
+        contentOffsetViewViewHeightConstraints?.isActive = true
+        
+        view.layoutIfNeeded()
+    }
+    
+    func changeBackViewTopConstraint(contentOffset: CGPoint) {
         
         backViewTopConstraints?.isActive = false
         backViewHeightConstraints?.isActive = false
         
-        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
+        backViewTopConstraints = backView
+            .topAnchor
+            .constraint(
+                equalTo: tableView.topAnchor,
+                constant: -contentOffset.y
+        )
         
-        backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
+        backViewHeightConstraints = backView
+            .heightAnchor
+            .constraint(
+                equalToConstant: tableView.frame.height
+        )
         
         backViewTopConstraints?.isActive = true
         backViewHeightConstraints?.isActive = true
@@ -597,24 +617,37 @@ class TripListViewController: UIViewController {
         view.layoutIfNeeded()
     }
     
-    func changeMapViewHeightConstraint(contentOffset: CGPoint) {
+    func changeContentOffsetViewHeightConstraint(contentOffset: CGPoint) {
         
-        mapViewTopConstraints?.isActive = false
-        mapViewHeightConstraints?.isActive = false
+        contentOffsetViewTopConstraints?.isActive = false
+        contentOffsetViewViewHeightConstraints?.isActive = false
         
-        mapViewTopConstraints = contentOffsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        contentOffsetViewTopConstraints = contentOffsetView
+            .topAnchor
+            .constraint(equalTo: collectionView.bottomAnchor)
         
-        mapViewHeightConstraints = contentOffsetView.heightAnchor.constraint(equalToConstant: -contentOffset.y)
+        contentOffsetViewViewHeightConstraints = contentOffsetView
+            .heightAnchor
+            .constraint(equalToConstant: -contentOffset.y)
         
-        mapViewTopConstraints?.isActive = true
-        mapViewHeightConstraints?.isActive = true
+        contentOffsetViewTopConstraints?.isActive = true
+        contentOffsetViewViewHeightConstraints?.isActive = true
+        
+        view.layoutIfNeeded()
+    }
+    
+    func changeBackViewHeightConstraint(contentOffset: CGPoint) {
         
         backViewTopConstraints?.isActive = false
         backViewHeightConstraints?.isActive = false
         
-        backViewTopConstraints = backView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
+        backViewTopConstraints = backView
+            .topAnchor
+            .constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
         
-        backViewHeightConstraints = backView.heightAnchor.constraint(equalToConstant: tableView.frame.height)
+        backViewHeightConstraints = backView
+            .heightAnchor
+            .constraint(equalToConstant: tableView.frame.height)
         
         backViewTopConstraints?.isActive = true
         backViewHeightConstraints?.isActive = true
@@ -630,16 +663,19 @@ extension TripListViewController: CLLocationManagerDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         guard scrollView == tableView else { return }
-        if scrollView.contentOffset.y > -mapViewVisiblewHeight && scrollView.contentOffset.y < 20 {
+        if scrollView.contentOffset.y > -contentOffsetViewVisiblewHeight && scrollView.contentOffset.y < 20 {
             
-            changeMapViewHeightConstraint(contentOffset: scrollView.contentOffset)
-        } else if  scrollView.contentOffset.y <= -mapViewVisiblewHeight {
+            changeContentOffsetViewHeightConstraint(contentOffset: scrollView.contentOffset)
+            changeBackViewHeightConstraint(contentOffset: scrollView.contentOffset)
             
-            changeMapViewTopConstraint(contentOffset: scrollView.contentOffset)
+        } else if  scrollView.contentOffset.y <= -contentOffsetViewVisiblewHeight {
             
-            if scrollView.contentOffset.y < -(mapViewVisiblewHeight * 1.4) {
+            changeContentOffsetViewTopConstraint(contentOffset: scrollView.contentOffset)
+            changeBackViewTopConstraint(contentOffset: scrollView.contentOffset)
+            
+            if scrollView.contentOffset.y < -(contentOffsetViewVisiblewHeight * 1.4) {
                 
-                hideTriplist()
+                hideTriplist(hideList: true)
             }
         }
     }
@@ -652,26 +688,6 @@ extension TripListViewController: CLLocationManagerDelegate {
         
         getCurrentLocation()
     }
-    
-    // didUpdateLocations function executes when the location manager receives new location data
-    
-    //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    //
-    //        guard let location = locations.last else { return }
-    //
-    //        if locationData.latitude == nil && locationData.longitude == nil {
-    //
-    //            getCurrentLocation()
-    //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 1, bearing: 0, viewingAngle: 0)
-    //        } else {
-    //
-    //            let coordinate = CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude)
-    //            mapView.camera = GMSCameraPosition(target: coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-    //
-    //        }
-    //
-    //        locationManager.stopUpdatingLocation()
-    //    }
 }
 
 // MARK: - GMS Map View Delegate
@@ -679,6 +695,7 @@ extension TripListViewController: CLLocationManagerDelegate {
 extension TripListViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        
         return false
     }
 }
@@ -688,10 +705,10 @@ extension TripListViewController: GMSMapViewDelegate {
 extension TripListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return locationArray.count
     }
     
-    #warning ("Refactor: replace by enum")
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let tripData = locationArray[section]
@@ -709,6 +726,7 @@ extension TripListViewController: UITableViewDataSource {
                 withIdentifier: String(describing: TripListTableViewCell.self),
                 for: indexPath
             )
+            
             guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
             
             emptyCell.isEmpty = true
@@ -735,7 +753,6 @@ extension TripListViewController: UITableViewDataSource {
             listCell.isEmpty = false
             listCell.switchCellContent()
             
-            #warning ("Refactor: seems will delay, better way?")
             let placeID = datas[indexPath.row].location.photo
             listCell.listImage.image = photosDict[placeID]
             
@@ -764,21 +781,11 @@ extension TripListViewController: UITableViewDelegate {
             headerView.backgroundColor = UIColor.darkGray
             
             let date = dates[section]
-            dateFormatter.dateFormat = "MMM dd YYYY / EEEE"
+            dateFormatter.dateFormat = Constants.completeDate
             let dateString = dateFormatter.string(from: date)
             
             headerView.dateTitleLabel.text = dateString
             headerView.dayLabel.text = String(describing: daysArray[section] + 1)
-            
-            //        let view = UIView()
-            //        view.backgroundColor = UIColor.darkGray
-            //
-            //        let label = UILabel()
-            //        label.text = String(describing: daysArray[section] + 1)
-            //
-            //        label.frame = CGRect(x: 5, y: 2.5, width: 200, height: 30)
-            //        label.textColor = UIColor.white
-            //        view.addSubview(label)
             
             return headerView
         } else {
@@ -788,7 +795,7 @@ extension TripListViewController: UITableViewDelegate {
             headerView.backgroundColor = UIColor.darkGray
             
             let date = dates[day - 1]
-            dateFormatter.dateFormat = "MMM dd YYYY / EEEE"
+            dateFormatter.dateFormat = Constants.completeDate
             let dateString = dateFormatter.string(from: date)
             
             headerView.dateTitleLabel.text = dateString
@@ -829,35 +836,23 @@ extension TripListViewController: UITableViewDelegate {
         editingStyleForRowAt indexPath: IndexPath
         ) -> UITableViewCell.EditingStyle {
         
-        guard let cell = tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
-            
-            return UITableViewCell.EditingStyle.none
-        }
-        
-//        let total = tableView.numberOfRows(inSection: indexPath.section)
-        
         let type = locationArray[indexPath.section][indexPath.row].type
         
         guard type == .location else {
             
             return UITableViewCell.EditingStyle.none
         }
-        
-//        guard cell.isEmpty != true, total > 1 else {
-//
-//            return UITableViewCell.EditingStyle.none
-//        }
-        
+    
         return UITableViewCell.EditingStyle.delete
     }
-    
-    #warning ("modify before version 2")
     
     func tableView(
         _ tableView: UITableView,
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath
         ) {
+        
+        let daysKey = trip[0].daysKey
         
         if editingStyle == .delete {
             
@@ -866,9 +861,9 @@ extension TripListViewController: UITableViewDelegate {
                 let location = locationArray[indexPath.section][indexPath.row].location
                 let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
                 
-                deletLocation(daysKey: daysKey, location: location)
+                deleteLocation(daysKey: daysKey, location: location)
                 
-                changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location, type: .delete)
+                changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location)
                 
                 locationArray[indexPath.section].remove(at: indexPath.row)
                 dataArray[day - 1].remove(at: indexPath.row)
@@ -890,9 +885,9 @@ extension TripListViewController: UITableViewDelegate {
             let datas = locationArray[indexPath.section]
             let location = datas[indexPath.row]
             
-            deletLocation(daysKey: daysKey, location: location.location)
+            deleteLocation(daysKey: daysKey, location: location.location)
             
-            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location.location, type: .delete)
+            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location.location)
             
             locationArray[indexPath.section].remove(at: indexPath.row)
             dataArray[indexPath.section].remove(at: indexPath.row)
@@ -940,7 +935,7 @@ extension TripListViewController: UICollectionViewDataSource {
         
         if indexPath.item == 0 {
             
-            dayTitleCell.dayLabel.text = "All"
+            dayTitleCell.dayLabel.text = Constants.allString
             dayTitleCell.weekLabel.isHidden = true
             
             return dayTitleCell
@@ -989,7 +984,10 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             filterDatalist(day: day)
             tableView.reloadData()
             
-            guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+            guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else {
+                
+                return
+            }
             
             cell.selectedView.isHidden = false
             
@@ -997,12 +995,9 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
             
             locationArray.forEach { (value) in
                 
-                for location in value {
+                for location in value where location.type == .location {
                     
-                    if location.type == .location {
-                        
                         allLocations.append(location.location)
-                    }
                 }
             }
             
@@ -1094,30 +1089,28 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func showAlertAction() {
         
-        let alertVC = AlertManager.shared.showAlert(
-            with: ["Oops..."],
-            message: "Cannot delete last day",
-            cancel: false,
-            completion: {
-                // TODO
-        })
+        let alertVC = UIAlertController.showAlert(
+            title: Constants.oops,
+            message: Constants.cannotDelete,
+            cancel: false
+        )
         
         self.present(alertVC, animated: true, completion: nil)
     }
     
     @objc func editDaysCollection(sender: UIButton) {
         
-        let alertVC = AlertManager.shared.showActionSheet(
+        let alertVC = UIAlertController.showActionSheet(
             
-            defaultOptions: ["Add new day"],
+            defaultOptions: [Constants.addNewDay],
             
             defaultCompletion: { [weak self] _ in
                 
                 self?.addNewDay()
             },
             
-            destructiveOptions: ["Delete last day"],
-            
+            destructiveOptions: [Constants.deleteDay],
+        
             destructiveCompletion: { [weak self] (_) in
                 
                 self?.deleteDay()
@@ -1139,7 +1132,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         let newDateDouble = Double(newDate.timeIntervalSince1970)
         
-        endDate = newDateDouble
+        trip[0].endDate = newDateDouble
         
         dataArray.append([])
         dataArray[newTotal - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
@@ -1154,12 +1147,14 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         tableView.reloadData()
         
         updateMyTrips(total: newTotal, end: newDateDouble)
-        NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
+        NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
     func deleteDay() {
         
-        let total = daysArray.count
+        let daysKey = trip[0].daysKey
+        
+        let total = dates.count
         
         guard total > 1 else {
             
@@ -1170,7 +1165,6 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         
         daysArray.removeLast()
         dates.removeLast()
-        
         dataArray.removeLast()
         
         guard let date = dates.last else { return }
@@ -1184,19 +1178,15 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         collectionView.reloadData()
         tableView.reloadData()
         
-        endDate = Double(date.timeIntervalSince1970)
+        trip[0].endDate = Double(date.timeIntervalSince1970)
+        let endDate = trip[0].endDate
+        
         updateMyTrips(total: newTotal, end: endDate)
         deleteDay(daysKey: daysKey, day: total)
-        NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
+        NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
-    func updateMyTrips(total: Int, end: Double) {
-        
-        ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
-        ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
-    }
-    
-    // Firebase update
+    // MARK: - Firebase functions
     
     func deleteDay(daysKey: String, day: Int) {
         
@@ -1214,7 +1204,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func deletLocation(daysKey: String, location: Location) {
+    func deleteLocation(daysKey: String, location: Location) {
         
         ref.child("tripDays")
             .child(daysKey)
@@ -1228,65 +1218,43 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func updateMyTrip(dayskey: String, trip: Trips) {
+    func updateMyTrips(total: Int, end: Double) {
         
-        let post = ["place": trip.place,
-                    "startDate": trip.startDate,
-                    "endDate": trip.endDate,
-                    "totalDays": trip.totalDays,
-                    "createdTime": trip.createdTime,
-                    "id": trip.id,
-                    "placePic": trip.placePic,
-                    "daysKey": trip.daysKey
-            ] as [String: Any]
+        let id = trip[0].id
         
-        let postUpdate = ["/myTrips/\(trip.id)": post]
-        ref.updateChildValues(postUpdate)
+        ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
+        ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
     }
     
     func updateData(daysKey: String, indexPath: IndexPath, location: Location) {
         
+        let daysKey = trip[0].daysKey
         let days = indexPath.section + 1
         let order = indexPath.row
         
-        let orderUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/order": order]
+        let orderUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/order": order]
         self.ref.updateChildValues(orderUpdate)
         
-        let daysUpdate = ["/tripDays/\(self.daysKey)/\(location.locationId)/days": days]
+        let daysUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/days": days]
         self.ref.updateChildValues(daysUpdate)
     }
     
-        func changeOrder(daysKey: String, indexPath: IndexPath, location: Location, type: Modify) {
-    
-//            let days = indexPath.section + 1
-            let locationArray = dataArray[indexPath.section]
-    
-            // Compare other data order to update
-            for item in locationArray {
-    
-                switch type {
-    
-                case .delete:
-                    if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
-    
-                        let newOrder = item.location.order - 1
-                        let key = item.location.locationId
-                        let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
-                        ref.updateChildValues(postUpdate)
-                    }
-    
-                    // not use??
-                case .add:
-                    if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
-    
-                    let newOrder = item.location.order + 1
+    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location) {
+        
+        let locationArray = dataArray[indexPath.section]
+        
+        // Compare other data order to update
+        for item in locationArray {
+
+                if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
+                    
+                    let newOrder = item.location.order - 1
                     let key = item.location.locationId
                     let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
                     ref.updateChildValues(postUpdate)
-                    }
                 }
-            }
         }
+    }
     
     func updateLocalData() {
         
@@ -1323,13 +1291,15 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
     
     func updateAllData(daysKey: String, total: Int) {
         
+        let daysKey = trip[0].daysKey
+        
         for day in 0 ... total - 1 {
             
             dataArray[day].forEach({ (location) in
                 
                 let key = location.location.locationId
                 
-                if key != "" {
+                if key != Constants.emptyString {
                     
                     let post = ["addTime": location.location.addTime,
                                 "address": location.location.address,
@@ -1343,7 +1313,7 @@ extension TripListViewController: UICollectionViewDelegateFlowLayout {
                                 "position": location.location.position
                         ] as [String: Any]
                     
-                    let postUpdate = ["/tripDays/\(self.daysKey)/\(key)": post]
+                    let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
                     self.ref.updateChildValues(postUpdate)
                 }
                 })
@@ -1357,6 +1327,10 @@ extension TripListViewController {
     
     @objc func longPressGestureRecognized(longPress: UILongPressGestureRecognizer) {
         
+        let daysKey = trip[0].daysKey
+        
+        let totalDays = trip[0].totalDays
+        
         let state = longPress.state
 
         let location = longPress.location(in: self.tableView)
@@ -1364,27 +1338,23 @@ extension TripListViewController {
         guard let indexPath = self.tableView.indexPathForRow(at: location) else {
 
             let numbers = locationArray[0].count
-            for number in 0 ..< numbers {
-
-                if locationArray[0][number].type == .empty {
+            
+            for number in 0 ..< numbers where locationArray[0][number].type == .empty {
 
                     locationArray[0].remove(at: number)
                     let indexPath = IndexPath(row: number, section: 0)
 
                     tableView.deleteRows(at: [indexPath], with: .none)
-                }
             }
 
             cleanUp()
+            
             return
         }
         
         switch state {
             
         case .began:
-            
-            print("0000000000")
-            print("Began")
             
             guard locationArray[indexPath.section][indexPath.row].type == .location else {
                 return }
@@ -1403,7 +1373,8 @@ extension TripListViewController {
             snapshot.alpha = 0.0
             self.tableView.addSubview(snapshot)
             
-            /// Insert empty cell for one row's section
+            // Insert empty cell for one row's section
+            
             if self.locationArray[indexPath.section].count == 1 {
                 
                 self.locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
@@ -1427,9 +1398,6 @@ extension TripListViewController {
             
         case .changed:
             
-            print("=============")
-            print("Changed")
-            
             guard let snapshot = snapshot else {
                 return }
             
@@ -1446,7 +1414,6 @@ extension TripListViewController {
                 let firstDay = sourceIndexPath.section
                 let secondDay = indexPath.section
                 
-                // swap data
                 let dataToMove = locationArray[firstDay][sourceIndexPath.row]
                 locationArray[firstDay].remove(at: sourceIndexPath.row)
                 locationArray[secondDay].insert(dataToMove, at: indexPath.row)
@@ -1467,10 +1434,8 @@ extension TripListViewController {
             
             let numbers = locationArray[indexPath.section].count
             
-            for number in 0 ..< numbers {
+            for number in 0 ..< numbers where locationArray[indexPath.section][number].type == .empty {
                 
-                if locationArray[indexPath.section][number].type == .empty {
-                    
                     locationArray[indexPath.section].remove(at: number)
                     let indexPath = IndexPath(row: number, section: indexPath.section)
                     
@@ -1480,7 +1445,6 @@ extension TripListViewController {
                     sourceIndex = newIndexPath
                     
                     break
-                }
             }
             
             guard let cell = self.tableView.cellForRow(at: sourceIndex) as? TripListTableViewCell else {
@@ -1506,10 +1470,8 @@ extension TripListViewController {
                  
                     self.cleanUp()
                     
-                    /// Update all data with current day(section) and order(row)
                     self.updateLocalData()
-                    
-                    self.updateAllData(daysKey: self.daysKey, total: self.totalDays)
+                    self.updateAllData(daysKey: daysKey, total: totalDays)
                 }
             })
         }
@@ -1539,14 +1501,11 @@ extension TripListViewController {
         UIGraphicsEndImageContext()
         let snapshot = UIImageView(image: image)
         snapshot.layer.masksToBounds = false
-        
-        //        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-        //        cellSnapshot.layer.shadowRadius = 5.0
-        //        cellSnapshot.layer.shadowOpacity = 0.4
+
         return snapshot
     }
 }
 
-/// Firebase "order" start from 0 ..., "days" start from 1 ..., detail start from 0
+/// Firebase "order" start from 0 ..., "days" start from 1 ..., dataArray start from 0
 
 /// Refactor: seperate collection view/ mapview/ table view to different controller?

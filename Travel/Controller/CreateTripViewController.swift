@@ -42,8 +42,8 @@ class CreateTripViewController: UIViewController {
     
     var selectedDates: [Date] = []
     
-    let monthColor = #colorLiteral(red: 0.4862745098, green: 0.5294117647, blue: 0.631372549, alpha: 1)
-    let selectedViewColor = #colorLiteral(red: 0.6705882353, green: 0.768627451, blue: 0.8431372549, alpha: 1)
+    let monthColor = UIColor.battleshipGrey
+    let selectedViewColor = UIColor.cloudyBlue
     let selectedTextColor = UIColor.white
     let currentDateSelectedViewColor = UIColor.darkGray
     
@@ -63,25 +63,17 @@ class CreateTripViewController: UIViewController {
     
     @IBAction func createNewTrip(_ sender: UIButton) {
         
-        guard let place = placeTextField.text, place != "" else {
+        guard let place = placeTextField.text,
+              !place.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty,
+              let start = firstDate,
+              let theEnd = lastDate else {
             
             print("Please input Place or select dates")
             // TODO: showAlert
             
             return
         }
-        
-        // Same value as firstDate
-        guard let start = selectedDates.first else {
-            
-            print("Please input Place or select dates")
-            // TODO: showAlert
-            
-            return
-        }
-        
-        // Same value as lastDate
-        guard let theEnd = selectedDates.last else { return }
+
         let totalDays = selectedDates.count
         
         // DateFormatter need to refactor
@@ -95,33 +87,42 @@ class CreateTripViewController: UIViewController {
         let currentDate = Date()
         let currenDateInt = Double(currentDate.timeIntervalSince1970)
         
-        /// Refact with model
-        tripManager.createTripData(
+        var trip = Trips.init(
             name: place,
             place: place,
             startDate: startDate,
             endDate: endDate,
             totalDays: totalDays,
-            createdTime: currenDateInt
-        ) { [weak self] (daysKey, key) in
+            createdTime: currenDateInt,
+            daysKey: Constants.emptyString,
+            placePic: Constants.emptyString,
+            id: Constants.emptyString,
+            userId: Constants.emptyString
+        )
+        
+        /// Refact with model
+        tripManager.createTripData(
+            trip: trip
+            
+        ) { [weak self] (daysKey, key, uid) in
+            
+            trip.id = key
+            trip.daysKey = daysKey
+            trip.userId = uid
             
             self?.switchViewController(
-                id: key,
-                daysKey: daysKey,
-                first: startDate,
-                last: endDate,
-                total: totalDays,
-                name: place
+
+                trip: [trip]
             )
         }
         
-        placeTextField.text = ""
+        placeTextField.text = Constants.emptyString
         selectedDates.removeAll()
         
-        NotificationCenter.default.post(name: Notification.Name("myTrips"), object: nil)
+        NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
-    func switchViewController(id: String, daysKey: String, first: Double, last: Double, total: Int, name: String) {
+    func switchViewController(trip: [Trips]) {
         
         guard let controller = UIStoryboard.myTripStoryboard()
             .instantiateViewController(
@@ -129,14 +130,16 @@ class CreateTripViewController: UIViewController {
             ) as? TripListViewController else { return }
     
         /// Refact with model
-        controller.id = id
-        controller.daysKey = daysKey
-        controller.startDate = first
-        controller.endDate = last
-        controller.totalDays = total
-        controller.name = name
+        /// Pass whole Trip class
         
-        /// Why presentingViewController is tabBarViewController??
+        controller.trip = trip
+//        controller.id = id
+//        controller.daysKey = daysKey
+//        controller.startDate = first
+//        controller.endDate = last
+//        controller.totalDays = total
+//        controller.name = name
+      
         let superViewController = self.presentingViewController
         superViewController?.children[0].show(controller, sender: nil)
 

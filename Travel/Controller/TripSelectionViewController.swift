@@ -152,10 +152,10 @@ extension TripSelectionViewController: UITableViewDataSource {
         if cell.isSelected {
             
             cell.nameLabel.textColor = UIColor.white
-            cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.cellView.backgroundColor = UIColor.battleshipGrey
         } else {
             
-            cell.nameLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.nameLabel.textColor = UIColor.battleshipGrey
             cell.cellView.backgroundColor = UIColor.white
         }
         
@@ -185,7 +185,7 @@ extension TripSelectionViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
         
         cell.nameLabel.textColor = UIColor.white
-        cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+        cell.cellView.backgroundColor = UIColor.battleshipGrey
         
         daysKey = trips[indexPath.row].daysKey
         
@@ -200,7 +200,7 @@ extension TripSelectionViewController: UITableViewDelegate {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? TripTableViewCell else { return }
         
-        cell.nameLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+        cell.nameLabel.textColor = UIColor.battleshipGrey
         cell.cellView.backgroundColor = UIColor.white
     }
 }
@@ -235,10 +235,10 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         if cell.isSelected {
             
             cell.numberLabel.textColor = UIColor.white
-            cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.cellView.backgroundColor = UIColor.battleshipGrey
         } else {
             
-            cell.numberLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.numberLabel.textColor = UIColor.battleshipGrey
             cell.cellView.backgroundColor = UIColor.white
         }
         
@@ -253,7 +253,7 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         print(cell.isSelected)
         cell.numberLabel.textColor = UIColor.white
-        cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+        cell.cellView.backgroundColor = UIColor.battleshipGrey
         
         dayIndex = indexPath.item + 1
     }
@@ -262,7 +262,7 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? DayCollectionViewCell else { return }
         
-        cell.numberLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+        cell.numberLabel.textColor = UIColor.battleshipGrey
         cell.cellView.backgroundColor = UIColor.white
     }
     
@@ -277,11 +277,11 @@ extension TripSelectionViewController: UICollectionViewDataSource {
         if cell.isSelected {
             
             cell.numberLabel.textColor = UIColor.white
-            cell.cellView.backgroundColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.cellView.backgroundColor = UIColor.battleshipGrey
           
         } else {
             
-            cell.numberLabel.textColor = #colorLiteral(red: 0.4235294118, green: 0.4588235294, blue: 0.5607843137, alpha: 1)
+            cell.numberLabel.textColor = UIColor.battleshipGrey
             cell.cellView.backgroundColor = UIColor.white
         }
     }
@@ -362,7 +362,7 @@ extension TripSelectionViewController {
     
     func checkLocationDays(daysKey: String, index: Int, location: Location) {
         
-        guard daysKey != "", index != 0 else { return }
+        guard daysKey != Constants.emptyString, index != 0 else { return }
         
         ref.child("/tripDays/\(daysKey)")
             .queryOrdered(byChild: "days")
@@ -408,6 +408,6 @@ extension TripSelectionViewController {
         
         ref.updateChildValues(postUpdate)
         
-        NotificationCenter.default.post(name: Notification.Name("triplist"), object: nil)
+        NotificationCenter.default.post(name: .triplist, object: nil)
     }
 }
