@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		194702372189BAED00D68225 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194702362189BAED00D68225 /* MapViewController.swift */; };
+		194702392189BB8E00D68225 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194702382189BB8E00D68225 /* ListTableViewController.swift */; };
+		1947023B2189D89500D68225 /* DaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1947023A2189D89500D68225 /* DaysCollectionViewController.swift */; };
 		22799FD7A113151F8ED2178F /* Pods_Travel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18048E5CB3975E117A513C0B /* Pods_Travel.framework */; };
 		9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */; };
 		9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19712151FE1C00CE1C4A /* Main.storyboard */; };
@@ -93,6 +96,9 @@
 
 /* Begin PBXFileReference section */
 		18048E5CB3975E117A513C0B /* Pods_Travel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Travel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		194702362189BAED00D68225 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		194702382189BB8E00D68225 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
+		1947023A2189D89500D68225 /* DaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysCollectionViewController.swift; sourceTree = "<group>"; };
 		3DD0A35056E91AD5278D3CA8 /* Pods-Travel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Travel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Travel/Pods-Travel.debug.xcconfig"; sourceTree = "<group>"; };
 		9D0E196A2151FE1C00CE1C4A /* Travel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -285,7 +291,6 @@
 				9DA095AB2153ABB1008C1358 /* SearchViewController.swift */,
 				9DDE5B60215F4F310096C4FC /* DetailViewController.swift */,
 				9DF64F3F21589670000D0300 /* MyTripViewController.swift */,
-				9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */,
 				9DF61B40215A162F005919E8 /* TabBarViewController.swift */,
 				9DF34017215C8FF3002A957D /* PreservedViewController.swift */,
 				9DF64F41215896F9000D0300 /* ChecklistViewController.swift */,
@@ -293,6 +298,10 @@
 				9D6C1584215E846100574A12 /* CreateTripViewController.swift */,
 				9DDE5B67215FD7160096C4FC /* TripSelectionViewController.swift */,
 				9DD30ACF2172526A00AF7BC1 /* ViewController.swift */,
+				9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */,
+				194702362189BAED00D68225 /* MapViewController.swift */,
+				194702382189BB8E00D68225 /* ListTableViewController.swift */,
+				1947023A2189D89500D68225 /* DaysCollectionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -663,9 +672,11 @@
 				9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */,
 				9D514DAF2175C79700A39151 /* Photos.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
+				194702372189BAED00D68225 /* MapViewController.swift in Sources */,
 				9DADC85321650AEA008D50D2 /* Trips.swift in Sources */,
 				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
 				9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */,
+				1947023B2189D89500D68225 /* DaysCollectionViewController.swift in Sources */,
 				9DF78CD921880C7600C80666 /* FirebaseManager.swift in Sources */,
 				9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */,
 				9DF74F29216C56FA003D4605 /* PhotoProvider.swift in Sources */,
@@ -674,6 +685,7 @@
 				9DDE5B64215F84B50096C4FC /* UIAlertController+Extension.swift in Sources */,
 				9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */,
 				9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */,
+				194702392189BB8E00D68225 /* ListTableViewController.swift in Sources */,
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
 				9DD30AD02172526A00AF7BC1 /* ViewController.swift in Sources */,
 				9DDE5B68215FD7160096C4FC /* TripSelectionViewController.swift in Sources */,
