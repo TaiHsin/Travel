@@ -37,6 +37,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# iOS
+.DS_Store
+Pods/
+Podfile.lock
+xcuserdata/
+*.xcworkspace
+Travel/GoogleService-Info.plist
+
 ### Swift ###
 # Xcode
 #

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SFCompactText-Bold.otf">
+            <string>SFCompactText-Bold</string>
+        </array>
+        <array key="SFCompactText-Regular.otf">
+            <string>SFCompactText-Regular</string>
+        </array>
+        <array key="SFCompactText-Semibold.otf">
+            <string>SFCompactText-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Frf-IC-r3P" customClass="TriplistHeader" customModule="Travel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KaO-zn-wnf">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                    <color key="backgroundColor" red="0.42352941179999998" green="0.45882352939999999" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="GT3-kr-p3v">
+                    <rect key="frame" x="20" y="5" width="20" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8p-cC-7XA">
+                            <rect key="frame" x="0.0" y="0.0" width="20" height="13"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="13" id="IKm-qy-7vg"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFCompactText-Semibold" family="SF Compact Text" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nAl-RK-Jqz">
+                            <rect key="frame" x="0.0" y="16" width="20" height="14"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="14" id="WlU-kh-W78"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFCompactText-Bold" family="SF Compact Text" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="Jvm-Yw-kfQ"/>
+                    </constraints>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oct 6, 2018 /  Saturday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQF-VG-O2j">
+                    <rect key="frame" x="65" y="11.5" width="144.5" height="17"/>
+                    <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.43921568630000002" green="0.45882352939999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="KaO-zn-wnf" secondAttribute="bottom" id="4yI-mf-2Bl"/>
+                <constraint firstItem="3WJ-lz-S9F" firstAttribute="trailing" secondItem="KaO-zn-wnf" secondAttribute="trailing" id="5Bf-6S-hZ3"/>
+                <constraint firstItem="eQF-VG-O2j" firstAttribute="centerY" secondItem="GT3-kr-p3v" secondAttribute="centerY" id="8Wr-69-dji"/>
+                <constraint firstItem="KaO-zn-wnf" firstAttribute="top" secondItem="Frf-IC-r3P" secondAttribute="top" id="Ade-KP-guA"/>
+                <constraint firstItem="eQF-VG-O2j" firstAttribute="leading" secondItem="GT3-kr-p3v" secondAttribute="trailing" constant="25" id="GZa-3P-5hz"/>
+                <constraint firstItem="GT3-kr-p3v" firstAttribute="centerY" secondItem="Frf-IC-r3P" secondAttribute="centerY" id="m7C-Xx-5Y5"/>
+                <constraint firstItem="GT3-kr-p3v" firstAttribute="leading" secondItem="3WJ-lz-S9F" secondAttribute="leading" constant="20" id="v2x-OH-sYQ"/>
+                <constraint firstItem="KaO-zn-wnf" firstAttribute="leading" secondItem="3WJ-lz-S9F" secondAttribute="leading" id="z0k-u8-WpF"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="3WJ-lz-S9F"/>
+            <connections>
+                <outlet property="backView" destination="KaO-zn-wnf" id="9fd-Xj-wJM"/>
+                <outlet property="dateTitleLabel" destination="eQF-VG-O2j" id="ITo-xC-P4n"/>
+                <outlet property="dayLabel" destination="nAl-RK-Jqz" id="Vrj-06-aMB"/>
+            </connections>
+            <point key="canvasLocation" x="50" y="-87"/>
+        </view>
+    </objects>
+</document>

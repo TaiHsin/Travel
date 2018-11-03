@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z7S-bR-cKt">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SFCompactDisplay-Light.otf">
+            <string>SFCompactDisplay-Light</string>
+        </array>
+        <array key="SFCompactText-Regular.otf">
+            <string>SFCompactText-Regular</string>
+        </array>
+        <array key="SFCompactText-Semibold.otf">
+            <string>SFCompactText-Semibold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="rOu-OI-E3O">
+            <objects>
+                <viewController id="z7S-bR-cKt" customClass="LoginViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gfx-1E-Bak">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="VGo-58-wSv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0I-0j-bvE">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwS-P5-Ob1">
+                                <rect key="frame" x="70" y="396" width="235" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="OJV-qo-9lU"/>
+                                    <constraint firstAttribute="width" constant="235" id="gmK-SH-MY8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFCompactText-Semibold" family="SF Compact Text" pointSize="14"/>
+                                <state key="normal" title="Visit as Guest">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="loninAnonymously:" destination="z7S-bR-cKt" eventType="touchUpInside" id="ea4-b5-Jk8"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5C-zK-02Z">
+                                <rect key="frame" x="178" y="325" width="19" height="17"/>
+                                <fontDescription key="fontDescription" name="SFCompactText-Semibold" family="SF Compact Text" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="b7p-UK-GMa">
+                                <rect key="frame" x="121" y="90" width="133.5" height="36"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wx2-bI-faq">
+                                        <rect key="frame" x="0.0" y="0.0" width="15.5" height="36"/>
+                                        <fontDescription key="fontDescription" name="SFCompactDisplay-Light" family="SF Compact Display" pointSize="30"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="zQp-t0-Qxw">
+                                        <rect key="frame" x="18.5" y="9.5" width="115" height="24"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U3J-AA-hgT">
+                                                <rect key="frame" x="0.0" y="0.0" width="12.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODK-Cy-tfd">
+                                                <rect key="frame" x="15.5" y="0.0" width="12.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6D-8T-fL6">
+                                                <rect key="frame" x="31" y="0.0" width="12.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhg-XY-8P1">
+                                                <rect key="frame" x="46.5" y="0.0" width="11.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ix-JS-6Ob">
+                                                <rect key="frame" x="61" y="0.0" width="10.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ir-Lh-wwG">
+                                                <rect key="frame" x="74.5" y="0.0" width="10.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46b-gp-Nl9">
+                                                <rect key="frame" x="88" y="0.0" width="11.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nqJ-BT-sPv">
+                                                <rect key="frame" x="102.5" y="0.0" width="12.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFCompactText-Regular" family="SF Compact Text" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZpO-3y-Yvk">
+                                <rect key="frame" x="72.5" y="218" width="230" height="52"/>
+                                <color key="backgroundColor" red="0.31372549019607843" green="0.48627450980392156" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="VMS-yu-ie7"/>
+                                    <constraint firstAttribute="height" constant="52" id="lf1-MH-6VY"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="loginFacebook:" destination="z7S-bR-cKt" eventType="touchUpInside" id="zjY-hu-p7K"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login with Facebook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GfD-ps-eOF">
+                                <rect key="frame" x="128.5" y="235.5" width="136" height="17"/>
+                                <fontDescription key="fontDescription" name="SFCompactText-Semibold" family="SF Compact Text" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="9yN-pN-96h">
+                                <rect key="frame" x="85.5" y="229" width="30" height="30"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="IfM-Sz-t0y"/>
+                                    <constraint firstAttribute="height" constant="30" id="dg7-Gd-u84"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZpO-3y-Yvk" firstAttribute="centerX" secondItem="gfx-1E-Bak" secondAttribute="centerX" id="24H-sB-EEt"/>
+                            <constraint firstItem="9yN-pN-96h" firstAttribute="centerY" secondItem="ZpO-3y-Yvk" secondAttribute="centerY" id="3F6-rB-2Nd"/>
+                            <constraint firstItem="VGo-58-wSv" firstAttribute="top" secondItem="gfx-1E-Bak" secondAttribute="top" id="5mx-OX-1Ap"/>
+                            <constraint firstItem="9yN-pN-96h" firstAttribute="leading" secondItem="ZpO-3y-Yvk" secondAttribute="leading" constant="13" id="Bq7-Ib-CPY"/>
+                            <constraint firstItem="o5C-zK-02Z" firstAttribute="centerX" secondItem="gfx-1E-Bak" secondAttribute="centerX" id="I8i-P1-2xW"/>
+                            <constraint firstItem="o5C-zK-02Z" firstAttribute="centerY" secondItem="gfx-1E-Bak" secondAttribute="centerY" id="KWC-eB-2KA"/>
+                            <constraint firstAttribute="bottom" secondItem="S0I-0j-bvE" secondAttribute="bottom" id="LW9-I2-f5S"/>
+                            <constraint firstItem="gwS-P5-Ob1" firstAttribute="top" secondItem="o5C-zK-02Z" secondAttribute="bottom" constant="54" id="NEB-Hx-flV"/>
+                            <constraint firstItem="S0I-0j-bvE" firstAttribute="leading" secondItem="gfx-1E-Bak" secondAttribute="leading" id="OYg-uw-qAw"/>
+                            <constraint firstItem="b7p-UK-GMa" firstAttribute="centerX" secondItem="gfx-1E-Bak" secondAttribute="centerX" id="RFl-fH-Gdd"/>
+                            <constraint firstAttribute="bottom" secondItem="VGo-58-wSv" secondAttribute="bottom" id="VzV-4i-RlO"/>
+                            <constraint firstItem="o5C-zK-02Z" firstAttribute="top" secondItem="ZpO-3y-Yvk" secondAttribute="bottom" constant="55" id="cMN-EL-8Ys"/>
+                            <constraint firstAttribute="trailing" secondItem="S0I-0j-bvE" secondAttribute="trailing" id="ftL-O6-DiT"/>
+                            <constraint firstItem="GfD-ps-eOF" firstAttribute="trailing" secondItem="ZpO-3y-Yvk" secondAttribute="trailing" constant="-38" id="jBA-K2-p5L"/>
+                            <constraint firstItem="GfD-ps-eOF" firstAttribute="centerY" secondItem="ZpO-3y-Yvk" secondAttribute="centerY" id="l4o-bC-X0j"/>
+                            <constraint firstItem="gwS-P5-Ob1" firstAttribute="centerX" secondItem="gfx-1E-Bak" secondAttribute="centerX" id="mv0-Ak-q2P"/>
+                            <constraint firstItem="S0I-0j-bvE" firstAttribute="top" secondItem="gfx-1E-Bak" secondAttribute="top" id="nmN-u1-V4h"/>
+                            <constraint firstItem="b7p-UK-GMa" firstAttribute="top" secondItem="2G8-RR-MP4" secondAttribute="top" constant="70" id="o4H-Q1-mla"/>
+                            <constraint firstAttribute="trailing" secondItem="VGo-58-wSv" secondAttribute="trailing" id="pVi-Mo-dd7"/>
+                            <constraint firstItem="VGo-58-wSv" firstAttribute="leading" secondItem="gfx-1E-Bak" secondAttribute="leading" id="r1O-4f-xA2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2G8-RR-MP4"/>
+                    </view>
+                    <connections>
+                        <outlet property="anonymousButton" destination="gwS-P5-Ob1" id="VcX-8w-IaC"/>
+                        <outlet property="facebookButton" destination="ZpO-3y-Yvk" id="CgF-xU-eza"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xJV-69-vzn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="212" y="164"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon_facebook" width="30" height="30"/>
+        <image name="launch" width="375" height="666"/>
+    </resources>
+</document>

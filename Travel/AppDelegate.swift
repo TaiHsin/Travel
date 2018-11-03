@@ -7,40 +7,121 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import Firebase
+import GooglePlaces
+import GoogleMaps
+import IQKeyboardManagerSwift
+import KeychainAccess
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    
+    // swiftlint:disable force_cast
+    static let shared = UIApplication.shared.delegate as! AppDelegate
+    // swiftlint:enable force_cast
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
+        
+        // get rid of black bar underneath navbar
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
+        // Crashlytics
+        Fabric.with([Crashlytics.self])
+        
+        // FBSDK
+        FBSDKApplicationDelegate.sharedInstance().application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+        
+        // Firebase
+        FirebaseApp.configure()
+        
+        // GoogleMap
+        GMSPlacesClient.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")
+        GMSServices.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")
+        
+        // IQKeyboard
+        IQKeyboardManager.shared.enable = true
+        
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+    
+        let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+        
+        guard keychain["userId"] == nil else {
+            
+            switchToMainStoryBoard()
+            
+            return true
+        }
+        
+        let uuid = UUID().uuidString
+        
+        keychain["userId"] = uuid
+        
+        switchToMainStoryBoard()
+        
         return true
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+        ) -> Bool {
+        
+        // FBSDK
+        let handled = FBSDKApplicationDelegate.sharedInstance().application(
+            app,
+            open: url,
+            options: options
+        )
+        
+        return handled
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    func switchToLoginStoryBoard() {
+        
+        guard Thread.current.isMainThread else {
+            
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.switchToLoginStoryBoard()
+            }
+            
+            return
+        }
+        
+        window?.rootViewController = UIStoryboard.loginStoryboard().instantiateInitialViewController()
     }
-
-
+    
+    func switchToMainStoryBoard() {
+        
+        guard Thread.current.isMainThread else {
+            
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.switchToMainStoryBoard()
+            }
+            
+            return
+        }
+        
+        window?.rootViewController = UIStoryboard.mainStoryboard().instantiateInitialViewController()
+    }
 }
-
