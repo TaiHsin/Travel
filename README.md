@@ -1,13 +1,15 @@
-# U TriPal
+# U TriPal <a href="http://utripal.strikingly.com"><img src="https://github.com/TaiHsin/Travel/blob/master/Travel/Assets.xcassets/UTriPal_icon.imageset/UTriPal_icon.png" width="50"></a> 
 
 
 #### Travel with your trip pal.   
 With U TriPal, you will fasinate your trip. Create and record every custom trip include daily attraction. Manage every daily attractions easily and intuitively. Add attractions to collections to prepare for the next trip. Pack with packlistto bring everything efficiently.
 
-* The App is avalible in App Stroe
-// Image and link
+* The App is avalible in App Stroe   
 
-##Feature and Screenshot
+<a href="https://itunes.apple.com/us/app/u-tripal/id1439435864?l=zh&ls=1&mt=8"><img src="https://github.com/TaiHsin/Travel/blob/master/Travel/Assets.xcassets/downloadAppstore.imageset/downloadAppstore.png" width="150">  </a>  
+
+
+## Feature and Screenshot
 
 
 * **TRIPS**   
@@ -35,7 +37,7 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 	* Number overview to know pack status.    
 
 
-##Libraries
+## Libraries
 * GoogleMaps / Place
 * Firebase / Core
 * JTAppleCalendar
@@ -55,8 +57,9 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 	* Bugs fixing  
 
 ## Contacts
-TaiHsin Lee
-
+TaiHsin Lee    
+**peterlee0466@gmail.com**     
+[**LinkedIn**](https://www.linkedin.com/in/taihsin-lee-32976312a/)
 
 
 	
