@@ -16,11 +16,12 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 	* Create, manage and record your every trip. 
 	* Edit or delete trip that have been cancelled.
 	* Tap trip to all attractions in Triplist.
-	
-<div>
-<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/trips.png" width="200" height="356" align=center/>
-<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/create_trip.png" width="200" height="356" align=center/>
-</div>
+	    
+	<br />       
+	<div>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/trips.png" width="200" height="356" align=center/>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/create_trip.png" width="200" height="356" align=center/>
+	</div>
 
 * **TRIPLIST**
 	* Locate attractions on map.
@@ -29,27 +30,34 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 	* Drag and drop to intutively arrange order of attractions.
 	* Add attraction by search from Google or from Collections.
 	* Add or delete day on day tab.
-	
-<div>
-<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/triplist.png" width="200" height="356" align=center/>
-</div>
+                  
+	 <br />        
+	<div>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/triplist.png" width="200" height="356" align=center/>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/triplist_map.png" width="200" height="356" align=center/>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/triplist_list.png" width="200" height="356" align=center/>
+	</div>
 
-* **COLLECTIONS**
+* **COLLECTIONS** 
 	* Collect every favorite attrations.
 	* Add new attractions by search from Google.
 	* Show attraction's detail information.
-      
-<div>
-<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/collections.png" width="200" height="356" align=center/>
-<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/information_card.png" width="200" height="356" align=center/>
-</div>
-	
+         
+	<br />
+	<div>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/collections.png" width="200" height="356" align=center/>
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/information_card.png" width="200" height="356" align=center/>
+	</div>
+	   
 * **PACKLIST**
 	* Add new item in every catogary.
 	* Swipe to delete useless item.
 	* Tap to check or uncheck item.
 	* Number overview to know pack status.    
-
+         
+	<br />
+	<img src="https://github.com/TaiHsin/Travel/blob/master/screenshots/5.5/packlist.png" width="200" height="356" align=center/>
+	<br />
 
 ## Libraries
 * GoogleMaps / Place
