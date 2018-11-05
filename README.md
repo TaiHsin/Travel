@@ -68,6 +68,10 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 * Swiftlint
 * Crashlytics
 
+## Requirement
+* iOS 12.0 +
+* Xcode 10.0 +
+
 ## Version
 
 * 2.0 - 2018.10.27
