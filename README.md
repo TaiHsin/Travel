@@ -69,14 +69,16 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 * Crashlytics
 
 ## Version
-* 1.0 - 2018.10.20
-	* App release 
 
 * 2.0 - 2018.10.27
 	* Separate attractions list to each day
 	* Drag and drop to reorder attraction feature
 	* Show and hide list and mapview for great UX
 	* Bugs fixing  
+	
+* 1.0 - 2018.10.20
+	* App release 
+
 
 ## Contacts
 TaiHsin Lee    
