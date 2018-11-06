@@ -84,6 +84,9 @@ class TripListViewController: UIViewController {
         
         daysCollectionViewController.dates = dates
         
+        mapViewController.delegate = self
+        listTableViewController.delegate = self
+        
 //        setupBackgroundView()
 //
 //        setupContentOffsetView()
@@ -456,7 +459,6 @@ class TripListViewController: UIViewController {
 
 extension TripListViewController {
 
-    
     func showAlertAction() {
         
         let alertVC = UIAlertController.showAlert(
@@ -691,10 +693,19 @@ extension TripListViewController {
 extension TripListViewController: ListHideDelegate {
     
     func didTableHide(isHiding: Bool) {
+        
+        listTableViewController.view.isHidden = true
         mapViewController.showListButton.isHidden = !isHiding
     }
 }
 
-/// Firebase "order" start from 0 ..., "days" start from 1 ..., dataArray start from 0
+extension TripListViewController: ShowListDelegate {
+    
+    func didShowListHit() {
+        
+        listTableViewController.view.isHidden = false
+    }
+}
 
+/// Firebase "order" start from 0 ..., "days" start from 1 ..., dataArray start from 0
 /// Refactor: seperate collection view/ mapview/ table view to different controller?

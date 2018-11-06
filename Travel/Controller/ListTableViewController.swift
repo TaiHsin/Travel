@@ -160,13 +160,15 @@ class ListTableViewController: UIViewController {
         
         backView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
-        backViewHeightConstraints = backView
-            .heightAnchor
-            .constraint(
-                equalToConstant: viewHeight - contentOffsetViewVisiblewHeight
-        )
-
-        backViewHeightConstraints?.isActive = true
+        backView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+//        backViewHeightConstraints = backView
+//            .heightAnchor
+//            .constraint(
+//                equalToConstant: viewHeight - contentOffsetViewVisiblewHeight
+//        )
+//
+//        backViewHeightConstraints?.isActive = true
         
         view.sendSubviewToBack(backView)
     }
@@ -196,7 +198,7 @@ class ListTableViewController: UIViewController {
 
     @objc func tapGestureRecognized(gestureRecognizer: UITapGestureRecognizer) {
 
-        hideTriplist(hideList: true)
+//        hideTriplist(hideList: true)
         delegate?.didTableHide(isHiding: true)
     }
     

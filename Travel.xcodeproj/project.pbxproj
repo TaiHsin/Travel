@@ -243,7 +243,6 @@
 				9D4A148A21525C5100748E06 /* Model */,
 				9D4A148921525C3300748E06 /* Views */,
 				9D4A148C21525C7100748E06 /* Extension */,
-				9DF34016215C7036002A957D /* Support */,
 				9D4A148D21525CA700748E06 /* Storyboard */,
 				9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */,
 				9DDE5B65215FC63F0096C4FC /* Assets.xcassets */,
@@ -396,13 +395,6 @@
 				9DDE5B6D216061B60096C4FC /* DayCollectionViewCell.xib */,
 			);
 			path = TripSelection;
-			sourceTree = "<group>";
-		};
-		9DF34016215C7036002A957D /* Support */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Support;
 			sourceTree = "<group>";
 		};
 		9DF34019215C9080002A957D /* PreservedTableViewCell */ = {

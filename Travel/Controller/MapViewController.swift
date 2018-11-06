@@ -29,6 +29,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
 
         setupMapView()
+        showListButton.isHidden = true
     }
     
     func setupMapView() {
