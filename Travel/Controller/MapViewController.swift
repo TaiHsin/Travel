@@ -46,8 +46,13 @@ class MapViewController: UIViewController {
     
     @IBAction func backToList(_ sender: UIButton) {
         
-        showListButton.isHidden = true
+        handleShowListButton(isHiding: true)
         delegate?.didShowListHit()
+    }
+    
+    func handleShowListButton(isHiding: Bool) {
+        
+        showListButton.isHidden = isHiding
     }
     
     func getCurrentLocation() {

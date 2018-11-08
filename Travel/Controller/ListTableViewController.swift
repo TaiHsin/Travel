@@ -198,15 +198,13 @@ class ListTableViewController: UIViewController {
 
     @objc func tapGestureRecognized(gestureRecognizer: UITapGestureRecognizer) {
 
-//        hideTriplist(hideList: true)
-        delegate?.didTableHide(isHiding: true)
+        handleTableVIewList(isHidding: true)
     }
     
-    func hideTriplist(hideList isHiding: Bool) {
-
-        tableView.isHidden = isHiding
-        contentOffsetView.isHidden = isHiding
-        backView.isHidden = isHiding
+    func handleTableVIewList(isHidding: Bool) {
+        
+        delegate?.didTableHide(isHiding: true)
+        self.view.isHidden = isHidding
     }
 
     func switchDetailVC(location: Location) {
@@ -465,7 +463,7 @@ extension ListTableViewController: UITableViewDelegate {
 
             if scrollView.contentOffset.y < -(contentOffsetViewVisiblewHeight * 1.4) {
 
-                hideTriplist(hideList: true)
+                handleTableVIewList(isHidding: true)
             }
         }
     }

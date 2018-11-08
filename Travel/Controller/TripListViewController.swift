@@ -694,8 +694,7 @@ extension TripListViewController: ListHideDelegate {
     
     func didTableHide(isHiding: Bool) {
         
-        listTableViewController.view.isHidden = true
-        mapViewController.showListButton.isHidden = !isHiding
+        mapViewController.handleShowListButton(isHiding: false)
     }
 }
 
@@ -703,7 +702,7 @@ extension TripListViewController: ShowListDelegate {
     
     func didShowListHit() {
         
-        listTableViewController.view.isHidden = false
+        listTableViewController.handleTableVIewList(isHidding: false)
     }
 }
 

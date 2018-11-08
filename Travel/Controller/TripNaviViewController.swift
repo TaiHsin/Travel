@@ -9,7 +9,7 @@
 import UIKit
 
 class TripNaviViewController: UINavigationController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
