@@ -91,12 +91,12 @@ class TriplistViewController: UIViewController {
         
         fetchData()
         
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(self.updateLocation(noti: )),
-//            name: .triplist,
-//            object: nil
-//        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.updateLocation(noti: )),
+            name: .triplist,
+            object: nil
+        )
     }
 
     private func buildFromStoryboard<T>(_ name: String) -> T {
@@ -213,11 +213,6 @@ class TriplistViewController: UIViewController {
         listTableViewController.tableView.reloadData()
     }
     
-//    func passDatatoMapView() {
-//
-//        mapViewController.locations = locations
-//    }
-    
     @objc func updateLocation(noti: Notification) {
         
         dataArray.removeAll()
@@ -229,6 +224,10 @@ class TriplistViewController: UIViewController {
             self.filterDatalist(day: self.day)
             
             self.getPhotos()
+            
+            self.passDatatoListTableView()
+            self.sortLocationsForMarkers()
+            self.mapViewController.showMarkers(locations: self.locations)
         }
     }
     
@@ -341,6 +340,20 @@ class TriplistViewController: UIViewController {
 
 extension TriplistViewController {
 
+    func switchDetailVC(location: Location) {
+        
+        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        
+        detailViewController.location = location
+        detailViewController.isMyTrip = isMyTrips
+        detailViewController.tabIndex = tabIndex
+        
+        /// add transition effect
+        tabBarController?.present(detailViewController, animated: true)
+    }
+
+    
     func showAlertAction() {
         
         let alertVC = UIAlertController.showAlert(
@@ -373,6 +386,8 @@ extension TriplistViewController {
         self.present(alertVC, animated: true, completion: nil)
     }
     
+    /// Refactor
+    
     func addNewDay() {
 
         guard let last = dates.last else { return }
@@ -400,6 +415,8 @@ extension TriplistViewController {
         updateMyTrips(total: total, end: newDateDouble)
         NotificationCenter.default.post(name: .myTrips, object: nil)
     }
+    
+    /// Refactor
     
     func deleteDay() {
         
@@ -438,7 +455,7 @@ extension TriplistViewController {
     }
     
     // MARK: - Firebase functions
-    
+    /// Refactor
     func deleteDay(daysKey: String, day: Int) {
         
         ref.child("tripDays")
@@ -455,7 +472,9 @@ extension TriplistViewController {
         }
     }
     
-    func deleteLocation(daysKey: String, location: Location) {
+    func deleteLocation(location: Location) {
+        
+        let daysKey = trip[0].daysKey
         
         ref.child("tripDays")
             .child(daysKey)
@@ -581,6 +600,7 @@ extension TriplistViewController: ListTableViewDelegate {
     }
     
     func didUpdateData(locationArray: [[THdata]]) {
+        
         self.locationArray = locationArray
         
         updateLocalData()
@@ -589,6 +609,25 @@ extension TriplistViewController: ListTableViewDelegate {
         listTableViewController.locationArray = locationArray
         sortLocationsForMarkers()
         mapViewController.showMarkers(locations: locations)
+    }
+    
+    func didDeleteData(locationArray: [[THdata]], location: Location) {
+        
+        self.locationArray = locationArray
+        
+        deleteLocation(location: location)
+        
+        updateLocalData()
+        updateAllData()
+        
+        listTableViewController.locationArray = locationArray
+        sortLocationsForMarkers()
+        mapViewController.showMarkers(locations: locations)
+    }
+    
+    func didShowDetail(location: Location) {
+        
+        switchDetailVC(location: location)
     }
 }
 

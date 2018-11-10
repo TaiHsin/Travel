@@ -13,6 +13,10 @@ protocol ListTableViewDelegate: AnyObject {
     func didTableHide(isHiding: Bool)
     
     func didUpdateData(locationArray: [[THdata]])
+    
+    func didDeleteData(locationArray: [[THdata]], location: Location)
+    
+    func didShowDetail(location: Location)
 }
 
 class ListTableViewController: UIViewController {
@@ -207,18 +211,18 @@ class ListTableViewController: UIViewController {
         self.view.isHidden = isHidding
     }
 
-    func switchDetailVC(location: Location) {
-
-        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
-            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
-
-        detailViewController.location = location
+//    func switchDetailVC(location: Location) {
+//
+//        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+//            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+//
+//        detailViewController.location = location
 //        detailViewController.isMyTrip = isMyTrips
 //        detailViewController.tabIndex = tabIndex
-
-        /// add transition effect
-        tabBarController?.present(detailViewController, animated: true)
-    }
+//
+//        /// add transition effect
+//        tabBarController?.present(detailViewController, animated: true)
+//    }
 
     func changeContentOffsetViewTopConstraint(contentOffset: CGPoint) {
 
@@ -431,7 +435,8 @@ extension ListTableViewController: UITableViewDelegate {
         
         guard location.type == .location else { return }
         
-        switchDetailVC(location: location.location)
+        delegate?.didShowDetail(location: location.location)
+//        switchDetailVC(location: location.location)
     }
     
     func tableView(
@@ -469,64 +474,28 @@ extension ListTableViewController: UITableViewDelegate {
         }
     }
     
-//    func tableView(
-//        _ tableView: UITableView,
-//        commit editingStyle: UITableViewCell.EditingStyle,
-//        forRowAt indexPath: IndexPath
-//        ) {
-//
-//        let daysKey = trip[0].daysKey
-//
-//        if editingStyle == .delete {
-//
-//            guard day == 0 else {
-//
-//                let location = locationArray[indexPath.section][indexPath.row].location
-//                let updateIndexPath = IndexPath(row: indexPath.row, section: day - 1)
-//
-//                deleteLocation(daysKey: daysKey, location: location)
-//
-//                changeOrder(daysKey: daysKey, indexPath: updateIndexPath, location: location)
-//
-//                locationArray[indexPath.section].remove(at: indexPath.row)
-//                dataArray[day - 1].remove(at: indexPath.row)
-//
-//                tableView.deleteRows(at: [indexPath], with: .fade)
-//
-//                if locationArray[indexPath.section].count == 0 {
-//
-//                    locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
-//                    dataArray[day - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
-//
-//                    let newIndexPath = IndexPath(row: 0, section: indexPath.section)
-//                    tableView.insertRows(at: [newIndexPath], with: .none)
-//                }
-//
-//                return
-//            }
-//
-//            let datas = locationArray[indexPath.section]
-//            let location = datas[indexPath.row]
-//
-//            deleteLocation(daysKey: daysKey, location: location.location)
-//
-//            changeOrder(daysKey: daysKey, indexPath: indexPath, location: location.location)
-//
-//            locationArray[indexPath.section].remove(at: indexPath.row)
-//            dataArray[indexPath.section].remove(at: indexPath.row)
-//
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//
-//            if locationArray[indexPath.section].count == 0 {
-//
-//                locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
-//                dataArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
-//
-//                let newIndexPath = IndexPath(row: 0, section: indexPath.section)
-//                tableView.insertRows(at: [newIndexPath], with: .none)
-//            }
-//        }
-//    }
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+        ) {
+
+        if editingStyle == .delete {
+
+            let location = locationArray[indexPath.section][indexPath.row].location
+
+            locationArray[indexPath.section].remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            if locationArray[indexPath.section].count == 0 {
+
+                locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
+                let newIndexPath = IndexPath(row: 0, section: indexPath.section)
+                tableView.insertRows(at: [newIndexPath], with: .none)
+            }
+            delegate?.didDeleteData(locationArray: locationArray, location: location)
+        }
+    }
 }
 
 // MARK: - Long press gesture to swap table view cell
@@ -547,7 +516,6 @@ extension ListTableViewController {
                 
                 locationArray[0].remove(at: number)
                 let indexPath = IndexPath(row: number, section: 0)
-                
                 tableView.deleteRows(at: [indexPath], with: .none)
             }
             
