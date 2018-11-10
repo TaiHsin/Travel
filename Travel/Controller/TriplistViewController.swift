@@ -205,10 +205,9 @@ class TriplistViewController: UIViewController {
     func passDatatoListTableView() {
         
         // Pass data to listTableView
-        listTableViewController.dates = dates
         listTableViewController.photosDict = photosDict
         listTableViewController.locationArray = locationArray
-        
+        listTableViewController.dates = dates
         // test
         listTableViewController.tableView.reloadData()
     }
@@ -353,40 +352,16 @@ extension TriplistViewController {
         tabBarController?.present(detailViewController, animated: true)
     }
 
-    
-    func showAlertAction() {
+    func showAlertAction(message: String) {
         
         let alertVC = UIAlertController.showAlert(
             title: Constants.oops,
-            message: Constants.cannotDelete,
+            message: message,
             cancel: false
         )
         
         self.present(alertVC, animated: true, completion: nil)
     }
-    
-    @objc func editDaysCollection(sender: UIButton) {
-        
-        let alertVC = UIAlertController.showActionSheet(
-            
-            defaultOptions: [Constants.addNewDay],
-            
-            defaultCompletion: { [weak self] _ in
-                
-                self?.addNewDay()
-            },
-            
-            destructiveOptions: [Constants.deleteDay],
-        
-            destructiveCompletion: { [weak self] (_) in
-                
-                self?.deleteDay()
-        })
-        
-        self.present(alertVC, animated: true, completion: nil)
-    }
-    
-    /// Refactor
     
     func addNewDay() {
 
@@ -409,11 +384,12 @@ extension TriplistViewController {
             locationArray[total - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
         }
         
-//        collectionView.reloadData()
-//        tableView.reloadData()
-        
         updateMyTrips(total: total, end: newDateDouble)
         NotificationCenter.default.post(name: .myTrips, object: nil)
+        
+        listTableViewController.dates = dates
+        listTableViewController.tableView.reloadData()
+        daysCollectionViewController.dates = dates
     }
     
     /// Refactor
@@ -424,9 +400,16 @@ extension TriplistViewController {
         
         let total = dates.count
         
+        guard self.day != total else {
+            
+            showAlertAction(message: Constants.cannotDeleteCurrent)
+            
+            return
+        }
+        
         guard total > 1 else {
             
-            showAlertAction()
+            showAlertAction(message: Constants.cannotDelete)
             
             return
         }
@@ -436,25 +419,27 @@ extension TriplistViewController {
         
         guard let date = dates.last else { return }
         let newTotal = dates.count
-        dataArray.removeLast()
         
         if self.day == 0 {
             
             locationArray.removeLast()
         }
-//
-//        collectionView.reloadData()
-//        tableView.reloadData()
         
         trip[0].endDate = Double(date.timeIntervalSince1970)
         let endDate = trip[0].endDate
         
         updateMyTrips(total: newTotal, end: endDate)
         deleteDay(daysKey: daysKey, day: total)
+        
         NotificationCenter.default.post(name: .myTrips, object: nil)
+        
+        listTableViewController.dates = dates
+        listTableViewController.tableView.reloadData()
+        daysCollectionViewController.dates = dates
     }
     
     // MARK: - Firebase functions
+    
     /// Refactor
     func deleteDay(daysKey: String, day: Int) {
         
@@ -509,22 +494,22 @@ extension TriplistViewController {
         self.ref.updateChildValues(daysUpdate)
     }
     
-    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location) {
-        
-        let locationArray = dataArray[indexPath.section]
-        
-        // Compare other data order to update
-        for item in locationArray {
-
-                if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
-                    
-                    let newOrder = item.location.order - 1
-                    let key = item.location.locationId
-                    let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
-                    ref.updateChildValues(postUpdate)
-                }
-        }
-    }
+//    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location) {
+//
+//        let locationArray = dataArray[indexPath.section]
+//
+//        // Compare other data order to update
+//        for item in locationArray {
+//
+//                if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
+//
+//                    let newOrder = item.location.order - 1
+//                    let key = item.location.locationId
+//                    let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
+//                    ref.updateChildValues(postUpdate)
+//                }
+//        }
+//    }
     
     func updateLocalData() {
         
@@ -592,6 +577,8 @@ extension TriplistViewController {
     }
 }
 
+// MARK: - List table view delegate
+
 extension TriplistViewController: ListTableViewDelegate {
     
     func didTableHide(isHiding: Bool) {
@@ -631,6 +618,8 @@ extension TriplistViewController: ListTableViewDelegate {
     }
 }
 
+// MARK: - Map view delegate
+
 extension TriplistViewController: MapViewDelegate {
     
     func didShowListHit() {
@@ -639,13 +628,33 @@ extension TriplistViewController: MapViewDelegate {
     }
 }
 
+// MARK: - Day collection view delegate
+
 extension TriplistViewController: DayCollectionViewDelegate {
+    
+    func didAddDay() {
+        
+        addNewDay()
+    }
+    
+    func didDeleteDay() {
+        
+        deleteDay()
+    }
+    
     
     func didSelectDay(_ day: Int) {
         
         self.day = day
         filterDatalist(day: day)
-        passDatatoListTableView()
+        
+        // Pass data to listTableView
+        listTableViewController.photosDict = photosDict
+        listTableViewController.locationArray = locationArray
+        listTableViewController.dates = dates
+        listTableViewController.day = day
+        // test
+        listTableViewController.tableView.reloadData()
         sortLocationsForMarkers()
         mapViewController.showMarkers(locations: locations)
     }

@@ -11,6 +11,10 @@ import UIKit
 protocol DayCollectionViewDelegate: AnyObject {
     
     func didSelectDay(_ day: Int)
+    
+    func didAddDay()
+    
+    func didDeleteDay()
 }
 
 class DaysCollectionViewController: UICollectionViewController {
@@ -61,6 +65,7 @@ class DaysCollectionViewController: UICollectionViewController {
         )
     }
     
+    /// Refactor
     func preSelectCollectionView() {
 
         let indexPath = IndexPath(row: 0, section: 0)
@@ -203,21 +208,29 @@ class DaysCollectionViewController: UICollectionViewController {
     @objc func editDaysCollection(sender: UIButton) {
         
         let alertVC = UIAlertController.showActionSheet(
-            
+
             defaultOptions: [Constants.addNewDay],
-            
+
             defaultCompletion: { [weak self] _ in
                 
-//                self?.addNewDay()
-            },
-            
-            destructiveOptions: [Constants.deleteDay],
-            
-            destructiveCompletion: { [weak self] (_) in
+                guard let self = self else {
+                    return
+                }
                 
-//                self?.deleteDay()
+                self.delegate?.didAddDay()
+            },
+
+            destructiveOptions: [Constants.deleteDay],
+
+            destructiveCompletion: { [weak self] (_) in
+
+                guard let self = self else {
+                    return
+                }
+                
+                self.delegate?.didDeleteDay()
         })
-        
+
         self.present(alertVC, animated: true, completion: nil)
     }
 }

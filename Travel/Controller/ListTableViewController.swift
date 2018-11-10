@@ -436,7 +436,6 @@ extension ListTableViewController: UITableViewDelegate {
         guard location.type == .location else { return }
         
         delegate?.didShowDetail(location: location.location)
-//        switchDetailVC(location: location.location)
     }
     
     func tableView(
