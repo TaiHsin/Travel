@@ -159,6 +159,8 @@ class TripsManager {
             var result: [THdata] = []
             
             for value in value.allValues {
+                
+                /// Refactor
                 guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
 
                 do {

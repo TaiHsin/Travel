@@ -156,9 +156,9 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         
         switch identifier {
             
-        case String(describing: TripListViewController.self):
+        case String(describing: TriplistViewController.self):
             
-            guard let detailController = segue.destination as? TripListViewController,
+            guard let detailController = segue.destination as? TriplistViewController,
             
                 let indexPath = sender as? IndexPath else {
                     
@@ -335,7 +335,7 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         
         Analytics.logEvent("view_item", parameters: nil)
         performSegue(
-            withIdentifier: String(describing: TripListViewController.self),
+            withIdentifier: String(describing: TriplistViewController.self),
             sender: indexPath
         )
         

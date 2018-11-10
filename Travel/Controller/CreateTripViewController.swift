@@ -126,8 +126,8 @@ class CreateTripViewController: UIViewController {
         
         guard let controller = UIStoryboard.myTripStoryboard()
             .instantiateViewController(
-                withIdentifier: String(describing: TripListViewController.self)
-            ) as? TripListViewController else { return }
+                withIdentifier: String(describing: TriplistViewController.self)
+            ) as? TriplistViewController else { return }
     
         /// Refact with model
         /// Pass whole Trip class

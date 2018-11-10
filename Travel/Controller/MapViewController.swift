@@ -10,7 +10,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-protocol ShowListDelegate: AnyObject {
+protocol MapViewDelegate: AnyObject {
     
     func didShowListHit()
 }
@@ -23,8 +23,8 @@ class MapViewController: UIViewController {
     
     private let locationManager = CLLocationManager()
     
-    weak var delegate: ShowListDelegate?
-
+    weak var delegate: MapViewDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,7 +40,6 @@ class MapViewController: UIViewController {
         mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
         
         locationManager.delegate = self
-        
         locationManager.requestWhenInUseAuthorization()
     }
     
@@ -63,14 +62,16 @@ class MapViewController: UIViewController {
         mapView.settings.myLocationButton = true
     }
     
-    func showMarker(locations: [Location]) {
+    func showMarkers(locations: [Location]) {
         
         var bounds = GMSCoordinateBounds()
         
-        for data in locations {
+        mapView.clear()
+        
+        for location in locations {
             
-            let latitude = data.latitude
-            let longitude = data.longitude
+            let latitude = location.latitude
+            let longitude = location.longitude
             
             let position = CLLocationCoordinate2DMake(latitude, longitude)
             let marker = GMSMarker(position: position)
@@ -79,7 +80,7 @@ class MapViewController: UIViewController {
             let markerView = UIImageView(image: markerImage)
             markerView.tintColor = UIColor.battleshipGrey
             marker.iconView = markerView
-            marker.title = data.name
+            marker.title = location.name
             marker.map = mapView
             
             mapView.setMinZoom(5, maxZoom: 15)
@@ -95,6 +96,7 @@ class MapViewController: UIViewController {
             bounds = bounds.includingCoordinate(marker.position)
             mapView.animate(with: .fit(bounds, with: edgeInsets))
         }
+        mapView.setMinZoom(5, maxZoom: 30)
     }
 }
 

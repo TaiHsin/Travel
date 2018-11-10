@@ -58,6 +58,8 @@
 		9DDE5B72216062050096C4FC /* TripTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDE5B70216062050096C4FC /* TripTableViewCell.swift */; };
 		9DDE5B73216062050096C4FC /* TripTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DDE5B71216062050096C4FC /* TripTableViewCell.xib */; };
 		9DEFCBC021634B1E00CE452A /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */; };
+		9DF115762193CC59009911BA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF115752193CC59009911BA /* UIViewController+Extension.swift */; };
+		9DF1157821944273009911BA /* TriplistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF1157721944273009911BA /* TriplistManager.swift */; };
 		9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */; };
 		9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */; };
 		9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3400E215C67B9002A957D /* Preserved.storyboard */; };
@@ -78,7 +80,7 @@
 		9DF61B382159DFF4005919E8 /* MyTripsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B362159DFF4005919E8 /* MyTripsCell.swift */; };
 		9DF61B392159DFF4005919E8 /* MyTripsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF61B372159DFF4005919E8 /* MyTripsCell.xib */; };
 		9DF61B3B215A0950005919E8 /* TripNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B3A215A0950005919E8 /* TripNaviViewController.swift */; };
-		9DF61B3D215A0C7B005919E8 /* TripListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */; };
+		9DF61B3D215A0C7B005919E8 /* TriplistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B3C215A0C7B005919E8 /* TriplistViewController.swift */; };
 		9DF61B41215A162F005919E8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B40215A162F005919E8 /* TabBarViewController.swift */; };
 		9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */; };
 		9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */; };
@@ -149,6 +151,8 @@
 		9DDE5B70216062050096C4FC /* TripTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTableViewCell.swift; sourceTree = "<group>"; };
 		9DDE5B71216062050096C4FC /* TripTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripTableViewCell.xib; sourceTree = "<group>"; };
 		9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeader.swift; sourceTree = "<group>"; };
+		9DF115752193CC59009911BA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		9DF1157721944273009911BA /* TriplistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriplistManager.swift; sourceTree = "<group>"; };
 		9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListTableViewCell.swift; sourceTree = "<group>"; };
 		9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListTableViewCell.xib; sourceTree = "<group>"; };
 		9DF3400E215C67B9002A957D /* Preserved.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preserved.storyboard; sourceTree = "<group>"; };
@@ -169,7 +173,7 @@
 		9DF61B362159DFF4005919E8 /* MyTripsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripsCell.swift; sourceTree = "<group>"; };
 		9DF61B372159DFF4005919E8 /* MyTripsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTripsCell.xib; sourceTree = "<group>"; };
 		9DF61B3A215A0950005919E8 /* TripNaviViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripNaviViewController.swift; sourceTree = "<group>"; };
-		9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListViewController.swift; sourceTree = "<group>"; };
+		9DF61B3C215A0C7B005919E8 /* TriplistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriplistViewController.swift; sourceTree = "<group>"; };
 		9DF61B40215A162F005919E8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		9DF61B59215A62D7005919E8 /* MenuBarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 				9DAB633D218586870028D9B9 /* Constants.swift */,
 				9DF78CD821880C7600C80666 /* FirebaseManager.swift */,
+				9DF1157721944273009911BA /* TriplistManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -297,7 +302,7 @@
 				9D6C1584215E846100574A12 /* CreateTripViewController.swift */,
 				9DDE5B67215FD7160096C4FC /* TripSelectionViewController.swift */,
 				9DD30ACF2172526A00AF7BC1 /* ViewController.swift */,
-				9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */,
+				9DF61B3C215A0C7B005919E8 /* TriplistViewController.swift */,
 				194702362189BAED00D68225 /* MapViewController.swift */,
 				194702382189BB8E00D68225 /* ListTableViewController.swift */,
 				1947023A2189D89500D68225 /* DaysCollectionViewController.swift */,
@@ -309,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				9DDE5B63215F84B50096C4FC /* UIAlertController+Extension.swift */,
+				9DF115752193CC59009911BA /* UIViewController+Extension.swift */,
 				9D4A14872152560D00748E06 /* UIView+Extension.swift */,
 				9DF61B45215A2629005919E8 /* UIStoryboard+Extension.swift */,
 				9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */,
@@ -682,7 +688,7 @@
 				9DD30AD02172526A00AF7BC1 /* ViewController.swift in Sources */,
 				9DDE5B68215FD7160096C4FC /* TripSelectionViewController.swift in Sources */,
 				9DF34023215CD875002A957D /* WeatherTableViewCell.swift in Sources */,
-				9DF61B3D215A0C7B005919E8 /* TripListViewController.swift in Sources */,
+				9DF61B3D215A0C7B005919E8 /* TriplistViewController.swift in Sources */,
 				9DAB633E218586870028D9B9 /* Constants.swift in Sources */,
 				9DDE5B61215F4F310096C4FC /* DetailViewController.swift in Sources */,
 				9DF64F4021589670000D0300 /* MyTripViewController.swift in Sources */,
@@ -695,12 +701,14 @@
 				9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */,
 				9DD7944521620EDA00C42800 /* UIColor+Extension.swift in Sources */,
 				9DDE5B72216062050096C4FC /* TripTableViewCell.swift in Sources */,
+				9DF1157821944273009911BA /* TriplistManager.swift in Sources */,
 				9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */,
 				9D6B5D03216F4C3500066756 /* DayCollectionFooter.swift in Sources */,
 				9DF91F3A217E1B060082F9D7 /* DayCollectionHeader.swift in Sources */,
 				9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */,
 				9DEFCBC021634B1E00CE452A /* CalendarHeader.swift in Sources */,
 				9DF34028215CE285002A957D /* ChecklistTableViewCell.swift in Sources */,
+				9DF115762193CC59009911BA /* UIViewController+Extension.swift in Sources */,
 				9DFA4FF22168704300A9C13F /* Checklist.swift in Sources */,
 				9DF34018215C8FF3002A957D /* PreservedViewController.swift in Sources */,
 			);

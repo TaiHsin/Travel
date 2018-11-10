@@ -8,9 +8,11 @@
 
 import UIKit
 
-protocol ListHideDelegate: AnyObject {
+protocol ListTableViewDelegate: AnyObject {
     
     func didTableHide(isHiding: Bool)
+    
+    func didUpdateData(locationArray: [[THdata]])
 }
 
 class ListTableViewController: UIViewController {
@@ -33,11 +35,7 @@ class ListTableViewController: UIViewController {
     
     var backViewHeightConstraints: NSLayoutConstraint?
     
-    var locationArray: [[THdata]] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var locationArray: [[THdata]] = [] 
     
     var photosDict: [String: UIImage] = [:]
     
@@ -51,7 +49,7 @@ class ListTableViewController: UIViewController {
 
     var sourceIndexPath: IndexPath?
     
-    weak var delegate: ListHideDelegate?
+    weak var delegate: ListTableViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +67,8 @@ class ListTableViewController: UIViewController {
         tableView.delegate = self
         
         tableView.dataSource = self
+        
+        /// Use extension and string array to do register
         
         let xib = UINib(
             nibName: String(describing: TripListTableViewCell.self),
@@ -145,7 +145,7 @@ class ListTableViewController: UIViewController {
         
         view.addSubview(backView)
 
-        let viewHeight = view.frame.height
+//        let viewHeight = view.frame.height
 
         backViewTopConstraints = backView
             .topAnchor
@@ -216,6 +216,7 @@ class ListTableViewController: UIViewController {
 //        detailViewController.isMyTrip = isMyTrips
 //        detailViewController.tabIndex = tabIndex
 
+        /// add transition effect
         tabBarController?.present(detailViewController, animated: true)
     }
 
@@ -534,10 +535,6 @@ extension ListTableViewController {
     
     @objc func longPressGestureRecognized(longPress: UILongPressGestureRecognizer) {
         
-        let daysKey = trip[0].daysKey
-        
-        let totalDays = trip[0].totalDays
-        
         let state = longPress.state
         
         let location = longPress.location(in: self.tableView)
@@ -676,9 +673,8 @@ extension ListTableViewController {
                 if finished {
                     
                     self.cleanUp()
-                    
-//                    self.updateLocalData()
-//                    self.updateAllData(daysKey: daysKey, total: totalDays)
+
+                    self.delegate?.didUpdateData(locationArray: self.locationArray)
                 }
             })
         }

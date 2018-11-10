@@ -8,23 +8,32 @@
 
 import UIKit
 
-protocol DayProviderDelegate: AnyObject {
+protocol DayCollectionViewDelegate: AnyObject {
     
     func didSelectDay(_ day: Int)
 }
 
-
 class DaysCollectionViewController: UICollectionViewController {
     
-    var dates = [Date]()
+    weak var delegate: DayCollectionViewDelegate?
+    
+    var dates = [Date]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     var locationArray: [[THdata]] = []
+    
+    var day: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupCollectionView()
 //         self.clearsSelectionOnViewWillAppear = false
+        
+//        preSelectCollectionView()
     }
 
     func setupCollectionView() {
@@ -50,6 +59,18 @@ class DaysCollectionViewController: UICollectionViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
             withReuseIdentifier: String(describing: DayCollectionFooter.self)
         )
+    }
+    
+    func preSelectCollectionView() {
+
+        let indexPath = IndexPath(row: 0, section: 0)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.left)
+        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+
+        cell.dayLabel.text = Constants.allString
+        cell.weekLabel.isHidden = true
+        cell.selectedView.isHidden = false
     }
     
     // MARK: - Data Source
@@ -115,14 +136,13 @@ class DaysCollectionViewController: UICollectionViewController {
         didSelectItemAt indexPath: IndexPath
         ) {
         
+        day = indexPath.item
+        
+        delegate?.didSelectDay(day)
+        
         collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
         
         guard indexPath.item != 0 else {
-            
-//            day = indexPath.item
-            
-//            filterDatalist(day: day)
-//            tableView.reloadData()
             
             guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else {
                 
@@ -131,50 +151,12 @@ class DaysCollectionViewController: UICollectionViewController {
             
             cell.selectedView.isHidden = false
             
-            var allLocations: [Location] = []
-            
-            locationArray.forEach { (value) in
-                
-                for location in value where location.type == .location {
-                    
-                    allLocations.append(location.location)
-                }
-            }
-            
-//            showMarker(locations: allLocations)
-//            mapView.setMinZoom(5, maxZoom: 30)
-            
             return
         }
-        
-//        day = indexPath.item
-//
-//        filterDatalist(day: day)
-//        tableView.reloadData()
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
         
         cell.selectedView.isHidden = false
-        
-        guard locationArray[0].count != 0 else {
-            
-//            mapView.clear()
-//            mapView.animate(toZoom: 10)
-            return
-        }
-        
-        var allLocations: [Location] = []
-        
-        locationArray[0].forEach { (value) in
-            
-            if value.type != .empty {
-                allLocations.append(value.location)
-            }
-        }
-        
-//        mapView.clear()
-//        showMarker(locations: allLocations)
-//        mapView.setMinZoom(1, maxZoom: 30)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
