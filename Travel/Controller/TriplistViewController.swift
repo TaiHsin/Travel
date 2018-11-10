@@ -49,11 +49,7 @@ class TriplistViewController: UIViewController {
     // For showing marker in mapview
     var locations: [Location] = []
     
-    var photo: UIImage?
-    
     var photosDict: [String: UIImage] = [:]
-    
-    var index = 0
     
     var dates = [Date]()
     
@@ -81,9 +77,9 @@ class TriplistViewController: UIViewController {
         
         setupNavigationItems()
         
-        tra_addContentController(daysCollectionViewController, to: daysContainerView)
         tra_addContentController(mapViewController, to: mapContainerView)
         tra_addContentController(listTableViewController, to: mapContainerView)
+        tra_addContentController(daysCollectionViewController, to: daysContainerView)
     
         mapViewController.delegate = self
         listTableViewController.delegate = self
@@ -161,6 +157,7 @@ class TriplistViewController: UIViewController {
         passDatatoListTableView()
         sortLocationsForMarkers()
         mapViewController.showMarkers(locations: locations)
+        daysCollectionViewController.preSelectCollectionView()
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -494,23 +491,6 @@ extension TriplistViewController {
         self.ref.updateChildValues(daysUpdate)
     }
     
-//    func changeOrder(daysKey: String, indexPath: IndexPath, location: Location) {
-//
-//        let locationArray = dataArray[indexPath.section]
-//
-//        // Compare other data order to update
-//        for item in locationArray {
-//
-//                if item.location.order >= indexPath.row, item.location.locationId != location.locationId {
-//
-//                    let newOrder = item.location.order - 1
-//                    let key = item.location.locationId
-//                    let postUpdate = ["/tripDays/\(daysKey)/\(key)/order": newOrder]
-//                    ref.updateChildValues(postUpdate)
-//                }
-//        }
-//    }
-    
     func updateLocalData() {
         
         let sections = locationArray.count
@@ -641,7 +621,6 @@ extension TriplistViewController: DayCollectionViewDelegate {
         
         deleteDay()
     }
-    
     
     func didSelectDay(_ day: Int) {
         

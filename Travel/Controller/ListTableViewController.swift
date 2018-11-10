@@ -211,19 +211,6 @@ class ListTableViewController: UIViewController {
         self.view.isHidden = isHidding
     }
 
-//    func switchDetailVC(location: Location) {
-//
-//        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
-//            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
-//
-//        detailViewController.location = location
-//        detailViewController.isMyTrip = isMyTrips
-//        detailViewController.tabIndex = tabIndex
-//
-//        /// add transition effect
-//        tabBarController?.present(detailViewController, animated: true)
-//    }
-
     func changeContentOffsetViewTopConstraint(contentOffset: CGPoint) {
 
         contentOffsetViewTopConstraints?.isActive = false
@@ -281,9 +268,17 @@ class ListTableViewController: UIViewController {
             .topAnchor
             .constraint(equalTo: tableView.topAnchor)
 
-        contentOffsetViewViewHeightConstraints = contentOffsetView
-            .heightAnchor
-            .constraint(equalToConstant: -contentOffset.y)
+        if contentOffset.y < 0 {
+            
+            contentOffsetViewViewHeightConstraints = contentOffsetView
+                .heightAnchor
+                .constraint(equalToConstant: -contentOffset.y)
+        } else {
+            
+            contentOffsetViewViewHeightConstraints = contentOffsetView
+                .heightAnchor
+                .constraint(equalToConstant: 0)
+        }
 
         contentOffsetViewTopConstraints?.isActive = true
         contentOffsetViewViewHeightConstraints?.isActive = true
@@ -296,9 +291,18 @@ class ListTableViewController: UIViewController {
         backViewTopConstraints?.isActive = false
         backViewHeightConstraints?.isActive = false
 
-        backViewTopConstraints = backView
-            .topAnchor
-            .constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
+        if contentOffset.y < 0 {
+            
+            backViewTopConstraints = backView
+                .topAnchor
+                .constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
+        } else {
+            
+            backViewTopConstraints = backView
+                .topAnchor
+                .constraint(equalTo: tableView.topAnchor, constant: 0)
+        }
+
 
         backViewHeightConstraints = backView
             .heightAnchor
@@ -456,7 +460,7 @@ extension ListTableViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         guard scrollView == tableView else { return }
-        if scrollView.contentOffset.y > -contentOffsetViewVisiblewHeight && scrollView.contentOffset.y < 20 {
+        if scrollView.contentOffset.y > -contentOffsetViewVisiblewHeight {
 
             changeContentOffsetViewHeightConstraint(contentOffset: scrollView.contentOffset)
             changeBackViewHeightConstraint(contentOffset: scrollView.contentOffset)
