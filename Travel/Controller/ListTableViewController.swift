@@ -605,7 +605,7 @@ extension ListTableViewController {
             
             var sourceIndex = sourceIndexPath
             
-            /// Check empty cell in section and remove it
+            // Check empty cell in section and remove it
             
             let numbers = locationArray[indexPath.section].count
             
