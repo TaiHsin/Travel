@@ -14,6 +14,8 @@ class FirebaseManager {
     
     var ref: DatabaseReference!
     
+    let decoder = JSONDecoder()
+    
     init() {
         ref = Database.database().reference()
     }
@@ -34,6 +36,8 @@ class FirebaseManager {
         }
     }
     
+    //child(${path})
+    
     func deleteLocation(daysKey: String, location: Location) {
         
         ref.child("tripDays")
@@ -45,6 +49,91 @@ class FirebaseManager {
                 guard let value = snapshot.value as? NSDictionary else { return }
                 guard let key = value.allKeys.first as? String else { return }
                 self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+        }
+    }
+
+    
+    func fetchDayList(daysKey: String, success: @escaping ([THdata]) -> Void) {
+        
+        let location: Location = Location.emptyLocation()
+        
+        // path for refactor: tripDays/\(daysKey)
+        
+        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else {
+                
+                let result = THdata(location: location, type: .empty)
+                
+                success([result])
+                return
+            }
+            
+            var result: [THdata] = []
+            
+            for value in value.allValues {
+                
+                /// Refactor
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                
+                do {
+                    
+                    let data = try self.decoder.decode(Location.self, from: jsonData)
+                    
+                    let thDAta = THdata(location: data, type: .location)
+                    
+                    result.append(thDAta)
+                    
+                } catch {
+                    print(error)
+                }
+            }
+            
+            success(result)
+        }
+    }
+}
+
+// MARK: - For refactor
+
+extension FirebaseManager {
+    
+    func getNoQuery(
+        path: String,
+        event: FirebaseEventType,
+        success: @escaping (Any) -> Void,
+        failure: @escaping (Error) -> Void
+        ) {
+        
+        ref.child(path).observeSingleEvent(of: event.eventType(), with: { snapshot in
+            
+            guard let value = snapshot.value as? NSDictionary else {
+                
+                //TODO: Failure
+                
+                return
+            }
+            
+            success(value)
+        }) { (error) in
+            
+            print(error.localizedDescription)
+            failure(error)
+        }
+    }
+}
+
+enum FirebaseEventType {
+    
+    case valueChange
+    
+    func eventType() -> DataEventType {
+        
+        switch self {
+            
+        case .valueChange:
+            
+            return .value
         }
     }
 }

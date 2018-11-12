@@ -22,7 +22,9 @@ struct Constants {
     
     static let oops = "Oops..."
     
-    static let cannotDelete = " Cannot delete last day"
+    static let cannotDelete = "Cannot delete last day"
+    
+    static let cannotDeleteCurrent = "Cannot delete current day"
     
     static let addNewDay = "Add new day"
     
