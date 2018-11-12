@@ -114,7 +114,7 @@
                         <outlet property="addBarButtonItem" destination="1OP-39-PJr" id="nHY-ct-fyN"/>
                         <outlet property="collectionView" destination="oBX-To-cS1" id="o5V-5x-UZe"/>
                         <outlet property="emptyLabel" destination="ohX-fY-yee" id="Acg-HS-laZ"/>
-                        <segue destination="nxr-5W-XUN" kind="show" identifier="TriplistViewController" id="2lV-tZ-1fA"/>
+                        <segue destination="nxr-5W-XUN" kind="show" identifier="TripListViewController" id="2lV-tZ-1fA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k9S-6T-m9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -276,7 +276,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monthes Years" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wkc-y2-bD5">
-                                                            <rect key="frame" x="50" y="10.5" width="243" height="18"/>
+                                                            <rect key="frame" x="50" y="10.5" width="468" height="18"/>
                                                             <fontDescription key="fontDescription" name="SFCompactText-Medium" family="SF Compact Text" pointSize="15"/>
                                                             <color key="textColor" red="0.4392156862745098" green="0.45882352941176469" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -422,7 +422,7 @@
         <!--Paris-->
         <scene sceneID="DDi-D8-aOB">
             <objects>
-                <viewController storyboardIdentifier="TriplistViewController" id="nxr-5W-XUN" customClass="TriplistViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TripListViewController" id="nxr-5W-XUN" customClass="TripListViewController" customModule="Travel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rWe-Uh-wcR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
