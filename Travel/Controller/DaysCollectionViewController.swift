@@ -37,9 +37,6 @@ class DaysCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
 
         setupCollectionView()
-//         self.clearsSelectionOnViewWillAppear = false
-        
-//        preSelectCollectionView()
     }
 
     func setupCollectionView() {
@@ -77,6 +74,10 @@ class DaysCollectionViewController: UICollectionViewController {
     
     func preSelectCollectionView() {
 
+        day = 0
+        
+        delegate?.didSelectDay(day)
+        
         let indexPath = IndexPath(row: 0, section: 0)
         
         collectionView.selectItem(

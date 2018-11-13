@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // swiftlint:disable force_cast
     static let shared = UIApplication.shared.delegate as! AppDelegate
+    
     // swiftlint:enable force_cast
     
     func application(
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // get rid of black bar underneath navbar
         UINavigationBar.appearance().shadowImage = UIImage()
+
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
         // Crashlytics
@@ -48,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // GoogleMap
         GMSPlacesClient.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")
+        
         GMSServices.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")
         
         // IQKeyboard
@@ -92,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        
         FBSDKAppEvents.activateApp()
     }
     
@@ -107,7 +111,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        window?.rootViewController = UIStoryboard.loginStoryboard().instantiateInitialViewController()
+        window?.rootViewController = UIStoryboard
+            .loginStoryboard()
+            .instantiateInitialViewController()
     }
     
     func switchToMainStoryBoard() {
@@ -122,6 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        window?.rootViewController = UIStoryboard.mainStoryboard().instantiateInitialViewController()
+        window?.rootViewController = UIStoryboard
+            .mainStoryboard()
+            .instantiateInitialViewController()
     }
 }

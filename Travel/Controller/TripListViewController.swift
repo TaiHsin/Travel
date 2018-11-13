@@ -42,7 +42,7 @@ class TripListViewController: UIViewController {
     
     var locationArray: [[THdata]] = []
     
-    var locations: [Location] = [] // For showing marker in mapview
+    var locations: [Location] = [] // For showing marker in MapView
     
     var photosDict: [String: UIImage] = [:]
     
@@ -179,23 +179,8 @@ class TripListViewController: UIViewController {
             
             self.sortLocations(locations: location, total: self.dates.count)
             
-            self.getPhotos()
-            
-            self.preSelectCollectionView()
+            self.daysCollectionViewController.preSelectCollectionView()
         }
-    }
-    
-    func preSelectCollectionView() {
-        
-        filterDatalist(day: day)
-        
-        passDatatoListTableView()
-        
-        sortLocationsForMarkers()
-        
-        mapViewController.showMarkers(locations: locations)
-        
-        daysCollectionViewController.preSelectCollectionView()
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -293,7 +278,7 @@ class TripListViewController: UIViewController {
                 
                 let placeID = item.location.photo
                 
-                photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
+                photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { [weak self] (photo) in
                     
                     self?.photosDict[placeID] = photo
                     
@@ -734,9 +719,11 @@ extension TripListViewController: DayCollectionViewDelegate {
         
         filterDatalist(day: day)
         
-        listTableViewController.photosDict = photosDict
+//        listTableViewController.photosDict = photosDict
         
         listTableViewController.locationArray = locationArray
+        
+        listTableViewController.getPhotos()
         
         listTableViewController.dates = dates
         

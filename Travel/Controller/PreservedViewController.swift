@@ -155,6 +155,7 @@ class PreservedViewController: UIViewController {
                 
         },
             failure: { [weak self]  (_) in
+                
                 self?.activityIndicatorView.stopAnimating()
         }
         )
@@ -165,8 +166,6 @@ class PreservedViewController: UIViewController {
         for location in locationArray {
             
             let placeID = location.photo
-            
-            #warning ("photoArray order is wrong")
             
             photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { [weak self] (photo) in
                 

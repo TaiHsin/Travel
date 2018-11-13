@@ -23,6 +23,8 @@ class ListTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    let photoManager = PhotoManager()
+    
     let backView = UIView()
     
     let contentOffsetView = UIView()
@@ -193,12 +195,49 @@ class ListTableViewController: UIViewController {
             target: self,
             action: #selector(longPressGestureRecognized(longPress: ))
         )
+        
         self.tableView.addGestureRecognizer(longPress)
     }
 
     @objc func tapGestureRecognized(gestureRecognizer: UITapGestureRecognizer) {
 
         handleTableVIewList(isHidding: true)
+    }
+    
+    func getPhotos() {
+        
+        guard photosDict.count == 0 else { return }
+        
+        locationArray.forEach { [weak self] (locations) in
+            
+            for item in locations {
+                
+                let placeID = item.location.photo
+                
+                photoManager.loadFirstPhotoForPlace(
+                    placeID: placeID,
+                    success: { [weak self] (photo) in
+                        
+                        self?.photosDict[placeID] = photo
+                        
+                        self?.tableView.reloadData()
+                        
+                    },
+                    failure: { (error) in
+                        
+                        print(error.localizedDescription)
+                        
+                        guard let image = UIImage(named: Constants.picPlaceholder) else {
+                            
+                            return
+                        }
+                        
+                        self?.photosDict[Constants.noPhoto] = image
+                        
+                        self?.tableView.reloadData()
+                })
+            }
+        }
     }
     
     func handleTableVIewList(isHidding: Bool) {
