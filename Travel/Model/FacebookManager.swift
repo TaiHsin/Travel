@@ -33,6 +33,7 @@ enum FBError: Error {
 }
 
 struct FacebookManager {
+    
     let manager = FBSDKLoginManager()
     
     func facebookLogin(
@@ -49,7 +50,9 @@ struct FacebookManager {
             handler: { (result, error) in
                 
                 guard error == nil else {
+                    
                     return failure(
+                        
                         FBError.system(error!.localizedDescription)
                     )
                 }
@@ -57,6 +60,7 @@ struct FacebookManager {
                 guard let fbResult = result else {
                     
                     return failure(
+                        
                         FBError.unrecognized(FBErrorMessage.fbLoseData.rawValue)
                     )
                 }
@@ -67,12 +71,11 @@ struct FacebookManager {
                 }
                 
                 guard fbResult.declinedPermissions.count == 0 else {
+                    
                     return failure(FBError.permissionDeclined)
                 }
                 
                 success(fbResult.token.tokenString)
-                // fbResult is all data?
-
             }
         )
     }

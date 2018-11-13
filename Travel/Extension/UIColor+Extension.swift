@@ -33,6 +33,7 @@ extension UIColor {
         }
         
         var rgbValue: UInt32 = 0
+        
         Scanner(string: hexString).scanHexInt32(&rgbValue)
         
         return UIColor.init(

@@ -22,7 +22,9 @@ class DaysCollectionViewController: UICollectionViewController {
     weak var delegate: DayCollectionViewDelegate?
     
     var dates = [Date]() {
+        
         didSet {
+            
             collectionView.reloadData()
         }
     }
@@ -50,13 +52,21 @@ class DaysCollectionViewController: UICollectionViewController {
         
         collectionView.allowsSelection = true
         
-        let identifier = String(describing: MenuBarCollectionViewCell.self)
+        let xib = UINib(
+            nibName: String(describing: MenuBarCollectionViewCell.self),
+            bundle: nil
+        )
         
-        let xib = UINib(nibName: identifier, bundle: nil)
+        collectionView.register(
+            xib,
+            forCellWithReuseIdentifier: String(describing: MenuBarCollectionViewCell.self
+            )
+        )
         
-        collectionView.register(xib, forCellWithReuseIdentifier: identifier)
-        
-        let footerXib = UINib(nibName: String(describing: DayCollectionFooter.self), bundle: nil)
+        let footerXib = UINib(
+            nibName: String(describing: DayCollectionFooter.self),
+            bundle: nil
+        )
         
         collectionView.register(
             footerXib,
@@ -65,16 +75,33 @@ class DaysCollectionViewController: UICollectionViewController {
         )
     }
     
-    /// Refactor
     func preSelectCollectionView() {
 
         let indexPath = IndexPath(row: 0, section: 0)
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.left)
-        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
-        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+        
+        collectionView.selectItem(
+            at: indexPath,
+            animated: true,
+            scrollPosition: UICollectionView.ScrollPosition.left
+        )
+        
+        collectionView.scrollToItem(
+            at: indexPath,
+            at: .left,
+            animated: true
+        )
+        
+        guard let cell = collectionView.cellForItem(
+            at: indexPath
+            ) as? MenuBarCollectionViewCell else {
+            
+            return
+        }
 
         cell.dayLabel.text = Constants.allString
+        
         cell.weekLabel.isHidden = true
+        
         cell.selectedView.isHidden = false
     }
     
@@ -95,7 +122,8 @@ class DaysCollectionViewController: UICollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: MenuBarCollectionViewCell.self),
-            for: indexPath)
+            for: indexPath
+        )
         
         guard let dayTitleCell = cell as? MenuBarCollectionViewCell,
             indexPath.row < dates.count + 1 else {
@@ -106,12 +134,14 @@ class DaysCollectionViewController: UICollectionViewController {
         if indexPath.item == 0 {
             
             dayTitleCell.dayLabel.text = Constants.allString
+            
             dayTitleCell.weekLabel.isHidden = true
             
             return dayTitleCell
         } else {
             
             dayTitleCell.dayLabel.text = String(indexPath.item)
+            
             dayTitleCell.convertWeek(date: dates[indexPath.item - 1])
             
             return dayTitleCell
@@ -149,7 +179,9 @@ class DaysCollectionViewController: UICollectionViewController {
         
         guard indexPath.item != 0 else {
             
-            guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else {
+            guard let cell = collectionView.cellForItem(
+                at: indexPath
+                ) as? MenuBarCollectionViewCell else {
                 
                 return
             }
@@ -159,14 +191,27 @@ class DaysCollectionViewController: UICollectionViewController {
             return
         }
         
-        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+        guard let cell = collectionView.cellForItem(
+            at: indexPath
+            ) as? MenuBarCollectionViewCell else {
+            
+            return
+        }
         
         cell.selectedView.isHidden = false
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        didDeselectItemAt indexPath: IndexPath
+        ) {
         
-        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuBarCollectionViewCell else { return }
+        guard let cell = collectionView.cellForItem(
+            at: indexPath
+            ) as? MenuBarCollectionViewCell else {
+            
+            return
+        }
         
         cell.selectedView.isHidden = true
     }
@@ -181,9 +226,16 @@ class DaysCollectionViewController: UICollectionViewController {
             ofKind: kind,
             withReuseIdentifier: String(describing: DayCollectionFooter.self),
             for: indexPath
-            ) as? DayCollectionFooter else { return UICollectionReusableView() }
+            ) as? DayCollectionFooter else {
+                
+                return UICollectionReusableView()
+        }
         
-        footerView.plusButton.addTarget(self, action: #selector(editDaysCollection(sender: )), for: .touchUpInside)
+        footerView.plusButton.addTarget(
+            self,
+            action: #selector(editDaysCollection(sender: )),
+            for: .touchUpInside
+        )
         
         return footerView
     }
@@ -194,11 +246,15 @@ class DaysCollectionViewController: UICollectionViewController {
         forItemAt indexPath: IndexPath
         ) {
         
-        guard let cell = cell as? MenuBarCollectionViewCell else { return }
+        guard let cell = cell as? MenuBarCollectionViewCell else {
+            
+            return
+        }
         
         if cell.isSelected {
             
             cell.selectedView.isHidden = false
+            
         } else {
             
             cell.selectedView.isHidden = true

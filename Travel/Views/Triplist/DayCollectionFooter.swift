@@ -15,6 +15,4 @@ class DayCollectionFooter: UICollectionReusableView {
     @IBAction func addNewDay(_ sender: UIButton) {
 
     }
-
-    
 }

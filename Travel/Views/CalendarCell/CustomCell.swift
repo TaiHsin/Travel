@@ -21,7 +21,5 @@ class CustomCell: JTAppleCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
 }

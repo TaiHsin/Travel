@@ -61,8 +61,11 @@ class ListTableViewController: UIViewController {
         view.backgroundColor = .clear
         
         setupContentOffsetView()
+        
         setupBackgroundView()
+        
         setupTableView()
+        
         setupGestures()
     }
 
@@ -109,6 +112,7 @@ class ListTableViewController: UIViewController {
     func setupGestures() {
         
         setupTapGesture()
+        
         setupLongPressGesture()
     }
 
@@ -149,8 +153,6 @@ class ListTableViewController: UIViewController {
         
         view.addSubview(backView)
 
-//        let viewHeight = view.frame.height
-
         backViewTopConstraints = backView
             .topAnchor
             .constraint(
@@ -163,16 +165,8 @@ class ListTableViewController: UIViewController {
         backView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         
         backView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        
+
         backView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-//        backViewHeightConstraints = backView
-//            .heightAnchor
-//            .constraint(
-//                equalToConstant: viewHeight - contentOffsetViewVisiblewHeight
-//        )
-//
-//        backViewHeightConstraints?.isActive = true
         
         view.sendSubviewToBack(backView)
     }
@@ -185,7 +179,9 @@ class ListTableViewController: UIViewController {
         )
 
         tapGesture.numberOfTapsRequired = 1
+        
         tapGesture.numberOfTouchesRequired = 1
+        
         contentOffsetView.addGestureRecognizer(tapGesture)
 
         tableView.isUserInteractionEnabled = true
@@ -208,12 +204,14 @@ class ListTableViewController: UIViewController {
     func handleTableVIewList(isHidding: Bool) {
         
         delegate?.didTableHide(isHiding: true)
+        
         self.view.isHidden = isHidding
     }
 
     func changeContentOffsetViewTopConstraint(contentOffset: CGPoint) {
 
         contentOffsetViewTopConstraints?.isActive = false
+       
         contentOffsetViewViewHeightConstraints?.isActive = false
 
         contentOffsetViewTopConstraints = contentOffsetView
@@ -230,6 +228,7 @@ class ListTableViewController: UIViewController {
         )
 
         contentOffsetViewTopConstraints?.isActive = true
+        
         contentOffsetViewViewHeightConstraints?.isActive = true
 
         view.layoutIfNeeded()
@@ -238,6 +237,7 @@ class ListTableViewController: UIViewController {
     func changeBackViewTopConstraint(contentOffset: CGPoint) {
 
         backViewTopConstraints?.isActive = false
+        
         backViewHeightConstraints?.isActive = false
 
         backViewTopConstraints = backView
@@ -254,6 +254,7 @@ class ListTableViewController: UIViewController {
         )
 
         backViewTopConstraints?.isActive = true
+        
         backViewHeightConstraints?.isActive = true
 
         view.layoutIfNeeded()
@@ -262,6 +263,7 @@ class ListTableViewController: UIViewController {
     func changeContentOffsetViewHeightConstraint(contentOffset: CGPoint) {
 
         contentOffsetViewTopConstraints?.isActive = false
+        
         contentOffsetViewViewHeightConstraints?.isActive = false
 
         contentOffsetViewTopConstraints = contentOffsetView
@@ -281,6 +283,7 @@ class ListTableViewController: UIViewController {
         }
 
         contentOffsetViewTopConstraints?.isActive = true
+        
         contentOffsetViewViewHeightConstraints?.isActive = true
 
         view.layoutIfNeeded()
@@ -289,26 +292,29 @@ class ListTableViewController: UIViewController {
     func changeBackViewHeightConstraint(contentOffset: CGPoint) {
 
         backViewTopConstraints?.isActive = false
+        
         backViewHeightConstraints?.isActive = false
 
         if contentOffset.y < 0 {
             
-            backViewTopConstraints = backView
-                .topAnchor
-                .constraint(equalTo: tableView.topAnchor, constant: -contentOffset.y)
+            backViewTopConstraints = backView.topAnchor.constraint(
+                equalTo: tableView.topAnchor,
+                constant: -contentOffset.y
+            )
         } else {
             
-            backViewTopConstraints = backView
-                .topAnchor
-                .constraint(equalTo: tableView.topAnchor, constant: 0)
+            backViewTopConstraints = backView.topAnchor.constraint(
+                equalTo: tableView.topAnchor,
+                constant: 0
+            )
         }
 
-
-        backViewHeightConstraints = backView
-            .heightAnchor
-            .constraint(equalToConstant: tableView.frame.height)
+        backViewHeightConstraints = backView.heightAnchor.constraint(
+            equalToConstant: tableView.frame.height
+        )
 
         backViewTopConstraints?.isActive = true
+        
         backViewHeightConstraints?.isActive = true
 
         view.layoutIfNeeded()
@@ -317,19 +323,27 @@ class ListTableViewController: UIViewController {
 
 extension ListTableViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(
+        in tableView: UITableView
+        ) -> Int {
         
         return locationArray.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+        ) -> Int {
         
         let tripData = locationArray[section]
         
         return tripData.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+        ) -> UITableViewCell {
         
         switch locationArray[indexPath.section][indexPath.row].type {
             
@@ -340,10 +354,15 @@ extension ListTableViewController: UITableViewDataSource {
                 for: indexPath
             )
             
-            guard let emptyCell = cell as? TripListTableViewCell else { return UITableViewCell() }
+            guard let emptyCell = cell as? TripListTableViewCell else {
+                
+                return UITableViewCell()
+            }
             
             emptyCell.isEmpty = true
+            
             emptyCell.switchCellContent()
+            
             emptyCell.selectionStyle = .none
             
             return emptyCell
@@ -364,15 +383,19 @@ extension ListTableViewController: UITableViewDataSource {
             }
             
             listCell.isEmpty = false
+            
             listCell.switchCellContent()
             
             let placeID = datas[indexPath.row].location.photo
+            
             listCell.listImage.image = photosDict[placeID]
             
             listCell.placeNameLabel.text = datas[indexPath.row].location.name
+            
             listCell.addressLabel.text = datas[indexPath.row].location.address
             
             listCell.selectionStyle = .none
+            
             return listCell
         }
     }
@@ -388,28 +411,44 @@ extension ListTableViewController: UITableViewDelegate {
         if day == 0 {
             
             guard let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: String(describing: TriplistHeader.self)) as? TriplistHeader else { return UIView() }
+                withIdentifier: String(describing: TriplistHeader.self)
+                ) as? TriplistHeader else {
+                    
+                    return UIView()
+            }
+            
             headerView.backgroundColor = UIColor.darkGray
             
             let date = dates[section]
+            
             dateFormatter.dateFormat = Constants.completeDate
+            
             let dateString = dateFormatter.string(from: date)
             
             headerView.dateTitleLabel.text = dateString
+            
             headerView.dayLabel.text = String(describing: section + 1)
             
             return headerView
         } else {
             
             guard let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: String(describing: TriplistHeader.self)) as? TriplistHeader else { return UIView() }
+                withIdentifier: String(describing: TriplistHeader.self)
+                ) as? TriplistHeader else {
+                    
+                    return UIView()
+            }
+            
             headerView.backgroundColor = UIColor.darkGray
             
             let date = dates[day - 1]
+            
             dateFormatter.dateFormat = Constants.completeDate
+            
             let dateString = dateFormatter.string(from: date)
             
             headerView.dateTitleLabel.text = dateString
+            
             headerView.dayLabel.text = String(describing: day)
             
             return headerView
@@ -424,7 +463,10 @@ extension ListTableViewController: UITableViewDelegate {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForFooterInSection section: Int
+        ) -> CGFloat {
         
         return 0.1
     }
@@ -435,6 +477,7 @@ extension ListTableViewController: UITableViewDelegate {
         ) {
         
         let datas = locationArray[indexPath.section]
+        
         let location = datas[indexPath.row]
         
         guard location.type == .location else { return }
@@ -460,14 +503,17 @@ extension ListTableViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         guard scrollView == tableView else { return }
+        
         if scrollView.contentOffset.y > -contentOffsetViewVisiblewHeight {
 
             changeContentOffsetViewHeightConstraint(contentOffset: scrollView.contentOffset)
+            
             changeBackViewHeightConstraint(contentOffset: scrollView.contentOffset)
 
         } else if  scrollView.contentOffset.y <= -contentOffsetViewVisiblewHeight {
 
             changeContentOffsetViewTopConstraint(contentOffset: scrollView.contentOffset)
+            
             changeBackViewTopConstraint(contentOffset: scrollView.contentOffset)
 
             if scrollView.contentOffset.y < -(contentOffsetViewVisiblewHeight * 1.4) {
@@ -488,14 +534,23 @@ extension ListTableViewController: UITableViewDelegate {
             let location = locationArray[indexPath.section][indexPath.row].location
 
             locationArray[indexPath.section].remove(at: indexPath.row)
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
             
             if locationArray[indexPath.section].count == 0 {
 
-                locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
+                locationArray[indexPath.section].append(
+                    THdata(
+                        location: Location.emptyLocation(),
+                        type: .empty
+                    )
+                )
+                
                 let newIndexPath = IndexPath(row: 0, section: indexPath.section)
+                
                 tableView.insertRows(at: [newIndexPath], with: .none)
             }
+            
             delegate?.didDeleteData(locationArray: locationArray, location: location)
         }
     }
@@ -518,7 +573,9 @@ extension ListTableViewController {
             for number in 0 ..< numbers where locationArray[0][number].type == .empty {
                 
                 locationArray[0].remove(at: number)
+                
                 let indexPath = IndexPath(row: number, section: 0)
+                
                 tableView.deleteRows(at: [indexPath], with: .none)
             }
             
@@ -532,36 +589,60 @@ extension ListTableViewController {
         case .began:
             
             guard locationArray[indexPath.section][indexPath.row].type == .location else {
-                return }
+                
+                return
+            }
             
             sourceIndexPath = indexPath
-            guard let cell = self.tableView.cellForRow(at: indexPath) as? TripListTableViewCell else {
-                return }
+            
+            guard let cell = self.tableView.cellForRow(
+                at: indexPath
+                ) as? TripListTableViewCell else {
+                
+                return
+            }
             
             snapshot = customSnapshotFromView(inputView: cell)
             
             guard let snapshot = self.snapshot else {
-                return }
+                
+                return
+            }
             
             var center = cell.center
+            
             snapshot.center = center
+            
             snapshot.alpha = 0.0
+            
             self.tableView.addSubview(snapshot)
             
             // Insert empty cell for one row's section
             
             if self.locationArray[indexPath.section].count == 1 {
                 
-                self.locationArray[indexPath.section].append(THdata(location: Location.emptyLocation(), type: .empty))
+                self.locationArray[indexPath.section].append(
+                    THdata(
+                        location: Location.emptyLocation(),
+                        type: .empty
+                    )
+                )
+                
                 let indexPath = IndexPath(row: 1, section: indexPath.section)
+                
                 self.tableView.insertRows(at: [indexPath], with: .none)
             }
             
             UIView.animate(withDuration: 0.25, animations: {
+                
                 center.y = location.y
+                
                 snapshot.center = center
+                
                 snapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                
                 snapshot.alpha = 0.98
+                
                 cell.alpha = 0.0
                 
             }, completion: { (finished) in
@@ -577,7 +658,9 @@ extension ListTableViewController {
                 return }
             
             var center = snapshot.center
+            
             center.y = location.y
+            
             snapshot.center = center
             
             guard let sourceIndexPath = self.sourceIndexPath else {
@@ -587,19 +670,24 @@ extension ListTableViewController {
             if indexPath != sourceIndexPath {
                 
                 let firstDay = sourceIndexPath.section
+                
                 let secondDay = indexPath.section
                 
                 let dataToMove = locationArray[firstDay][sourceIndexPath.row]
+                
                 locationArray[firstDay].remove(at: sourceIndexPath.row)
+                
                 locationArray[secondDay].insert(dataToMove, at: indexPath.row)
                 
                 tableView.moveRow(at: sourceIndexPath, to: indexPath)
+                
                 self.sourceIndexPath = indexPath
             }
             
         default:
             
             guard let sourceIndexPath = self.sourceIndexPath else {
+                
                 return
             }
             
@@ -612,11 +700,13 @@ extension ListTableViewController {
             for number in 0 ..< numbers where locationArray[indexPath.section][number].type == .empty {
                 
                 locationArray[indexPath.section].remove(at: number)
+                
                 let indexPath = IndexPath(row: number, section: indexPath.section)
                 
                 tableView.deleteRows(at: [indexPath], with: .none)
                 
                 let newIndexPath = IndexPath(row: 0, section: indexPath.section)
+                
                 sourceIndex = newIndexPath
                 
                 break
@@ -625,19 +715,27 @@ extension ListTableViewController {
             guard let cell = self.tableView.cellForRow(at: sourceIndex) as? TripListTableViewCell else {
                 
                 cleanUp()
+                
                 return
             }
             
             guard let snapshot = self.snapshot else {
+                
                 return
             }
             
             cell.isHidden = false
+            
             cell.alpha = 0.0
+            
             UIView.animate(withDuration: 0.25, animations: {
+                
                 snapshot.center = cell.center
+                
                 snapshot.transform = .identity
+                
                 snapshot.alpha = 0.0
+                
                 cell.alpha = 1.0
                 
             }, completion: { (finished) in
@@ -654,8 +752,11 @@ extension ListTableViewController {
     func cleanUp() {
         
         sourceIndexPath = nil
+        
         snapshot?.removeFromSuperview()
+        
         snapshot = nil
+        
         tableView.reloadData()
     }
     
@@ -664,16 +765,21 @@ extension ListTableViewController {
         UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
         
         if let currentContext = UIGraphicsGetCurrentContext() {
+            
             inputView.layer.render(in: currentContext)
         }
         
         guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            
             UIGraphicsEndImageContext()
+            
             return nil
         }
         
         UIGraphicsEndImageContext()
+        
         let snapshot = UIImageView(image: image)
+        
         snapshot.layer.masksToBounds = false
         
         return snapshot

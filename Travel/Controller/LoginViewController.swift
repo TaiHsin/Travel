@@ -23,20 +23,20 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         facebookButton.layer.cornerRadius = 8.0
+        
         anonymousButton.layer.cornerRadius = 8.0
+        
         anonymousButton.layer.borderColor = UIColor.white.cgColor
+        
         anonymousButton.layer.borderWidth = 1.0
     }
 
     // MARK: - Set status bar color at specific View Controller
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
+        
         return .lightContent
     }
     
@@ -47,14 +47,15 @@ class LoginViewController: UIViewController {
             if let error = error {
                 
                 print("Login Failed: \(error.localizedDescription)")
+                
                 return
             }
             
             let user = authResult?.user
-            let isAnonymous = user?.isAnonymous
-            let uid = user?.uid
             
-            print(user.debugDescription)
+            let isAnonymous = user?.isAnonymous
+            
+            let uid = user?.uid
             
             DispatchQueue.main.async {
                 
@@ -74,17 +75,23 @@ class LoginViewController: UIViewController {
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: token)
 
-                Auth.auth().signInAndRetrieveData(with: credential, completion: { (authResult, error) in
+                Auth.auth().signInAndRetrieveData(
+                    with: credential,
+                    completion: { [weak self] (authResult, error) in
+                    
                     if let error = error {
                         
                         print("Login Failed: \(error.localizedDescription)")
+                        
                         return
                     }
 
                     let user = authResult?.user
-                    guard let uid = user?.uid else { return }
                     
-                    /// store uid or getIDtoken?
+                    guard let uid = user?.uid else {
+                        
+                        return
+                    }
                     
                     self?.keychain["userId"] = uid
     
@@ -98,6 +105,7 @@ class LoginViewController: UIViewController {
                 })
             },
             failure: { (_) in
+                
                 // TODO
             })
     }

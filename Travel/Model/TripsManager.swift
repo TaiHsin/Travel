@@ -15,6 +15,7 @@ class TripsManager {
     var ref: DatabaseReference!
     
     init() {
+        
         ref = Database.database().reference()
     }
     
@@ -42,8 +43,7 @@ class TripsManager {
             return
         }
         
-        #warning ("better way? observeSingleEvent first and then obeserve for .childAdd ?")
-        
+        // Better way? observeSingleEvent first and then obeserve for .childAdd ?
         /// Need to add sorting method by startDate!!!
         
         ref.child("myTrips")
@@ -53,28 +53,44 @@ class TripsManager {
             
                 guard let value = snapshot.value as? NSDictionary else {
                     
-                    /// Create example trips for first user
+                    // Create example trips for first user
                     
-                    self.ref.child("/myTrips/defaultTrip").observeSingleEvent(of: .value, with: { (snapshot) in
+                    self.ref.child("/myTrips/defaultTrip").observeSingleEvent(
+                        of: .value,
+                        with: { [weak self] (snapshot) in
                         
-                        guard let value = snapshot.value as? NSDictionary else { return }
+                        guard let self = self else {
+                            
+                            return
+                        }
                         
-                        guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                        guard let value = snapshot.value as? NSDictionary else {
+                            
+                            return
+                        }
+                        
+                        guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                            
+                            return
+                        }
                         
                         do {
                             let data = try self.decoder.decode(Trips.self, from: jsonData)
                             
                             self.createTripData(
                                 trip: data,
-                                success: { (daysKey, key, uid) in
+                                success: { [weak self] (daysKey, key, uid) in
                                     
-                                    self.fetchDayList(daysKey: data.daysKey, success: { (locations) in
+                                    self?.fetchDayList(
+                                        daysKey: data.daysKey,
+                                        success: { [weak self] (locations) in
 
-                                        self.addDefauleData(dayskey: daysKey, locations: locations)
+                                        self?.addDefauleData(dayskey: daysKey, locations: locations)
 
-                                        self.fetchTripsData(success: { (datas) in
+                                        self?.fetchTripsData(success: { (datas) in
 
                                             success(datas)
+                                            
                                         }, failure: { (_) in
                                             // TODO
                                         })
@@ -82,7 +98,9 @@ class TripsManager {
                             })
                             
                         } catch {
+                            
                             print(error)
+                            
                             failure(error)
                         }
                     })
@@ -94,22 +112,28 @@ class TripsManager {
             
             for value in value.allValues {
                 
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                    
+                    return
+                }
                 
                 do {
                     let data = try self.decoder.decode(Trips.self, from: jsonData)
                     
                     datas.append(data)
+                    
                 } catch {
-                    print(error)
+                    
                     failure(error)
                 }
             }
+                
             success(datas)
         })
     }
     
-    /// Try to use model to replace
+    // Use model to replace
+    
     func createTripData(
         trip: Trips,
         success: @escaping (String, String, String) -> Void
@@ -117,9 +141,20 @@ class TripsManager {
         
         // Add daysKey for tripDays node
         
-        guard let daysKey = ref.child("tripDays").childByAutoId().key else { return }
-        guard let key = ref.child("myTrips").childByAutoId().key else { return }
-        guard let uid = keychain["userId"] else { return }
+        guard let daysKey = ref.child("tripDays").childByAutoId().key else {
+            
+            return
+        }
+        
+        guard let key = ref.child("myTrips").childByAutoId().key else {
+            
+            return
+        }
+        
+        guard let uid = keychain["userId"] else {
+            
+            return
+        }
         
         let post = ["name": trip.name,
                     "place": trip.place,
@@ -134,6 +169,7 @@ class TripsManager {
             ] as [String: Any]
         
         let postUpdate = ["/myTrips/\(key)": post]
+        
         ref.updateChildValues(postUpdate)
         
         success(daysKey, key, uid)
@@ -145,7 +181,12 @@ class TripsManager {
         
         let location: Location = Location.emptyLocation()
         
-        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            
+            guard let self = self else {
+                
+                return
+            }
             
             guard let value = snapshot.value as? NSDictionary else {
                 
@@ -160,8 +201,10 @@ class TripsManager {
             
             for value in value.allValues {
                 
-                /// Refactor
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                    
+                    return
+                }
 
                 do {
                     
@@ -172,6 +215,7 @@ class TripsManager {
                     result.append(thDAta)
                     
                 } catch {
+                    
                     print(error)
                 }
             }
@@ -185,6 +229,7 @@ class TripsManager {
     func deleteMyTrip(tripID: String, daysKey: String) {
         
         ref.child("/myTrips/\(tripID)").removeValue()
+        
         ref.child("/tripDays/\(daysKey)").removeValue()
     }
     
@@ -193,6 +238,7 @@ class TripsManager {
         for location in locations {
             
             guard let locationId = self.ref.child("/tripDays/\(dayskey)").childByAutoId().key else {
+                
                 return
             }
             

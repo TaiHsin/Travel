@@ -44,7 +44,6 @@
 		9DD30ACC2172505900AF7BC1 /* SFCompactDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AB921724F9900AF7BC1 /* SFCompactDisplay-Bold.otf */; };
 		9DD30ACD2172506000AF7BC1 /* SFCompactText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AAD21724F9800AF7BC1 /* SFCompactText-Bold.otf */; };
 		9DD30ACE2172506800AF7BC1 /* SFCompactDisplay-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AB121724F9800AF7BC1 /* SFCompactDisplay-Thin.otf */; };
-		9DD30AD02172526A00AF7BC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD30ACF2172526A00AF7BC1 /* ViewController.swift */; };
 		9DD30AD2217255C700AF7BC1 /* SFCompactDisplay-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AD1217255BC00AF7BC1 /* SFCompactDisplay-Ultralight.otf */; };
 		9DD30AD421733E7D00AF7BC1 /* TriplistHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */; };
 		9DD30AD621733E9900AF7BC1 /* TriplistHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */; };
@@ -59,7 +58,6 @@
 		9DDE5B73216062050096C4FC /* TripTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DDE5B71216062050096C4FC /* TripTableViewCell.xib */; };
 		9DEFCBC021634B1E00CE452A /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */; };
 		9DF115762193CC59009911BA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF115752193CC59009911BA /* UIViewController+Extension.swift */; };
-		9DF1157821944273009911BA /* TriplistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF1157721944273009911BA /* TriplistManager.swift */; };
 		9DF143CB215B7934004E2DF1 /* TripListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */; };
 		9DF143CC215B7934004E2DF1 /* TripListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */; };
 		9DF3400F215C67B9002A957D /* Preserved.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF3400E215C67B9002A957D /* Preserved.storyboard */; };
@@ -137,7 +135,6 @@
 		9DD30ABA21724F9900AF7BC1 /* SFCompactDisplay-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Semibold.otf"; sourceTree = "<group>"; };
 		9DD30ABD21724F9A00AF7BC1 /* SFCompactText-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactText-Regular.otf"; sourceTree = "<group>"; };
 		9DD30ABF21724F9A00AF7BC1 /* SFCompactDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.otf"; sourceTree = "<group>"; };
-		9DD30ACF2172526A00AF7BC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9DD30AD1217255BC00AF7BC1 /* SFCompactDisplay-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Ultralight.otf"; sourceTree = "<group>"; };
 		9DD30AD321733E7D00AF7BC1 /* TriplistHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriplistHeader.swift; sourceTree = "<group>"; };
 		9DD30AD521733E9900AF7BC1 /* TriplistHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TriplistHeader.xib; sourceTree = "<group>"; };
@@ -152,7 +149,6 @@
 		9DDE5B71216062050096C4FC /* TripTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripTableViewCell.xib; sourceTree = "<group>"; };
 		9DEFCBBF21634B1E00CE452A /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeader.swift; sourceTree = "<group>"; };
 		9DF115752193CC59009911BA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
-		9DF1157721944273009911BA /* TriplistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriplistManager.swift; sourceTree = "<group>"; };
 		9DF143C9215B7934004E2DF1 /* TripListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListTableViewCell.swift; sourceTree = "<group>"; };
 		9DF143CA215B7934004E2DF1 /* TripListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListTableViewCell.xib; sourceTree = "<group>"; };
 		9DF3400E215C67B9002A957D /* Preserved.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preserved.storyboard; sourceTree = "<group>"; };
@@ -281,7 +277,6 @@
 				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 				9DAB633D218586870028D9B9 /* Constants.swift */,
 				9DF78CD821880C7600C80666 /* FirebaseManager.swift */,
-				9DF1157721944273009911BA /* TriplistManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,7 +296,6 @@
 				9DF64F4321589715000D0300 /* ProfileViewController.swift */,
 				9D6C1584215E846100574A12 /* CreateTripViewController.swift */,
 				9DDE5B67215FD7160096C4FC /* TripSelectionViewController.swift */,
-				9DD30ACF2172526A00AF7BC1 /* ViewController.swift */,
 				9DF61B3C215A0C7B005919E8 /* TripListViewController.swift */,
 				194702362189BAED00D68225 /* MapViewController.swift */,
 				194702382189BB8E00D68225 /* ListTableViewController.swift */,
@@ -685,7 +679,6 @@
 				9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */,
 				194702392189BB8E00D68225 /* ListTableViewController.swift in Sources */,
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
-				9DD30AD02172526A00AF7BC1 /* ViewController.swift in Sources */,
 				9DDE5B68215FD7160096C4FC /* TripSelectionViewController.swift in Sources */,
 				9DF34023215CD875002A957D /* WeatherTableViewCell.swift in Sources */,
 				9DF61B3D215A0C7B005919E8 /* TripListViewController.swift in Sources */,
@@ -701,7 +694,6 @@
 				9D4A149321533E9600748E06 /* FacebookManager.swift in Sources */,
 				9DD7944521620EDA00C42800 /* UIColor+Extension.swift in Sources */,
 				9DDE5B72216062050096C4FC /* TripTableViewCell.swift in Sources */,
-				9DF1157821944273009911BA /* TriplistManager.swift in Sources */,
 				9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */,
 				9D6B5D03216F4C3500066756 /* DayCollectionFooter.swift in Sources */,
 				9DF91F3A217E1B060082F9D7 /* DayCollectionHeader.swift in Sources */,

@@ -17,6 +17,7 @@ class FirebaseManager {
     let decoder = JSONDecoder()
     
     init() {
+        
         ref = Database.database().reference()
     }
     
@@ -26,12 +27,21 @@ class FirebaseManager {
             .child(daysKey)
             .queryOrdered(byChild: "days")
             .queryEqual(toValue: day)
-            .observeSingleEvent(of: .value) { (snapshot) in
-                guard let value = snapshot.value as? NSDictionary else { return }
-                guard let keys = value.allKeys as? [String] else { return }
+            .observeSingleEvent(of: .value) { [weak self] (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    return
+                }
+                
+                guard let keys = value.allKeys as? [String] else {
+                    
+                    return
+                }
                 
                 for key in keys {
-                    self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                    
+                    self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
                 }
         }
     }
@@ -44,28 +54,41 @@ class FirebaseManager {
             .child(daysKey)
             .queryOrdered(byChild: "locationId")
             .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { (snapshot) in
+            .observeSingleEvent(of: .value) { [weak self] (snapshot) in
                 
-                guard let value = snapshot.value as? NSDictionary else { return }
-                guard let key = value.allKeys.first as? String else { return }
-                self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    return
+                }
+                
+                guard let key = value.allKeys.first as? String else {
+                    
+                    return
+                }
+                
+                self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
         }
     }
 
-    
     func fetchDayList(daysKey: String, success: @escaping ([THdata]) -> Void) {
         
         let location: Location = Location.emptyLocation()
         
         // path for refactor: tripDays/\(daysKey)
         
-        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            
+            guard let self = self else {
+                
+                return
+            }
             
             guard let value = snapshot.value as? NSDictionary else {
                 
                 let result = THdata(location: location, type: .empty)
                 
                 success([result])
+                
                 return
             }
             
@@ -73,8 +96,10 @@ class FirebaseManager {
             
             for value in value.allValues {
                 
-                /// Refactor
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                    
+                    return
+                }
                 
                 do {
                     
@@ -85,6 +110,7 @@ class FirebaseManager {
                     result.append(thDAta)
                     
                 } catch {
+                    
                     print(error)
                 }
             }

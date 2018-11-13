@@ -13,5 +13,4 @@ class ChecklistHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var contentLabel: UILabel!
     
     @IBOutlet weak var numberLabel: UILabel!
-    
 }

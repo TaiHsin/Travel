@@ -14,41 +14,53 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var photoImage: UIImageView!
     
-//    @IBOutlet weak var nameLabel: UILabel!
-    
     var resultsViewController: GMSAutocompleteResultsViewController?
+    
     var searchController: UISearchController?
+    
     var resultView: UITableView?
+    
     var ref: DatabaseReference!
+    
     var location: Location?
+    
     var total = 0
+    
     let fullScreenSize = UIScreen.main.bounds.size
+    
     var tabIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         resultsViewController = GMSAutocompleteResultsViewController()
+        
         resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
+        
         searchController?.searchResultsUpdater = resultsViewController
         
         // Put the search bar in the navigation bar.
+        
         searchController?.searchBar.sizeToFit()
+        
         navigationItem.titleView = searchController?.searchBar
         
         // When UISearchController presents the results view, present it in
         // this view controller, not one further up the chain.
+        
         definesPresentationContext = true
         
         // Prevent the navigation bar from being hidden when searching.
+        
         searchController?.hidesNavigationBarDuringPresentation = false
         
         ref = Database.database().reference()
         
-        fetchDataCount { (number) in
-            self.total = number
+        fetchDataCount { [weak self] (number) in
+            
+            self?.total = number
         }
     }
     
@@ -56,16 +68,6 @@ class SearchViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
-        
-        /// Put search place and favorite together
-//        guard let favoriteVC = UIStoryboard.preservedStoryboard().instantiateViewController(
-//            withIdentifier: String(describing: PreservedViewController.self)) as? PreservedViewController else { return }
-//
-//        self.addChild(favoriteVC)
-//
-//        favoriteVC.view.frame = self.view.frame
-//        self.view.addSubview(favoriteVC.view)
-//        favoriteVC.didMove(toParent: self)
     }
 }
 
@@ -80,36 +82,37 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         searchController?.isActive = false
     
-        /// Remove "total" parameter if is useless
         convertData(place: place, total: total) { (location) in
             
             self.location = location
             self.switchDetailVC(location: self.location)
         }
-//        loadFirstPhotoForPlace(placeID: place.placeID)
-//        nameLabel.text = place.name
     }
 
     func switchDetailVC(location: Location?) {
         
         /// How to remove childView from parentView?
         
-        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
-            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
-        
+        guard let detailViewController = UIStoryboard.searchStoryboard()
+            .instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)
+            ) as? DetailViewController else {
+                
+                return
+        }
+    
         detailViewController.tabIndex = tabIndex
+
         detailViewController.location = location
-        detailViewController.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
-//        detailViewController.showAnimate()
+
+        detailViewController.view.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: fullScreenSize.width,
+            height: fullScreenSize.height
+        )
+
         tabBarController?.present(detailViewController, animated: true)
-        
-//        self.addChild(detailViewController)
-//
-//        self.view.addSubview(detailViewController.view)
-//        detailViewController.didMove(toParent: self)
-        
-//        UIApplication.shared.keyWindow?
-//            .bringSubviewToFront(detailViewController.view)
     }
     
     func resultsController(
@@ -118,26 +121,36 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         ) {
         
         // TODO: handle the error.
+        
         print("Error: ", error.localizedDescription)
     }
     
     // Turn the network activity indicator on and off again.
     
-    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+    func didRequestAutocompletePredictions(
+        _ viewController: GMSAutocompleteViewController
+        ) {
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+    func didUpdateAutocompletePredictions(
+        _ viewController: GMSAutocompleteViewController
+        ) {
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     func convertData(place: GMSPlace, total: Int, success: @escaping (Location) -> Void) {
         
         let date = Date()
+        
         let dateInt = Double(date.timeIntervalSince1970)
         
         let latitude = place.coordinate.latitude
+        
         let longitude = place.coordinate.longitude
+        
         let position = "\(latitude)" + "_" + "\(longitude)"
         
         let location = Location.init(
@@ -158,14 +171,16 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     func fetchDataCount(success: @escaping (Int) -> Void) {
         
-        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("favorite").observeSingleEvent(of: .value) { [weak self] (snapshot) in
             
-            guard let value = snapshot.value as? NSDictionary else { return }
+            guard let value = snapshot.value as? NSDictionary else {
+                
+                return
+            }
+            
             let number = value.allKeys.count
             
             success(number)
         }
     }
 }
-
-/// Wait to modify: pop to new view after tap search result table view for detail information include add function
