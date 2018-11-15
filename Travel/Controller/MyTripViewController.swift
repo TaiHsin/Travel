@@ -50,8 +50,6 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        setupUI()
-        
         emptyLabel.isHidden = true
         
         NotificationCenter.default.addObserver(
@@ -62,17 +60,19 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         )
         
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
-//        activityIndicatorView.color = #colorLiteral(red: 0.6078431373, green: 0.631372549, blue: 0.7098039216, alpha: 1)
+        
         activityIndicatorView.color = UIColor.cloudyBlue
+        
         activityIndicatorView.startAnimating()
         
         setupCollectionView()
+        
         fetchData()
-//        setupNavigationImage()
         
         navigationItem.leftBarButtonItem = editButtonItem
         
         #warning ("Refactor: use enum for all notification strings")
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.createNewTrip(noti: )),
@@ -85,50 +85,14 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         super.viewWillAppear(animated)
         
         navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+        
         navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
-        
-//        navigationController?.navigationBar.subviews[4].isHidden = false
-        
-//        emptyLabel.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-//        NSLayoutConstraint.activate([
-//            imageView.heightAnchor.constraint(equalToConstant: 0),
-//            ])
-//
-//        navigationController?.navigationBar.willRemoveSubview(imageView)
-    }
-    
-    private func setupUI() {
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
-        title = Constants.emptyString
-        
-        // Initial setup for image for Large NavBar state since the the screen always has Large NavBar once it gets opened
-        guard let navigationBar = self.navigationController?.navigationBar else { return }
-        navigationBar.addSubview(imageView)
-        imageView.layer.cornerRadius = Const.ImageSizeForLargeState / 2
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor.battleshipGrey
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: navigationBar.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor, constant: 10),
-            //            imageView.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
-            //            imageView.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
-            imageView.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            //            imageView.topAnchor.constraint(equalTo: navigationBar.topAnchor, constant: 0)
-            ])
     }
     
     @objc func fetchDataFailed(noti: Notification) {
         
         activityIndicatorView.stopAnimating()
+        
         emptyLabel.isHidden = false
     }
     
@@ -168,6 +132,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
             detailController.trip.append(trips[indexPath.item])
             
         default:
+            
             return super.prepare(for: segue, sender: sender)
         }
     }
@@ -178,14 +143,12 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         
         trips.removeAll()
     
-        #warning ("Refact with other fetch data function with general type")
         tripsManager.fetchTripsData(
             success: { [weak self] (datas) in
                 
                 self?.trips = datas
                 
                 self?.sortDataWithUpComimgDate()
-                #warning ("better not to reload data (only add/ insert one)?")
                 
                 self?.collectionView.reloadData()
                 
@@ -200,10 +163,11 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
                 self?.activityIndicatorView.stopAnimating()
             },
             
-            failure: { (error) in
+            failure: { [weak self] (error) in
                 
                 print(error.localizedDescription)
-                self.activityIndicatorView.stopAnimating()
+                
+                self?.activityIndicatorView.stopAnimating()
         })
     }
     
@@ -260,27 +224,36 @@ extension MyTripViewController: UICollectionViewDataSource {
         
         myTripCell.tripTitle.text = trips[indexPath.item].place
         
-        #warning ("Refactor out to stand alone manager")
+        // Refactor out to stand alone manager
         
         dateFormatter.dateFormat = "yyyy MM dd"
+        
         let startDate = Date(timeIntervalSince1970: trips[indexPath.item].startDate)
+        
         let endDate = Date(timeIntervalSince1970: trips[indexPath.item].endDate)
 
         dateFormatter.dateFormat = "yyyy"
+        
         let startYear = dateFormatter.string(from: startDate)
+        
         let endYear = dateFormatter.string(from: endDate)
 
         if startYear == endYear {
+            
             myTripCell.yearsLabel.text = startYear
         } else {
+            
             myTripCell.yearsLabel.text = startYear + " - " + endYear
         }
 
         dateFormatter.dateFormat = "MMM.dd"
+        
         let startMonth = dateFormatter.string(from: startDate)
+        
         let endMonth = dateFormatter.string(from: endDate)
 
         myTripCell.isEditing = false
+        
         myTripCell.dateLabel.text = startMonth + " - " + endMonth
         
         return myTripCell
@@ -334,6 +307,7 @@ extension MyTripViewController: UICollectionViewDelegateFlowLayout {
         didSelectItemAt indexPath: IndexPath) {
         
         Analytics.logEvent("view_item", parameters: nil)
+        
         performSegue(
             withIdentifier: String(describing: TripListViewController.self),
             sender: indexPath
@@ -352,8 +326,11 @@ extension MyTripViewController: MyTripCellDelegate {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         
         let daysKey = trips[indexPath.item].daysKey
+        
         let tripID = trips[indexPath.item].id
+        
         trips.remove(at: indexPath.item)
+        
         tripsManager.deleteMyTrip(tripID: tripID, daysKey: daysKey)
                 
         collectionView.deleteItems(at: [indexPath])

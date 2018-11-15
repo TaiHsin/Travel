@@ -11,9 +11,8 @@ import UIKit
 extension UIAlertController {
     
     typealias ActionHandler = (UIAlertAction) -> Void
-    typealias AlertHandler = () -> Void
     
-    /// Not used yet, wait for refactor and gether alert func. here together
+    typealias AlertHandler = () -> Void
     
     static func showAlert(
         title: String?,
@@ -22,11 +21,18 @@ extension UIAlertController {
         completion: AlertHandler? = nil
         ) -> UIAlertController {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
         
-        let action = UIAlertAction(title: "OK", style: .default, handler: { _ in
+        let action = UIAlertAction(
+            title: "OK",
+            style: .default,
+            handler: { _ in
             
-            completion?()
+                completion?()
         })
         
         alertController.addAction(action)
@@ -36,7 +42,11 @@ extension UIAlertController {
             return alertController
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: nil
+        )
         
         alertController.addAction(cancelAction)
         
@@ -50,30 +60,46 @@ extension UIAlertController {
         destructiveCompletion: ActionHandler? = nil
         ) -> UIAlertController {
         
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: nil
+        )
         
         alertController.addAction(cancelAction)
         
         for item in defaultOptions {
             
-            let action = UIAlertAction(title: item, style: .default, handler: { action in
+            let action = UIAlertAction(
+                title: item,
+                style: .default,
+                handler: { action in
                 
-                defaultCompletion(action)
+                    defaultCompletion(action)
             })
             
             alertController.addAction(action)
         }
         
         guard let destructiveOptions = destructiveOptions else {
+            
             return alertController
         }
         
         for item in destructiveOptions {
             
-            let action = UIAlertAction(title: item, style: .destructive, handler: { action in
-                destructiveCompletion?(action)
+            let action = UIAlertAction(
+                title: item,
+                style: .destructive,
+                handler: { action in
+                
+                    destructiveCompletion?(action)
             })
             
             alertController.addAction(action)

@@ -11,7 +11,9 @@ import UIKit
 class TriplistHeader: UITableViewHeaderFooterView {
     
     @IBOutlet weak var dayLabel: UILabel!
+    
     @IBOutlet weak var dateTitleLabel: UILabel!
+    
     @IBOutlet weak var backView: UIView!
 
     override func awakeFromNib() {

@@ -30,7 +30,9 @@ class MyTripsCell: UICollectionViewCell {
     weak var delegate: MyTripCellDelegate?
     
     var isEditing = false {
+        
         didSet {
+        
             editingItem()
         }
     }
@@ -44,12 +46,16 @@ class MyTripsCell: UICollectionViewCell {
     func editingItem() {
         
         deleteLabel.isHidden = !isEditing
+        
         deleteButton.isHidden = !isEditing
+        
         dateLabel.isHidden = isEditing
+        
         yearsLabel.isHidden = isEditing
     }
     
     @IBAction func deleteButtonDidTap(_ sender: Any) {
+        
         delegate?.delete(for: self)
     }
 }

@@ -22,6 +22,8 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var placeImage: UIImageView!
     
+    @IBOutlet weak var imageCoverView: UIView!
+    
     @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var myTripButton: UIButton!
@@ -59,9 +61,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        self.view.frame = CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height)
-        
         ref = Database.database().reference()
+        
         showAnimate()
     }
     
@@ -71,90 +72,88 @@ class DetailViewController: UIViewController {
         self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.8)
         
         placeInfoCard.layer.cornerRadius = 8
+        
         placeInfoCard.layer.masksToBounds = true
+        
         placeImage.clipsToBounds = true
         
         let width = placeInfoCard.frame.width
     
-        myTripsButtonWidthConstraints = myTripButton.widthAnchor.constraint(equalToConstant: width * 0.5)
+        myTripsButtonWidthConstraints = myTripButton
+            .widthAnchor
+            .constraint(equalToConstant: width * 0.5)
+        
         myTripsButtonWidthConstraints.isActive = true
 
-        favoriteButtonWidthConstraints = favoriteButton.widthAnchor.constraint(equalToConstant: width - width * 0.5)
+        favoriteButtonWidthConstraints = favoriteButton
+            .widthAnchor
+            .constraint(equalToConstant: width - width * 0.5)
+        
         favoriteButtonWidthConstraints.isActive = true
         
         if isMyTrip || tabIndex == 2 {
             
-//            let width = myTripsButtonWidthConstraints.constant
             myTripsButtonWidthConstraints.constant = 0.0
+            
             favoriteButtonWidthConstraints.constant = width
+            
             intervalConstraints.constant = 0.0
         } else if isFavorite || tabIndex == 1 {
             
-//            let width = favoriteButtonWidthConstraints.constant
             favoriteButtonWidthConstraints.constant = 0.0
+
             myTripsButtonWidthConstraints.constant = width
+            
             intervalConstraints.constant = 0.0
         }
         
-        #warning ("below shouldn't in viewWillAppear?")
+        // Below shouldn't in viewWillAppear?
         
-        guard let location = location else { return }
+        guard let location = location else {
+            
+            return
+        }
+        
         let placeId = location.photo
         
         placeName.text = location.name
+        
         positionLabel.text = location.address
         
-        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { (photo) in
+        photoManager.loadFirstPhotoForPlace(
+            placeID: placeId,
+            success: { [weak self] (photo) in
             
-            self.placeImage.image = photo
+            self?.placeImage.image = photo
+            
         }, failure: { (error) in
+            
             // TODO:
+            
+            print(error)
         })
     }
     
-    func setupMessageView() {
-        
-        // Instantiate a message view from the provided card view layout. SwiftMessages searches for nib
-        // files in the main bundle first, so you can easily copy them into your project and make changes.
-        let view = MessageView.viewFromNib(layout: .messageView)
-        
-        // Theme message elements with the warning style.
-        view.configureTheme(.warning)
-        
-        // Add a drop shadow.
-        view.configureDropShadow()
-        
-        // Set message title, body, and icon. Here, we're overriding the default warning
-        // image with an emoji character.
-        let iconText = ["🤔", "😳", "🙄", "😶"].sm_random()!
-        view.configureContent(title: "Warning", body: "Consider yourself warned.", iconText: iconText)
-        
-        // Increase the external margin around the card. In general, the effect of this setting
-        // depends on how the given layout is constrained to the layout margins.
-        view.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        
-        // Reduce the corner radius (applicable to layouts featuring rounded corners).
-        (view.backgroundView as? CornerRoundingView)?.cornerRadius = 10
-        
-        // Show the message.
-        SwiftMessages.show(view: view)
-    }
-    
-    #warning ("Need to pop out to cover tab bar and navigation bar")
-    
     @IBAction func addToMyTrip(_ sender: Any) {
         
-        guard let selectionViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+        guard let selectionViewController = UIStoryboard.searchStoryboard()
+            .instantiateViewController(
             withIdentifier: String(describing: TripSelectionViewController.self)
-            ) as? TripSelectionViewController else { return }
+            ) as? TripSelectionViewController else {
+                
+                return
+        }
         
         selectionViewController.location = location
+        
         selectionViewController.tabIndex = tabIndex
         
         self.addChild(selectionViewController)
         
         selectionViewController.view.frame = self.placeInfoCard.frame
+        
         self.view.addSubview(selectionViewController.view)
+        
         selectionViewController.didMove(toParent: self)
     }
     
@@ -167,40 +166,51 @@ class DetailViewController: UIViewController {
         
         let touch: UITouch? = touches.first
         
-        if touch?.view != placeInfoCard {
+        if touch?.view != placeInfoCard, touch?.view != imageCoverView {
             
             removeAnimate()
         }
     }
     
-    #warning ("Refactor: gether all alert function together")
-    
     func showAlertWith() {
         
-        let alertViewController = UIAlertController.showAlert(title: nil, message: "Already in favorite", cancel: false) {
+        let alertViewController = UIAlertController.showAlert(
+        title: nil,
+        message: "Already in favorite",
+        cancel: false
+        ) {
             
             self.removeAnimate()
         }
+        
         self.present(alertViewController, animated: true, completion: nil)
     }
     
     // Pop out animation
     
     func showAnimate() {
+        
         self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         
         self.view.alpha = 0.0
+        
         UIView.animate(withDuration: 0.25, animations: {
+            
             self.view.alpha = 1.0
+            
             self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
     }
     
     func removeAnimate() {
+        
         UIView.animate(withDuration: 0.25, animations: {
+            
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            
             self.view.alpha = 0.0
         }, completion: {(finished: Bool)  in
+            
             if finished {
                 
                 self.dismiss(animated: true)
@@ -208,11 +218,10 @@ class DetailViewController: UIViewController {
         })
     }
     
-    #warning ("Refactor")
-    
     @IBAction func addToFavorite(_ sender: UIButton) {
         
         guard let location = location else { return }
+        
         guard let uid = keychain["userId"] else { return }
         
         ref.child("/favorite/\(uid)")
@@ -224,26 +233,30 @@ class DetailViewController: UIViewController {
                     
                     self.showAlertWith()
                     
-                    /// use SDK to replace alertAction
+                    // use SDK to replace alertAction
                     
                 } else {
                     
                     self.updateLocation(location: location)
                 
-                    /// Use tabIndex to pass number for determine tab item
+                    // Use tabIndex to pass number for determine tab item
                     
                     if self.tabIndex == 1 {
-                    
-//                        self.setupMessageView()
                         
-                        guard let tripsnavi = self.presentingViewController?.children[0] as? TripNaviViewController else { return }
+                        guard let tripsnavi = self.presentingViewController?.children[0]
+                            as? TripNaviViewController else {
+                                
+                                return
+                        }
                         
                         tripsnavi.popViewController(animated: true)
                     } else if self.tabIndex == 2 {
                         
-//                        self.setupMessageView()
-                        
-                        guard let collectionsNavi = self.presentingViewController?.children[1] as? TripNaviViewController else { return }
+                        guard let collectionsNavi = self.presentingViewController?.children[1]
+                            as? TripNaviViewController else {
+                                
+                                return
+                        }
                         
                         collectionsNavi.popViewController(animated: true)
                     }
@@ -255,18 +268,27 @@ class DetailViewController: UIViewController {
         }
     }
     
-    #warning ("Refactor: gether all Firebase relative function together")
     func updateLocation(location: Location) {
         
-        guard let uid = keychain["userId"] else { return }
-        
-        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
-            guard let value = snapshot.value as? NSDictionary else { return }
+        guard let uid = keychain["userId"] else {
             
-            self.total = value.allKeys.count
+            return
         }
         
-        guard let key = ref.child("favorite").childByAutoId().key else { return }
+        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            
+            guard let value = snapshot.value as? NSDictionary else {
+                
+                return
+            }
+            
+            self?.total = value.allKeys.count
+        }
+        
+        guard let key = ref.child("favorite").childByAutoId().key else {
+            
+            return
+        }
         
         let post = ["addTime": location.addTime,
                     "address": location.address,

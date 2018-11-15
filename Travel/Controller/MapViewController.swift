@@ -12,7 +12,7 @@ import GooglePlaces
 
 protocol MapViewDelegate: AnyObject {
     
-    func didShowListHit()
+    func didShowListHit(for mapViewController: MapViewController)
 }
 
 class MapViewController: UIViewController {
@@ -29,6 +29,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
 
         setupMapView()
+        
         showListButton.isHidden = true
     }
     
@@ -37,16 +38,19 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         
         let padding = showListButton.frame.height
+        
         mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: padding, right: 0)
         
         locationManager.delegate = self
+        
         locationManager.requestWhenInUseAuthorization()
     }
     
     @IBAction func backToList(_ sender: UIButton) {
         
         handleShowListButton(isHiding: true)
-        delegate?.didShowListHit()
+        
+        delegate?.didShowListHit(for: self)
     }
     
     func handleShowListButton(isHiding: Bool) {
@@ -59,6 +63,7 @@ class MapViewController: UIViewController {
         locationManager.startUpdatingLocation()
         
         mapView.isMyLocationEnabled = true
+        
         mapView.settings.myLocationButton = true
     }
     
@@ -71,16 +76,23 @@ class MapViewController: UIViewController {
         for location in locations {
             
             let latitude = location.latitude
+            
             let longitude = location.longitude
             
             let position = CLLocationCoordinate2DMake(latitude, longitude)
+            
             let marker = GMSMarker(position: position)
             
             let markerImage = UIImage(named: Constants.locationIcon)
+            
             let markerView = UIImageView(image: markerImage)
+            
             markerView.tintColor = UIColor.battleshipGrey
+            
             marker.iconView = markerView
+            
             marker.title = location.name
+            
             marker.map = mapView
             
             mapView.setMinZoom(5, maxZoom: 15)
@@ -104,7 +116,10 @@ class MapViewController: UIViewController {
 
 extension MapViewController: GMSMapViewDelegate {
     
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+    func mapView(
+        _ mapView: GMSMapView,
+        didTap marker: GMSMarker
+        ) -> Bool {
         
         return false
     }
@@ -116,9 +131,15 @@ extension MapViewController: CLLocationManagerDelegate {
     
     // didChangeAuthorization function is called when the user grants or revokes location permissions.
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didChangeAuthorization status: CLAuthorizationStatus
+        ) {
         
-        guard status == .authorizedWhenInUse else { return }
+        guard status == .authorizedWhenInUse else {
+            
+            return
+        }
         
         getCurrentLocation()
     }

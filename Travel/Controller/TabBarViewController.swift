@@ -97,12 +97,17 @@ class TabBarViewController: UITabBarController {
     private func setupTab() {
     
         tabBar.layer.borderWidth = 0
+        
         tabBar.clipsToBounds = true
+        
         tabBar.barTintColor = UIColor.white
+        
         tabBar.tintColor = UIColor.battleshipGrey
         
         let appearance = UITabBarItem.appearance()
+        
         let attributes = [NSAttributedString.Key.font: UIFont(name: "SFCompactDisplay-Regular", size: 8)]
+        
         appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key: Any], for: .normal)
         
         var controllers: [UIViewController] = []
@@ -131,6 +136,7 @@ class TabBarViewController: UITabBarController {
             item.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -2)
             
             controller.tabBarItem = item
+            
             controllers.append(controller)
         }
         

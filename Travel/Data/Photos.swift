@@ -17,8 +17,8 @@ class Photos {
         for index in 1 ... 20 {
             
             let string = "trip_" + String(describing: index)
+            
             photos.append(string)
         }
     }
 }
-

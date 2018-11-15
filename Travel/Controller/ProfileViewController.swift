@@ -33,7 +33,9 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         showProfile()
+        
         profileImage.layer.cornerRadius = profileImage.bounds.width / 2.0
+        
         profileImage.layer.masksToBounds = true
         
         logoutButton.layer.cornerRadius = 8
@@ -41,17 +43,30 @@ class ProfileViewController: UIViewController {
     
     func showProfile() {
         
-        guard let user = Auth.auth().currentUser else { return }
+        guard let user = Auth.auth().currentUser else {
+            
+            return
+        }
         
         let uid = user.uid
+        
         let emial = user.email
+        
         let name = user.displayName
-        guard let photoURL = user.photoURL?.absoluteString else { return }
+        
+        guard let photoURL = user.photoURL?.absoluteString else {
+            
+            return
+        }
+        
         let largePhotoURL = photoURL + "?type=large"
         
         print(uid)
+        
         nameLabel.text = name
+        
         emailLabel.text = emial
+        
         profileImage.kf.setImage(with: URL(string: largePhotoURL))
     }
     
@@ -59,7 +74,11 @@ class ProfileViewController: UIViewController {
         
         let firbaseAuth = Auth.auth()
         
-        let alertVC = UIAlertController.showAlert(title: "Log out", message: "Logging out?", cancel: true) {
+        let alertVC = UIAlertController.showAlert(
+        title: "Log out",
+        message: "Logging out?",
+        cancel: true
+        ) {
             
             do {
                 try firbaseAuth.signOut()
@@ -67,11 +86,14 @@ class ProfileViewController: UIViewController {
                 self.keychain["userId"] = nil
                 
                 DispatchQueue.main.async {
-                    AppDelegate.shared.window?.rootViewController
-                        = UIStoryboard.loginStoryboard().instantiateInitialViewController()
+                    
+                    AppDelegate.shared.window?.rootViewController = UIStoryboard
+                        .loginStoryboard()
+                        .instantiateInitialViewController()
                 }
                 
             } catch let signOutError as NSError {
+                
                 print("Error singing out: %@", signOutError)
             }
         }

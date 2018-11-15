@@ -57,7 +57,9 @@ class PreservedViewController: UIViewController {
         )
         
         activityIndicatorView.type = NVActivityIndicatorType.circleStrokeSpin
+        
         activityIndicatorView.color = UIColor.cloudyBlue
+        
         activityIndicatorView.startAnimating()
         
         ref = Database.database().reference()
@@ -80,12 +82,14 @@ class PreservedViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
         
         emptyLabel.textColor = UIColor.cloudyBlue
+        
         emptyLabel.isHidden = true
     }
     
     @objc func fetchFailed(noti: Notification) {
         
         activityIndicatorView.stopAnimating()
+        
         emptyLabel.isHidden = false
     }
     
@@ -99,7 +103,10 @@ class PreservedViewController: UIViewController {
         guard let controller = UIStoryboard.searchStoryboard()
             .instantiateViewController(
                 withIdentifier: String(describing: SearchViewController.self)
-            ) as? SearchViewController else { return }
+            ) as? SearchViewController else {
+                
+                return
+        }
         
         controller.tabIndex = tabIndex
         
@@ -113,7 +120,10 @@ class PreservedViewController: UIViewController {
             bundle: nil
         )
         
-        tableView.register(xib, forCellReuseIdentifier: String(describing: PreservedTableViewCell.self))
+        tableView.register(
+            xib,
+            forCellReuseIdentifier: String(describing: PreservedTableViewCell.self)
+        )
         
         tableView.delegate = self
         
@@ -125,26 +135,28 @@ class PreservedViewController: UIViewController {
         locationArray.removeAll()
         
         fetchPreservedData(
-            success: { (location) in
+            success: { [weak self] (location) in
 
-                self.locationArray = location
+                self?.locationArray = location
                 
                 // Sort array alphabetically
-                self.locationArray.sort(by: {$0.name < $1.name})
                 
-                self.getPhotos()
+                self?.locationArray.sort(by: {$0.name < $1.name})
                 
-                if self.locationArray.count == 0 {
+                self?.getPhotos()
+                
+                if self?.locationArray.count == 0 {
                     
-                    self.emptyLabel.isHidden = false
+                    self?.emptyLabel.isHidden = false
                 } else {
                     
-                    self.emptyLabel.isHidden = true
+                    self?.emptyLabel.isHidden = true
                 }
                 
         },
-            failure: { (_) in
-                self.activityIndicatorView.stopAnimating()
+            failure: { [weak self]  (_) in
+                
+                self?.activityIndicatorView.stopAnimating()
         }
         )
     }
@@ -155,43 +167,46 @@ class PreservedViewController: UIViewController {
             
             let placeID = location.photo
             
-            #warning ("photoArray order is wrong")
-            photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
+            photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { [weak self] (photo) in
                 
-                self.photosDict[placeID] = photo
+                self?.photosDict[placeID] = photo
                 
-                self.activityIndicatorView.stopAnimating()
+                self?.activityIndicatorView.stopAnimating()
                 
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
                 
-            }) { (error) in
+            }) { [weak self]  (error) in
                 
-                guard let image = UIImage(named: "picture_placeholder02") else { return }
+                guard let image = UIImage(named: "picture_placeholder02") else {
+                    
+                    return
+                }
                 
-                self.photosDict[Constants.noPhoto] = image
+                self?.photosDict[Constants.noPhoto] = image
                 
-                self.activityIndicatorView.stopAnimating()
+                self?.activityIndicatorView.stopAnimating()
                 
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
     }
     
     func showDetailInfo(location: Location) {
         
-        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
-            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        guard let detailViewController = UIStoryboard
+            .searchStoryboard()
+            .instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)
+            ) as? DetailViewController else {
+                
+                return
+        }
         
         detailViewController.location = location
+        
         detailViewController.isFavorite = isFavorite
         
         tabBarController?.present(detailViewController, animated: true)
-//        self.present(detailViewController, animated: true, completion: nil)
-//        self.addChild(detailViewController)
-//
-//        detailViewController.view.frame = self.view.frame
-//        self.view.addSubview(detailViewController.view)
-//        detailViewController.didMove(toParent: self)
     }
 }
 
@@ -213,16 +228,16 @@ extension PreservedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: PreservedTableViewCell.self),
             for: indexPath) as? PreservedTableViewCell else {
+
                 return UITableViewCell()
         }
         
         let photoID = locationArray[indexPath.row].photo
+
         cell.photoImage.image = photosDict[photoID]
     
         cell.placeName.text = locationArray[indexPath.row].name
-        
-        //        cell.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-        //        cell.setSelected(true, animated: true)
+
         return cell
     }
     
@@ -235,8 +250,11 @@ extension PreservedViewController: UITableViewDataSource {
         if editingStyle == .delete {
             
             let location = locationArray[indexPath.row]
+ 
             deleteData(location: location)
+            
             locationArray.remove(at: indexPath.row)
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
             
         } else if editingStyle == .insert {
@@ -262,6 +280,7 @@ extension PreservedViewController: UITableViewDelegate {
         ) {
         
         let locationData = locationArray[indexPath.row]
+       
         showDetailInfo(location: locationData)
     }
 }
@@ -269,7 +288,6 @@ extension PreservedViewController: UITableViewDelegate {
 // MARK: - Firebase data
 extension PreservedViewController {
     
-    #warning ("Refact to TripsManager")
     func fetchPreservedData(
         success: @escaping ([Location]) -> Void,
         failure: @escaping (Error) -> Void
@@ -280,21 +298,32 @@ extension PreservedViewController {
         guard let uid = keychain["userId"] else {
             
             NotificationCenter.default.post(name: .noData, object: nil)
+           
             return
         }
         
-        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { [weak self]  (snapshot) in
+            
+            guard let self = self else {
+                
+                return
+            }
             
             guard let value = snapshot.value as? NSDictionary else {
                 
                 NotificationCenter.default.post(name: .noData, object: nil)
+                
                 return
             }
             
             for value in value.allValues {
                 
                 // Data convert: can be refact out independently
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else { return }
+                
+                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                    
+                    return
+                }
                 
                 do {
                     let data = try self.decoder.decode(Location.self, from: jsonData)
@@ -302,11 +331,11 @@ extension PreservedViewController {
                     location.append(data)
                 
                 } catch {
-                    print(error)
+                    
                     failure(error)
                 }
             }
-            print(location)
+    
             success(location)
         }
     }
@@ -318,11 +347,19 @@ extension PreservedViewController {
         ref.child("/favorite/\(uid)")
             .queryOrdered(byChild: "locationId")
             .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { (snapshot) in
+            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
             
-            guard let value = snapshot.value as? NSDictionary else { return }
-            guard let key = value.allKeys.first as? String else { return }
-            self.ref.child("/favorite/\(uid)/\(key)").removeValue()
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    return
+                }
+            
+                guard let key = value.allKeys.first as? String else {
+                    
+                    return
+                }
+                
+                self?.ref.child("/favorite/\(uid)/\(key)").removeValue()
         }
     }
 }
