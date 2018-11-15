@@ -19,18 +19,20 @@ class DayCollectionHeader: UICollectionReusableView {
     
     @IBOutlet weak var headerButton: UIButton!
     
-    weak var delegate: DayHeaderDelegate?
-    
     @IBAction func tapHeader(_ sender: UIButton) {
         
         delegate?.showTriplist(for: self)
     }
     
+    weak var delegate: DayHeaderDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         selectedView.layer.cornerRadius = 4.0
+        
         selectedView.layer.masksToBounds = true
+        
         selectedView.isHidden = true
     }
     

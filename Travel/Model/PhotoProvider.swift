@@ -18,16 +18,24 @@ class PhotoManager {
         success: @escaping (UIImage) -> Void,
         failure: @escaping (Error) -> Void
         ) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
+        
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { [weak self] (photos, error) -> Void in
+            
             if let error = error {
                 
                 // TODO: handle the error.
+                
                 print("Error: \(error.localizedDescription)")
             } else {
+                
                 if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto, success: { (photo) in
+                    
+                    self?.loadImageForMetadata(
+                        photoMetadata: firstPhoto,
+                        success: { (photo) in
                         
                         success(photo)
+                            
                     }, failure: { (error) in
                         
                         failure(error)
@@ -42,17 +50,23 @@ class PhotoManager {
         success: @escaping (UIImage) -> Void,
         failure: @escaping (Error) -> Void
         ) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { (photo, error)
+        GMSPlacesClient.shared().loadPlacePhoto(
+            photoMetadata, callback: { [weak self] (photo, error)
             -> Void in
-            if let error = error {
+            
+                if let error = error {
                 
-                failure(error)
-                print("Error: \(error.localizedDescription)")
-            } else {
-                guard let photo = photo else { return }
-                success(photo)
-                //  self.imageView.image = photo;
-                //  self.attributionTextView.attributedText = photoMetadata.attributions;
+                    failure(error)
+                
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                
+                    guard let photo = photo else {
+                        
+                        return
+                    }
+
+                    success(photo)
             }
         })
     }

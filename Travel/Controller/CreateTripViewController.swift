@@ -43,22 +43,19 @@ class CreateTripViewController: UIViewController {
     var selectedDates: [Date] = []
     
     let monthColor = UIColor.battleshipGrey
+    
     let selectedViewColor = UIColor.cloudyBlue
+    
     let selectedTextColor = UIColor.white
+    
     let currentDateSelectedViewColor = UIColor.darkGray
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCalendarView()
+        
         placeTextField.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // Scroll to present date
-        //        calendarView.scrollToDate(Date(), extraAddedOffset: )
     }
     
     @IBAction func createNewTrip(_ sender: UIButton) {
@@ -69,6 +66,7 @@ class CreateTripViewController: UIViewController {
               let theEnd = lastDate else {
             
             print("Please input Place or select dates")
+                
             // TODO: showAlert
             
             return
@@ -76,15 +74,20 @@ class CreateTripViewController: UIViewController {
 
         let totalDays = selectedDates.count
         
-        // DateFormatter need to refactor
+        // Refactor: DateFormatter
+        
         let dateFormatter = DateFormatter()
+        
         dateFormatter.dateFormat = "yyyy mm dd"
         
         let startDate = Double(start.timeIntervalSince1970)
+        
         let endDate = Double(theEnd.timeIntervalSince1970)
         
-        // get current create time
+        // Get current create time
+        
         let currentDate = Date()
+        
         let currenDateInt = Double(currentDate.timeIntervalSince1970)
         
         var trip = Trips.init(
@@ -100,14 +103,15 @@ class CreateTripViewController: UIViewController {
             userId: Constants.emptyString
         )
         
-        /// Refact with model
         tripManager.createTripData(
             trip: trip
             
         ) { [weak self] (daysKey, key, uid) in
             
             trip.id = key
+            
             trip.daysKey = daysKey
+            
             trip.userId = uid
             
             self?.switchViewController(
@@ -117,6 +121,7 @@ class CreateTripViewController: UIViewController {
         }
         
         placeTextField.text = Constants.emptyString
+       
         selectedDates.removeAll()
         
         NotificationCenter.default.post(name: .myTrips, object: nil)
@@ -127,20 +132,15 @@ class CreateTripViewController: UIViewController {
         guard let controller = UIStoryboard.myTripStoryboard()
             .instantiateViewController(
                 withIdentifier: String(describing: TripListViewController.self)
-            ) as? TripListViewController else { return }
+            ) as? TripListViewController else {
+                
+                return
+        }
     
-        /// Refact with model
-        /// Pass whole Trip class
-        
         controller.trip = trip
-//        controller.id = id
-//        controller.daysKey = daysKey
-//        controller.startDate = first
-//        controller.endDate = last
-//        controller.totalDays = total
-//        controller.name = name
       
         let superViewController = self.presentingViewController
+        
         superViewController?.children[0].show(controller, sender: nil)
 
         self.dismiss(animated: true, completion: nil)
@@ -151,11 +151,13 @@ class CreateTripViewController: UIViewController {
         // Setup calendar spacing
         
         calendarView.minimumLineSpacing = 0
+        
         calendarView.minimumInteritemSpacing = 0
         
         calendarView.cellSize = 44
         
         calendarView.allowsMultipleSelection = true
+        
         calendarView.isRangeSelectionUsed = true
         
         self.calendarView.scrollingMode = .none
@@ -174,7 +176,9 @@ class CreateTripViewController: UIViewController {
         guard let validCell = view as? CustomCell else { return }
         
         let todaysDate = Date()
+        
         let todayDateString = dateFormatter.string(from: todaysDate)
+        
         let monthsDateString = dateFormatter.string(from: cellState.date)
         
         if todayDateString == monthsDateString && cellState.dateBelongsTo == .thisMonth {
@@ -190,14 +194,17 @@ class CreateTripViewController: UIViewController {
             if cellState.isSelected {
                 
                 if cellState.dateBelongsTo == .thisMonth {
+        
                     validCell.dateLabel.textColor = UIColor.white
                 }
             } else {
                 
                 if cellState.dateBelongsTo == .thisMonth {
-                    validCell.dateLabel.textColor = UIColor.black //self.monthColor
+                   
+                    validCell.dateLabel.textColor = UIColor.black // Self.monthColor
                 } else {
-                    validCell.dateLabel.textColor = UIColor.lightGray //self.outsideMonthColor
+                    
+                    validCell.dateLabel.textColor = UIColor.lightGray // Self.outsideMonthColor
                 }
             }
         }
@@ -205,25 +212,35 @@ class CreateTripViewController: UIViewController {
     
     func handleCellSelected(cell: JTAppleCell?, cellState: CellState) {
         
-        guard let validCell = cell as? CustomCell else { return }
+        guard let validCell = cell as? CustomCell else {
+            
+            return
+        }
         
         if cellState.isSelected && cellState.dateBelongsTo == .thisMonth {
             
             validCell.selectedView.isHidden = false
             
         } else {
+            
             validCell.selectedView.isHidden = true
+            
             validCell.leftView.isHidden = true
+            
             validCell.rightView.isHidden = true
             
             validCell.dateLabel.isHidden = false
+            
             validCell.dateLabel.textColor = monthColor
         }
     }
     
     func handleDateRangeSelection(cell: JTAppleCell?, cellState: CellState) {
         
-        guard let cell = cell as? CustomCell else { return }
+        guard let cell = cell as? CustomCell else {
+            
+            return
+        }
         
         if calendarView.allowsMultipleSelection {
             
@@ -234,36 +251,48 @@ class CreateTripViewController: UIViewController {
                 case .full:
                     
                     cell.selectedView.backgroundColor = selectedViewColor
+                    
                     cell.leftView.isHidden = true
+                    
                     cell.rightView.isHidden = true
+                    
                     cell.dateLabel.textColor = selectedTextColor
                     
                 case .right:
                     
                     cell.leftView.isHidden = false
+                    
                     cell.selectedView.backgroundColor = selectedViewColor
+                    
                     cell.dateLabel.textColor = selectedTextColor
                     
                 case .left:
                     
                     cell.rightView.isHidden = false
+                    
                     cell.selectedView.backgroundColor = selectedViewColor
+                    
                     cell.dateLabel.textColor = selectedTextColor
                     
                 case .middle:
                     
                     cell.leftView.isHidden = false
+                    
                     cell.rightView.isHidden = false
+                    
                     cell.selectedView.backgroundColor = selectedViewColor
+                    
                     cell.dateLabel.textColor = selectedTextColor
                     
                 default:
                     
                     cell.leftView.isHidden = true
-                    cell.rightView.isHidden = true
-                    cell.selectedView.isHidden = true
-                    cell.dateLabel.textColor = monthColor
                     
+                    cell.rightView.isHidden = true
+                    
+                    cell.selectedView.isHidden = true
+                    
+                    cell.dateLabel.textColor = monthColor
                 }
             }
             
@@ -281,15 +310,18 @@ class CreateTripViewController: UIViewController {
 
 extension CreateTripViewController: JTAppleCalendarViewDataSource {
     
-    func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
+    func configureCalendar(
+        _ calendar: JTAppleCalendarView
+        ) -> ConfigurationParameters {
         
         dateFormatter.dateFormat = "yyyy MM dd"
+        
         dateFormatter.timeZone = Calendar.current.timeZone
+        
         dateFormatter.locale = Calendar.current.locale
         
-        /// What guard let should return to avoid force unwrapped?
-        
         let startDate = Date()
+        
         let endDate = dateFormatter.date(from: "2100 12 31")!
         
         let parameters = ConfigurationParameters(
@@ -307,6 +339,8 @@ extension CreateTripViewController: JTAppleCalendarViewDataSource {
 
 extension CreateTripViewController: JTAppleCalendarViewDelegate {
     
+    // TODO: Debug function
+    
     func calendar(
         _ calendar: JTAppleCalendarView,
         willDisplay cell: JTAppleCell,
@@ -315,10 +349,10 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         indexPath: IndexPath
         ) {
         
-        // TODO: debug function
         handleCellTextColor(cell: cell, cellState: cellState)
         
         handleCellSelected(cell: cell, cellState: cellState)
+        
         handleDateRangeSelection(cell: cell, cellState: cellState)
         
         cell.layoutIfNeeded()
@@ -334,18 +368,23 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         guard let cell = calendar.dequeueReusableJTAppleCell(
             withReuseIdentifier: String(describing: CustomCell.self),
             for: indexPath) as? CustomCell else {
+                
                 return JTAppleCell()
         }
         
         cell.dateLabel.text = cellState.text
         
         handleCellTextColor(cell: cell, cellState: cellState)
+        
         handleCellSelected(cell: cell, cellState: cellState)
+        
         handleDateRangeSelection(cell: cell, cellState: cellState)
         
         if cellState.dateBelongsTo != . thisMonth {
+            
             cell.isHidden = true
         } else {
+            
             cell.isHidden = false
         }
         
@@ -362,15 +401,21 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         ) {
         
         handleCellTextColor(cell: cell, cellState: cellState)
+        
         handleCellSelected(cell: cell, cellState: cellState)
+        
         handleDateRangeSelection(cell: cell, cellState: cellState)
         
         if firstDate != nil {
+            
             if date < self.firstDate! {
+            
                 self.firstDate = date
             } else {
+                
                 self.lastDate = date
             }
+            
             calendarView.selectDates(
                 from: firstDate!,
                 to: self.lastDate!,
@@ -379,7 +424,9 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
             )
             
         } else {
+            
             firstDate = date
+            
             self.lastDate = date
         }
         
@@ -396,15 +443,24 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         ) {
         
         handleCellTextColor(cell: cell, cellState: cellState)
+        
         handleCellSelected(cell: cell, cellState: cellState)
+        
         handleDateRangeSelection(cell: cell, cellState: cellState)
         
-        self.calendarView.deselectDates(from: self.firstDate!, to: self.lastDate!, triggerSelectionDelegate: false)
+        self.calendarView.deselectDates(
+            from: self.firstDate!,
+            to: self.lastDate!,
+            triggerSelectionDelegate: false
+        )
         
         if date != self.firstDate && date != self.lastDate {
+            
             if date < self.firstDate! {
+            
                 self.firstDate = date
             } else {
+                
                 self.lastDate = date
             }
             
@@ -416,7 +472,9 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
             )
             
         } else {
+            
             self.firstDate = nil
+            
             self.lastDate = nil
         }
     }
@@ -443,13 +501,16 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
         }
         
         dateFormatter.dateFormat = "MMMM yyyy"
+        
         header.dateLabel.text = dateFormatter.string(from: range.start)
+        
         //        header.showDate(from: formatter.string(from: range.start))
         
         return header
     }
     
     func calendarSizeForMonths(_ calendar: JTAppleCalendarView?) -> MonthSize? {
+        
         return MonthSize(defaultSize: 30)
     }
 }
@@ -463,9 +524,17 @@ extension CreateTripViewController: UITextFieldDelegate {
         ) -> Bool {
         
         let maxLength = 40
-        guard let currentString: NSString = textField.text as NSString? else { return true}
-        let newString: NSString =
-            currentString.replacingCharacters(in: range, with: string) as NSString
+        
+        guard let currentString: NSString = textField.text as NSString? else {
+            
+            return true
+        }
+
+        let newString: NSString = currentString.replacingCharacters(
+            in: range,
+            with: string
+            ) as NSString
+
         return newString.length <= maxLength
     }
 }

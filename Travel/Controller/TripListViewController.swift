@@ -24,8 +24,6 @@ class TripListViewController: UIViewController {
     
     private let mapContainerView = UIView()
     
-    /////////
-    
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
     let firebaseManager = FirebaseManager()
@@ -40,14 +38,11 @@ class TripListViewController: UIViewController {
     
     var ref: DatabaseReference!
     
-    // Refactor
-    
     var dataArray: [[THdata]] = []
     
     var locationArray: [[THdata]] = []
     
-    // For showing marker in mapview
-    var locations: [Location] = []
+    var locations: [Location] = [] // For showing marker in MapView
     
     var photosDict: [String: UIImage] = [:]
     
@@ -73,16 +68,21 @@ class TripListViewController: UIViewController {
         daysCollectionViewController.dates = dates
         
         setupDaysContainerView()
+        
         setupMapContainerView()
         
         setupNavigationItems()
         
         tra_addContentController(mapViewController, to: mapContainerView)
+
         tra_addContentController(listTableViewController, to: mapContainerView)
+        
         tra_addContentController(daysCollectionViewController, to: daysContainerView)
     
         mapViewController.delegate = self
+        
         listTableViewController.delegate = self
+        
         daysCollectionViewController.delegate = self
         
         fetchData()
@@ -98,66 +98,89 @@ class TripListViewController: UIViewController {
     private func buildFromStoryboard<T>(_ name: String) -> T {
         
         let storyboard = UIStoryboard(name: name, bundle: nil)
+        
         let identifier = String(describing: T.self)
-        guard let viewController = storyboard.instantiateViewController(withIdentifier: identifier) as? T else {
+        
+        guard let viewController = storyboard.instantiateViewController(
+            withIdentifier: identifier
+            ) as? T else {
             
             fatalError("Missing \(identifier) in Storyboard")
         }
+        
         return viewController
     }
     
     private func setupDaysContainerView() {
         
         daysContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(daysContainerView)
         
         NSLayoutConstraint.activate([
-            daysContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            daysContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            daysContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0),
-            daysContainerView.heightAnchor.constraint(equalToConstant: 60.0)
+            daysContainerView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            daysContainerView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            daysContainerView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 8.0
+            ),
+            daysContainerView.heightAnchor.constraint(
+                equalToConstant: 60.0
+            )
             ])
     }
     
     private func setupMapContainerView() {
         
         mapContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(mapContainerView)
         
         NSLayoutConstraint.activate([
-            mapContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mapContainerView.topAnchor.constraint(equalTo: daysContainerView.bottomAnchor),
-            mapContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            mapContainerView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            mapContainerView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            mapContainerView.topAnchor.constraint(
+                equalTo: daysContainerView.bottomAnchor
+            ),
+            mapContainerView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            )
             ])
     }
     
     func setupNavigationItems() {
         
-        /// what's diff with leftItemsSupplementBackButton?
         navigationItem.hidesBackButton = true
+        
         navigationItem.title = trip[0].name
+        
         navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+        
         navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
     }
     
     /// Refactor
     func fetchData() {
-        firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
+        
+        firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { [weak self] (location) in
+            
+            guard let self = self else {
+                
+                return
+            }
             
             self.sortLocations(locations: location, total: self.dates.count)
-            self.getPhotos()
-            self.preSelectCollectionView() /// Pass data before get photos
+            
+            self.daysCollectionViewController.preSelectCollectionView()
         }
-    }
-    
-    func preSelectCollectionView() {
-        
-        filterDatalist(day: day)
-        passDatatoListTableView()
-        sortLocationsForMarkers()
-        mapViewController.showMarkers(locations: locations)
-        daysCollectionViewController.preSelectCollectionView()
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -190,22 +213,25 @@ class TripListViewController: UIViewController {
         
         locations.removeAll()
         
-        locationArray.forEach { (value) in
+        locationArray.forEach { [weak self] (value) in
 
             for location in value where location.type == .location {
 
-                locations.append(location.location)
+                self?.locations.append(location.location)
             }
         }
     }
     
+    // Pass data to listTableView
+    
     func passDatatoListTableView() {
         
-        // Pass data to listTableView
         listTableViewController.photosDict = photosDict
+        
         listTableViewController.locationArray = locationArray
+        
         listTableViewController.dates = dates
-        // test
+        
         listTableViewController.tableView.reloadData()
     }
     
@@ -213,7 +239,9 @@ class TripListViewController: UIViewController {
         
         dataArray.removeAll()
         
-        firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { (location) in
+        firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { [weak self] (location) in
+            
+            guard let self = self else { return }
             
             self.sortLocations(locations: location, total: self.dates.count)
             
@@ -222,7 +250,9 @@ class TripListViewController: UIViewController {
             self.getPhotos()
             
             self.passDatatoListTableView()
+            
             self.sortLocationsForMarkers()
+            
             self.mapViewController.showMarkers(locations: self.locations)
         }
     }
@@ -242,22 +272,23 @@ class TripListViewController: UIViewController {
     // get all photos
     func getPhotos() {
         
-        dataArray.forEach { (locations) in
+        dataArray.forEach { [weak self] (locations) in
             
             for item in locations {
                 
                 let placeID = item.location.photo
                 
-                photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { (photo) in
+                photoManager.loadFirstPhotoForPlace(placeID: placeID, success: { [weak self] (photo) in
                     
-                    self.photosDict[placeID] = photo
+                    self?.photosDict[placeID] = photo
                     
                 }, failure: { (error) in
                     
                     print(error.localizedDescription)
                     
                     guard let image = UIImage(named: Constants.picPlaceholder) else { return }
-                    self.photosDict[Constants.noPhoto] = image
+                    
+                    self?.photosDict[Constants.noPhoto] = image
                 })
             }
         }
@@ -268,6 +299,7 @@ class TripListViewController: UIViewController {
         
         // better way to avoid for loops?
         for _ in 0 ... total - 1 {
+            
             dataArray.append([])
         }
         
@@ -276,6 +308,7 @@ class TripListViewController: UIViewController {
             for key in 0 ... total - 1 where locations[index].location.days == key + 1 {
                 
                 let item = locations[index]
+                
                 dataArray[key].append(item)
             }
         }
@@ -285,7 +318,8 @@ class TripListViewController: UIViewController {
             dataArray[number].sort(by: {$0.location.order < $1.location.order})
         }
         
-        /// Append empty object if array is empty
+        // Append empty object if array is empty
+        
         for index in 0 ..< dataArray.count where dataArray[index].count == 0 {
             
             dataArray[index].append(THdata(location: Location.emptyLocation(), type: .empty))
@@ -305,7 +339,9 @@ class TripListViewController: UIViewController {
                 case Constants.addFromCollections:
                     
                     let tabController = self?.view.window?.rootViewController as? UITabBarController
+                    
                     tabController?.dismiss(animated: false, completion: nil)
+                    
                     tabController?.selectedIndex = 1
                     
                 case Constants.searchPlace:
@@ -338,11 +374,18 @@ extension TripListViewController {
 
     func switchDetailVC(location: Location) {
         
-        guard let detailViewController = UIStoryboard.searchStoryboard().instantiateViewController(
-            withIdentifier: String(describing: DetailViewController.self)) as? DetailViewController else { return }
+        guard let detailViewController = UIStoryboard
+            .searchStoryboard().instantiateViewController(
+            withIdentifier: String(describing: DetailViewController.self)
+            ) as? DetailViewController else {
+                
+                return
+        }
         
         detailViewController.location = location
+        
         detailViewController.isMyTrip = isMyTrips
+        
         detailViewController.tabIndex = tabIndex
         
         /// add transition effect
@@ -364,8 +407,17 @@ extension TripListViewController {
 
         guard let last = dates.last else { return }
         
-        guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: last) else { return }
+        guard let newDate = Calendar.current.date(
+            byAdding: .day,
+            value: 1,
+            to: last
+            ) else {
+                
+                return
+        }
+        
         dates.append(newDate)
+        
         let total = dates.count
         
         let newDateDouble = Double(newDate.timeIntervalSince1970)
@@ -373,23 +425,36 @@ extension TripListViewController {
         trip[0].endDate = newDateDouble
         
         dataArray.append([])
-        dataArray[total - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+        
+        dataArray[total - 1].append(
+            THdata(
+                location: Location.emptyLocation(),
+                type: .empty
+            )
+        )
         
         if self.day == 0 {
          
             locationArray.append([])
-            locationArray[total - 1].append(THdata(location: Location.emptyLocation(), type: .empty))
+            
+            locationArray[total - 1].append(
+                THdata(
+                    location: Location.emptyLocation(),
+                    type: .empty
+                )
+            )
         }
         
         updateMyTrips(total: total, end: newDateDouble)
-        NotificationCenter.default.post(name: .myTrips, object: nil)
-        
+
         listTableViewController.dates = dates
+        
         listTableViewController.tableView.reloadData()
+        
         daysCollectionViewController.dates = dates
+        
+        NotificationCenter.default.post(name: .myTrips, object: nil)
     }
-    
-    /// Refactor
     
     func deleteDay() {
         
@@ -412,9 +477,11 @@ extension TripListViewController {
         }
         
         dates.removeLast()
+        
         dataArray.removeLast()
         
         guard let date = dates.last else { return }
+        
         let newTotal = dates.count
         
         if self.day == 0 {
@@ -423,33 +490,39 @@ extension TripListViewController {
         }
         
         trip[0].endDate = Double(date.timeIntervalSince1970)
+        
         let endDate = trip[0].endDate
         
         updateMyTrips(total: newTotal, end: endDate)
+        
         deleteDay(daysKey: daysKey, day: total)
         
-        NotificationCenter.default.post(name: .myTrips, object: nil)
-        
         listTableViewController.dates = dates
+        
         listTableViewController.tableView.reloadData()
+        
         daysCollectionViewController.dates = dates
+        
+        NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
     // MARK: - Firebase functions
     
-    /// Refactor
     func deleteDay(daysKey: String, day: Int) {
         
         ref.child("tripDays")
             .child(daysKey)
             .queryOrdered(byChild: "days")
             .queryEqual(toValue: day)
-            .observeSingleEvent(of: .value) { (snapshot) in
+            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
+                
                 guard let value = snapshot.value as? NSDictionary else { return }
+                
                 guard let keys = value.allKeys as? [String] else { return }
                 
                 for key in keys {
-                    self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                    
+                    self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
                 }
         }
     }
@@ -462,11 +535,13 @@ extension TripListViewController {
             .child(daysKey)
             .queryOrdered(byChild: "locationId")
             .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { (snapshot) in
+            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
                 
                 guard let value = snapshot.value as? NSDictionary else { return }
+                
                 guard let key = value.allKeys.first as? String else { return }
-                self.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                
+                self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
         }
     }
     
@@ -475,19 +550,24 @@ extension TripListViewController {
         let id = trip[0].id
         
         ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
+        
         ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
     }
     
     func updateData(daysKey: String, indexPath: IndexPath, location: Location) {
         
         let daysKey = trip[0].daysKey
+        
         let days = indexPath.section + 1
+        
         let order = indexPath.row
         
         let orderUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/order": order]
+        
         self.ref.updateChildValues(orderUpdate)
         
         let daysUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/days": days]
+        
         self.ref.updateChildValues(daysUpdate)
     }
     
@@ -504,6 +584,7 @@ extension TripListViewController {
             for row in 0 ..< rows {
                 
                 locationArray[0][row].location.days = day
+                
                 locationArray[0][row].location.order = row
             }
             dataArray[day - 1] = locationArray[0]
@@ -517,9 +598,11 @@ extension TripListViewController {
                 for row in 0 ..< rows {
                     
                     locationArray[section][row].location.days = section + 1
+                    
                     locationArray[section][row].location.order = row
                 }
             }
+            
             dataArray = locationArray
         }
     }
@@ -527,11 +610,12 @@ extension TripListViewController {
     func updateAllData() {
         
         let daysKey = trip[0].daysKey
+        
         let totalDays = trip[0].totalDays
         
         for day in 0 ... totalDays - 1 {
             
-            dataArray[day].forEach({ (location) in
+            dataArray[day].forEach({ [weak self] (location) in
                 
                 let key = location.location.locationId
                 
@@ -550,7 +634,8 @@ extension TripListViewController {
                         ] as [String: Any]
                     
                     let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
-                    self.ref.updateChildValues(postUpdate)
+                    
+                    self?.ref.updateChildValues(postUpdate)
                 }
             })
         }
@@ -561,38 +646,44 @@ extension TripListViewController {
 
 extension TripListViewController: ListTableViewDelegate {
     
-    func didTableHide(isHiding: Bool) {
+    func didTableHide(_ listTableViewController: ListTableViewController, isHiding: Bool) {
         
         mapViewController.handleShowListButton(isHiding: false)
     }
     
-    func didUpdateData(locationArray: [[THdata]]) {
+    func didUpdateData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]]) {
         
         self.locationArray = locationArray
         
         updateLocalData()
+        
         updateAllData()
         
         listTableViewController.locationArray = locationArray
+        
         sortLocationsForMarkers()
+        
         mapViewController.showMarkers(locations: locations)
     }
     
-    func didDeleteData(locationArray: [[THdata]], location: Location) {
+    func didDeleteData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]], location: Location) {
         
         self.locationArray = locationArray
         
         deleteLocation(location: location)
         
         updateLocalData()
+        
         updateAllData()
         
         listTableViewController.locationArray = locationArray
+        
         sortLocationsForMarkers()
+        
         mapViewController.showMarkers(locations: locations)
     }
     
-    func didShowDetail(location: Location) {
+    func didShowDetail(_ listTableViewController: ListTableViewController, location: Location) {
         
         switchDetailVC(location: location)
     }
@@ -602,7 +693,7 @@ extension TripListViewController: ListTableViewDelegate {
 
 extension TripListViewController: MapViewDelegate {
     
-    func didShowListHit() {
+    func didShowListHit(for mapViewController: MapViewController) {
         
         listTableViewController.handleTableVIewList(isHidding: false)
     }
@@ -612,32 +703,34 @@ extension TripListViewController: MapViewDelegate {
 
 extension TripListViewController: DayCollectionViewDelegate {
     
-    func didAddDay() {
+    func didSelectDay(_ dayCollectionViewController: DaysCollectionViewController, _ day: Int) {
+        
+        self.day = day
+        
+        filterDatalist(day: day)
+        
+        listTableViewController.locationArray = locationArray
+        
+        listTableViewController.getPhotos()
+        
+        listTableViewController.dates = dates
+        
+        listTableViewController.day = day
+        
+        listTableViewController.tableView.reloadData()
+        
+        sortLocationsForMarkers()
+        
+        mapViewController.showMarkers(locations: locations)
+    }
+    
+    func didAddDay(_ dayCollectionViewController: DaysCollectionViewController) {
         
         addNewDay()
     }
     
-    func didDeleteDay() {
+    func didDeleteDay(_ dayCollectionViewController: DaysCollectionViewController) {
         
         deleteDay()
     }
-    
-    func didSelectDay(_ day: Int) {
-        
-        self.day = day
-        filterDatalist(day: day)
-        
-        // Pass data to listTableView
-        listTableViewController.photosDict = photosDict
-        listTableViewController.locationArray = locationArray
-        listTableViewController.dates = dates
-        listTableViewController.day = day
-        // test
-        listTableViewController.tableView.reloadData()
-        sortLocationsForMarkers()
-        mapViewController.showMarkers(locations: locations)
-    }
 }
-
-/// Firebase "order" start from 0 ..., "days" start from 1 ..., dataArray start from 0
-/// Refactor: seperate collection view/ mapview/ table view to different controller?

@@ -35,21 +35,14 @@ class TripListTableViewCell: UITableViewCell {
     
     func switchCellContent() {
         
-//        if isEmpty {
+        emptyLabel.isHidden = !isEmpty
         
-            emptyLabel.isHidden = !isEmpty
-            listImage.isHidden = isEmpty
-            addressLabel.isHidden = isEmpty
-            placeNameLabel.isHidden = isEmpty
-            locationImage.isHidden = isEmpty
-            
-//        } else {
-//
-//            emptyLabel.isHidden = true
-//            listImage.isHidden = false
-//            addressLabel.isHidden = false
-//            placeNameLabel.isHidden = false
-//            locationImage.isHidden = false
-//        }
+        listImage.isHidden = isEmpty
+        
+        addressLabel.isHidden = isEmpty
+        
+        placeNameLabel.isHidden = isEmpty
+        
+        locationImage.isHidden = isEmpty
     }
 }

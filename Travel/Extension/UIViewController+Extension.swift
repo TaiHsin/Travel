@@ -10,18 +10,29 @@ import UIKit
 
 extension UIViewController {
     
-    func tra_addContentController(_ child: UIViewController, to containerView: UIView) {
+    func tra_addContentController(
+        _ child: UIViewController,
+        to containerView: UIView
+        ) {
         
         addChild(child)
+        
         containerView.addSubview(child.view)
+        
         child.view.frame = containerView.frame
+        
         child.didMove(toParent: self)
     }
     
-    func tra_removeContentController(_ child: UIViewController, from containerView: UIView) {
+    func tra_removeContentController(
+        _ child: UIViewController,
+        from containerView: UIView
+        ) {
         
         child.willMove(toParent: nil)
+        
         child.view.removeFromSuperview()
+        
         child.removeFromParent()
     }
 }

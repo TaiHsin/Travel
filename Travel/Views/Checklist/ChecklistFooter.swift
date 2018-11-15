@@ -19,20 +19,12 @@ class ChecklistFooter: UITableViewCell {
     }
 
     var isTexting = false {
+        
         didSet {
+        
             addItemButton.isHidden = !isTexting
         }
     }
-
-    /// Use UITextFieldDelegate to hide and show button (under investigation)
-    
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        isTexting = contentTextField.isEditing
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        isTexting = !contentTextField.isEditing
-//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
