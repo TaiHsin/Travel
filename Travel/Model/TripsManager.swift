@@ -88,7 +88,7 @@ class TripsManager {
                                         self?.addDefauleData(dayskey: daysKey, locations: locations)
 
                                         self?.fetchTripsData(success: { (datas) in
-
+                                            
                                             success(datas)
                                             
                                         }, failure: { (_) in
@@ -128,8 +128,8 @@ class TripsManager {
                 }
             }
                 
-            success(datas)
-        })
+                success(datas)
+            })
     }
     
     // Use model to replace

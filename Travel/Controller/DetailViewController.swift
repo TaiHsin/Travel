@@ -22,6 +22,8 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var placeImage: UIImageView!
     
+    @IBOutlet weak var imageCoverView: UIView!
+    
     @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var myTripButton: UIButton!
@@ -118,7 +120,9 @@ class DetailViewController: UIViewController {
         
         positionLabel.text = location.address
         
-        photoManager.loadFirstPhotoForPlace(placeID: placeId, success: { [weak self] (photo) in
+        photoManager.loadFirstPhotoForPlace(
+            placeID: placeId,
+            success: { [weak self] (photo) in
             
             self?.placeImage.image = photo
             
@@ -132,17 +136,24 @@ class DetailViewController: UIViewController {
     
     @IBAction func addToMyTrip(_ sender: Any) {
         
-        guard let selectionViewController = UIStoryboard.searchStoryboard().instantiateViewController(
+        guard let selectionViewController = UIStoryboard.searchStoryboard()
+            .instantiateViewController(
             withIdentifier: String(describing: TripSelectionViewController.self)
-            ) as? TripSelectionViewController else { return }
+            ) as? TripSelectionViewController else {
+                
+                return
+        }
         
         selectionViewController.location = location
+        
         selectionViewController.tabIndex = tabIndex
         
         self.addChild(selectionViewController)
         
         selectionViewController.view.frame = self.placeInfoCard.frame
+        
         self.view.addSubview(selectionViewController.view)
+        
         selectionViewController.didMove(toParent: self)
     }
     
@@ -155,7 +166,7 @@ class DetailViewController: UIViewController {
         
         let touch: UITouch? = touches.first
         
-        if touch?.view != placeInfoCard {
+        if touch?.view != placeInfoCard, touch?.view != imageCoverView {
             
             removeAnimate()
         }
@@ -178,20 +189,28 @@ class DetailViewController: UIViewController {
     // Pop out animation
     
     func showAnimate() {
+        
         self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         
         self.view.alpha = 0.0
+        
         UIView.animate(withDuration: 0.25, animations: {
+            
             self.view.alpha = 1.0
+            
             self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
     }
     
     func removeAnimate() {
+        
         UIView.animate(withDuration: 0.25, animations: {
+            
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            
             self.view.alpha = 0.0
         }, completion: {(finished: Bool)  in
+            
             if finished {
                 
                 self.dismiss(animated: true)
@@ -202,6 +221,7 @@ class DetailViewController: UIViewController {
     @IBAction func addToFavorite(_ sender: UIButton) {
         
         guard let location = location else { return }
+        
         guard let uid = keychain["userId"] else { return }
         
         ref.child("/favorite/\(uid)")

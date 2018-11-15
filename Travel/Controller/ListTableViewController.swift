@@ -10,13 +10,13 @@ import UIKit
 
 protocol ListTableViewDelegate: AnyObject {
     
-    func didTableHide(isHiding: Bool)
+    func didTableHide(_ listTableViewController: ListTableViewController, isHiding: Bool)
     
-    func didUpdateData(locationArray: [[THdata]])
+    func didUpdateData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]])
     
-    func didDeleteData(locationArray: [[THdata]], location: Location)
+    func didDeleteData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]], location: Location)
     
-    func didShowDetail(location: Location)
+    func didShowDetail(_ listTableViewController: ListTableViewController, location: Location)
 }
 
 class ListTableViewController: UIViewController {
@@ -242,7 +242,7 @@ class ListTableViewController: UIViewController {
     
     func handleTableVIewList(isHidding: Bool) {
         
-        delegate?.didTableHide(isHiding: true)
+        delegate?.didTableHide(self, isHiding: true)
         
         self.view.isHidden = isHidding
     }
@@ -521,7 +521,7 @@ extension ListTableViewController: UITableViewDelegate {
         
         guard location.type == .location else { return }
         
-        delegate?.didShowDetail(location: location.location)
+        delegate?.didShowDetail(self, location: location.location)
     }
     
     func tableView(
@@ -590,7 +590,7 @@ extension ListTableViewController: UITableViewDelegate {
                 tableView.insertRows(at: [newIndexPath], with: .none)
             }
             
-            delegate?.didDeleteData(locationArray: locationArray, location: location)
+            delegate?.didDeleteData(self, locationArray: locationArray, location: location)
         }
     }
 }
@@ -782,7 +782,7 @@ extension ListTableViewController {
                     
                     self.cleanUp()
 
-                    self.delegate?.didUpdateData(locationArray: self.locationArray)
+                    self.delegate?.didUpdateData(self, locationArray: self.locationArray)
                 }
             })
         }

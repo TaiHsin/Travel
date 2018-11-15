@@ -12,7 +12,7 @@ import GooglePlaces
 
 protocol MapViewDelegate: AnyObject {
     
-    func didShowListHit()
+    func didShowListHit(for mapViewController: MapViewController)
 }
 
 class MapViewController: UIViewController {
@@ -50,7 +50,7 @@ class MapViewController: UIViewController {
         
         handleShowListButton(isHiding: true)
         
-        delegate?.didShowListHit()
+        delegate?.didShowListHit(for: self)
     }
     
     func handleShowListButton(isHiding: Bool) {

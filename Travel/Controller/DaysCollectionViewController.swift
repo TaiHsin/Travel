@@ -10,11 +10,11 @@ import UIKit
 
 protocol DayCollectionViewDelegate: AnyObject {
     
-    func didSelectDay(_ day: Int)
+    func didSelectDay(_ dayCollectionViewController: DaysCollectionViewController, _ day: Int)
     
-    func didAddDay()
+    func didAddDay(_ dayCollectionViewController: DaysCollectionViewController)
     
-    func didDeleteDay()
+    func didDeleteDay(_ dayCollectionViewController: DaysCollectionViewController)
 }
 
 class DaysCollectionViewController: UICollectionViewController {
@@ -76,7 +76,7 @@ class DaysCollectionViewController: UICollectionViewController {
 
         day = 0
         
-        delegate?.didSelectDay(day)
+        delegate?.didSelectDay(self, day)
         
         let indexPath = IndexPath(row: 0, section: 0)
         
@@ -174,7 +174,7 @@ class DaysCollectionViewController: UICollectionViewController {
         
         day = indexPath.item
         
-        delegate?.didSelectDay(day)
+        delegate?.didSelectDay(self, day)
         
         collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
         
@@ -274,7 +274,7 @@ class DaysCollectionViewController: UICollectionViewController {
                     return
                 }
                 
-                self.delegate?.didAddDay()
+                self.delegate?.didAddDay(self)
             },
 
             destructiveOptions: [Constants.deleteDay],
@@ -285,7 +285,7 @@ class DaysCollectionViewController: UICollectionViewController {
                     return
                 }
                 
-                self.delegate?.didDeleteDay()
+                self.delegate?.didDeleteDay(self)
         })
 
         self.present(alertVC, animated: true, completion: nil)
@@ -293,13 +293,13 @@ class DaysCollectionViewController: UICollectionViewController {
 }
 
 extension DaysCollectionViewController: UICollectionViewDelegateFlowLayout {
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForFooterInSection section: Int
         ) -> CGSize {
-        
+
         return CGSize(width: 40, height: 60)
     }
 }

@@ -47,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Firebase
         FirebaseApp.configure()
+//        Database.database().callbackQueue = DispatchQueue(label: "THqueue", qos: .userInteractive, attributes: [.concurrent])
         
         // GoogleMap
         GMSPlacesClient.provideAPIKey("AIzaSyBlbzn0APNYiixRcg2wm-kg5QMLHwy8U7w")

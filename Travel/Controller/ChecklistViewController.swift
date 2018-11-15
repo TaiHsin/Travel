@@ -142,8 +142,6 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
         cellForRowAt indexPath: IndexPath
         ) -> UITableViewCell {
         
-        #warning ("Refactor")
-        
         // Use switch to refactor
         // Create another custom cell at the end of section
         
@@ -159,6 +157,7 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
                 return cell
             }
             
+            // Refactor
             createCell.addItemButton.addTarget(
                 self,
                 action: #selector(addNewItem(sender:)),
@@ -195,7 +194,8 @@ extension ChecklistViewController: UITableViewDataSource, UITextFieldDelegate {
     
     @objc func addNewItem(sender: UIButton) {
         
-        /// Use UIButton.superview to find its parents view (UITableView)
+        // Use UIButton.superview to find its parents view (UITableView)
+        // Better way is use delegate to get whole cell (more maintainable and encapsulatalbe for cell)
         
         guard let cell = sender.superview?.superview as? ChecklistFooter else {
             
@@ -493,7 +493,6 @@ extension ChecklistViewController {
         if checklists[indexPath.section].items[indexPath.row].isSelected {
             
             checklists[indexPath.section].items[indexPath.row].isSelected = false
-            
             
             checklistCell.checkImage.image = UIImage(named: "icon_uncheck")
             

@@ -646,12 +646,12 @@ extension TripListViewController {
 
 extension TripListViewController: ListTableViewDelegate {
     
-    func didTableHide(isHiding: Bool) {
+    func didTableHide(_ listTableViewController: ListTableViewController, isHiding: Bool) {
         
         mapViewController.handleShowListButton(isHiding: false)
     }
     
-    func didUpdateData(locationArray: [[THdata]]) {
+    func didUpdateData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]]) {
         
         self.locationArray = locationArray
         
@@ -666,7 +666,7 @@ extension TripListViewController: ListTableViewDelegate {
         mapViewController.showMarkers(locations: locations)
     }
     
-    func didDeleteData(locationArray: [[THdata]], location: Location) {
+    func didDeleteData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]], location: Location) {
         
         self.locationArray = locationArray
         
@@ -683,7 +683,7 @@ extension TripListViewController: ListTableViewDelegate {
         mapViewController.showMarkers(locations: locations)
     }
     
-    func didShowDetail(location: Location) {
+    func didShowDetail(_ listTableViewController: ListTableViewController, location: Location) {
         
         switchDetailVC(location: location)
     }
@@ -693,7 +693,7 @@ extension TripListViewController: ListTableViewDelegate {
 
 extension TripListViewController: MapViewDelegate {
     
-    func didShowListHit() {
+    func didShowListHit(for mapViewController: MapViewController) {
         
         listTableViewController.handleTableVIewList(isHidding: false)
     }
@@ -703,23 +703,11 @@ extension TripListViewController: MapViewDelegate {
 
 extension TripListViewController: DayCollectionViewDelegate {
     
-    func didAddDay() {
-        
-        addNewDay()
-    }
-    
-    func didDeleteDay() {
-        
-        deleteDay()
-    }
-    
-    func didSelectDay(_ day: Int) {
+    func didSelectDay(_ dayCollectionViewController: DaysCollectionViewController, _ day: Int) {
         
         self.day = day
         
         filterDatalist(day: day)
-        
-//        listTableViewController.photosDict = photosDict
         
         listTableViewController.locationArray = locationArray
         
@@ -728,11 +716,21 @@ extension TripListViewController: DayCollectionViewDelegate {
         listTableViewController.dates = dates
         
         listTableViewController.day = day
-
+        
         listTableViewController.tableView.reloadData()
-
+        
         sortLocationsForMarkers()
-
+        
         mapViewController.showMarkers(locations: locations)
+    }
+    
+    func didAddDay(_ dayCollectionViewController: DaysCollectionViewController) {
+        
+        addNewDay()
+    }
+    
+    func didDeleteDay(_ dayCollectionViewController: DaysCollectionViewController) {
+        
+        deleteDay()
     }
 }
