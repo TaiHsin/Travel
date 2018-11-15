@@ -69,6 +69,14 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 	* Drag and drop to reorder attraction feature
 	* Show and hide list and mapview for great UX
 	* Bugs fixing  
+	
+* 2.1 - 2018.11.11
+	* Fix map view showing abnormally issue.
+	* Fix travel days issue.
+
+* 2.2 - 2018.11.15
+	* Fix touch image will dismiss page issue
+	* Fixed first load trip list page without photo issue
 
 ## Contacts
 TaiHsin Lee    
