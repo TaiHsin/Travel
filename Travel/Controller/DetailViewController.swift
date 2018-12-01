@@ -238,8 +238,6 @@ class DetailViewController: UIViewController {
                 } else {
                     
                     self.updateLocation(location: location)
-                
-                    // Use tabIndex to pass number for determine tab item
                     
                     if self.tabIndex == 1 {
                         

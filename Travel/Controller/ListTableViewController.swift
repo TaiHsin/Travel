@@ -206,7 +206,7 @@ class ListTableViewController: UIViewController {
     
     func getPhotos() {
         
-        guard photosDict.count == 0 else { return }
+//        guard photosDict.count == 0 else { return }
         
         locationArray.forEach { [weak self] (locations) in
             

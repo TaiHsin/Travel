@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,10 +35,10 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gz5-to-sqU">
-                        <rect key="frame" x="16.5" y="21" width="22" height="28"/>
+                        <rect key="frame" x="10" y="21" width="35" height="28"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tn-HuV">
-                                <rect key="frame" x="0.0" y="0.0" width="22" height="11"/>
+                                <rect key="frame" x="0.0" y="0.0" width="35" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="11" id="3c6-Kg-5AC"/>
                                 </constraints>
@@ -47,7 +47,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-tb-ECy">
-                                <rect key="frame" x="0.0" y="14" width="22" height="14"/>
+                                <rect key="frame" x="0.0" y="14" width="35" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="Zcf-gQ-6tc"/>
                                 </constraints>
@@ -57,7 +57,7 @@
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="width" constant="22" id="hxc-00-WG2"/>
+                            <constraint firstAttribute="width" constant="35" id="EeQ-Jc-fF6"/>
                             <constraint firstItem="Ev8-tb-ECy" firstAttribute="centerX" secondItem="qbC-tn-HuV" secondAttribute="centerX" id="tP8-jg-cQ6"/>
                         </constraints>
                     </stackView>

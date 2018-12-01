@@ -71,8 +71,6 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         
         navigationItem.leftBarButtonItem = editButtonItem
         
-        #warning ("Refactor: use enum for all notification strings")
-        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.createNewTrip(noti: )),
