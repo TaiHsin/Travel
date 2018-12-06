@@ -65,18 +65,21 @@ With U TriPal, you will fasinate your trip. Create and record every custom trip 
 	* App release 
 
 * 2.0 - 2018.10.27
-	* Separate attractions list to each day
-	* Drag and drop to reorder attraction feature
-	* Show and hide list and mapview for great UX
-	* Bugs fixing  
+	* Separate attractions list to each day.
+	* Drag and drop to reorder attraction feature.
+	* Show and hide list and mapview for great UX.
+	* Bugs fixing.  
 	
 * 2.1 - 2018.11.11
 	* Fix map view showing abnormally issue.
 	* Fix travel days issue.
 
 * 2.2 - 2018.11.15
-	* Fix touch image will dismiss page issue
-	* Fixed first load trip list page without photo issue
+	* Fix touch image will dismiss page issue.
+	* Fixed first load trip list page without photo issue.
+	
+* 2.3 - 2018.12.06
+	* Fixed edit day abnormal in TripList.
 
 ## Contacts
 TaiHsin Lee    
