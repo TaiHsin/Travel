@@ -108,7 +108,7 @@ class MapViewController: UIViewController {
             bounds = bounds.includingCoordinate(marker.position)
             mapView.animate(with: .fit(bounds, with: edgeInsets))
         }
-        mapView.setMinZoom(5, maxZoom: 30)
+        mapView.setMinZoom(3, maxZoom: 30)
     }
 }
 

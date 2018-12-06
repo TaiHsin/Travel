@@ -64,10 +64,6 @@ class DetailViewController: UIViewController {
         ref = Database.database().reference()
         
         showAnimate()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.8)
         
@@ -78,13 +74,13 @@ class DetailViewController: UIViewController {
         placeImage.clipsToBounds = true
         
         let width = placeInfoCard.frame.width
-    
+        
         myTripsButtonWidthConstraints = myTripButton
             .widthAnchor
             .constraint(equalToConstant: width * 0.5)
         
         myTripsButtonWidthConstraints.isActive = true
-
+        
         favoriteButtonWidthConstraints = favoriteButton
             .widthAnchor
             .constraint(equalToConstant: width - width * 0.5)
@@ -101,13 +97,11 @@ class DetailViewController: UIViewController {
         } else if isFavorite || tabIndex == 1 {
             
             favoriteButtonWidthConstraints.constant = 0.0
-
+            
             myTripsButtonWidthConstraints.constant = width
             
             intervalConstraints.constant = 0.0
         }
-        
-        // Below shouldn't in viewWillAppear?
         
         guard let location = location else {
             
@@ -123,14 +117,14 @@ class DetailViewController: UIViewController {
         photoManager.loadFirstPhotoForPlace(
             placeID: placeId,
             success: { [weak self] (photo) in
-            
-            self?.placeImage.image = photo
-            
-        }, failure: { (error) in
-            
-            // TODO:
-            
-            print(error)
+                
+                self?.placeImage.image = photo
+                
+            }, failure: { (error) in
+                
+                // TODO:
+                
+                print(error)
         })
     }
     

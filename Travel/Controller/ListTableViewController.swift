@@ -403,7 +403,7 @@ extension ListTableViewController: UITableViewDataSource {
             emptyCell.switchCellContent()
             
             emptyCell.selectionStyle = .none
-            
+    
             return emptyCell
             
         case .location:
