@@ -122,6 +122,15 @@ class FirebaseManager {
             success(result)
         }
     }
+    
+    func updateMyTrips(total: Int, end: Double, id: String) {
+        
+        //        let id = trip[0].id
+        
+        ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
+        
+        ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
+    }
 }
 
 // MARK: - For refactor

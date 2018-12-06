@@ -15,6 +15,7 @@
 		9D0E196E2151FE1C00CE1C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */; };
 		9D0E19732151FE1C00CE1C4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19712151FE1C00CE1C4A /* Main.storyboard */; };
 		9D0E19782151FE1D00CE1C4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E19762151FE1D00CE1C4A /* LaunchScreen.storyboard */; };
+		9D11E58321B906850050CC71 /* abbaData.json in Resources */ = {isa = PBXBuildFile; fileRef = 9D11E58221B906850050CC71 /* abbaData.json */; };
 		9D26487B216E401300718F7A /* TripListFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26487A216E401300718F7A /* TripListFooter.swift */; };
 		9D26487D216E402600718F7A /* TripListFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D26487C216E402600718F7A /* TripListFooter.xib */; };
 		9D4A14862152543100748E06 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4A14852152543100748E06 /* Login.storyboard */; };
@@ -25,7 +26,7 @@
 		9D6B5D07216F5A6000066756 /* DayCollectionFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D6B5D06216F5A6000066756 /* DayCollectionFooter.xib */; };
 		9D6C1585215E846100574A12 /* CreateTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C1584215E846100574A12 /* CreateTripViewController.swift */; };
 		9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D96457B21613BF600D6E42E /* CustomCell.swift */; };
-		9D9B6D4521B7DBBF0053DDA6 /* TravelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B6D4421B7DBBF0053DDA6 /* TravelTests.swift */; };
+		9D9B6D4521B7DBBF0053DDA6 /* TripListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B6D4421B7DBBF0053DDA6 /* TripListVCTests.swift */; };
 		9DA095A82153A3CA008C1358 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA095A72153A3CA008C1358 /* Search.storyboard */; };
 		9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AB2153ABB1008C1358 /* SearchViewController.swift */; };
 		9DA095B02153C297008C1358 /* SearchNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA095AF2153C297008C1358 /* SearchNaviViewController.swift */; };
@@ -119,6 +120,7 @@
 		9D0E196D2151FE1C00CE1C4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D0E19722151FE1C00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9D0E19772151FE1D00CE1C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9D11E58221B906850050CC71 /* abbaData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abbaData.json; sourceTree = "<group>"; };
 		9D26487A216E401300718F7A /* TripListFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListFooter.swift; sourceTree = "<group>"; };
 		9D26487C216E402600718F7A /* TripListFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TripListFooter.xib; sourceTree = "<group>"; };
 		9D3D357521760226003212D6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -131,7 +133,7 @@
 		9D6C1584215E846100574A12 /* CreateTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripViewController.swift; sourceTree = "<group>"; };
 		9D96457B21613BF600D6E42E /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		9D9B6D4221B7DBBF0053DDA6 /* TravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TravelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D9B6D4421B7DBBF0053DDA6 /* TravelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTests.swift; sourceTree = "<group>"; };
+		9D9B6D4421B7DBBF0053DDA6 /* TripListVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListVCTests.swift; sourceTree = "<group>"; };
 		9D9B6D4621B7DBBF0053DDA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DA095A72153A3CA008C1358 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		9DA095AB2153ABB1008C1358 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -396,7 +398,8 @@
 		9D9B6D4321B7DBBF0053DDA6 /* TravelTests */ = {
 			isa = PBXGroup;
 			children = (
-				9D9B6D4421B7DBBF0053DDA6 /* TravelTests.swift */,
+				9D11E58221B906850050CC71 /* abbaData.json */,
+				9D9B6D4421B7DBBF0053DDA6 /* TripListVCTests.swift */,
 				9D9B6D4621B7DBBF0053DDA6 /* Info.plist */,
 			);
 			path = TravelTests;
@@ -618,6 +621,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D11E58321B906850050CC71 /* abbaData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,7 +834,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D9B6D4521B7DBBF0053DDA6 /* TravelTests.swift in Sources */,
+				9D9B6D4521B7DBBF0053DDA6 /* TripListVCTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

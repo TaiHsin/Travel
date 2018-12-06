@@ -1,0 +1,98 @@
+[
+    {
+        "addTime" : 1.539663990057672E9,
+        "address" : "Place Charles de Gaulle, 75008 Paris, France",
+        "days" : 2,
+        "latitude" : 48.8737917,
+        "locationId" : "-LOv712Cd0uiorDKL_Cw",
+        "longitude" : 2.2950274999999993,
+        "name" : "Arc de Triomphe",
+        "order" : 0,
+        "photo" : "ChIJjx37cOxv5kcRPWQuEW5ntdk",
+        "position" : "48.8737917_2.2950274999999993"
+    },
+    {
+        "addTime" : 1.539663820332697E9,
+        "address" : "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+        "days" : 1,
+        "latitude" : 48.858370099999995,
+        "locationId" : "-LOv6Ne20yqo0bhzV0NP",
+        "longitude" : 2.2944812999999997,
+        "name" : "Eiffel Tower",
+        "order" : 0,
+        "photo" : "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+        "position" : "48.858370099999995_2.2944812999999997"
+    },
+    {
+        "addTime" : 1.539663844519261E9,
+        "address" : "82 Boulevard de Clichy, 75018 Paris, France",
+        "days" : 1,
+        "latitude" : 48.8841232,
+        "locationId" : "-LOv6TQS1InjICcmAkFd",
+        "longitude" : 2.3322519,
+        "name" : "Moulin Rouge",
+        "order" : 1,
+        "photo" : "ChIJiQxv_05u5kcRESFIh6-QTvQ",
+        "position" : "48.8841232_2.3322519"
+    },
+    {
+        "addTime" : 1.539664029403981E9,
+        "address" : "91400 Orsay, France",
+        "days" : 3,
+        "latitude" : 48.697161,
+        "locationId" : "-LOv7BIOJh5BmuxnEauI",
+        "longitude" : 2.1896169999999997,
+        "name" : "Orsay",
+        "order" : 0,
+        "photo" : "ChIJzTVrmB3W5UcRAEOLaMOCCwQ",
+        "position" : "48.697161_2.1896169999999997"
+    },
+    {
+        "addTime" : 1.5396640917821221E9,
+        "address" : "Rue de Rivoli, 75001 Paris, France",
+        "days" : 4,
+        "latitude" : 48.8606111,
+        "locationId" : "-LOv7PZU4hejFsbRg5rl",
+        "longitude" : 2.337644,
+        "name" : "Louvre Museum",
+        "order" : 0,
+        "photo" : "ChIJD3uTd9hx5kcR1IQvGfr8dbk",
+        "position" : "48.8606111_2.337644"
+    },
+    {
+        "addTime" : 1.5396712129717999E9,
+        "address" : "94390 Orly, France",
+        "days" : 3,
+        "latitude" : 48.7262433,
+        "locationId" : "-LOvY_v2q65Bp_ZyZGUw",
+        "longitude" : 2.3652471999999998,
+        "name" : "Orly Airport",
+        "order" : 1,
+        "photo" : "ChIJHTtq-rF15kcRIoTbQ9feeJ0",
+        "position" : "48.7262433_2.3652471999999998"
+    },
+    {
+        "addTime" : 1.5396714520880551E9,
+        "address" : "40 Boulevard Haussmann, 75009 Paris, France",
+        "days" : 5,
+        "latitude" : 48.873588,
+        "locationId" : "-LOvZVJkGSJkbo13Ge8Y",
+        "longitude" : 2.33215,
+        "name" : "Galeries Lafayette Haussmann",
+        "order" : 0,
+        "photo" : "ChIJK2Gs9DZu5kcRCHzHNohIAUQ",
+        "position" : "48.873588_2.33215"
+    },
+    {
+        "addTime" : 1.539671588467963E9,
+        "address" : "8 Boulevard du Palais, 75001 Paris, France",
+        "days" : 2,
+        "latitude" : 48.855419999999995,
+        "locationId" : "-LOv_2mrPIbzjoYfrSU0",
+        "longitude" : 2.3449869999999997,
+        "name" : "Sainte-Chapelle",
+        "order" : 1,
+        "photo" : "ChIJR3122B9u5kcRaCck3PlB9DM",
+        "position" : "48.855419999999995_2.3449869999999997"
+    }
+]
