@@ -33,4 +33,9 @@ target 'Travel' do
   # Pods for Crahlythics
   pod 'Fabric'
   pod 'Crashlytics'
+  
+  target 'TravelTests' do
+    inherit! :search_paths
+    pod 'Firebase'
+  end
 end

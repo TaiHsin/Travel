@@ -25,7 +25,7 @@ private enum Tab {
         case .myTrip:
             
             return UIStoryboard.myTripStoryboard().instantiateInitialViewController()!
-            
+        
         case .preserved:
             
             return UIStoryboard.preservedStoryboard().instantiateInitialViewController()!

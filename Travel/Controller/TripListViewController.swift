@@ -167,7 +167,6 @@ class TripListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = UIColor.battleshipGrey
     }
     
-    /// Refactor
     func fetchData() {
         
         firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { [weak self] (location) in
@@ -223,7 +222,7 @@ class TripListViewController: UIViewController {
     }
     
     // Pass data to listTableView
-    
+    // ListTableView 寫 function 來讓這邊呼叫。
     func passDatatoListTableView() {
         
         listTableViewController.photosDict = photosDict
@@ -446,6 +445,8 @@ extension TripListViewController {
         }
         
         updateMyTrips(total: total, end: newDateDouble)
+        
+        listTableViewController.locationArray = locationArray
 
         listTableViewController.dates = dates
         
@@ -496,6 +497,8 @@ extension TripListViewController {
         updateMyTrips(total: newTotal, end: endDate)
         
         deleteDay(daysKey: daysKey, day: total)
+        
+        listTableViewController.locationArray = locationArray
         
         listTableViewController.dates = dates
         
@@ -552,23 +555,6 @@ extension TripListViewController {
         ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
         
         ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
-    }
-    
-    func updateData(daysKey: String, indexPath: IndexPath, location: Location) {
-        
-        let daysKey = trip[0].daysKey
-        
-        let days = indexPath.section + 1
-        
-        let order = indexPath.row
-        
-        let orderUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/order": order]
-        
-        self.ref.updateChildValues(orderUpdate)
-        
-        let daysUpdate = ["/tripDays/\(daysKey)/\(location.locationId)/days": days]
-        
-        self.ref.updateChildValues(daysUpdate)
     }
     
     func updateLocalData() {

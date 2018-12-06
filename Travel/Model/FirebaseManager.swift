@@ -21,6 +21,8 @@ class FirebaseManager {
         ref = Database.database().reference()
     }
     
+    // Delete
+    
     func deleteDay(daysKey: String, day: Int) {
         
         ref.child("tripDays")
@@ -69,6 +71,8 @@ class FirebaseManager {
                 self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
         }
     }
+    
+    // Read Data
 
     func fetchDayList(daysKey: String, success: @escaping ([THdata]) -> Void) {
         
