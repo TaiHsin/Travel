@@ -206,7 +206,7 @@ class ListTableViewController: UIViewController {
     
     func getPhotos() {
         
-        guard photosDict.count == 0 else { return }
+//        guard photosDict.count == 0 else { return }
         
         locationArray.forEach { [weak self] (locations) in
             
@@ -403,7 +403,7 @@ extension ListTableViewController: UITableViewDataSource {
             emptyCell.switchCellContent()
             
             emptyCell.selectionStyle = .none
-            
+    
             return emptyCell
             
         case .location:

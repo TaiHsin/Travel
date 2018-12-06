@@ -169,8 +169,7 @@ class CreateTripViewController: UIViewController {
         //            self.setupViewOfCalendar(from: visibleDates)
         //        }
     }
-    
-    /// Seems this func doesn't work
+
     func handleCellTextColor(cell: JTAppleCell?, cellState: CellState) {
         
         guard let validCell = view as? CustomCell else { return }
