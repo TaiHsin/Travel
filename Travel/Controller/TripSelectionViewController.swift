@@ -21,7 +21,7 @@ class TripSelectionViewController: UIViewController {
     
     @IBOutlet weak var saveButton: UIButton!
     
-    var ref: DatabaseReference!
+    let firebaseManager = FirebaseManager()
     
     let tripsManager = TripsManager()
     
@@ -41,8 +41,6 @@ class TripSelectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference()
 
         setupTableView()
         
@@ -68,7 +66,7 @@ class TripSelectionViewController: UIViewController {
                 return
             }
             
-            checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
+            firebaseManager.checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
             
             if tabIndex == 1 {
                 
@@ -114,6 +112,7 @@ class TripSelectionViewController: UIViewController {
     }
     
     @IBAction func closeView(_ sender: Any) {
+        
         self.view.removeFromSuperview()
     }
     
@@ -132,7 +131,7 @@ class TripSelectionViewController: UIViewController {
     
     func setupCollectionView() {
         
-        #warning ("Refactor: use enum to replace String(describing: ViewController.self)")
+        // Refactor: use enum to replace String(describing: ViewController.self)
         
         let identifier = String(describing: DayCollectionViewCell.self)
         
@@ -187,7 +186,6 @@ extension TripSelectionViewController: UITableViewDataSource {
         
         return cell
     }
-
 }
 
 extension TripSelectionViewController: UITableViewDelegate {
@@ -392,61 +390,5 @@ extension TripSelectionViewController {
                 // TODO
             }
         )
-    }
-
-    func checkLocationDays(daysKey: String, index: Int, location: Location) {
-        
-        guard daysKey != Constants.emptyString, index != 0 else {
-            
-            return
-        }
-        
-        ref.child("/tripDays/\(daysKey)")
-            .queryOrdered(byChild: "days")
-            .queryEqual(toValue: index)
-            .observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else {
-                    
-                    self?.updataLocation(daysKey: daysKey, days: index, location: location)
-                    
-                    return
-                }
-
-                let order = value.count
-                
-                self?.updataLocation(
-                    daysKey: daysKey,
-                    order: order,
-                    days: index,
-                    location: location
-                )
-            })
-    }
-    
-    func updataLocation(daysKey: String, order: Int = 0, days: Int, location: Location) {
-        
-        guard let key = self.ref.child("tripDays").childByAutoId().key else {
-            
-            return
-        }
-        
-        let post = ["addTime": location.addTime,
-                    "address": location.address,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "locationId": key,
-                    "name": location.name,
-                    "order": order,
-                    "photo": location.photo,
-                    "days": days,
-                    "position": location.position
-            ] as [String: Any]
-        
-        let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
-        
-        ref.updateChildValues(postUpdate)
-        
-        NotificationCenter.default.post(name: .triplist, object: nil)
     }
 }

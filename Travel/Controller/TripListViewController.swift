@@ -36,8 +36,6 @@ class TripListViewController: UIViewController {
     
     let decoder = JSONDecoder()
     
-    var ref: DatabaseReference!
-    
     var dataArray: [[THdata]] = []
     
     var locationArray: [[THdata]] = []
@@ -60,8 +58,6 @@ class TripListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference()
 
         createWeekDay(startDate: trip[0].startDate, totalDays: trip[0].totalDays)
 
@@ -365,6 +361,43 @@ class TripListViewController: UIViewController {
         
         self.present(alertVC, animated: true, completion: nil)
     }
+    
+    func updateLocalData() {
+        
+        let sections = locationArray.count
+        
+        switch sections {
+            
+        case 1:
+            
+            let rows = locationArray[0].count
+            
+            for row in 0 ..< rows {
+                
+                locationArray[0][row].location.days = day
+                
+                locationArray[0][row].location.order = row
+            }
+            dataArray[day - 1] = locationArray[0]
+            
+        default:
+            
+            for section in 0 ..< sections {
+                
+                let rows = locationArray[section].count
+                
+                for row in 0 ..< rows {
+                    
+                    locationArray[section][row].location.days = section + 1
+                    
+                    locationArray[section][row].location.order = row
+                }
+            }
+            
+            dataArray = locationArray
+        }
+    }
+
 }
  
 // MARK: - Collection View Delegate Flow Layout
@@ -381,11 +414,13 @@ extension TripListViewController {
                 return
         }
         
+        /////
         detailViewController.location = location
         
         detailViewController.isMyTrip = isMyTrips
         
         detailViewController.tabIndex = tabIndex
+        /////
         
         /// add transition effect
         tabBarController?.present(detailViewController, animated: true)
@@ -448,11 +483,13 @@ extension TripListViewController {
         
         firebaseManager.updateMyTrips(total: total, end: newDateDouble, id: id)
         
+        /////
         listTableViewController.locationArray = locationArray
 
         listTableViewController.dates = dates
         
         listTableViewController.tableView.reloadData()
+        /////
         
         daysCollectionViewController.dates = dates
         
@@ -503,13 +540,15 @@ extension TripListViewController {
         
         firebaseManager.updateMyTrips(total: newTotal, end: endDate, id: id)
         
-        deleteDay(daysKey: daysKey, day: total)
+        firebaseManager.deleteDay(daysKey: daysKey, day: total)
         
+        /////
         listTableViewController.locationArray = locationArray
         
         listTableViewController.dates = dates
         
         listTableViewController.tableView.reloadData()
+        /////
         
         daysCollectionViewController.dates = dates
         
@@ -532,7 +571,7 @@ extension TripListViewController: ListTableViewDelegate {
         
         updateLocalData()
         
-        updateAllData()
+        firebaseManager.updateAllData(trip: trip, data: dataArray)
         
         listTableViewController.locationArray = locationArray
         
@@ -545,11 +584,11 @@ extension TripListViewController: ListTableViewDelegate {
         
         self.locationArray = locationArray
         
-        deleteLocation(location: location)
+        firebaseManager.deleteLocation(location: location, trip: trip)
+        
+        firebaseManager.updateAllData(trip: trip, data: dataArray)
         
         updateLocalData()
-        
-        updateAllData()
         
         listTableViewController.locationArray = locationArray
         
@@ -584,6 +623,7 @@ extension TripListViewController: DayCollectionViewDelegate {
         
         filterDatalist(day: day)
         
+        /////
         listTableViewController.locationArray = locationArray
         
         listTableViewController.getPhotos()
@@ -593,6 +633,7 @@ extension TripListViewController: DayCollectionViewDelegate {
         listTableViewController.day = day
         
         listTableViewController.tableView.reloadData()
+        /////
         
         sortLocationsForMarkers()
         
@@ -607,126 +648,5 @@ extension TripListViewController: DayCollectionViewDelegate {
     func didDeleteDay(_ dayCollectionViewController: DaysCollectionViewController) {
         
         deleteDay()
-    }
-}
-
-// MARK: - Firebase relative functions
-
-extension TripListViewController {
-    
-    func deleteDay(daysKey: String, day: Int) {
-        
-        ref.child("tripDays")
-            .child(daysKey)
-            .queryOrdered(byChild: "days")
-            .queryEqual(toValue: day)
-            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else { return }
-                
-                guard let keys = value.allKeys as? [String] else { return }
-                
-                for key in keys {
-                    
-                    self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-                }
-        }
-    }
-    
-    func deleteLocation(location: Location) {
-        
-        let daysKey = trip[0].daysKey
-        
-        ref.child("tripDays")
-            .child(daysKey)
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else { return }
-                
-                guard let key = value.allKeys.first as? String else { return }
-                
-                self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-        }
-    }
-    
-//    func updateMyTrips(total: Int, end: Double, id: String) {
-//
-////        let id = trip[0].id
-//
-//        ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
-//
-//        ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
-//    }
-    
-    func updateLocalData() {
-        
-        let sections = locationArray.count
-        
-        switch sections {
-            
-        case 1:
-            
-            let rows = locationArray[0].count
-            
-            for row in 0 ..< rows {
-                
-                locationArray[0][row].location.days = day
-                
-                locationArray[0][row].location.order = row
-            }
-            dataArray[day - 1] = locationArray[0]
-            
-        default:
-            
-            for section in 0 ..< sections {
-                
-                let rows = locationArray[section].count
-                
-                for row in 0 ..< rows {
-                    
-                    locationArray[section][row].location.days = section + 1
-                    
-                    locationArray[section][row].location.order = row
-                }
-            }
-            
-            dataArray = locationArray
-        }
-    }
-    
-    func updateAllData() {
-        
-        let daysKey = trip[0].daysKey
-        
-        let totalDays = trip[0].totalDays
-        
-        for day in 0 ... totalDays - 1 {
-            
-            dataArray[day].forEach({ [weak self] (location) in
-                
-                let key = location.location.locationId
-                
-                if key != Constants.emptyString {
-                    
-                    let post = ["addTime": location.location.addTime,
-                                "address": location.location.address,
-                                "latitude": location.location.latitude,
-                                "longitude": location.location.longitude,
-                                "locationId": key,
-                                "name": location.location.name,
-                                "order": location.location.order,
-                                "photo": location.location.photo,
-                                "days": location.location.days,
-                                "position": location.location.position
-                        ] as [String: Any]
-                    
-                    let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
-                    
-                    self?.ref.updateChildValues(postUpdate)
-                }
-            })
-        }
     }
 }

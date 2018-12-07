@@ -8,11 +8,6 @@
 
 import Foundation
 import UIKit
-import GooglePlaces
-import FirebaseDatabase
-import Firebase
-import KeychainAccess
-import SwiftMessages
 
 class DetailViewController: UIViewController {
     
@@ -38,9 +33,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var intervalConstraints: NSLayoutConstraint!
     
-    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
-    
-    var ref: DatabaseReference!
+    let firebaseManager = FirebaseManager()
     
     let photoManager = PhotoManager()
     
@@ -60,8 +53,6 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference()
         
         showAnimate()
         
@@ -216,86 +207,57 @@ class DetailViewController: UIViewController {
         
         guard let location = location else { return }
         
-        guard let uid = keychain["userId"] else { return }
+        addToFavorite(location: location)
+    }
+    
+    func addToFavorite(location: Location) {
         
-        ref.child("/favorite/\(uid)")
-            .queryOrdered(byChild: "position")
-            .queryEqual(toValue: location.position)
-            .observeSingleEvent(of: .value) { (snapshot) in
+        firebaseManager.updateFavorite(
+            location: location,
+            success: { [weak self] in
+                self?.updateLocation(location: location)
                 
-                if (snapshot.value as? NSDictionary) != nil {
+                if self?.tabIndex == 1 {
                     
-                    self.showAlertWith()
-                    
-                    // use SDK to replace alertAction
-                    
-                } else {
-                    
-                    self.updateLocation(location: location)
-                    
-                    if self.tabIndex == 1 {
-                        
-                        guard let tripsnavi = self.presentingViewController?.children[0]
-                            as? TripNaviViewController else {
-                                
-                                return
-                        }
-                        
-                        tripsnavi.popViewController(animated: true)
-                    } else if self.tabIndex == 2 {
-                        
-                        guard let collectionsNavi = self.presentingViewController?.children[1]
-                            as? TripNaviViewController else {
-                                
-                                return
-                        }
-                        
-                        collectionsNavi.popViewController(animated: true)
+                    guard let tripsnavi = self?.presentingViewController?.children[0]
+                        as? TripNaviViewController else {
+                            
+                            return
                     }
                     
-                    self.removeAnimate()
+                    tripsnavi.popViewController(animated: true)
                     
-                    NotificationCenter.default.post(name: .collections, object: nil)
+                } else if self?.tabIndex == 2 {
+                    
+                    guard let collectionsNavi = self?.presentingViewController?.children[1]
+                        as? TripNaviViewController else {
+                            
+                            return
+                    }
+                    
+                    collectionsNavi.popViewController(animated: true)
                 }
+                
+                self?.removeAnimate()
+                
+                NotificationCenter.default.post(name: .collections, object: nil)
+        },
+            failure: { [weak self] in
+                self?.showAlertWith()
         }
+        )
     }
     
     func updateLocation(location: Location) {
         
-        guard let uid = keychain["userId"] else {
-            
-            return
-        }
-        
-        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { [weak self] (snapshot) in
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                return
+        firebaseManager.updateLocation(
+            location: location,
+            success: { [weak self] (count) in
+                self?.total = count
+            },
+            failure: { (error) in
+                print(error)
             }
-            
-            self?.total = value.allKeys.count
-        }
-        
-        guard let key = ref.child("favorite").childByAutoId().key else {
-            
-            return
-        }
-        
-        let post = ["addTime": location.addTime,
-                    "address": location.address,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "locationId": key,
-                    "name": location.name,
-                    "order": location.order,
-                    "photo": location.photo,
-                    "days": location.days,
-                    "position": location.position
-            ] as [String: Any]
-        
-        let postUpdate = ["/favorite/\(uid)/\(key)": post]
-        
-        ref.updateChildValues(postUpdate)
+        )
     }
 }

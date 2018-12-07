@@ -483,7 +483,7 @@ extension CreateTripViewController: JTAppleCalendarViewDelegate {
     //        setupViewOfCalendar(from: visibleDates)
     //    }
     
-    // header
+    // Header
     
     func calendar(
         _ calendar: JTAppleCalendarView,

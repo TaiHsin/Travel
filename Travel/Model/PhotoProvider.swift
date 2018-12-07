@@ -51,7 +51,7 @@ class PhotoManager {
         failure: @escaping (Error) -> Void
         ) {
         GMSPlacesClient.shared().loadPlacePhoto(
-            photoMetadata, callback: { [weak self] (photo, error)
+            photoMetadata, callback: { (photo, error)
             -> Void in
             
                 if let error = error {

@@ -20,7 +20,7 @@ class SearchViewController: UIViewController {
     
     var resultView: UITableView?
     
-    var ref: DatabaseReference!
+    let firebaseManager = FirebaseManager()
     
     var location: Location?
     
@@ -56,18 +56,21 @@ class SearchViewController: UIViewController {
         
         searchController?.hidesNavigationBarDuringPresentation = false
         
-        ref = Database.database().reference()
-        
-        fetchDataCount { [weak self] (number) in
-            
-            self?.total = number
-        }
+        fetchDataCount()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
+    }
+    
+    func fetchDataCount() {
+        
+        firebaseManager.fetchDataCount { [weak self] (number) in
+            
+            self?.total = number
+        }
     }
 }
 
@@ -167,20 +170,5 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
         )
         
         success(location)
-    }
-    
-    func fetchDataCount(success: @escaping (Int) -> Void) {
-        
-        ref.child("favorite").observeSingleEvent(of: .value) { [weak self] (snapshot) in
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                return
-            }
-            
-            let number = value.allKeys.count
-            
-            success(number)
-        }
     }
 }

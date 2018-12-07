@@ -8,9 +8,7 @@
 
 import UIKit
 import GooglePlaces
-import FirebaseDatabase
 import NVActivityIndicatorView
-import KeychainAccess
 
 class PreservedViewController: UIViewController {
 
@@ -22,11 +20,9 @@ class PreservedViewController: UIViewController {
     
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
-    let keychain = Keychain(service: "com.TaiHsinLee.Travel")
-    
     let photoManager = PhotoManager()
     
-    var ref: DatabaseReference!
+    let firebaseManager = FirebaseManager()
     
     var place: GMSPlace?
     
@@ -61,8 +57,6 @@ class PreservedViewController: UIViewController {
         activityIndicatorView.color = UIColor.cloudyBlue
         
         activityIndicatorView.startAnimating()
-        
-        ref = Database.database().reference()
     
         setupTableView()
         
@@ -134,7 +128,7 @@ class PreservedViewController: UIViewController {
         
         locationArray.removeAll()
         
-        fetchPreservedData(
+        firebaseManager.fetchPreservedData(
             success: { [weak self] (location) in
 
                 self?.locationArray = location
@@ -251,7 +245,7 @@ extension PreservedViewController: UITableViewDataSource {
             
             let location = locationArray[indexPath.row]
  
-            deleteData(location: location)
+            firebaseManager.deleteData(location: location)
             
             locationArray.remove(at: indexPath.row)
             
@@ -282,84 +276,5 @@ extension PreservedViewController: UITableViewDelegate {
         let locationData = locationArray[indexPath.row]
        
         showDetailInfo(location: locationData)
-    }
-}
-
-// MARK: - Firebase data
-extension PreservedViewController {
-    
-    func fetchPreservedData(
-        success: @escaping ([Location]) -> Void,
-        failure: @escaping (Error) -> Void
-        ) {
-        
-        var location: [Location] = []
-        
-        guard let uid = keychain["userId"] else {
-            
-            NotificationCenter.default.post(name: .noData, object: nil)
-           
-            return
-        }
-        
-        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-            
-            guard let self = self else {
-                
-                return
-            }
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                NotificationCenter.default.post(name: .noData, object: nil)
-                
-                return
-            }
-            
-            for value in value.allValues {
-                
-                // Data convert: can be refact out independently
-                
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
-                    
-                    return
-                }
-                
-                do {
-                    let data = try self.decoder.decode(Location.self, from: jsonData)
-                    
-                    location.append(data)
-                
-                } catch {
-                    
-                    failure(error)
-                }
-            }
-    
-            success(location)
-        }
-    }
-    
-    func deleteData(location: Location) {
-        
-        guard let uid = keychain["userId"] else { return }
-        
-        ref.child("/favorite/\(uid)")
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-            
-                guard let value = snapshot.value as? NSDictionary else {
-                    
-                    return
-                }
-            
-                guard let key = value.allKeys.first as? String else {
-                    
-                    return
-                }
-                
-                self?.ref.child("/favorite/\(uid)/\(key)").removeValue()
-        }
     }
 }
