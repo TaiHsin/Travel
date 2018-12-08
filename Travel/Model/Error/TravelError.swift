@@ -8,12 +8,15 @@
 
 import Foundation
 
-enum TripsError: String, Error {
+enum TravelError: String, Error {
     
     case loginFacebookFail = "Login with facebook fail"
     
     case loginFacebookReject = "Please permit the facebook login as Travel login"
     
+    case decodeError = "Data decode error"
+    
     case serverError = "Travel client error"
     
+    case fetchError = "Fetch data error"
 }

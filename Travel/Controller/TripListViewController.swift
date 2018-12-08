@@ -26,7 +26,9 @@ class TripListViewController: UIViewController {
     
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
-    let firebaseManager = FirebaseManager()
+    private let firebaseManager = FirebaseManager()
+    
+    private let triplistManager = TriplistManager()
 
     let dateFormatter = DateFormatter()
     
@@ -165,17 +167,22 @@ class TripListViewController: UIViewController {
     
     func fetchData() {
         
-        firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { [weak self] (location) in
-            
-            guard let self = self else {
+        triplistManager.fetchTriplist(
+            daysKey: trip[0].daysKey,
+            success: { [weak self] (thData) in
                 
-                return
-            }
+                guard let self = self else {
+                    return
+                }
+
+                self.sortLocations(locations: thData, total: self.dates.count)
+                
+                self.daysCollectionViewController.preSelectCollectionView()
+                
+        }, failure: { (error) in
             
-            self.sortLocations(locations: location, total: self.dates.count)
-            
-            self.daysCollectionViewController.preSelectCollectionView()
-        }
+            print(error.localizedDescription)
+        })
     }
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
@@ -234,22 +241,30 @@ class TripListViewController: UIViewController {
         
         dataArray.removeAll()
         
-        firebaseManager.fetchDayList(daysKey: trip[0].daysKey) { [weak self] (location) in
-            
-            guard let self = self else { return }
-            
-            self.sortLocations(locations: location, total: self.dates.count)
-            
-            self.filterDatalist(day: self.day)
-            
-            self.getPhotos()
-            
-            self.passDatatoListTableView()
-            
-            self.sortLocationsForMarkers()
-            
-            self.mapViewController.showMarkers(locations: self.locations)
-        }
+        triplistManager.fetchTriplist(
+            daysKey: trip[0].daysKey,
+            success: { [weak self] (thData) in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                self.sortLocations(locations: thData, total: self.dates.count)
+                
+                self.filterDatalist(day: self.day)
+                
+                self.getPhotos()
+                
+                self.passDatatoListTableView()
+                
+                self.sortLocationsForMarkers()
+                
+                self.mapViewController.showMarkers(locations: self.locations)
+        },
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
     }
     
     func createWeekDay(startDate: Double, totalDays: Int) {

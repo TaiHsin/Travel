@@ -24,6 +24,8 @@ class PreservedViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
     
+    let favoriteManager = FavoriteManager()
+    
     var place: GMSPlace?
     
     var photo: UIImage?
@@ -128,10 +130,10 @@ class PreservedViewController: UIViewController {
         
         locationArray.removeAll()
         
-        firebaseManager.fetchPreservedData(
-            success: { [weak self] (location) in
-
-                self?.locationArray = location
+        favoriteManager.fetchFavoritelist(
+            success: { [weak self] (locations) in
+                
+                self?.locationArray = locations
                 
                 // Sort array alphabetically
                 
@@ -146,13 +148,13 @@ class PreservedViewController: UIViewController {
                     
                     self?.emptyLabel.isHidden = true
                 }
-                
         },
-            failure: { [weak self]  (_) in
+            failure: { [weak self] (error) in
+                
+                print(error)
                 
                 self?.activityIndicatorView.stopAnimating()
-        }
-        )
+        })
     }
 
     func getPhotos() {

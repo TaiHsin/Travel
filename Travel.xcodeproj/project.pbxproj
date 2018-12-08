@@ -34,8 +34,11 @@
 		9DA770A22178AF7C005D6E76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DA770A12178AF7C005D6E76 /* GoogleService-Info.plist */; };
 		9DAB633E218586870028D9B9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB633D218586870028D9B9 /* Constants.swift */; };
 		9DAB63402185884E0028D9B9 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */; };
-		9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC8502164F4C9008D50D2 /* TripsError.swift */; };
+		9DADC8512164F4C9008D50D2 /* TravelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC8502164F4C9008D50D2 /* TravelError.swift */; };
 		9DADC85321650AEA008D50D2 /* Trips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DADC85221650AEA008D50D2 /* Trips.swift */; };
+		9DBC5C3D21BBE4F400C8979C /* TriplistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBC5C3C21BBE4F400C8979C /* TriplistManager.swift */; };
+		9DBC5C3F21BC05C800C8979C /* SelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBC5C3E21BC05C800C8979C /* SelectionManager.swift */; };
+		9DBC5C4121BC107D00C8979C /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBC5C4021BC107D00C8979C /* FavoriteManager.swift */; };
 		9DD30AC32172502500AF7BC1 /* SFCompactText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30ABD21724F9A00AF7BC1 /* SFCompactText-Regular.otf */; };
 		9DD30AC52172503700AF7BC1 /* SFCompactText-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AAC21724F9800AF7BC1 /* SFCompactText-Medium.otf */; };
 		9DD30AC62172503E00AF7BC1 /* SFCompactText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD30AB221724F9800AF7BC1 /* SFCompactText-Light.otf */; };
@@ -143,8 +146,11 @@
 		9DA770A12178AF7C005D6E76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DAB633D218586870028D9B9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9DAB633F2185884E0028D9B9 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
-		9DADC8502164F4C9008D50D2 /* TripsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsError.swift; sourceTree = "<group>"; };
+		9DADC8502164F4C9008D50D2 /* TravelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelError.swift; sourceTree = "<group>"; };
 		9DADC85221650AEA008D50D2 /* Trips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trips.swift; sourceTree = "<group>"; };
+		9DBC5C3C21BBE4F400C8979C /* TriplistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriplistManager.swift; sourceTree = "<group>"; };
+		9DBC5C3E21BC05C800C8979C /* SelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionManager.swift; sourceTree = "<group>"; };
+		9DBC5C4021BC107D00C8979C /* FavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteManager.swift; sourceTree = "<group>"; };
 		9DD30AAC21724F9800AF7BC1 /* SFCompactText-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactText-Medium.otf"; sourceTree = "<group>"; };
 		9DD30AAD21724F9800AF7BC1 /* SFCompactText-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactText-Bold.otf"; sourceTree = "<group>"; };
 		9DD30AB021724F9800AF7BC1 /* SFCompactDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Regular.otf"; sourceTree = "<group>"; };
@@ -308,14 +314,17 @@
 		9D4A148A21525C5100748E06 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9DBC5C3B21BBD0AD00C8979C /* Error */,
 				9D4A149221533E9600748E06 /* FacebookManager.swift */,
 				9DFD95BF2164F0520098DE55 /* TripsManager.swift */,
-				9DADC8502164F4C9008D50D2 /* TripsError.swift */,
 				9DADC85221650AEA008D50D2 /* Trips.swift */,
 				9DF74F28216C56FA003D4605 /* PhotoProvider.swift */,
 				9DFA4FF12168704300A9C13F /* Checklist.swift */,
 				9DAB633D218586870028D9B9 /* Constants.swift */,
 				9DF78CD821880C7600C80666 /* FirebaseManager.swift */,
+				9DBC5C3C21BBE4F400C8979C /* TriplistManager.swift */,
+				9DBC5C3E21BC05C800C8979C /* SelectionManager.swift */,
+				9DBC5C4021BC107D00C8979C /* FavoriteManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -405,6 +414,14 @@
 				9D9B6D4621B7DBBF0053DDA6 /* Info.plist */,
 			);
 			path = TravelTests;
+			sourceTree = "<group>";
+		};
+		9DBC5C3B21BBD0AD00C8979C /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				9DADC8502164F4C9008D50D2 /* TravelError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		9DD30AAB21724F7E00AF7BC1 /* SanFranciscoFont */ = {
@@ -789,12 +806,14 @@
 				9DA095AC2153ABB1008C1358 /* SearchViewController.swift in Sources */,
 				9DF61B5B215A62D7005919E8 /* MenuBarCollectionViewCell.swift in Sources */,
 				9DAB63402185884E0028D9B9 /* NotificationName+Extension.swift in Sources */,
-				9DADC8512164F4C9008D50D2 /* TripsError.swift in Sources */,
+				9DBC5C4121BC107D00C8979C /* FavoriteManager.swift in Sources */,
+				9DADC8512164F4C9008D50D2 /* TravelError.swift in Sources */,
 				9D514DAF2175C79700A39151 /* Photos.swift in Sources */,
 				9DF64F4421589715000D0300 /* ProfileViewController.swift in Sources */,
 				194702372189BAED00D68225 /* MapViewController.swift in Sources */,
 				9DADC85321650AEA008D50D2 /* Trips.swift in Sources */,
 				9DF34035215DD745002A957D /* ChecklistFooter.swift in Sources */,
+				9DBC5C3D21BBE4F400C8979C /* TriplistManager.swift in Sources */,
 				9D96457D21613BF600D6E42E /* CustomCell.swift in Sources */,
 				1947023B2189D89500D68225 /* DaysCollectionViewController.swift in Sources */,
 				9DF78CD921880C7600C80666 /* FirebaseManager.swift in Sources */,
@@ -808,6 +827,7 @@
 				194702392189BB8E00D68225 /* ListTableViewController.swift in Sources */,
 				9DF61B46215A2629005919E8 /* UIStoryboard+Extension.swift in Sources */,
 				9DDE5B68215FD7160096C4FC /* TripSelectionViewController.swift in Sources */,
+				9DBC5C3F21BC05C800C8979C /* SelectionManager.swift in Sources */,
 				9D11E58521BAAAA00050CC71 /* MyTripsCellViewModel.swift in Sources */,
 				9DF34023215CD875002A957D /* WeatherTableViewCell.swift in Sources */,
 				9DF61B3D215A0C7B005919E8 /* TripListViewController.swift in Sources */,

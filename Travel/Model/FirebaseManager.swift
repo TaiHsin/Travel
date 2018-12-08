@@ -28,80 +28,6 @@ class FirebaseManager {
     
     // MARK: - TripListViewController
     
-    func deleteDay(daysKey: String, day: Int) {
-        
-        ref.child("tripDays")
-            .child(daysKey)
-            .queryOrdered(byChild: "days")
-            .queryEqual(toValue: day)
-            .observeSingleEvent(of: .value) { [weak self] (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else {
-                    
-                    return
-                }
-                
-                guard let keys = value.allKeys as? [String] else {
-                    
-                    return
-                }
-                
-                for key in keys {
-                    
-                    self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-                }
-        }
-    }
-
-    func fetchDayList(daysKey: String, success: @escaping ([THdata]) -> Void) {
-        
-        let location: Location = Location.emptyLocation()
-        
-        // path for refactor: tripDays/\(daysKey)
-        
-        ref.child("tripDays").child("\(daysKey)").observeSingleEvent(of: .value) { [weak self] (snapshot) in
-            
-            guard let self = self else {
-                
-                return
-            }
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                let result = THdata(location: location, type: .empty)
-                
-                success([result])
-                
-                return
-            }
-            
-            var result: [THdata] = []
-            
-            for value in value.allValues {
-                
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
-                    
-                    return
-                }
-                
-                do {
-                    
-                    let data = try self.decoder.decode(Location.self, from: jsonData)
-                    
-                    let thDAta = THdata(location: data, type: .location)
-                    
-                    result.append(thDAta)
-                    
-                } catch {
-                    
-                    print(error)
-                }
-            }
-            
-            success(result)
-        }
-    }
-    
     func updateMyTrips(total: Int, end: Double, id: String) {
         
         ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
@@ -143,6 +69,33 @@ class FirebaseManager {
         }
     }
     
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
+    func deleteDay(daysKey: String, day: Int) {
+        
+        ref.child("tripDays")
+            .child(daysKey)
+            .queryOrdered(byChild: "days")
+            .queryEqual(toValue: day)
+            .observeSingleEvent(of: .value) { [weak self] (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    return
+                }
+                
+                guard let keys = value.allKeys as? [String] else {
+                    
+                    return
+                }
+                
+                for key in keys {
+                    
+                    self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
+                }
+        }
+    }
+    
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
     func deleteLocation(location: Location, trip: [Trips]) {
         
         let daysKey = trip[0].daysKey
@@ -162,7 +115,8 @@ class FirebaseManager {
     }
     
     // MARK: - TripSelectionViewController
-    
+
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
     func checkLocationDays(
         daysKey: String,
         index: Int,
@@ -245,6 +199,7 @@ class FirebaseManager {
     
     // MARK: - PreservedViewController
     
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
     func deleteData(location: Location) {
         
         guard let uid = keychain["userId"] else { return }
@@ -268,60 +223,9 @@ class FirebaseManager {
         }
     }
     
-    func fetchPreservedData(
-        success: @escaping ([Location]) -> Void,
-        failure: @escaping (Error) -> Void
-        ) {
-        
-        var location: [Location] = []
-        
-        guard let uid = keychain["userId"] else {
-            
-            NotificationCenter.default.post(name: .noData, object: nil)
-            
-            return
-        }
-        
-        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-            
-            guard let self = self else {
-                
-                return
-            }
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                NotificationCenter.default.post(name: .noData, object: nil)
-                
-                return
-            }
-            
-            for value in value.allValues {
-                
-                // Data convert: can be refact out independently
-                
-                guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
-                    
-                    return
-                }
-                
-                do {
-                    let data = try self.decoder.decode(Location.self, from: jsonData)
-                    
-                    location.append(data)
-                    
-                } catch {
-                    
-                    failure(error)
-                }
-            }
-            
-            success(location)
-        }
-    }
-    
     // MARK: - DetailViewController
     
+    // NO QUERY: ref.child().observeSingleEvent
     func updateLocation(
         location: Location,
         success: @escaping (Int) -> Void,
@@ -365,6 +269,7 @@ class FirebaseManager {
         ref.updateChildValues(postUpdate)
     }
     
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
     func updateFavorite(
         location: Location,
         success: @escaping () -> Void,
@@ -389,28 +294,12 @@ class FirebaseManager {
         }
     }
     
-    // MARK: - SearchViewController
-    
-    func fetchDataCount(success: @escaping (Int) -> Void) {
-        
-        ref.child("favorite").observeSingleEvent(of: .value) { (snapshot) in
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                return
-            }
-            
-            let number = value.allKeys.count
-            
-            success(number)
-        }
-    }
-    
     // MARK: - ChecklistViewController
     
+    // NO QUERY: ref.child().observeSingleEvent
     func fetchChecklist(
         success: @escaping ([Checklist]) -> Void,
-        failure: @escaping (TripsError) -> Void
+        failure: @escaping (TravelError) -> Void
         ) {
         
         guard let uid = keychain["userId"] else { return }
@@ -438,6 +327,8 @@ class FirebaseManager {
                             ] as [String: Any]
                         
                         let postUpdate = ["/checklist/\(uid)/\(number)": post]
+                        
+                        // Separate update method
                         
                         self?.ref.updateChildValues(postUpdate)
                         
@@ -482,9 +373,10 @@ class FirebaseManager {
         }
     }
     
+    // NO QUERY: ref.child().observeSingleEvent
     func fetchDefaultData(
         success: @escaping ([Checklist]) -> Void,
-        failure: @escaping (TripsError) -> Void
+        failure: @escaping (TravelError) -> Void
         ) {
         
         ref.child("/checklist/examplechecklist").observeSingleEvent(of: .value) { [weak self] (snapshot) in
@@ -556,6 +448,7 @@ extension FirebaseManager {
     
     // MARK: - MyTripViewController
     
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
     func fetchTripsData(
         success: @escaping ([Trips]) -> Void,
         failure: @escaping (Error) -> Void
@@ -608,11 +501,14 @@ extension FirebaseManager {
                                     trip: data,
                                     success: { [weak self] (daysKey, key, uid) in
                                         
-                                        self?.fetchDayList(
+                                        print(daysKey, key, uid)
+                                        
+                                        // Temporary
+                                        self?.fetchTriplist(
                                             daysKey: data.daysKey,
-                                            success: { [weak self] (locations) in
+                                            success: { [weak self]  (thData) in
                                                 
-                                                self?.addDefauleData(dayskey: daysKey, locations: locations)
+                                                self?.addDefauleData(dayskey: daysKey, locations: thData)
                                                 
                                                 self?.fetchTripsData(success: { (datas) in
                                                     
@@ -621,6 +517,10 @@ extension FirebaseManager {
                                                 }, failure: { (_) in
                                                     // TODO
                                                 })
+                                        },
+                                            failure: { (error) in
+                                                
+                                                print(error.localizedDescription)
                                         })
                                 })
                                 
@@ -743,57 +643,6 @@ extension FirebaseManager {
 
 // MARK: - For refactor
 
-extension FirebaseManager {
-    
-    func getNoQuery(
-        path: String,
-        event: FirebaseEventType,
-        success: @escaping (Any) -> Void,
-        failure: @escaping (Error) -> Void
-        ) {
-        
-        ref.child(path).observeSingleEvent(of: event.eventType(), with: { snapshot in
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                //TODO: Failure
-                
-                return
-            }
-            
-            success(value)
-        }) { (error) in
-            
-            print(error.localizedDescription)
-            failure(error)
-        }
-    }
-    
-    //child(${path})
-    
-    func deleteLocationExample(daysKey: String, location: Location) {
-        
-        ref.child("tripDays")
-            .child(daysKey)
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { [weak self] (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else {
-                    
-                    return
-                }
-                
-                guard let key = value.allKeys.first as? String else {
-                    
-                    return
-                }
-                
-                self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-        }
-    }
-}
-
 enum FirebaseEventType {
     
     case valueChange
@@ -806,5 +655,110 @@ enum FirebaseEventType {
             
             return .value
         }
+    }
+}
+
+extension FirebaseManager {
+    
+    // MARK: - TripListViewController(temp)
+    
+    func fetchTriplist(
+        daysKey: String,
+        success: @escaping ([THdata]) -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        let location: Location = Location.emptyLocation()
+        
+        let path = "/tripDays/\(daysKey)"
+        
+        fetchData(
+            path: path,
+            success: { (value) in
+                
+                guard let value = value as? NSDictionary else {
+                    
+                    let emptyResult = THdata(location: location, type: .empty)
+                    
+                    success([emptyResult])
+                    
+                    return
+                }
+                
+                var result: [THdata] = []
+                
+                for value in value.allValues {
+                    
+                    guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                        
+                        return
+                    }
+                    
+                    do {
+                        
+                        let data = try self.decoder.decode(Location.self, from: jsonData)
+                        
+                        let thDAta = THdata(location: data, type: .location)
+                        
+                        result.append(thDAta)
+                        
+                    } catch {
+                        
+                        print(TravelError.decodeError)
+                    }
+                }
+                
+                success(result)
+        },
+            failure: { (error) in
+                
+                failure(error)
+        })
+    }
+    
+    // NO QUERY: ref.child().observeSingleEvent
+    
+    func fetchData(
+        path: String,
+        success: @escaping (Any?) -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        ref.child(path)
+            .observeSingleEvent(
+                of: .value,
+                with: { (snapshot) in
+                    
+                    success(snapshot.value)
+                    
+            }, withCancel: { (_) in
+                
+                failure(TravelError.serverError)
+            })
+    }
+    
+    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
+
+    func fetchDataWithQuery(
+        path: String,
+        child: String,
+        value: String,
+        success: @escaping (Any?) -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        ref.child(path)
+            .queryOrdered(byChild: child)
+            .queryEqual(toValue: value)
+            .observeSingleEvent(
+                of: .value,
+                with: { (snapshot) in
+                    
+                    success(snapshot.value)
+                    
+            }, withCancel: { (_) in
+                
+                failure(TravelError.serverError)
+            })
     }
 }

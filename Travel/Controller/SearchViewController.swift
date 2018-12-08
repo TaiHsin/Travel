@@ -8,7 +8,6 @@
 
 import UIKit
 import GooglePlaces
-import FirebaseDatabase
 
 class SearchViewController: UIViewController {
     
@@ -19,8 +18,6 @@ class SearchViewController: UIViewController {
     var searchController: UISearchController?
     
     var resultView: UITableView?
-    
-    let firebaseManager = FirebaseManager()
     
     var location: Location?
     
@@ -55,22 +52,12 @@ class SearchViewController: UIViewController {
         // Prevent the navigation bar from being hidden when searching.
         
         searchController?.hidesNavigationBarDuringPresentation = false
-        
-        fetchDataCount()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationItem.leftBarButtonItem?.tintColor = UIColor.battleshipGrey
-    }
-    
-    func fetchDataCount() {
-        
-        firebaseManager.fetchDataCount { [weak self] (number) in
-            
-            self?.total = number
-        }
     }
 }
 
@@ -93,8 +80,6 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     }
 
     func switchDetailVC(location: Location?) {
-        
-        /// How to remove childView from parentView?
         
         guard let detailViewController = UIStoryboard.searchStoryboard()
             .instantiateViewController(

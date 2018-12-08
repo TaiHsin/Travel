@@ -47,7 +47,7 @@ class ListTableViewController: UIViewController {
     
     var dates: [Date] = []
     
-    var trip: [Trips] = []
+//    var trip: [Trips] = []
     
     var day = 0
 
@@ -649,9 +649,9 @@ extension ListTableViewController {
             }
             
             var center = cell.center
-            
-            snapshot.center = center
-            
+
+            snapshot.center = cell.center
+
             snapshot.alpha = 0.0
             
             self.tableView.addSubview(snapshot)
@@ -674,9 +674,11 @@ extension ListTableViewController {
             
             UIView.animate(withDuration: 0.25, animations: {
                 
-                center.y = location.y
+//                center.y = location.y
+//
+//                snapshot.center = center
                 
-                snapshot.center = center
+                snapshot.center = cell.center
                 
                 snapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
                 
