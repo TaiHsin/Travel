@@ -26,94 +26,6 @@ class FirebaseManager {
         ref = Database.database().reference()
     }
     
-    // MARK: - TripListViewController
-    
-    func updateMyTrips(total: Int, end: Double, id: String) {
-        
-        ref.updateChildValues(["/myTrips/\(id)/totalDays/": total])
-        
-        ref.updateChildValues(["/myTrips/\(id)/endDate/": end])
-    }
-    
-    func updateAllData(trip: [Trips], data: [[THdata]]) {
-        
-        let daysKey = trip[0].daysKey
-        
-        let totalDays = trip[0].totalDays
-        
-        for day in 0 ... totalDays - 1 {
-            
-            data[day].forEach({ [weak self] (location) in
-                
-                let key = location.location.locationId
-                
-                if key != Constants.emptyString {
-                    
-                    let post = ["addTime": location.location.addTime,
-                                "address": location.location.address,
-                                "latitude": location.location.latitude,
-                                "longitude": location.location.longitude,
-                                "locationId": key,
-                                "name": location.location.name,
-                                "order": location.location.order,
-                                "photo": location.location.photo,
-                                "days": location.location.days,
-                                "position": location.location.position
-                        ] as [String: Any]
-                    
-                    let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
-                    
-                    self?.ref.updateChildValues(postUpdate)
-                }
-            })
-        }
-    }
-    
-    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
-    func deleteDay(daysKey: String, day: Int) {
-        
-        ref.child("tripDays")
-            .child(daysKey)
-            .queryOrdered(byChild: "days")
-            .queryEqual(toValue: day)
-            .observeSingleEvent(of: .value) { [weak self] (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else {
-                    
-                    return
-                }
-                
-                guard let keys = value.allKeys as? [String] else {
-                    
-                    return
-                }
-                
-                for key in keys {
-                    
-                    self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-                }
-        }
-    }
-    
-    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
-    func deleteLocation(location: Location, trip: [Trips]) {
-        
-        let daysKey = trip[0].daysKey
-        
-        ref.child("tripDays")
-            .child(daysKey)
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else { return }
-                
-                guard let key = value.allKeys.first as? String else { return }
-                
-                self?.ref.child("/tripDays/\(daysKey)/\(key)").removeValue()
-        }
-    }
-    
     // MARK: - TripSelectionViewController
 
     // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
@@ -716,8 +628,6 @@ extension FirebaseManager {
         })
     }
     
-    // NO QUERY: ref.child().observeSingleEvent
-    
     func fetchData(
         path: String,
         success: @escaping (Any?) -> Void,
@@ -736,13 +646,11 @@ extension FirebaseManager {
                 failure(TravelError.serverError)
             })
     }
-    
-    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
 
     func fetchDataWithQuery(
         path: String,
         child: String,
-        value: String,
+        value: Any?,
         success: @escaping (Any?) -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
@@ -759,6 +667,33 @@ extension FirebaseManager {
             }, withCancel: { (_) in
                 
                 failure(TravelError.serverError)
+            })
+    }
+    
+    func updateData(
+        path: String,
+        value: Any,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        ref.updateChildValues([path: value], withCompletionBlock: { (error, ref) in
+            
+            print(error as Any, ref)
+            
+            failure(TravelError.serverError)
+            })
+    }
+    
+    func deleteData(
+        path: String,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        ref.child(path).removeValue(completionBlock: { (error, ref) in
+            
+            print(error as Any, ref)
+            
+            failure(TravelError.serverError)
             })
     }
 }

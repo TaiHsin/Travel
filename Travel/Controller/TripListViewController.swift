@@ -413,6 +413,56 @@ class TripListViewController: UIViewController {
         }
     }
 
+    func deleteTripDay(daysKey: String, day: Int) {
+        
+        triplistManager.deleteTripDay(
+            daysKey: daysKey,
+            day: day,
+            success: {
+                
+        },
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
+    
+    func deleteTriplist(location: Location, trip: [Trips]) {
+        
+        triplistManager.deleteTriplist(
+            location: location,
+            trip: trip,
+            success: {
+                
+        },
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
+    
+    func updateMyTrips(total: Int, end: Double, id: String) {
+        
+        triplistManager.updateMyTrips(
+            total: total,
+            end: end,
+            id: id,
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
+    
+    func updateTriplist(trip: [Trips], data: [[THdata]]) {
+        
+        triplistManager.updateTriplist(
+            trip: trip,
+            thDatas: data,
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
 }
  
 // MARK: - Collection View Delegate Flow Layout
@@ -496,7 +546,7 @@ extension TripListViewController {
         
         let id =  trip[0].id
         
-        firebaseManager.updateMyTrips(total: total, end: newDateDouble, id: id)
+        updateMyTrips(total: total, end: newDateDouble, id: id)
         
         /////
         listTableViewController.locationArray = locationArray
@@ -553,9 +603,9 @@ extension TripListViewController {
         
         let id = trip[0].id
         
-        firebaseManager.updateMyTrips(total: newTotal, end: endDate, id: id)
+        updateMyTrips(total: newTotal, end: endDate, id: id)
         
-        firebaseManager.deleteDay(daysKey: daysKey, day: total)
+        deleteTripDay(daysKey: daysKey, day: total)
         
         /////
         listTableViewController.locationArray = locationArray
@@ -575,18 +625,24 @@ extension TripListViewController {
 
 extension TripListViewController: ListTableViewDelegate {
     
-    func didTableHide(_ listTableViewController: ListTableViewController, isHiding: Bool) {
+    func didTableHide(
+        _ listTableViewController: ListTableViewController,
+        isHiding: Bool
+        ) {
         
         mapViewController.handleShowListButton(isHiding: false)
     }
     
-    func didUpdateData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]]) {
+    func didUpdateData(
+        _ listTableViewController: ListTableViewController,
+        locationArray: [[THdata]]
+        ) {
         
         self.locationArray = locationArray
         
         updateLocalData()
         
-        firebaseManager.updateAllData(trip: trip, data: dataArray)
+        updateTriplist(trip: trip, data: dataArray)
         
         listTableViewController.locationArray = locationArray
         
@@ -595,13 +651,17 @@ extension TripListViewController: ListTableViewDelegate {
         mapViewController.showMarkers(locations: locations)
     }
     
-    func didDeleteData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]], location: Location) {
+    func didDeleteData(
+        _ listTableViewController: ListTableViewController,
+        locationArray: [[THdata]],
+        location: Location
+        ) {
         
         self.locationArray = locationArray
         
-        firebaseManager.deleteLocation(location: location, trip: trip)
+        deleteTriplist(location: location, trip: trip)
         
-        firebaseManager.updateAllData(trip: trip, data: dataArray)
+        updateTriplist(trip: trip, data: dataArray)
         
         updateLocalData()
         
@@ -612,7 +672,10 @@ extension TripListViewController: ListTableViewDelegate {
         mapViewController.showMarkers(locations: locations)
     }
     
-    func didShowDetail(_ listTableViewController: ListTableViewController, location: Location) {
+    func didShowDetail(
+        _ listTableViewController: ListTableViewController,
+        location: Location
+        ) {
         
         switchDetailVC(location: location)
     }
