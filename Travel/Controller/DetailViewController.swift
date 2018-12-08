@@ -215,6 +215,7 @@ class DetailViewController: UIViewController {
         firebaseManager.updateFavorite(
             location: location,
             success: { [weak self] in
+                
                 self?.updateLocation(location: location)
                 
                 if self?.tabIndex == 1 {

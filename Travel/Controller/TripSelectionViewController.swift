@@ -378,7 +378,7 @@ extension TripSelectionViewController {
         
         trips.removeAll()
         
-        tripsManager.fetchTripsData(
+        firebaseManager.fetchTripsData(
             
             success: { (datas) in
                 

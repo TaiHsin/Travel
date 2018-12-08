@@ -22,6 +22,8 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     
     let tripsManager = TripsManager()
     
+    let firebaseManager = FirebaseManager()
+    
     var trips: [Trips] = []
  
     let dateFormatter = DateFormatter()
@@ -129,7 +131,7 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
         
         trips.removeAll()
     
-        tripsManager.fetchTripsData(
+        firebaseManager.fetchTripsData(
             success: { [weak self] (datas) in
                 
                 self?.trips = datas
@@ -205,42 +207,8 @@ extension MyTripViewController: UICollectionViewDataSource {
         guard let myTripCell = cell as? MyTripsCell, indexPath.item < trips.count else { return cell }
         
         myTripCell.delegate = self
-    
-        myTripCell.tripImage.image = UIImage(named: trips[indexPath.item].placePic)
         
-        myTripCell.tripTitle.text = trips[indexPath.item].place
-        
-        // Refactor out to stand alone manager
-        
-        dateFormatter.dateFormat = "yyyy MM dd"
-        
-        let startDate = Date(timeIntervalSince1970: trips[indexPath.item].startDate)
-        
-        let endDate = Date(timeIntervalSince1970: trips[indexPath.item].endDate)
-
-        dateFormatter.dateFormat = "yyyy"
-        
-        let startYear = dateFormatter.string(from: startDate)
-        
-        let endYear = dateFormatter.string(from: endDate)
-
-        if startYear == endYear {
-            
-            myTripCell.yearsLabel.text = startYear
-        } else {
-            
-            myTripCell.yearsLabel.text = startYear + " - " + endYear
-        }
-
-        dateFormatter.dateFormat = "MMM.dd"
-        
-        let startMonth = dateFormatter.string(from: startDate)
-        
-        let endMonth = dateFormatter.string(from: endDate)
-
-        myTripCell.isEditing = false
-        
-        myTripCell.dateLabel.text = startMonth + " - " + endMonth
+        myTripCell.setup(viewModel: MyTripsCellViewModel(trip: trips[indexPath.item]))
         
         return myTripCell
     }
@@ -317,7 +285,7 @@ extension MyTripViewController: MyTripCellDelegate {
         
         trips.remove(at: indexPath.item)
         
-        tripsManager.deleteMyTrip(tripID: tripID, daysKey: daysKey)
+        firebaseManager.deleteMyTrip(tripID: tripID, daysKey: daysKey)
                 
         collectionView.deleteItems(at: [indexPath])
     }

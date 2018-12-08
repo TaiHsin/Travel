@@ -9,10 +9,6 @@
 import UIKit
 import JTAppleCalendar
 
-// can delete after refactor
-//import Firebase
-//import FirebaseDatabase
-
 class CreateTripViewController: UIViewController {
     
     @IBOutlet weak var placeTextField: UITextField!
@@ -39,6 +35,8 @@ class CreateTripViewController: UIViewController {
     let dateFormatter = DateFormatter()
     
     let tripManager = TripsManager()
+    
+    let firebaseManager = FirebaseManager()
     
     var selectedDates: [Date] = []
     
@@ -103,7 +101,7 @@ class CreateTripViewController: UIViewController {
             userId: Constants.emptyString
         )
         
-        tripManager.createTripData(
+        firebaseManager.createTripData(
             trip: trip
             
         ) { [weak self] (daysKey, key, uid) in

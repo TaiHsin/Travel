@@ -29,6 +29,8 @@ class MyTripsCell: UICollectionViewCell {
     
     weak var delegate: MyTripCellDelegate?
     
+    let dateFormatter = DateFormatter()
+    
     var isEditing = false {
         
         didSet {
@@ -41,6 +43,43 @@ class MyTripsCell: UICollectionViewCell {
         super.awakeFromNib()
         
         editingItem()
+    }
+    
+    func setup(viewModel: MyTripsCellViewModel) {
+        
+        tripImage.image = UIImage(named: viewModel.pictureID)
+        
+        tripTitle.text = viewModel.place
+        
+        dateFormatter.dateFormat = "yyyy MM dd"
+        
+        let startDate = Date(timeIntervalSince1970: viewModel.startDate)
+        
+        let endDate = Date(timeIntervalSince1970: viewModel.endDate)
+        
+        dateFormatter.dateFormat = "yyyy"
+        
+        let startYear = dateFormatter.string(from: startDate)
+        
+        let endYear = dateFormatter.string(from: endDate)
+        
+        if startYear == endYear {
+            
+            yearsLabel.text = startYear
+        } else {
+            
+            yearsLabel.text = startYear + " - " + endYear
+        }
+        
+        dateFormatter.dateFormat = "MMM.dd"
+        
+        let startMonth = dateFormatter.string(from: startDate)
+        
+        let endMonth = dateFormatter.string(from: endDate)
+        
+//        isEditing = false
+        
+        dateLabel.text = startMonth + " - " + endMonth
     }
     
     func editingItem() {

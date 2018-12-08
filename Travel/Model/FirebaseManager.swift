@@ -13,6 +13,8 @@ import KeychainAccess
 
 class FirebaseManager {
     
+    let photoStrArray = Photos().photos
+    
     var ref: DatabaseReference!
     
     let decoder = JSONDecoder()
@@ -24,7 +26,187 @@ class FirebaseManager {
         ref = Database.database().reference()
     }
     
-    // Delete
+    // MyTripViewController
+    
+    func fetchTripsData(
+        success: @escaping ([Trips]) -> Void,
+        failure: @escaping (Error) -> Void
+        ) {
+        
+        var datas: [Trips] = []
+        
+        guard let uid = keychain["userId"] else {
+            
+            NotificationCenter.default.post(name: .failure, object: nil)
+            
+            return
+        }
+        
+        // Better way? observeSingleEvent first and then obeserve for .childAdd ?
+        /// Need to add sorting method by startDate!!!
+        
+        ref.child("myTrips")
+            .queryOrdered(byChild: "userId")
+            .queryEqual(toValue: uid)
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let value = snapshot.value as? NSDictionary else {
+                    
+                    // Create example trips for first user
+                    
+                    self.ref.child("/myTrips/defaultTrip").observeSingleEvent(
+                        of: .value,
+                        with: { [weak self] (snapshot) in
+                            
+                            guard let self = self else {
+                                
+                                return
+                            }
+                            
+                            guard let value = snapshot.value as? NSDictionary else {
+                                
+                                return
+                            }
+                            
+                            guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                                
+                                return
+                            }
+                            
+                            do {
+                                let data = try self.decoder.decode(Trips.self, from: jsonData)
+                                
+                                self.createTripData(
+                                    trip: data,
+                                    success: { [weak self] (daysKey, key, uid) in
+                                        
+                                        self?.fetchDayList(
+                                            daysKey: data.daysKey,
+                                            success: { [weak self] (locations) in
+                                                
+                                                self?.addDefauleData(dayskey: daysKey, locations: locations)
+                                                
+                                                self?.fetchTripsData(success: { (datas) in
+                                                    
+                                                    success(datas)
+                                                    
+                                                }, failure: { (_) in
+                                                    // TODO
+                                                })
+                                        })
+                                })
+                                
+                            } catch {
+                                
+                                print(error)
+                                
+                                failure(error)
+                            }
+                    })
+                    
+                    NotificationCenter.default.post(name: .failure, object: nil)
+                    
+                    return
+                }
+                
+                for value in value.allValues {
+                    
+                    guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                        
+                        return
+                    }
+                    
+                    do {
+                        let data = try self.decoder.decode(Trips.self, from: jsonData)
+                        
+                        datas.append(data)
+                        
+                    } catch {
+                        
+                        failure(error)
+                    }
+                }
+                
+                success(datas)
+            })
+    }
+    
+    func createTripData(
+        trip: Trips,
+        success: @escaping (String, String, String) -> Void
+        ) {
+        
+        // Add daysKey for tripDays node
+        
+        guard let daysKey = ref.child("tripDays").childByAutoId().key else {
+            
+            return
+        }
+        
+        guard let key = ref.child("myTrips").childByAutoId().key else {
+            
+            return
+        }
+        
+        guard let uid = keychain["userId"] else {
+            
+            return
+        }
+        
+        let post = ["name": trip.name,
+                    "place": trip.place,
+                    "startDate": trip.startDate,
+                    "endDate": trip.endDate,
+                    "totalDays": trip.totalDays,
+                    "createdTime": trip.createdTime,
+                    "id": key,
+                    "placePic": photoStrArray.randomElement(),
+                    "daysKey": daysKey,
+                    "userId": uid
+            ] as [String: Any]
+        
+        let postUpdate = ["/myTrips/\(key)": post]
+        
+        ref.updateChildValues(postUpdate)
+        
+        success(daysKey, key, uid)
+    }
+    
+    func deleteMyTrip(tripID: String, daysKey: String) {
+        
+        ref.child("/myTrips/\(tripID)").removeValue()
+        
+        ref.child("/tripDays/\(daysKey)").removeValue()
+    }
+    
+    func addDefauleData(dayskey: String, locations: [THdata]) {
+        
+        for location in locations {
+            
+            guard let locationId = self.ref.child("/tripDays/\(dayskey)").childByAutoId().key else {
+                
+                return
+            }
+            
+            let post = ["addTime": location.location.addTime,
+                        "address": location.location.address,
+                        "latitude": location.location.latitude,
+                        "longitude": location.location.longitude,
+                        "locationId": locationId,
+                        "name": location.location.name,
+                        "order": location.location.order,
+                        "photo": location.location.photo,
+                        "days": location.location.days,
+                        "position": location.location.position
+                ] as [String: Any]
+            
+            let postUpdate = ["/tripDays/\(dayskey)/\(locationId)": post]
+            
+            ref.updateChildValues(postUpdate)
+        }
+    }
+    
+    // TripListViewController
     
     func deleteDay(daysKey: String, day: Int) {
         
@@ -50,10 +232,6 @@ class FirebaseManager {
                 }
         }
     }
-    
-    // TripListViewController
-    
-    // Read Data
 
     func fetchDayList(daysKey: String, success: @escaping ([THdata]) -> Void) {
         
@@ -175,18 +353,18 @@ class FirebaseManager {
         ref.child("/tripDays/\(daysKey)")
             .queryOrdered(byChild: "days")
             .queryEqual(toValue: index)
-            .observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            .observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 guard let value = snapshot.value as? NSDictionary else {
                     
-                    self?.updataLocation(daysKey: daysKey, days: index, location: location)
+                    self.updataLocation(daysKey: daysKey, days: index, location: location)
                     
                     return
                 }
                 
                 let order = value.count
                 
-                self?.updataLocation(
+                self.updataLocation(
                     daysKey: daysKey,
                     order: order,
                     days: index,
