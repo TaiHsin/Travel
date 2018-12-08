@@ -66,33 +66,71 @@ class TripSelectionViewController: UIViewController {
                 return
             }
             
-            firebaseManager.checkLocationDays(daysKey: daysKey, index: dayIndex, location: location)
-            
-            if tabIndex == 1 {
-                
-                guard let tripsnavi = self.presentingViewController?.children[0]
-                    as? TripNaviViewController else {
-                    
-                    return
-                }
-                
-                tripsnavi.popViewController(animated: true)
-            } else if tabIndex == 2 {
-                
-                guard let collectionsNavi = self.presentingViewController?.children[1]
-                    as? TripNaviViewController else {
-                    
-                    return
-                }
-                
-                collectionsNavi.popViewController(animated: true)
-            }
-            
-            removeAnimate()
+            checkLocationDays(daysKey: daysKey, index: self.dayIndex, location: location)
+             
         } else {
             
             // TODO: Add notice to inform user to select day
         }
+    }
+    
+    func checkLocationDays(daysKey: String, index: Int, location: Location) {
+        
+        firebaseManager.checkLocationDays(
+            daysKey: daysKey,
+            index: index,
+            success: { [weak self] (order) in
+                
+                guard let self = self else { return }
+                
+                self.updateLocation(
+                    daysKey: self.daysKey,
+                    order: order,
+                    days: self.dayIndex,
+                    location: location
+                )
+            },
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
+    
+    func updateLocation(daysKey: String, order: Int = 0, days: Int, location: Location) {
+        
+        firebaseManager.updataLocation(
+            daysKey: daysKey,
+            order: order,
+            days: days,
+            location: location,
+            success: { [weak self] in
+                
+                if self?.tabIndex == 1 {
+                    
+                    guard let tripsnavi = self?.presentingViewController?.children[0]
+                        as? TripNaviViewController else {
+                            
+                            return
+                    }
+                    
+                    tripsnavi.popViewController(animated: true)
+                } else if self?.tabIndex == 2 {
+                    
+                    guard let collectionsNavi = self?.presentingViewController?.children[1]
+                        as? TripNaviViewController else {
+                            
+                            return
+                    }
+                    
+                    collectionsNavi.popViewController(animated: true)
+                }
+                
+                self?.removeAnimate()
+                
+        }, failure: { (error) in
+            
+            print(error.localizedDescription)
+        })
     }
     
     func removeAnimate() {

@@ -694,7 +694,8 @@ extension ListTableViewController {
         case .changed:
             
             guard let snapshot = snapshot else {
-                return }
+                return
+            }
             
             var center = snapshot.center
             
@@ -726,7 +727,6 @@ extension ListTableViewController {
         default:
             
             guard let sourceIndexPath = self.sourceIndexPath else {
-                
                 return
             }
             
