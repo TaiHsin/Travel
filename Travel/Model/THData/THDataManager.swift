@@ -11,11 +11,16 @@ import KeychainAccess
 
 class THDataManager {
     
-    private let firebaseManager = FirebaseManager()
+    private let firebaseManager: FirebaseProtocol
     
     private let decoder = JSONDecoder()
     
     private let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+    
+    init(firebaseManager: FirebaseProtocol) {
+        
+        self.firebaseManager = firebaseManager
+    }
     
     func fetchTriplist(
         daysKey: String,
@@ -125,10 +130,100 @@ class THDataManager {
         })
     }
     
+    // MARK: - Trip Selection View Controller
+    
+    func fetchLocations(
+        daysKey: String,
+        index: Int,
+        success: @escaping (Int) -> Void,
+        failure: @escaping (Error) -> Void
+        ) {
+        
+        guard daysKey != Constants.emptyString, index != 0 else {
+            
+            return
+        }
+        
+        let path = "/tripDays/\(daysKey)"
+        
+        let child = "days"
+        
+        firebaseManager.fetchDataWithQuery(
+            path: path,
+            child: child,
+            value: index,
+            success: { (value) in
+                
+                guard let value = value as? NSDictionary else {
+                    
+                    let order = 0
+                    
+                    success(order)
+                    
+                    return
+                }
+                
+                let order = value.count
+                
+                success(order)
+                
+        },
+            failure: { (error) in
+                
+                failure(error)
+        })
+    }
+    
+    func updateLocation(
+        daysKey: String,
+        order: Int = 0,
+        days: Int,
+        location: Location,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        let key = firebaseManager.createAutoKey(path: "tripDays")
+        
+        guard key != Constants.emptyString else {
+            
+            failure(TravelError.fetchError)
+            
+            return
+        }
+        
+        let post = ["addTime": location.addTime,
+                    "address": location.address,
+                    "latitude": location.latitude,
+                    "longitude": location.longitude,
+                    "locationId": key,
+                    "name": location.name,
+                    "order": order,
+                    "photo": location.photo,
+                    "days": days,
+                    "position": location.position
+            ] as [String: Any]
+        
+        let path = "/tripDays/\(daysKey)/\(key)"
+        
+        firebaseManager.updateData(
+            path: path,
+            value: post,
+            success: {
+                
+                success()
+        },
+            failure: { (error) in
+                
+                failure(error)
+        })
+    }
+    
     func updateTriplist(
         daysKey: String,
         total: Int,
         thDatas: [[THdata]],
+        success: @escaping () -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
         
@@ -154,13 +249,93 @@ class THDataManager {
                     
                     let path = "/tripDays/\(daysKey)/\(key)"
                     
-                    firebaseManager.updateData(path: path, value: post, failure: { (error) in
-                        
-                        failure(error)
+                    firebaseManager.updateData(
+                        path: path,
+                        value: post,
+                        success: {
+                            
+                            success()
+                    },
+                        failure: { (error) in
+                            
+                            failure(error)
                     })
                 }
             })
         }
+    }
+    
+    func checkFavoritelist(
+        location: Location,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        guard let uid = keychain["userId"] else { return }
+        
+        let path = "/favorite/\(uid)"
+        let child = "position"
+        let value = location.position
+        
+        firebaseManager.fetchDataWithQuery(
+            path: path,
+            child: child,
+            value: value,
+            success: { (value) in
+                
+                guard (value as? NSDictionary) != nil else {
+                    
+                    success()
+                    
+                    return
+                }
+                
+                failure(TravelError.fetchError)
+        },
+            failure: { (error) in
+                
+                failure(error)
+        })
+    }
+    
+    func updateFavorite(
+        location: Location,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+
+        guard let uid = keychain["userId"] else {
+
+            return
+        }
+        
+        let key = firebaseManager.createAutoKey(path: "favorite")
+
+        let post = ["addTime": location.addTime,
+                    "address": location.address,
+                    "latitude": location.latitude,
+                    "longitude": location.longitude,
+                    "locationId": key,
+                    "name": location.name,
+                    "order": location.order,
+                    "photo": location.photo,
+                    "days": location.days,
+                    "position": location.position
+            ] as [String: Any]
+
+        let path = "/favorite/\(uid)/\(key)"
+        
+        firebaseManager.updateData(
+            path: path,
+            value: post,
+            success: {
+                
+                success()
+        },
+            failure: { (error) in
+                
+                failure(error)
+        })
     }
     
     func deleteTripDay(
@@ -191,9 +366,15 @@ class THDataManager {
                 for key in keys {
                     
                     let path = "/tripDays/\(daysKey)/\(key)"
-                    self?.firebaseManager.deleteData(path: path, failure: { (error) in
-                        
-                        failure(error)
+                    
+                    self?.firebaseManager.deleteData(
+                        path: path,
+                        success: {
+                            
+                    },
+                        failure: { (error) in
+                            
+                            failure(error)
                     })
                 }
                 
@@ -230,12 +411,16 @@ class THDataManager {
                 
                 let deletePath = "/tripDays/\(daysKey)/\(key)"
                 
-                self?.firebaseManager.deleteData(path: deletePath, failure: { (error) in
-                    
-                    failure(error)
+                self?.firebaseManager.deleteData(
+                    path: deletePath,
+                    success: {
+                        
+                        success()
+                },
+                    failure: { (error) in
+                        
+                        failure(error)
                 })
-                
-                success()
             },
             failure: { (error) in
                 
@@ -247,6 +432,7 @@ class THDataManager {
     
     func deleteFavorite(
         locationID: String,
+        success: @escaping () -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
         
@@ -270,9 +456,15 @@ class THDataManager {
                 
                 let path = "/favorite/\(uid)/\(key)"
                 
-                self?.firebaseManager.deleteData(path: path, failure: { (error) in
-                    
-                    failure(error)
+                self?.firebaseManager.deleteData(
+                    path: path,
+                    success: {
+                        
+                        success()
+                },
+                    failure: { (error) in
+                        
+                        failure(error)
                 })
             },
             failure: { (error) in

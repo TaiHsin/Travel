@@ -28,7 +28,7 @@ class TripListViewController: UIViewController {
     
     private let firebaseManager = FirebaseManager()
     
-    private let thDataManager = THDataManager()
+    private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
     
     private let tripsManager = TripsManager()
 
@@ -448,6 +448,9 @@ class TripListViewController: UIViewController {
             total: total,
             end: end,
             id: id,
+            success: {
+                
+        },
             failure: { (error) in
                 
                 print(error.localizedDescription)
@@ -460,7 +463,12 @@ class TripListViewController: UIViewController {
             daysKey: daysKey,
             total: total,
             thDatas: data,
+            success: {
+                
+                // Update success
+        },
             failure: { (error) in
+                
                 print(error.localizedDescription)
         })
     }

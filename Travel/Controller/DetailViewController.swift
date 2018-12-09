@@ -35,6 +35,8 @@ class DetailViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
     
+    private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
+    
     let photoManager = PhotoManager()
     
     let dateFormatter = DateFormatter()
@@ -171,8 +173,6 @@ class DetailViewController: UIViewController {
         self.present(alertViewController, animated: true, completion: nil)
     }
     
-    // Pop out animation
-    
     func showAnimate() {
         
         self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
@@ -207,58 +207,69 @@ class DetailViewController: UIViewController {
         
         guard let location = location else { return }
         
-        addToFavorite(location: location)
+        addFavorite(location: location)
     }
     
-    func addToFavorite(location: Location) {
+    func addFavorite(location: Location) {
         
-        firebaseManager.updateFavorite(
+        // Fetch favorite for duplicate check
+        thDataManager.checkFavoritelist(
             location: location,
             success: { [weak self] in
                 
-                self?.updateLocation(location: location)
-                
-                if self?.tabIndex == 1 {
-                    
-                    guard let tripsnavi = self?.presentingViewController?.children[0]
-                        as? TripNaviViewController else {
-                            
-                            return
-                    }
-                    
-                    tripsnavi.popViewController(animated: true)
-                    
-                } else if self?.tabIndex == 2 {
-                    
-                    guard let collectionsNavi = self?.presentingViewController?.children[1]
-                        as? TripNaviViewController else {
-                            
-                            return
-                    }
-                    
-                    collectionsNavi.popViewController(animated: true)
-                }
-                
-                self?.removeAnimate()
-                
-                NotificationCenter.default.post(name: .collections, object: nil)
+                self?.updateFavorite(location: location)
+    
         },
-            failure: { [weak self] in
-                self?.showAlertWith()
-        }
-        )
+            failure: { [weak self] (error) in
+                
+                if error == TravelError.fetchError {
+                    
+                    self?.showAlertWith()
+                }
+        })
     }
     
-    func updateLocation(location: Location) {
-        
-        firebaseManager.updateLocation(
+    func updateFavorite(location: Location) {
+
+        thDataManager.updateFavorite(
             location: location,
-            success: { [weak self] (count) in
-                self?.total = count
-            },
+            success: { [weak self] in
+                
+                self?.returnPage()
+        },
             failure: { (error) in
-                print(error)
+                
+                print(error.localizedDescription)
+                
+                // TODO: Error handle
+        })
+    }
+    
+    func returnPage() {
+        
+        if tabIndex == 1 {
+            
+            guard let tripsnavi = presentingViewController?.children[0]
+                as? TripNaviViewController else {
+                    
+                    return
             }
-        )
+            
+            tripsnavi.popViewController(animated: true)
+            
+        } else if tabIndex == 2 {
+            
+            guard let collectionsNavi = presentingViewController?.children[1]
+                as? TripNaviViewController else {
+                    
+                    return
+            }
+            
+            collectionsNavi.popViewController(animated: true)
+        }
+        
+        NotificationCenter.default.post(name: .collections, object: nil)
+        
+        removeAnimate()
     }
 }

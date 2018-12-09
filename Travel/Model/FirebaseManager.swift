@@ -11,7 +11,39 @@ import Firebase
 import FirebaseDatabase
 import KeychainAccess
 
-class FirebaseManager {
+protocol FirebaseProtocol {
+
+    func fetchData(
+        path: String,
+        success: @escaping (Any?) -> Void,
+        failure: @escaping (TravelError) -> Void
+    )
+    
+    func fetchDataWithQuery(
+        path: String,
+        child: String,
+        value: Any?,
+        success: @escaping (Any?) -> Void,
+        failure: @escaping (TravelError) -> Void
+    )
+    
+    func updateData(
+        path: String,
+        value: Any,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+    )
+    
+    func deleteData(
+        path: String,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+    )
+    
+    func createAutoKey(path: String) -> String
+}
+
+class FirebaseManager: FirebaseProtocol {
     
     let photoStrArray = Photos().photos
     
@@ -26,159 +58,105 @@ class FirebaseManager {
         ref = Database.database().reference()
     }
     
-    // MARK: - TripSelectionViewController
-
-    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
-    func checkLocationDays(
-        daysKey: String,
-        index: Int,
-        success: @escaping (Int) -> Void,
-        failure: @escaping (Error) -> Void
+    func fetchData(
+        path: String,
+        success: @escaping (Any?) -> Void,
+        failure: @escaping (TravelError) -> Void
         ) {
         
-        guard daysKey != Constants.emptyString, index != 0 else {
-            
-            return
-        }
-        
-        ref.child("/tripDays/\(daysKey)")
-            .queryOrdered(byChild: "days")
-            .queryEqual(toValue: index)
-            .observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else {
+        ref.child(path)
+            .observeSingleEvent(
+                of: .value,
+                with: { (snapshot) in
                     
-                    let order = 0
+                    success(snapshot.value)
                     
-                    success(order)
-                    
-                    return
-                }
+            }, withCancel: { (_) in
                 
-                let order = value.count
-                
-                success(order)
-                
-            }, withCancel: { (error) in
-                
-                failure(error)
+                failure(TravelError.serverError)
             })
     }
     
-    func updataLocation(
-        daysKey: String,
-        order: Int = 0,
-        days: Int,
-        location: Location,
-        success: @escaping () -> Void,
-        failure: @escaping (Error) -> Void
+    func fetchDataWithQuery(
+        path: String,
+        child: String,
+        value: Any?,
+        success: @escaping (Any?) -> Void,
+        failure: @escaping (TravelError) -> Void
         ) {
         
-        guard let key = self.ref.child("tripDays").childByAutoId().key else {
+        ref.child(path)
+            .queryOrdered(byChild: child)
+            .queryEqual(toValue: value)
+            .observeSingleEvent(
+                of: .value,
+                with: { (snapshot) in
+                    
+                    success(snapshot.value)
+                    
+            }, withCancel: { (_) in
+                
+                failure(TravelError.serverError)
+            })
+    }
+    
+    func updateData(
+        path: String,
+        value: Any,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        ref.updateChildValues([path: value], withCompletionBlock: { (error, ref) in
             
-            return
-        }
-        
-        let post = ["addTime": location.addTime,
-                    "address": location.address,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "locationId": key,
-                    "name": location.name,
-                    "order": order,
-                    "photo": location.photo,
-                    "days": days,
-                    "position": location.position
-            ] as [String: Any]
-        
-        let postUpdate = ["/tripDays/\(daysKey)/\(key)": post]
-        
-        ref.updateChildValues(postUpdate) { (error, ref) in
+            print(error as Any, ref)
             
             if let error = error {
                 
-                print(ref)
+                print(error.localizedDescription)
                 
-                failure(error)
+                failure(TravelError.serverError)
             } else {
-                
-                NotificationCenter.default.post(name: .triplist, object: nil)
                 
                 success()
             }
-        }
-    }
-
-    // MARK: - DetailViewController
-    
-    // NO QUERY: ref.child().observeSingleEvent
-    func updateLocation(
-        location: Location,
-        success: @escaping (Int) -> Void,
-        failure: @escaping (Error) -> Void
-        ) {
-        
-        guard let uid = keychain["userId"] else {
-            
-            return
-        }
-        
-        ref.child("/favorite/\(uid)").observeSingleEvent(of: .value) { (snapshot) in
-            
-            guard let value = snapshot.value as? NSDictionary else {
-                
-                return
-            }
-            
-            success(value.allKeys.count)
-        }
-        
-        guard let key = ref.child("favorite").childByAutoId().key else {
-            
-            return
-        }
-        
-        let post = ["addTime": location.addTime,
-                    "address": location.address,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "locationId": key,
-                    "name": location.name,
-                    "order": location.order,
-                    "photo": location.photo,
-                    "days": location.days,
-                    "position": location.position
-            ] as [String: Any]
-        
-        let postUpdate = ["/favorite/\(uid)/\(key)": post]
-        
-        ref.updateChildValues(postUpdate)
+        })
     }
     
-    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
-    func updateFavorite(
-        location: Location,
+    func deleteData(
+        path: String,
         success: @escaping () -> Void,
-        failure: @escaping () -> Void
+        failure: @escaping (TravelError) -> Void
         ) {
         
-        guard let uid = keychain["userId"] else { return }
-        
-        ref.child("/favorite/\(uid)")
-            .queryOrdered(byChild: "position")
-            .queryEqual(toValue: location.position)
-            .observeSingleEvent(of: .value) { (snapshot) in
+        ref.child(path).removeValue(completionBlock: { (error, ref) in
+            
+            print(error as Any, ref)
+            
+            if let error = error {
                 
-                if (snapshot.value as? NSDictionary) != nil {
-                    
-                    failure()
-                    
-                } else {
-                    
-                    success()
-                }
-        }
+                print(error.localizedDescription)
+                
+                failure(TravelError.serverError)
+            } else {
+                
+                success()
+            }
+        })
     }
+    
+    func createAutoKey(path: String) -> String {
+        
+        guard let key = self.ref.child("tripDays").childByAutoId().key else {
+            
+            return Constants.emptyString
+        }
+        
+        return key
+    }
+}
+
+extension FirebaseManager {
     
     // MARK: - ChecklistViewController
     
@@ -350,7 +328,6 @@ extension FirebaseManager {
         }
         
         // Better way? observeSingleEvent first and then obeserve for .childAdd ?
-        /// Need to add sorting method by startDate!!!
         
         ref.child("myTrips")
             .queryOrdered(byChild: "userId")
@@ -602,72 +579,5 @@ extension FirebaseManager {
         })
     }
     
-    func fetchData(
-        path: String,
-        success: @escaping (Any?) -> Void,
-        failure: @escaping (TravelError) -> Void
-        ) {
-        
-        ref.child(path)
-            .observeSingleEvent(
-                of: .value,
-                with: { (snapshot) in
-                    
-                    success(snapshot.value)
-                    
-            }, withCancel: { (_) in
-                
-                failure(TravelError.serverError)
-            })
-    }
 
-    func fetchDataWithQuery(
-        path: String,
-        child: String,
-        value: Any?,
-        success: @escaping (Any?) -> Void,
-        failure: @escaping (TravelError) -> Void
-        ) {
-        
-        ref.child(path)
-            .queryOrdered(byChild: child)
-            .queryEqual(toValue: value)
-            .observeSingleEvent(
-                of: .value,
-                with: { (snapshot) in
-                    
-                    success(snapshot.value)
-                    
-            }, withCancel: { (_) in
-                
-                failure(TravelError.serverError)
-            })
-    }
-    
-    func updateData(
-        path: String,
-        value: Any,
-        failure: @escaping (TravelError) -> Void
-        ) {
-        
-        ref.updateChildValues([path: value], withCompletionBlock: { (error, ref) in
-            
-            print(error as Any, ref)
-            
-            failure(TravelError.serverError)
-            })
-    }
-    
-    func deleteData(
-        path: String,
-        failure: @escaping (TravelError) -> Void
-        ) {
-        
-        ref.child(path).removeValue(completionBlock: { (error, ref) in
-            
-            print(error as Any, ref)
-            
-            failure(TravelError.serverError)
-            })
-    }
 }

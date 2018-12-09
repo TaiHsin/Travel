@@ -24,7 +24,7 @@ class PreservedViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
     
-    let thDataManager = THDataManager()
+    private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
     
     var place: GMSPlace?
     
@@ -210,6 +210,10 @@ class PreservedViewController: UIViewController {
         
         thDataManager.deleteFavorite(
             locationID: locationID,
+            success: {
+              
+                // Success Notify
+        },
             failure: { (error) in
                 
                 print(error.localizedDescription)

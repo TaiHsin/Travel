@@ -20,21 +20,35 @@ class TripsManager {
         total: Int,
         end: Double,
         id: String,
+        success: @escaping () -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
         
         let pathForTotal = "/myTrips/\(id)/totalDays"
         
-        firebaseManager.updateData(path: pathForTotal, value: total, failure: { (error) in
-            
-            failure(error)
+        firebaseManager.updateData(
+            path: pathForTotal,
+            value: total,
+            success: {
+                success()
+        },
+            failure: { (error) in
+                
+                failure(error)
         })
         
         let pathForEnd = "/myTrips/\(id)/endDate"
         
-        firebaseManager.updateData(path: pathForEnd, value: end, failure: { (error) in
-            
-            failure(error)
+        firebaseManager.updateData(
+            path: pathForEnd,
+            value: end,
+            success: {
+                
+                success()
+        },
+            failure: { (error) in
+                
+                failure(error)
         })
     }
 }

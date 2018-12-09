@@ -25,6 +25,8 @@ class TripSelectionViewController: UIViewController {
     
     let tripsManager = TripsManager()
     
+    private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
+    
     let decoder = JSONDecoder()
     
     var location: Location?
@@ -66,7 +68,7 @@ class TripSelectionViewController: UIViewController {
                 return
             }
             
-            checkLocationDays(daysKey: daysKey, index: self.dayIndex, location: location)
+            addLocation(daysKey: daysKey, index: self.dayIndex, location: location)
              
         } else {
             
@@ -74,9 +76,12 @@ class TripSelectionViewController: UIViewController {
         }
     }
     
-    func checkLocationDays(daysKey: String, index: Int, location: Location) {
+    func addLocation(
+        daysKey: String,
+        index: Int,
+        location: Location) {
         
-        firebaseManager.checkLocationDays(
+        thDataManager.fetchLocations(
             daysKey: daysKey,
             index: index,
             success: { [weak self] (order) in
@@ -89,7 +94,7 @@ class TripSelectionViewController: UIViewController {
                     days: self.dayIndex,
                     location: location
                 )
-            },
+        },
             failure: { (error) in
                 
                 print(error.localizedDescription)
@@ -98,7 +103,7 @@ class TripSelectionViewController: UIViewController {
     
     func updateLocation(daysKey: String, order: Int = 0, days: Int, location: Location) {
         
-        firebaseManager.updataLocation(
+        thDataManager.updateLocation(
             daysKey: daysKey,
             order: order,
             days: days,
@@ -114,6 +119,7 @@ class TripSelectionViewController: UIViewController {
                     }
                     
                     tripsnavi.popViewController(animated: true)
+                    
                 } else if self?.tabIndex == 2 {
                     
                     guard let collectionsNavi = self?.presentingViewController?.children[1]
@@ -124,6 +130,8 @@ class TripSelectionViewController: UIViewController {
                     
                     collectionsNavi.popViewController(animated: true)
                 }
+                
+                NotificationCenter.default.post(name: .triplist, object: nil)
                 
                 self?.removeAnimate()
                 
