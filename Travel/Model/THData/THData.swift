@@ -1,34 +1,18 @@
 //
-//  TripPlans.swift
+//  THData.swift
 //  Travel
 //
-//  Created by TaiHsinLee on 2018/10/3.
+//  Created by TaiHsinLee on 2018/12/9.
 //  Copyright © 2018 TaiHsinLee. All rights reserved.
 //
 
 import Foundation
 
-struct Trips: Codable {
+struct THdata {
     
-    var name: String
+    var location: Location
     
-    let place: String
-    
-    let startDate: Double
-    
-    var endDate: Double
-    
-    var totalDays: Int
-    
-    let createdTime: Double
-    
-    var daysKey: String
-    
-    let placePic: String
-    
-    var id: String
-    
-    var userId: String
+    let type: LocationCellType
 }
 
 struct Location: Codable {
@@ -75,11 +59,4 @@ enum LocationCellType {
     case empty
     
     case location
-}
-
-struct THdata {
-    
-    var location: Location
-    
-    let type: LocationCellType
 }

@@ -1,18 +1,21 @@
 //
-//  TriplistManager.swift
+//  THDataManager.swift
 //  Travel
 //
-//  Created by TaiHsinLee on 2018/12/8.
+//  Created by TaiHsinLee on 2018/12/9.
 //  Copyright © 2018 TaiHsinLee. All rights reserved.
 //
 
 import Foundation
+import KeychainAccess
 
-class TriplistManager {
+class THDataManager {
     
     private let firebaseManager = FirebaseManager()
     
     private let decoder = JSONDecoder()
+    
+    private let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
     func fetchTriplist(
         daysKey: String,
@@ -68,39 +71,68 @@ class TriplistManager {
         })
     }
     
-    func updateMyTrips(
-        total: Int,
-        end: Double,
-        id: String,
+    func fetchFavoritelist(
+        success: @escaping ([Location]) -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
         
-        let pathForTotal = "/myTrips/\(id)/totalDays"
+        var locations: [Location] = []
         
-        firebaseManager.updateData(path: pathForTotal, value: total, failure: { (error) in
+        guard let uid = keychain["userId"] else {
             
-            failure(error)
-        })
-        
-        let pathForEnd = "/myTrips/\(id)/endDate"
-        
-        firebaseManager.updateData(path: pathForEnd, value: end, failure: { (error) in
+            NotificationCenter.default.post(name: .noData, object: nil)
             
-            failure(error)
+            return
+        }
+        
+        let path = "/favorite/\(uid)"
+        
+        firebaseManager.fetchData(
+            path: path,
+            success: { [weak self] (value) in
+                
+                guard let value = value as? NSDictionary else {
+                    
+                    failure(TravelError.fetchError)
+                    
+                    return
+                }
+                
+                for value in value.allValues {
+                    
+                    // Data convert: can be refact out independently
+                    
+                    guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                        
+                        return
+                    }
+                    
+                    do {
+                        guard let data = try self?.decoder.decode(Location.self, from: jsonData) else { return }
+                        
+                        locations.append(data)
+                        
+                    } catch {
+                        
+                        failure(TravelError.decodeError)
+                    }
+                }
+                success(locations)
+            },
+            failure: { (error) in
+                
+                failure(error)
         })
     }
     
     func updateTriplist(
-        trip: [Trips],
+        daysKey: String,
+        total: Int,
         thDatas: [[THdata]],
         failure: @escaping (TravelError) -> Void
         ) {
         
-        let daysKey = trip[0].daysKey
-        
-        let totalDays = trip[0].totalDays
-        
-        for day in 0 ... totalDays - 1 {
+        for day in 0 ... total - 1 {
             
             thDatas[day].forEach({ (thData) in
                 
@@ -155,18 +187,18 @@ class TriplistManager {
                         
                         return
                 }
-
+                
                 for key in keys {
                     
                     let path = "/tripDays/\(daysKey)/\(key)"
                     self?.firebaseManager.deleteData(path: path, failure: { (error) in
                         
                         failure(error)
-                        })
+                    })
                 }
                 
                 success()
-        },
+            },
             failure: { (error) in
                 
                 failure(error)
@@ -174,24 +206,21 @@ class TriplistManager {
     }
     
     func deleteTriplist(
+        daysKey: String,
+        locationID: String,
         location: Location,
-        trip: [Trips],
         success: @escaping () -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
-        
-        let daysKey = trip[0].daysKey
         
         let path = "/tripDays/\(daysKey)"
         
         let child = "locationId"
         
-        let value = location.locationId
-        
         firebaseManager.fetchDataWithQuery(
             path: path,
             child: child,
-            value: value,
+            value: locationID,
             success: { [weak self] (value) in
                 
                 guard let value = value as? NSDictionary,
@@ -205,8 +234,49 @@ class TriplistManager {
                     
                     failure(error)
                 })
+                
+                success()
             },
             failure: { (error) in
+                
+                failure(error)
+        })
+    }
+    
+    // MARK: - Preserved View Controller
+    
+    func deleteFavorite(
+        locationID: String,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        guard let uid = keychain["userId"] else { return }
+        
+        let fetchPath = "/favorite/\(uid)"
+        
+        let child = "locationId"
+        
+        firebaseManager.fetchDataWithQuery(
+            path: fetchPath,
+            child: child,
+            value: locationID,
+            success: { [weak self] (value) in
+                
+                guard let value = value as? NSDictionary,
+                    let key = value.allKeys.first as? String else {
+                        
+                        return
+                }
+                
+                let path = "/favorite/\(uid)/\(key)"
+                
+                self?.firebaseManager.deleteData(path: path, failure: { (error) in
+                    
+                    failure(error)
+                })
+            },
+            failure: { (error) in
+                
                 failure(error)
         })
     }

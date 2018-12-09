@@ -28,11 +28,11 @@ class TripListViewController: UIViewController {
     
     private let firebaseManager = FirebaseManager()
     
-    private let triplistManager = TriplistManager()
+    private let thDataManager = THDataManager()
+    
+    private let tripsManager = TripsManager()
 
     let dateFormatter = DateFormatter()
-    
-    let tripsManager = TripsManager()
     
     let photoManager = PhotoManager()
     
@@ -167,7 +167,7 @@ class TripListViewController: UIViewController {
     
     func fetchData() {
         
-        triplistManager.fetchTriplist(
+        thDataManager.fetchTriplist(
             daysKey: trip[0].daysKey,
             success: { [weak self] (thData) in
                 
@@ -241,7 +241,7 @@ class TripListViewController: UIViewController {
         
         dataArray.removeAll()
         
-        triplistManager.fetchTriplist(
+        thDataManager.fetchTriplist(
             daysKey: trip[0].daysKey,
             success: { [weak self] (thData) in
                 
@@ -415,7 +415,7 @@ class TripListViewController: UIViewController {
 
     func deleteTripDay(daysKey: String, day: Int) {
         
-        triplistManager.deleteTripDay(
+        thDataManager.deleteTripDay(
             daysKey: daysKey,
             day: day,
             success: {
@@ -427,13 +427,14 @@ class TripListViewController: UIViewController {
         })
     }
     
-    func deleteTriplist(location: Location, trip: [Trips]) {
+    func deleteTriplist(daysKey: String, locationID: String, location: Location) {
         
-        triplistManager.deleteTriplist(
+        thDataManager.deleteTriplist(
+            daysKey: daysKey,
+            locationID: locationID,
             location: location,
-            trip: trip,
             success: {
-                
+            
         },
             failure: { (error) in
                 
@@ -443,7 +444,7 @@ class TripListViewController: UIViewController {
     
     func updateMyTrips(total: Int, end: Double, id: String) {
         
-        triplistManager.updateMyTrips(
+        tripsManager.updateMyTrips(
             total: total,
             end: end,
             id: id,
@@ -453,13 +454,13 @@ class TripListViewController: UIViewController {
         })
     }
     
-    func updateTriplist(trip: [Trips], data: [[THdata]]) {
+    func updateTriplist(daysKey: String, total: Int, data: [[THdata]]) {
         
-        triplistManager.updateTriplist(
-            trip: trip,
+        thDataManager.updateTriplist(
+            daysKey: daysKey,
+            total: total,
             thDatas: data,
             failure: { (error) in
-                
                 print(error.localizedDescription)
         })
     }
@@ -642,7 +643,11 @@ extension TripListViewController: ListTableViewDelegate {
         
         updateLocalData()
         
-        updateTriplist(trip: trip, data: dataArray)
+        let daysKey = trip[0].daysKey
+
+        let totalDays = trip[0].totalDays
+        
+        updateTriplist(daysKey: daysKey, total: totalDays, data: dataArray)
         
         listTableViewController.locationArray = locationArray
         
@@ -659,9 +664,15 @@ extension TripListViewController: ListTableViewDelegate {
         
         self.locationArray = locationArray
         
-        deleteTriplist(location: location, trip: trip)
+        let daysKey = trip[0].daysKey
         
-        updateTriplist(trip: trip, data: dataArray)
+        let id = location.locationId
+        
+        let totalDays = trip[0].totalDays
+        
+        deleteTriplist(daysKey: daysKey, locationID: id, location: location)
+        
+        updateTriplist(daysKey: daysKey, total: totalDays, data: dataArray)
         
         updateLocalData()
         

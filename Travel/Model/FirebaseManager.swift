@@ -108,33 +108,7 @@ class FirebaseManager {
             }
         }
     }
-    
-    // MARK: - PreservedViewController
-    
-    // QUERY: ref.child().queryOrdered().queryEqual().observeSingleEvent
-    func deleteData(location: Location) {
-        
-        guard let uid = keychain["userId"] else { return }
-        
-        ref.child("/favorite/\(uid)")
-            .queryOrdered(byChild: "locationId")
-            .queryEqual(toValue: location.locationId)
-            .observeSingleEvent(of: .value) { [weak self]  (snapshot) in
-                
-                guard let value = snapshot.value as? NSDictionary else {
-                    
-                    return
-                }
-                
-                guard let key = value.allKeys.first as? String else {
-                    
-                    return
-                }
-                
-                self?.ref.child("/favorite/\(uid)/\(key)").removeValue()
-        }
-    }
-    
+
     // MARK: - DetailViewController
     
     // NO QUERY: ref.child().observeSingleEvent

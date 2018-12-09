@@ -24,7 +24,7 @@ class PreservedViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
     
-    let favoriteManager = FavoriteManager()
+    let thDataManager = THDataManager()
     
     var place: GMSPlace?
     
@@ -130,7 +130,7 @@ class PreservedViewController: UIViewController {
         
         locationArray.removeAll()
         
-        favoriteManager.fetchFavoritelist(
+        thDataManager.fetchFavoritelist(
             success: { [weak self] (locations) in
                 
                 self?.locationArray = locations
@@ -144,14 +144,15 @@ class PreservedViewController: UIViewController {
                 if self?.locationArray.count == 0 {
                     
                     self?.emptyLabel.isHidden = false
+                    
                 } else {
                     
                     self?.emptyLabel.isHidden = true
                 }
         },
             failure: { [weak self] (error) in
-                
-                print(error)
+ 
+                NotificationCenter.default.post(name: .noData, object: nil)
                 
                 self?.activityIndicatorView.stopAnimating()
         })
@@ -204,6 +205,16 @@ class PreservedViewController: UIViewController {
         
         tabBarController?.present(detailViewController, animated: true)
     }
+    
+    func deleteFavorite(locationID: String) {
+        
+        thDataManager.deleteFavorite(
+            locationID: locationID,
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
 }
 
 extension PreservedViewController: UITableViewDataSource {
@@ -247,7 +258,9 @@ extension PreservedViewController: UITableViewDataSource {
             
             let location = locationArray[indexPath.row]
  
-            firebaseManager.deleteData(location: location)
+            let locationID = location.locationId
+
+            deleteFavorite(locationID: locationID)
             
             locationArray.remove(at: indexPath.row)
             
