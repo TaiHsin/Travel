@@ -156,6 +156,7 @@ class FirebaseManager: FirebaseProtocol {
     }
 }
 
+// Refactoring
 extension FirebaseManager {
     
     // MARK: - ChecklistViewController
@@ -578,6 +579,4 @@ extension FirebaseManager {
                 failure(error)
         })
     }
-    
-
 }

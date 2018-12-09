@@ -33,23 +33,17 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var intervalConstraints: NSLayoutConstraint!
     
-    let firebaseManager = FirebaseManager()
-    
     private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
     
-    let photoManager = PhotoManager()
+    private let photoManager = PhotoManager()
     
-    let dateFormatter = DateFormatter()
-    
-    var total = 0
+    private let fullScreenSize = UIScreen.main.bounds.size
     
     var location: Location?
     
     var isFavorite = false
     
     var isMyTrip = false
-    
-    let fullScreenSize = UIScreen.main.bounds.size
     
     var tabIndex = 0
     
@@ -58,6 +52,26 @@ class DetailViewController: UIViewController {
         
         showAnimate()
         
+        setupViews()
+        
+        setupPlaceInfoCardContent()
+        
+        setupButtonConstraints()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        let touch: UITouch? = touches.first
+        
+        if touch?.view != placeInfoCard, touch?.view != imageCoverView {
+            
+            removeAnimate()
+        }
+    }
+    
+    private func setupViews() {
+        
         self.view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.8)
         
         placeInfoCard.layer.cornerRadius = 8
@@ -65,6 +79,36 @@ class DetailViewController: UIViewController {
         placeInfoCard.layer.masksToBounds = true
         
         placeImage.clipsToBounds = true
+    }
+    
+    private func setupPlaceInfoCardContent() {
+        
+        guard let location = location else {
+            
+            return
+        }
+        
+        let placeId = location.photo
+        
+        placeName.text = location.name
+        
+        positionLabel.text = location.address
+        
+        photoManager.loadFirstPhotoForPlace(
+            placeID: placeId,
+            success: { [weak self] (photo) in
+                
+                self?.placeImage.image = photo
+                
+            }, failure: { (error) in
+                
+                // TODO: Error handling
+                
+                print(error)
+        })
+    }
+    
+    private func setupButtonConstraints() {
         
         let width = placeInfoCard.frame.width
         
@@ -87,6 +131,7 @@ class DetailViewController: UIViewController {
             favoriteButtonWidthConstraints.constant = width
             
             intervalConstraints.constant = 0.0
+            
         } else if isFavorite || tabIndex == 1 {
             
             favoriteButtonWidthConstraints.constant = 0.0
@@ -95,32 +140,8 @@ class DetailViewController: UIViewController {
             
             intervalConstraints.constant = 0.0
         }
-        
-        guard let location = location else {
-            
-            return
-        }
-        
-        let placeId = location.photo
-        
-        placeName.text = location.name
-        
-        positionLabel.text = location.address
-        
-        photoManager.loadFirstPhotoForPlace(
-            placeID: placeId,
-            success: { [weak self] (photo) in
-                
-                self?.placeImage.image = photo
-                
-            }, failure: { (error) in
-                
-                // TODO:
-                
-                print(error)
-        })
     }
-    
+
     @IBAction func addToMyTrip(_ sender: Any) {
         
         guard let selectionViewController = UIStoryboard.searchStoryboard()
@@ -145,74 +166,22 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func closeView(_ sender: Any) {
+        
         removeAnimate()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        
-        let touch: UITouch? = touches.first
-        
-        if touch?.view != placeInfoCard, touch?.view != imageCoverView {
-            
-            removeAnimate()
-        }
-    }
-    
-    func showAlertWith() {
-        
-        let alertViewController = UIAlertController.showAlert(
-        title: nil,
-        message: "Already in favorite",
-        cancel: false
-        ) {
-            
-            self.removeAnimate()
-        }
-        
-        self.present(alertViewController, animated: true, completion: nil)
-    }
-    
-    func showAnimate() {
-        
-        self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-        
-        self.view.alpha = 0.0
-        
-        UIView.animate(withDuration: 0.25, animations: {
-            
-            self.view.alpha = 1.0
-            
-            self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        })
-    }
-    
-    func removeAnimate() {
-        
-        UIView.animate(withDuration: 0.25, animations: {
-            
-            self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-            
-            self.view.alpha = 0.0
-        }, completion: {(finished: Bool)  in
-            
-            if finished {
-                
-                self.dismiss(animated: true)
-            }
-        })
     }
     
     @IBAction func addToFavorite(_ sender: UIButton) {
         
-        guard let location = location else { return }
+        guard let location = location else {
+            return
+        }
         
         addFavorite(location: location)
     }
     
-    func addFavorite(location: Location) {
+    // Fetch favorite for duplicate check
+    private func addFavorite(location: Location) {
         
-        // Fetch favorite for duplicate check
         thDataManager.checkFavoritelist(
             location: location,
             success: { [weak self] in
@@ -229,7 +198,7 @@ class DetailViewController: UIViewController {
         })
     }
     
-    func updateFavorite(location: Location) {
+    private func updateFavorite(location: Location) {
 
         thDataManager.updateFavorite(
             location: location,
@@ -241,11 +210,11 @@ class DetailViewController: UIViewController {
                 
                 print(error.localizedDescription)
                 
-                // TODO: Error handle
+                // TODO: Error handling
         })
     }
     
-    func returnPage() {
+    private func returnPage() {
         
         if tabIndex == 1 {
             
@@ -271,5 +240,50 @@ class DetailViewController: UIViewController {
         NotificationCenter.default.post(name: .collections, object: nil)
         
         removeAnimate()
+    }
+    
+    private func showAlertWith() {
+        
+        let alertViewController = UIAlertController.showAlert(
+            title: nil,
+            message: "Already in favorite",
+            cancel: false
+        ) {
+            
+            self.removeAnimate()
+        }
+        
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Refactor phase 2 (extension)
+    private func showAnimate() {
+        
+        self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        
+        self.view.alpha = 0.0
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            
+            self.view.alpha = 1.0
+            
+            self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        })
+    }
+    
+    private func removeAnimate() {
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            
+            self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            
+            self.view.alpha = 0.0
+        }, completion: {(finished: Bool)  in
+            
+            if finished {
+                
+                self.dismiss(animated: true)
+            }
+        })
     }
 }
