@@ -28,7 +28,7 @@ private enum Tab {
         
         case .preserved:
             
-            return UIStoryboard.preservedStoryboard().instantiateInitialViewController()!
+            return UIStoryboard.favoriteStoryboard().instantiateInitialViewController()!
             
         case .package:
             

@@ -23,7 +23,7 @@ class TripSelectionViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
     
-    let tripsManager = TripsManager()
+    let tripsManager = TripsManager(firebaseManager: FirebaseManager())
     
     private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
     

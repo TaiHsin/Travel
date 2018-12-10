@@ -14,7 +14,7 @@ enum TravelError: String, Error {
     
     case loginFacebookReject = "Please permit the facebook login as Travel login"
     
-    case decodeError = "Data decode error"
+    case parseError = "Data decode error"
     
     case serverError = "Travel client error"
     

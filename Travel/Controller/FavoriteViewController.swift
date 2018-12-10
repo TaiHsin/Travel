@@ -10,7 +10,7 @@ import UIKit
 import GooglePlaces
 import NVActivityIndicatorView
 
-class PreservedViewController: UIViewController {
+class FavoriteViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,7 +24,7 @@ class PreservedViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
     
-    private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
+    var thDataManager = THDataManager(firebaseManager: FirebaseManager())
     
     var place: GMSPlace?
     
@@ -150,7 +150,7 @@ class PreservedViewController: UIViewController {
                     self?.emptyLabel.isHidden = true
                 }
         },
-            failure: { [weak self] (error) in
+            failure: { [weak self] (_) in
  
                 NotificationCenter.default.post(name: .noData, object: nil)
                 
@@ -172,7 +172,7 @@ class PreservedViewController: UIViewController {
                 
                 self?.tableView.reloadData()
                 
-            }) { [weak self]  (error) in
+            }) { [weak self]  (_) in
                 
                 guard let image = UIImage(named: "picture_placeholder02") else {
                     
@@ -206,12 +206,26 @@ class PreservedViewController: UIViewController {
         tabBarController?.present(detailViewController, animated: true)
     }
     
-    func deleteFavorite(locationID: String) {
+    func removeFavorite(locationID: String) {
+        
+        thDataManager.fetchFavoriteKey(
+            locationID: locationID,
+            success: { [weak self] (key) in
+                
+                self?.deleteFavorite(key: key)
+        },
+            failure: { (error) in
+                
+                print(error.localizedDescription)
+        })
+    }
+    
+    func deleteFavorite(key: String) {
         
         thDataManager.deleteFavorite(
-            locationID: locationID,
+            key: key,
             success: {
-              
+                
                 // Success Notify
         },
             failure: { (error) in
@@ -221,7 +235,7 @@ class PreservedViewController: UIViewController {
     }
 }
 
-extension PreservedViewController: UITableViewDataSource {
+extension FavoriteViewController: UITableViewDataSource {
     
     func tableView(
         _ tableView: UITableView,
@@ -264,7 +278,7 @@ extension PreservedViewController: UITableViewDataSource {
  
             let locationID = location.locationId
 
-            deleteFavorite(locationID: locationID)
+            removeFavorite(locationID: locationID)
             
             locationArray.remove(at: indexPath.row)
             
@@ -285,7 +299,7 @@ extension PreservedViewController: UITableViewDataSource {
     }
 }
 
-extension PreservedViewController: UITableViewDelegate {
+extension FavoriteViewController: UITableViewDelegate {
     
     func tableView(
         _ tableView: UITableView,

@@ -26,11 +26,9 @@ class TripListViewController: UIViewController {
     
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
-    private let firebaseManager = FirebaseManager()
-    
     private let thDataManager = THDataManager(firebaseManager: FirebaseManager())
     
-    private let tripsManager = TripsManager()
+    private let tripsManager = TripsManager(firebaseManager: FirebaseManager())
 
     let dateFormatter = DateFormatter()
     
@@ -557,17 +555,22 @@ extension TripListViewController {
         
         updateMyTrips(total: total, end: newDateDouble, id: id)
         
+        updateContainer()
+        
+        NotificationCenter.default.post(name: .myTrips, object: nil)
+    }
+    
+    func updateContainer() {
+        
         /////
         listTableViewController.locationArray = locationArray
-
+        
         listTableViewController.dates = dates
         
         listTableViewController.tableView.reloadData()
         /////
         
         daysCollectionViewController.dates = dates
-        
-        NotificationCenter.default.post(name: .myTrips, object: nil)
     }
     
     // Add one function in ListTableVC to pass data and update.

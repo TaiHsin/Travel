@@ -555,6 +555,7 @@ extension FirebaseManager {
                     
                     guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
                         
+                        failure(TravelError.parseError)
                         return
                     }
                     
@@ -568,7 +569,7 @@ extension FirebaseManager {
                         
                     } catch {
                         
-                        print(TravelError.decodeError)
+                        print(TravelError.parseError)
                     }
                 }
                 

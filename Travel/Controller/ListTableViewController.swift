@@ -10,13 +10,26 @@ import UIKit
 
 protocol ListTableViewDelegate: AnyObject {
     
-    func didTableHide(_ listTableViewController: ListTableViewController, isHiding: Bool)
+    func didTableHide(
+        _ listTableViewController: ListTableViewController,
+        isHiding: Bool
+    )
     
-    func didUpdateData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]])
+    func didUpdateData(
+        _ listTableViewController: ListTableViewController,
+        locationArray: [[THdata]]
+    )
     
-    func didDeleteData(_ listTableViewController: ListTableViewController, locationArray: [[THdata]], location: Location)
+    func didDeleteData(
+        _ listTableViewController: ListTableViewController,
+        locationArray: [[THdata]],
+        location: Location
+    )
     
-    func didShowDetail(_ listTableViewController: ListTableViewController, location: Location)
+    func didShowDetail(
+        _ listTableViewController: ListTableViewController,
+        location: Location
+    )
 }
 
 class ListTableViewController: UIViewController {

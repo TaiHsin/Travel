@@ -52,6 +52,26 @@ struct Location: Codable {
             position: "0_0"
         )
     }
+    
+    static func randomLocation() -> Location {
+        
+        let locationId =  UUID().uuidString
+        
+        let days = Int(arc4random_uniform(5))
+        
+        return Location(
+            addTime: 0.0,
+            address: "",
+            latitude: 0,
+            longitude: 0,
+            locationId: locationId,
+            name: "",
+            order: 0,
+            photo: "",
+            days: days,
+            position: "0_0"
+        )
+    }
 }
 
 enum LocationCellType {

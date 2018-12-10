@@ -64,7 +64,7 @@ class THDataManager {
                         
                     } catch {
                         
-                        print(TravelError.decodeError)
+                        print(TravelError.parseError)
                     }
                 }
                 
@@ -102,12 +102,14 @@ class THDataManager {
                     
                     return
                 }
-                
+                print(value.allValues)
                 for value in value.allValues {
                     
                     // Data convert: can be refact out independently
                     
                     guard let jsonData = try?  JSONSerialization.data(withJSONObject: value) else {
+                        
+                        failure(TravelError.parseError)
                         
                         return
                     }
@@ -119,7 +121,7 @@ class THDataManager {
                         
                     } catch {
                         
-                        failure(TravelError.decodeError)
+                        failure(TravelError.parseError)
                     }
                 }
                 success(locations)
@@ -136,7 +138,7 @@ class THDataManager {
         daysKey: String,
         index: Int,
         success: @escaping (Int) -> Void,
-        failure: @escaping (Error) -> Void
+        failure: @escaping (TravelError) -> Void
         ) {
         
         guard daysKey != Constants.emptyString, index != 0 else {
@@ -429,10 +431,10 @@ class THDataManager {
     }
     
     // MARK: - Preserved View Controller
-    
-    func deleteFavorite(
+
+    func fetchFavoriteKey(
         locationID: String,
-        success: @escaping () -> Void,
+        success: @escaping (String) -> Void,
         failure: @escaping (TravelError) -> Void
         ) {
         
@@ -446,29 +448,43 @@ class THDataManager {
             path: fetchPath,
             child: child,
             value: locationID,
-            success: { [weak self] (value) in
+            success: { (value) in
                 
                 guard let value = value as? NSDictionary,
                     let key = value.allKeys.first as? String else {
                         
+                        failure(TravelError.fetchError)
+                        
                         return
                 }
                 
-                let path = "/favorite/\(uid)/\(key)"
-                
-                self?.firebaseManager.deleteData(
-                    path: path,
-                    success: {
-                        
-                        success()
-                },
-                    failure: { (error) in
-                        
-                        failure(error)
-                })
+                success(key)
+
             },
             failure: { (error) in
                 
+                failure(error)
+        })
+    }
+    
+    func deleteFavorite(
+        key: String,
+        success: @escaping () -> Void,
+        failure: @escaping (TravelError) -> Void
+        ) {
+        
+        guard let uid = keychain["userId"] else { return }
+        
+        let path = "/favorite/\(uid)/\(key)"
+
+        firebaseManager.deleteData(
+            path: path,
+            success: {
+
+                success()
+        },
+            failure: { (error) in
+
                 failure(error)
         })
     }

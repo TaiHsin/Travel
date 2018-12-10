@@ -20,9 +20,9 @@ class MyTripViewController: UIViewController, NVActivityIndicatorViewable {
     
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
-    let tripsManager = TripsManager()
-    
     let firebaseManager = FirebaseManager()
+    
+    let tripsManager = TripsManager(firebaseManager: FirebaseManager())
     
     var trips: [Trips] = []
  

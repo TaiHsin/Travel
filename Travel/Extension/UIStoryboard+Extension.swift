@@ -25,9 +25,9 @@ extension UIStoryboard {
         return UIStoryboard(name: "MyTrip", bundle: nil)
     }
     
-    static func preservedStoryboard() -> UIStoryboard {
+    static func favoriteStoryboard() -> UIStoryboard {
         
-        return UIStoryboard(name: "Preserved", bundle: nil)
+        return UIStoryboard(name: "Favorite", bundle: nil)
     }
     
     static func packageStoryboard() -> UIStoryboard {

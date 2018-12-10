@@ -9,7 +9,7 @@
 import XCTest
 @testable import Travel
 
-class TripListVCTests: XCTestCase {
+class TriplistViewControllerTests: XCTestCase {
     
     var controllerUnderTest: TripListViewController!
     
@@ -71,13 +71,17 @@ class TripListVCTests: XCTestCase {
         controllerUnderTest.sortLocations(locations: thDatas, total: 5)
         
         // Assert
-        let firstlhs = controllerUnderTest.dataArray[0][0].location.days
         
-        let lastlhs = controllerUnderTest.dataArray[4][0].location.days
+        let count = controllerUnderTest.dataArray.count
         
-        XCTAssertEqual(firstlhs, 1)
-        
-        XCTAssertEqual(lastlhs, 5)
+        for index in 0 ..< count - 1 {
+            
+            let firstLhs = controllerUnderTest.dataArray[index][0].location.days
+            
+            let secondLhs = controllerUnderTest.dataArray[index + 1][0].location.days
+            
+            XCTAssert(firstLhs < secondLhs)
+        }
     }
     
     func test_CreateWeekDay_ParseData() {
@@ -93,12 +97,5 @@ class TripListVCTests: XCTestCase {
         
         let lhsCount = controllerUnderTest.dates.count
         XCTAssertEqual(lhsCount, 5)
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
     }
 }

@@ -34,9 +34,9 @@ class CreateTripViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     
-    let tripManager = TripsManager()
+    private let firebaseManager = FirebaseManager()
     
-    let firebaseManager = FirebaseManager()
+    private let tripManager = TripsManager(firebaseManager: FirebaseManager())
     
     var selectedDates: [Date] = []
     

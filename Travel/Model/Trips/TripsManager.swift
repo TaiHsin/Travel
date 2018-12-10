@@ -12,10 +12,15 @@ class TripsManager {
     
     let keychain = Keychain(service: "com.TaiHsinLee.Travel")
     
-    private let firebaseManager = FirebaseManager()
+    private let firebaseManager: FirebaseProtocol
     
     private let decoder = JSONDecoder()
 
+    init(firebaseManager: FirebaseProtocol) {
+        
+        self.firebaseManager = firebaseManager
+    }
+    
     func updateMyTrips(
         total: Int,
         end: Double,
