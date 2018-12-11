@@ -107,7 +107,9 @@ class FirebaseManager: FirebaseProtocol {
         failure: @escaping (TravelError) -> Void
         ) {
         
-        ref.updateChildValues([path: value], withCompletionBlock: { (error, ref) in
+        ref.updateChildValues(
+            [path: value],
+            withCompletionBlock: { (error, ref) in
             
             print(error as Any, ref)
             
@@ -129,7 +131,8 @@ class FirebaseManager: FirebaseProtocol {
         failure: @escaping (TravelError) -> Void
         ) {
         
-        ref.child(path).removeValue(completionBlock: { (error, ref) in
+        ref.child(path).removeValue(
+            completionBlock: { (error, ref) in
             
             print(error as Any, ref)
             

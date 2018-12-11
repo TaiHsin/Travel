@@ -24,8 +24,12 @@ class TriplistViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        // Setup SUT
         controllerUnderTest = UIStoryboard(name: "MyTrip", bundle: nil)
-            .instantiateViewController(withIdentifier: String(describing: TripListViewController.self))
+            .instantiateViewController(
+                withIdentifier: String(
+                    describing: TripListViewController.self)
+            )
             as? TripListViewController
     }
 
@@ -36,16 +40,33 @@ class TriplistViewControllerTests: XCTestCase {
         
         super.tearDown()
     }
+    
+    func test_CreateWeekDay_ParseData() {
+        
+        // Arrange
+        let startDate = Double(1543334400)
+        let totalDays = 5
+        
+        // Act
+        controllerUnderTest.createWeekDay(startDate: startDate, totalDays: totalDays)
+        
+        // Assert
+        
+        let lhsCount = controllerUnderTest.dates.count
+        XCTAssertEqual(lhsCount, 5)
+    }
 
-    func test_SortLocations_ParsesData() {
+    func test_sortLocations_ParsesData() {
         
         // Arrange
         let testBundle = Bundle(for: type(of: self))
         
         let path = testBundle.path(forResource: "abbaData", ofType: "json")
         
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path!), options: .alwaysMapped) else {
-            
+        guard let data = try? Data(
+            contentsOf: URL(fileURLWithPath: path!),
+            options: .alwaysMapped
+            ) else {
             return
         }
         
@@ -68,6 +89,7 @@ class TriplistViewControllerTests: XCTestCase {
         }
         
         // Act
+        
         controllerUnderTest.sortLocations(locations: thDatas, total: 5)
         
         // Assert
@@ -82,20 +104,5 @@ class TriplistViewControllerTests: XCTestCase {
             
             XCTAssert(firstLhs < secondLhs)
         }
-    }
-    
-    func test_CreateWeekDay_ParseData() {
-        
-        // Arrange
-        let startDate = Double(1543334400)
-        let totalDays = 5
-        
-        // Act
-        controllerUnderTest.createWeekDay(startDate: startDate, totalDays: totalDays)
-        
-        // Assert
-        
-        let lhsCount = controllerUnderTest.dates.count
-        XCTAssertEqual(lhsCount, 5)
     }
 }

@@ -11,13 +11,9 @@ import Foundation
 
 class FirebaseManagerMock: FirebaseProtocol {
     
-    var dict: [String: [Location]] = [:]
-    
     var dataDict: [String: Location]? = [:]
     
-    var locations: [Location] = []
-    
-    var key = ""
+    var key = "test key"
     
     var failureFlag = false
     
@@ -32,7 +28,7 @@ class FirebaseManagerMock: FirebaseProtocol {
             failure(TravelError.serverError)
         } else {
             
-            success(dict)
+            success(dataDict)
         }
     }
     

@@ -77,8 +77,6 @@ class MyTripsCell: UICollectionViewCell {
         
         let endMonth = dateFormatter.string(from: endDate)
         
-//        isEditing = false
-        
         dateLabel.text = startMonth + " - " + endMonth
     }
     

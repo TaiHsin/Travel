@@ -8,23 +8,23 @@
 
 import XCTest
 @testable import Travel
-
-class TripsManagerTests: XCTestCase {
-    
-    let firebaseManager = FirebaseManagerMock()
-    
-    var managerUnderTest: TripsManager!
-    
-    override func setUp() {
-        super.setUp()
-        
-        managerUnderTest = TripsManager(firebaseManager: firebaseManager)
-    }
-    override func tearDown() {
-        
-        managerUnderTest = nil
-        
-        super.tearDown()
-    }
-
-}
+//
+//class TripsManagerTests: XCTestCase {
+//    
+//    let firebaseManager = FirebaseManagerMock()
+//    
+//    var managerUnderTest: TripsManager!
+//    
+//    override func setUp() {
+//        super.setUp()
+//        
+//        managerUnderTest = TripsManager(firebaseManager: firebaseManager)
+//    }
+//    override func tearDown() {
+//        
+//        managerUnderTest = nil
+//        
+//        super.tearDown()
+//    }
+//
+//}

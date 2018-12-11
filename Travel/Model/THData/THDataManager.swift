@@ -15,13 +15,18 @@ class THDataManager {
     
     private let decoder = JSONDecoder()
     
-    private let keychain = Keychain(service: "com.TaiHsinLee.Travel")
+    private let keychain = Keychain(
+        service: "com.TaiHsinLee.Travel"
+    )
     
     init(firebaseManager: FirebaseProtocol) {
         
         self.firebaseManager = firebaseManager
     }
-    
+}
+
+extension THDataManager {
+
     func fetchTriplist(
         daysKey: String,
         success: @escaping ([THdata]) -> Void,

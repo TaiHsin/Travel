@@ -204,11 +204,16 @@ extension MyTripViewController: UICollectionViewDataSource {
             for: indexPath
         )
         
-        guard let myTripCell = cell as? MyTripsCell, indexPath.item < trips.count else { return cell }
+        guard let myTripCell = cell as? MyTripsCell,
+            indexPath.item < trips.count else {
+                return cell
+        }
         
         myTripCell.delegate = self
         
-        myTripCell.setup(viewModel: MyTripsCellViewModel(trip: trips[indexPath.item]))
+        myTripCell.setup(viewModel:
+            MyTripsCellViewModel(trip: trips[indexPath.item])
+        )
         
         return myTripCell
     }

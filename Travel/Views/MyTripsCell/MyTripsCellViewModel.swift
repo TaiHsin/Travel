@@ -27,3 +27,6 @@ class MyTripsCellViewModel {
         self.endDate = trip.endDate
     }
 }
+
+
+
