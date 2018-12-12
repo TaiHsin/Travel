@@ -82,6 +82,8 @@ class FavoriteViewController: UIViewController {
         emptyLabel.isHidden = true
     }
     
+    
+    
     @objc func fetchFailed(noti: Notification) {
         
         activityIndicatorView.stopAnimating()

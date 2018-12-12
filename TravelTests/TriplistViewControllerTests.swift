@@ -13,6 +13,8 @@ class TriplistViewControllerTests: XCTestCase {
     
     var controllerUnderTest: TripListViewController!
     
+    let firebaseManager = FirebaseManagerMock()
+    
     let decoder = JSONDecoder()
     
     var locations: [Location] = []
@@ -104,5 +106,32 @@ class TriplistViewControllerTests: XCTestCase {
             
             XCTAssert(firstLhs < secondLhs)
         }
+    }
+    
+    func test_updateLocalData_updateData() {
+        
+        // Arrange
+        
+        var array: [[THdata]] = []
+        
+        for _ in 1 ... 5 {
+            
+            let location = Location.randomLocation()
+            let thData = THdata(location: location, type: .location)
+            
+            array.append([thData])
+        }
+        
+        controllerUnderTest.locationArray = array
+        
+        // Act
+        
+        controllerUnderTest.updateLocalData()
+        
+        // Assert
+        
+        let result = controllerUnderTest.dataArray
+        
+        XCTAssertEqual(array.count, result.count)
     }
 }

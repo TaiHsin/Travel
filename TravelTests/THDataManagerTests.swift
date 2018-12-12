@@ -218,4 +218,42 @@ class THDataManagerTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
         XCTAssertTrue(key != "")
     }
+    
+    func test_updateTriplist_updateData() {
+        
+        // Arrange
+        
+        let daysKey = "Test dayskey"
+        
+        let total = 5
+        
+        let flag = true
+        
+        var array: [[THdata]] = []
+        
+        for _ in 1 ... 5 {
+            
+            let location = Location.randomLocation()
+            let thData = THdata(location: location, type: .location)
+            
+            array.append([thData])
+        }
+        
+        // Act
+        
+        managerUnderTest.updateTriplist(
+            daysKey: daysKey,
+            total: total,
+            thDatas: array,
+            success: {
+                
+                XCTAssertTrue(flag)
+        },
+            failure: { (_) in
+                
+                XCTFail("Update failed")
+        })
+        
+        // Assert
+    }
 }

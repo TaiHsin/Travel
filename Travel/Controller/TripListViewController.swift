@@ -52,6 +52,8 @@ class TripListViewController: UIViewController {
     
     var isDaily = false
     
+    var flag = true
+    
     var day = 0
     
     let tabIndex = 1
@@ -416,12 +418,13 @@ class TripListViewController: UIViewController {
         thDataManager.deleteTripDay(
             daysKey: daysKey,
             day: day,
-            success: {
+            success: { [weak self] in
                 
         },
-            failure: { (error) in
+            failure: { [weak self] (error) in
                 
                 print(error.localizedDescription)
+                
         })
     }
     
