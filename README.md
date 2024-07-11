@@ -83,7 +83,7 @@ With Triplist, you will fasinate your trip. Create and record every custom trip 
 
 ## Contacts
 TaiHsin Lee    
-**peterlee0466@gmail.com**     
+**taihsinlee.tw@gmail.com**     
 [**LinkedIn**](https://www.linkedin.com/in/taihsin-lee-32976312a/)
 
 
