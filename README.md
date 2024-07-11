@@ -1,8 +1,8 @@
-# U TriPal <a href="http://utripal.strikingly.com"><img src="https://github.com/TaiHsin/Travel/blob/master/Travel/Assets.xcassets/UTriPal_icon.imageset/UTriPal_icon.png" width="35"></a> 
+# Triplist <a href="http://utripal.strikingly.com"><img src="https://github.com/TaiHsin/Travel/blob/master/Travel/Assets.xcassets/UTriPal_icon.imageset/UTriPal_icon.png" width="35"></a> 
 
 
 #### Travel with your trip pal.   
-With U TriPal, you will fasinate your trip. Create and record every custom trip include daily attraction. Manage every daily attractions easily and intuitively. Add attractions to collections to prepare for the next trip. Pack with packlistto bring everything efficiently.
+With Triplist, you will fasinate your trip. Create and record every custom trip include daily attraction. Manage every daily attractions easily and intuitively. Add attractions to collections to prepare for the next trip. Pack with packlistto bring everything efficiently.
 
 * The App is avalible in App Stroe   
 
